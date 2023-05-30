@@ -1,2 +1,2 @@
-# sjc
+# -- SJC --
 Single Joint Control Board
