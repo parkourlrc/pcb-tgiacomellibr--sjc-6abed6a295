@@ -4420,9 +4420,9 @@
   )
 
   (symbol (lib_id "sjc_semiconductors:NCP1117DT33") (at 241.3 36.83 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom yes) (on_board yes) (dnp no)
     (uuid 26845326-ce89-498d-9ec2-04ca2e5589d6)
-    (property "Reference" "U?" (at 241.3 30.48 0)
+    (property "Reference" "U?" (at 241.3 31.115 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "NCP1117DT33" (at 241.3 33.02 0)
