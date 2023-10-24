@@ -1,5 +1,5 @@
 /*
- * network_task.c
+ * motor.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -8,97 +8,85 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "main.h"
-#include "cmsis_os.h"
+#include "stm32f4xx.h"
 // ------------------------------------------------------------------- //
 
-// Task includes --------------------------------------------------- //
+// Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "types.h"
-
-#include "motor.h"
+#include "timeout_timer.h"
 // ------------------------------------------------------------------- //
 
 
-// Task defines ---------------------------------------------------- //
-// ------------------------------------------------------------------- //
-
-
-// ------------------------------------------------------------------- //
-
-// Task data structures -------------------------------------------- //
+// Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
 
-// Task variables -------------------------------------------------- //
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-
+static __inline uint32_t _GetTick(void);
 
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void MainTaskApp(void *argument)
+void SJC_Timer_Init(void)
 {
-	/* init code for USB_DEVICE */
-	//  MX_USB_DEVICE_Init();
-	/* USER CODE BEGIN mainTaskApp */
 
-	SJC_Motor_Init(24, PWM_FREQ_20kHz);
-	SJC_Motor_Enable();
+}
 
-	float volt = 0;
-	float sum = 0.01;
-	uint32_t count = 0;
-	uint32_t cycle = 0;
+uint32_t SJC_Timer_GetTimeMs(void)
+{
+	return (_GetTick());
+}
 
-	//	SJC_Motor_SetOutputVoltage(volt);
-	osDelay(pdMS_TO_TICKS(1000));
+uint32_t SJC_Timer_GetTimeSec(void)
+{
+	return (_GetTick()/1000);
+}
 
-	uint32_t tick;
-	tick = osKernelGetTickCount();
+void SJC_Timer_DelayMs(uint32_t delayInMs)
+{
+	uint32_t compval =  delayInMs;
+	uint32_t start = _GetTick();
+	while( (_GetTick() - start) < compval);  //This comparison tolerates overflow
+}
 
-	/* Infinite loop */
-	for(;;)
-	{
-		tick += pdMS_TO_TICKS(1);
+void SJC_Timer_DelaySec(uint32_t delayInSec)
+{
+	uint32_t compval =  delayInSec*1000;
+	uint32_t start = _GetTick();
+	while( (_GetTick() - start) < compval);  //This comparison tolerates overflow
+}
 
-		if (volt >= 24.0f)
-		{
-			sum = -1.0f*fabs(sum);
-		}
-		else if (volt < -24.0f)
-		{
-			sum = fabs(sum);
-		}
-		volt += sum;
-		SJC_Motor_SetOutputVoltage(volt);
-		count++;
-		cycle++;
+int32_t SJC_Timer_TimeoutCheckMs(uint32_t delayInMs, uint32_t seed)
+{
+	uint32_t compval = delayInMs;
+	return ( !( (_GetTick() - seed) < compval) ); //This comparison tolerates overflow
+}
 
-		if (count > 100)
-		{
-			float vin = SJC_Motor_GetPowerSupplyVoltage();
-			float Iin = SJC_Motor_GetElectricCurrent();
-			float vout = SJC_Motor_GetOutputVoltage();
-
-			printf("\r\n[%lu] Vin: %.2f - Mot: %.2f - I: %.2f", cycle, vin, vout, Iin);
-			count = 0;
-		}
-
-		osDelayUntil(tick);
-	}
-	/* USER CODE END MainTaskApp */
+uint32_t SJC_Timer_TimeoutCheckSec(uint32_t delayInSec, uint32_t seed)
+{
+	uint32_t compval = delayInSec*1000;
+	return ( !( (_GetTick() - seed) < compval) ); //This comparison tolerates overflow
 }
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
+static __inline uint32_t _GetTick(void)
+{
+	return (HAL_GetTick());
+}
 
 // ------------------------------------------------------------------- //

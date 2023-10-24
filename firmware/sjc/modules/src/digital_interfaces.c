@@ -8,14 +8,14 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "adc.h"
+
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "types.h"
-
 #include "digital_interfaces.h"
+
+#include "configs.h"
 // ------------------------------------------------------------------- //
 
 
@@ -31,8 +31,7 @@
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static bool xInputGpioState[SJC_INPUTS_SIZE];
-static bool xOutputGpioState[SJC_OUTPUTS_SIZE];
+
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -43,112 +42,135 @@ static bool xOutputGpioState[SJC_OUTPUTS_SIZE];
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_DigitalInterfaces_init(void)
+eSjcReturnType_t SJC_DigitalInterfaces_init(xSjcDigitalPort_t *Interfaces, const eSjcDigitalPortType_t type)
 {
-	for (size_t i = 0; i < SJC_OUTPUTS_SIZE; i++)
+	eSjcReturnType_t ret = SJC_RET_OK;
+
+	switch (type) {
+	case SJC_DIGITAL_INOUT_PORT:
+		Interfaces[SJC_JOINT_SWITCH_A].State = false;
+		Interfaces[SJC_JOINT_SWITCH_A].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_JOINT_SWITCH_A].Pin = SJC_JOINT_SWITCH_A_PIN;
+		Interfaces[SJC_JOINT_SWITCH_A].Port = SJC_JOINT_SWITCH_A_PORT;
+
+		Interfaces[SJC_JOINT_SWITCH_B].State = false;
+		Interfaces[SJC_JOINT_SWITCH_B].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_JOINT_SWITCH_B].Pin = SJC_JOINT_SWITCH_B_PIN;
+		Interfaces[SJC_JOINT_SWITCH_B].Port = SJC_JOINT_SWITCH_B_PORT;
+
+		Interfaces[SJC_ISOLATED_INPUT_A].State = false;
+		Interfaces[SJC_ISOLATED_INPUT_A].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_ISOLATED_INPUT_A].Pin = SJC_ISOLATED_INPUT_A_PIN;
+		Interfaces[SJC_ISOLATED_INPUT_A].Port = SJC_ISOLATED_INPUT_A_PORT;
+
+		Interfaces[SJC_ISOLATED_INPUT_B].State = false;
+		Interfaces[SJC_ISOLATED_INPUT_B].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_ISOLATED_INPUT_B].Pin = SJC_ISOLATED_INPUT_B_PIN;
+		Interfaces[SJC_ISOLATED_INPUT_B].Port = SJC_ISOLATED_INPUT_B_PORT;
+		break;
+	case SJC_DIGITAL_OUTPUT_PORT:
+		Interfaces[SJC_DIGITAL_OUTPUT_A].State = false;
+		Interfaces[SJC_DIGITAL_OUTPUT_A].Type = SJC_DIGITAL_OUTPUT_PORT;
+		Interfaces[SJC_DIGITAL_OUTPUT_A].Pin = SJC_DIGITAL_OUTPUT_A_PIN;
+		Interfaces[SJC_DIGITAL_OUTPUT_A].Port = SJC_DIGITAL_OUTPUT_A_PORT;
+
+		Interfaces[SJC_DIGITAL_OUTPUT_B].State = false;
+		Interfaces[SJC_DIGITAL_OUTPUT_B].Type = SJC_DIGITAL_OUTPUT_PORT;
+		Interfaces[SJC_DIGITAL_OUTPUT_B].Pin = SJC_DIGITAL_OUTPUT_B_PIN;
+		Interfaces[SJC_DIGITAL_OUTPUT_B].Port = SJC_DIGITAL_OUTPUT_B_PORT;
+		break;
+	default:
+		ret = SJC_RET_NOK;
+		break;
+	}
+
+	return ret;
+}
+
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(xSjcDigitalPort_t *Interface)
+{
+	Interface->State = LL_GPIO_IsInputPinSet(Interface->Port, Interface->Pin);
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(xSjcDigitalPort_t *Interface)
+{
+	Interface->State = LL_GPIO_IsOutputPinSet(Interface->Port, Interface->Pin);
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_DigitalInterfaces_ToggleOutputState(xSjcDigitalPort_t *Interface)
+{
+	LL_GPIO_TogglePin(Interface->Port, Interface->Pin);
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(xSjcDigitalPort_t *Interface, const bool state)
+{
+	if (state == true)
 	{
-		xOutputGpioState[i] = false;
-		SJC_DigitalInterfaces_DisableOutput(i);
+		LL_GPIO_SetOutputPin(Interface->Port, Interface->Pin);
+		Interface->State = true;
 	}
-
-	xInputGpioState[SJC_ISOLATED_INPUT_A] = LL_GPIO_IsInputPinSet(GP_ISO_IN_A_GPIO_Port, GP_ISO_IN_A_Pin);
-	xInputGpioState[SJC_ISOLATED_INPUT_B] = LL_GPIO_IsInputPinSet(GP_ISO_IN_B_GPIO_Port, GP_ISO_IN_B_Pin);
-	xInputGpioState[SJC_JOINT_SWITCH_L] = LL_GPIO_IsInputPinSet(JOINT_SW_L_GPIO_Port, JOINT_SW_L_Pin);
-	xInputGpioState[SJC_JOINT_SWITCH_R] = LL_GPIO_IsInputPinSet(JOINT_SW_R_GPIO_Port, JOINT_SW_R_Pin);
+	else
+	{
+		LL_GPIO_ResetOutputPin(Interface->Port, Interface->Pin);
+		Interface->State = false;
+	}
+	return SJC_RET_OK;
 }
 
-bool SJC_DigitalInterfaces_GetInputState(eSjcDigitalInputs_t Port)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(xSjcDigitalPort_t *Interfaces)
 {
-	bool ret = false;
-
-	switch (Port) {
-	case SJC_ISOLATED_INPUT_A:
-		ret = xInputGpioState[SJC_ISOLATED_INPUT_A];
-		break;
-	case SJC_ISOLATED_INPUT_B:
-		ret = xInputGpioState[SJC_ISOLATED_INPUT_B];
-		break;
-	case SJC_JOINT_SWITCH_L:
-		ret = xInputGpioState[SJC_JOINT_SWITCH_L];
-		break;
-	default: // SJC_JOINT_SWITCH_R
-		ret = xInputGpioState[SJC_JOINT_SWITCH_R];
-		break;
-	}
-	return ret;
+	Interfaces[SJC_ISOLATED_INPUT_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_A].Port, Interfaces[SJC_ISOLATED_INPUT_A].Pin);
+	Interfaces[SJC_ISOLATED_INPUT_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_A].Port, Interfaces[SJC_ISOLATED_INPUT_A].Pin);
+	Interfaces[SJC_JOINT_SWITCH_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_A].Port, Interfaces[SJC_JOINT_SWITCH_A].Pin);
+	Interfaces[SJC_JOINT_SWITCH_B].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_B].Port, Interfaces[SJC_JOINT_SWITCH_B].Pin);
+	return SJC_RET_OK;
 }
 
-void SJC_DigitalInterfaces_EnableOutput(eSjcDigitalOutputs_t Port)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(xSjcDigitalPort_t *Interfaces)
 {
-	switch (Port) {
-	case SJC_HEARTBEAT_OUTPUT:
-		LL_GPIO_SetOutputPin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
-		xOutputGpioState[SJC_HEARTBEAT_OUTPUT] = true;
-		break;
-	case SJC_DIGITAL_OUTPUT_B:
-		LL_GPIO_SetOutputPin(GP_OUT_B_GPIO_Port, GP_OUT_B_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_B] = true;
-		break;
-	default: // SJC_DIGITAL_OUTPUT_A:
-		LL_GPIO_SetOutputPin(GP_OUT_A_GPIO_Port, GP_OUT_A_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_A] = true;
-		break;
-	}
+	Interfaces[SJC_DIGITAL_OUTPUT_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_DIGITAL_OUTPUT_A].Port, Interfaces[SJC_DIGITAL_OUTPUT_A].Pin);
+	Interfaces[SJC_DIGITAL_OUTPUT_B].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_DIGITAL_OUTPUT_B].Port, Interfaces[SJC_DIGITAL_OUTPUT_B].Pin);
+	return SJC_RET_OK;
 }
 
-void SJC_DigitalInterfaces_DisableOutput(eSjcDigitalOutputs_t Port)
+eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputStates(xSjcDigitalPort_t *Interface, const uint8_t states)
 {
-	switch (Port) {
-	case SJC_HEARTBEAT_OUTPUT:
-		LL_GPIO_ResetOutputPin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
-		xOutputGpioState[SJC_HEARTBEAT_OUTPUT] = false;
+	uint8_t states_ = (states & 0b11);
+
+	switch (states_) {
+	case 0b00:
+		LL_GPIO_ResetOutputPin(Interface[SJC_DIGITAL_OUTPUT_A].Port, Interface[SJC_DIGITAL_OUTPUT_A].Pin);
+		LL_GPIO_ResetOutputPin(Interface[SJC_DIGITAL_OUTPUT_B].Port, Interface[SJC_DIGITAL_OUTPUT_B].Pin);
+		Interface[SJC_DIGITAL_OUTPUT_A].State = false;
+		Interface[SJC_DIGITAL_OUTPUT_B].State = false;
 		break;
-	case SJC_DIGITAL_OUTPUT_B:
-		LL_GPIO_ResetOutputPin(GP_OUT_B_GPIO_Port, GP_OUT_B_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_B] = false;
+	case 0b01:
+		LL_GPIO_SetOutputPin(Interface[SJC_DIGITAL_OUTPUT_A].Port, Interface[SJC_DIGITAL_OUTPUT_A].Pin);
+		LL_GPIO_ResetOutputPin(Interface[SJC_DIGITAL_OUTPUT_B].Port, Interface[SJC_DIGITAL_OUTPUT_B].Pin);
+		Interface[SJC_DIGITAL_OUTPUT_A].State = true;
+		Interface[SJC_DIGITAL_OUTPUT_B].State = false;
 		break;
-	default: // SJC_DIGITAL_OUTPUT_A:
-		LL_GPIO_ResetOutputPin(GP_OUT_A_GPIO_Port, GP_OUT_A_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_A] = false;
+	case 0b10:
+		LL_GPIO_ResetOutputPin(Interface[SJC_DIGITAL_OUTPUT_A].Port, Interface[SJC_DIGITAL_OUTPUT_A].Pin);
+		LL_GPIO_SetOutputPin(Interface[SJC_DIGITAL_OUTPUT_B].Port, Interface[SJC_DIGITAL_OUTPUT_B].Pin);
+		Interface[SJC_DIGITAL_OUTPUT_A].State = false;
+		Interface[SJC_DIGITAL_OUTPUT_B].State = true;
+		break;
+	case 0b11:
+		LL_GPIO_SetOutputPin(Interface[SJC_DIGITAL_OUTPUT_A].Port, Interface[SJC_DIGITAL_OUTPUT_A].Pin);
+		LL_GPIO_SetOutputPin(Interface[SJC_DIGITAL_OUTPUT_B].Port, Interface[SJC_DIGITAL_OUTPUT_B].Pin);
+		Interface[SJC_DIGITAL_OUTPUT_A].State = true;
+		Interface[SJC_DIGITAL_OUTPUT_A].State = true;
+		break;
+	default:
 		break;
 	}
-}
 
-void SJC_DigitalInterfaces_ToggleOutputState(eSjcDigitalOutputs_t Port)
-{
-	switch (Port) {
-	case SJC_HEARTBEAT_OUTPUT:
-		LL_GPIO_TogglePin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
-		xOutputGpioState[SJC_HEARTBEAT_OUTPUT] ^= true;
-		break;
-	case SJC_DIGITAL_OUTPUT_B:
-		LL_GPIO_TogglePin(GP_OUT_B_GPIO_Port, GP_OUT_B_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_B] ^= true;
-		break;
-	default: // SJC_DIGITAL_OUTPUT_A:
-		LL_GPIO_TogglePin(GP_OUT_A_GPIO_Port, GP_OUT_A_Pin);
-		xOutputGpioState[SJC_DIGITAL_OUTPUT_A] ^= true;
-		break;
-	}
+	return SJC_RET_OK;
 }
-
-bool SJC_DigitalInterfaces_GetOutputState(eSjcDigitalOutputs_t Port)
-{
-	bool ret = false;
-	switch (Port) {
-	case SJC_HEARTBEAT_OUTPUT:
-		ret = xOutputGpioState[SJC_HEARTBEAT_OUTPUT];
-		break;
-	case SJC_DIGITAL_OUTPUT_B:
-		ret = xOutputGpioState[SJC_DIGITAL_OUTPUT_B];
-		break;
-	default: // SJC_DIGITAL_OUTPUT_A:
-		ret = xOutputGpioState[SJC_DIGITAL_OUTPUT_A];
-		break;
-	}
-	return ret;
-}
-
 
 // ------------------------------------------------------------------- //
 

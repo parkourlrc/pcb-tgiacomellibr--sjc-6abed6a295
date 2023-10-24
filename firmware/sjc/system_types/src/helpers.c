@@ -1,5 +1,5 @@
 /*
- * network_task.c
+ * helpers.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -14,23 +14,25 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "types.h"
+#include "helpers.h"
 
+#include "configs.h"
 // ------------------------------------------------------------------- //
 
 
-// Task defines ------------------------------------------------------ //
+// Module defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 
 
 // ------------------------------------------------------------------- //
 
-// Task data structures ---------------------------------------------- //
+// Module data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
+
 
 // ------------------------------------------------------------------- //
 
-// Task variables ---------------------------------------------------- //
+// Module variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
@@ -38,21 +40,68 @@
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
 
-
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void NetworkTaskApp(void *argument)
+float SJC_Helpers_RealClamp(const float var, const float LimitMin, const float LimitMax)
 {
-  /* USER CODE BEGIN MainTaskApp */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1000);
-  }
-  /* USER CODE END MainTaskApp */
+	float ret;
+
+	if (var > LimitMax)
+	{
+		ret = LimitMax;
+	}
+	else if (var < LimitMin)
+	{
+		ret = LimitMin;
+	}
+	else
+	{
+		ret = var;
+	}
+
+	return ret;
 }
+int32_t SJC_Helpers_IntClamp(const int32_t var, const int32_t LimitMin, const int32_t LimitMax)
+{
+	int32_t ret;
+
+	if (var > LimitMax)
+	{
+		ret = LimitMax;
+	}
+	else if (var < LimitMin)
+	{
+		ret = LimitMin;
+	}
+	else
+	{
+		ret = var;
+	}
+
+	return ret;
+}
+uint32_t SJC_Helpers_UintClamp(const uint32_t var, const uint32_t LimitMin, const uint32_t LimitMax)
+{
+	uint32_t ret;
+
+	if (var > LimitMax)
+	{
+		ret = LimitMax;
+	}
+	else if (var < LimitMin)
+	{
+		ret = LimitMin;
+	}
+	else
+	{
+		ret = var;
+	}
+
+	return ret;
+}
+
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //

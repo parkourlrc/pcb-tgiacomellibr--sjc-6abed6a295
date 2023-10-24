@@ -13,16 +13,15 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "types.h"
-
 #include "analog_sensors.h"
+
+#include "configs.h"
 // ------------------------------------------------------------------- //
 
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define ADC_CONV_TIMEOUT_MS 	( (uint32_t) 10 )
-#define ADC_DIG_TO_ANALOG_CONV	( (float) (3.3f/(4096-1)) )
+
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -35,49 +34,96 @@ extern ADC_HandleTypeDef hadc1;
 
 // ------------------------------------------------------------------- //
 
-// Private function prototypes ---------------------------------------- //
+// Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-
-
+static uint32_t xAnalogSensorsInitiated = 0;
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_AnalogSensorsInit(void)
+eSjcReturnType_t SJC_AnalogSensors_Init(xSjcAnalogSensor_t *Sensor)
 {
+	Sensor->Measurement = 0.0f;
+	Sensor->Range.Min = ADC_CONV_MIN_VALUE_FLOAT;
+	Sensor->Range.Max = ADC_CONV_MAX_VALUE_FLOAT;
+	Sensor->Resolution = ADC_CONV_RESOLUTION;
 
+	xAnalogSensorsInitiated++;
+
+	return SJC_RET_OK;
 }
 
-float SJC_AnalogSensors_GetConversion(const eSjcAnalogSensor_t sensor)
+eSjcReturnType_t SJC_AnalogSensors_StartMeasurements(uint32_t * buffer)
 {
-	ADC_ChannelConfTypeDef sConfig = {0};
+	LL_TIM_EnableCounter(TIM4);
 
-	switch (sensor) {
-	case SJC_CURRENT_SENSOR_1:
-		sConfig.Channel = ADC_CHANNEL_8;
+	HAL_ADC_Start_DMA(&hadc1, buffer, xAnalogSensorsInitiated);
+
+	LL_TIM_EnableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_AnalogSensors_StopMeasurements(void)
+{
+	LL_TIM_DisableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+
+	LL_TIM_DisableCounter(TIM4);
+
+	HAL_ADC_Stop_DMA(&hadc1);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_AnalogSensors_ComputeFilteredValue( const eSjcAnalogSensor_t input, const float previous, const float actual, float * value )
+{
+	eSjcReturnType_t ret = SJC_RET_OK;
+
+	*value = 0;
+
+	switch (input) {
+	case SJC_CURRENT_SENSOR_STD:
+		*value = (1-CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO)*previous;
+		*value += CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO*actual;
+
 		break;
-	case SJC_CURRENT_SENSOR_2:
-		sConfig.Channel = ADC_CHANNEL_14;
+	case SJC_VOLTAGE_SENSOR:
+		*value = (1-VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO)*previous;
+		*value += VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO*actual;
 		break;
+
 	default:
-		sConfig.Channel = ADC_CHANNEL_15;
+		ret = SJC_RET_NOK;
 		break;
 	}
-	sConfig.Rank = 1;
-	sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-	{
-		Error_Handler();
+
+	return ret;
+}
+
+
+eSjcReturnType_t SJC_AnalogSensors_ComputeConversionValue( const eSjcAnalogSensor_t input, const uint16_t conversion, float * value )
+{
+	eSjcReturnType_t ret = SJC_RET_OK;
+
+	float conv = ADC_CONV_TO_FLOAT(conversion);
+	*value = 0;
+
+	switch (input) {
+	case SJC_CURRENT_SENSOR_STD:
+		*value = (conv/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
+		*value /= (AD8418_SHUNT_RESISTANCE*AD8418_GAIN);
+
+		break;
+	case SJC_VOLTAGE_SENSOR:
+		*value = conversion*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
+		break;
+
+	default:
+		ret = SJC_RET_NOK;
+		break;
 	}
 
-	HAL_ADC_Start(&hadc1);
-	HAL_ADC_PollForConversion(&hadc1, ADC_CONV_TIMEOUT_MS);
-	HAL_ADC_Stop(&hadc1);
-
-	float conv = ( (float) ( HAL_ADC_GetValue(&hadc1)*ADC_DIG_TO_ANALOG_CONV ) );
-
-	return conv;
-
+	return ret;
 }
 // ------------------------------------------------------------------- //
 

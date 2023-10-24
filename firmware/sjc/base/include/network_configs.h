@@ -1,0 +1,88 @@
+/*
+ * types.h
+ *
+ *  Created on: Sep 17, 2023
+ *      Author: tiago
+ */
+
+#ifndef SJC__DEFINITIONS__NETWORK_CONFIGS_H_
+#define SJC__DEFINITIONS__NETWORK_CONFIGS_H_
+
+#define NETWORK_BAUD_RATE								( (uint32_t) 115200UL )
+#define NETWORK_BASE_ADRESS								( (uint32_t) 0x01 )
+#define MODBUS_USART_INIT_COUNT							( (uint32_t) 50UL )
+
+typedef enum {
+	REG_INPUT_SYSTEM_UPTIME								= ( (uint16_t) 0UL ),
+	REG_INPUT_CONTROL_MODE								= ( (uint16_t) 2UL ),
+	REG_INPUT_CONTROL_ERROR								= ( (uint16_t) 3UL ),
+	REG_INPUT_CONTROL_REFERENCE							= ( (uint16_t) 5UL ),
+
+	REG_INPUT_JOINT_DISPLACEMENT						= ( (uint16_t) 7UL ),
+	REG_INPUT_AUX_A_DISPLACEMENT						= ( (uint16_t) 9UL ),
+	REG_INPUT_AUX_B_DISPLACEMENT						= ( (uint16_t) 11UL ),
+	REG_INPUT_JOINT_OUTPUT_VOLTAGE						= ( (uint16_t) 13UL ),
+	REG_INPUT_JOINT_OUTPUT_CURRENT						= ( (uint16_t) 14UL ),
+	REG_INPUT_JOINT_DIGITAL_INPUTS						= ( (uint16_t) 15UL ),
+	REG_INPUT_JOINT_DIGITAL_OUTPUTS						= ( (uint16_t) 16UL ),
+
+	REG_INPUT_SYSTEM_VOLTAGE							= ( (uint16_t) 17UL ),
+	REG_INPUT_SYSTEM_ERROR_FLAGS						= ( (uint16_t) 18UL ),
+
+	REG_INPUT_ACTUATOR_STATE							= ( (uint16_t) 19UL ),
+	REG_INPUT_ACTUATOR_BASE_VOLTAGE						= ( (uint16_t) 20UL ),
+	REG_INPUT_ACTUATOR_LIMITS_OUTPUT_VOLTAGE			= ( (uint16_t) 21UL ),
+	REG_INPUT_ACTUATOR_LIMITS_OUTPUT_CURRENT			= ( (uint16_t) 22UL ),
+	REG_INPUT_ACTUATOR_LIMITS_OUTPUT_SPEED				= ( (uint16_t) 23UL ),
+
+	REG_INPUT_CONTROL_SETUP_KP							= ( (uint16_t) 25UL ),
+	REG_INPUT_CONTROL_SETUP_KI							= ( (uint16_t) 27UL ),
+	REG_INPUT_CONTROL_SETUP_KD							= ( (uint16_t) 29UL ),
+	REG_INPUT_CONTROL_SETUP_AUX1						= ( (uint16_t) 31UL ),
+	REG_INPUT_CONTROL_SETUP_AUX2						= ( (uint16_t) 33UL ),
+	REG_INPUT_CONTROL_SETUP_RATE						= ( (uint16_t) 35UL ),
+
+	REG_INPUT_ENCODER_SETUP_JOINT_RESOLUTION_PPR		=  ( (uint16_t) 36UL ),
+	REG_INPUT_ENCODER_SETUP_AUX_A_RESOLUTION_PPR		=  ( (uint16_t) 37UL ),
+	REG_INPUT_ENCODER_SETUP_AUX_B_RESOLUTION_PPR		=  ( (uint16_t) 38UL ),
+	REG_INPUT_SIZE										= ( (uint16_t) (REG_INPUT_ENCODER_SETUP_AUX_B_RESOLUTION_PPR + 1) )
+} eNetworkInputRegisters_t;
+
+typedef enum {
+	REG_HOLDING_CONTROL_MODE							= ( (uint16_t) 0UL ),
+	REG_HOLDING_CONTROL_REFERENCE						= ( (uint16_t) 1UL ),
+
+	REG_HOLDING_JOINT_DIGITAL_OUTPUTS					= ( (uint16_t) 3UL ),
+
+	REG_HOLDING_ACTUATOR_BASE_VOLTAGE					= ( (uint16_t) 4UL ),
+	REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_VOLTAGE			= ( (uint16_t) 5UL ),
+	REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_CURRENT			= ( (uint16_t) 6UL ),
+	REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_SPEED			= ( (uint16_t) 7UL ),
+
+	REG_HOLDING_CONTROL_SETUP_KP						= ( (uint16_t) 9UL ),
+	REG_HOLDING_CONTROL_SETUP_KI						= ( (uint16_t) 11UL ),
+	REG_HOLDING_CONTROL_SETUP_KD						= ( (uint16_t) 13UL ),
+	REG_HOLDING_CONTROL_SETUP_AUX1						= ( (uint16_t) 15UL ),
+	REG_HOLDING_CONTROL_SETUP_AUX2						= ( (uint16_t) 17UL ),
+	REG_HOLDING_CONTROL_SETUP_RATE						= ( (uint16_t) 19UL ),
+
+	REG_HOLDING_ENCODER_SETUP_JOINT_RESOLUTION_PPR		=  ( (uint16_t) 20UL ),
+	REG_HOLDING_ENCODER_SETUP_AUX_A_RESOLUTION_PPR		=  ( (uint16_t) 21UL ),
+	REG_HOLDING_ENCODER_SETUP_AUX_B_RESOLUTION_PPR		=  ( (uint16_t) 22UL ),
+
+	REG_HOLDING_SIZE									= ( (uint16_t) (REG_HOLDING_ENCODER_SETUP_AUX_B_RESOLUTION_PPR + 1) )
+} eNetworkHoldingRegisters_t;
+
+#define REG_INPUT_START                 				( (uint16_t) 1001 )
+#define REG_HOLDING_START               				( (uint16_t) 0001 )
+
+#define REG_INPUT_NREGS									( (uint16_t) REG_INPUT_SIZE )
+#define REG_HOLDING_NREGS               				( (uint16_t) REG_HOLDING_SIZE )
+
+#define GET_INPUT_REG_ADDRESS(X)        				( (uint16_t) ( REG_INPUT_START + X )   )
+#define GET_HOLDING_REG_ADDRESS(X)      				( (uint16_t) ( REG_HOLDING_START + X ) )
+
+#define GET_INPUT_REG_INDEX(X)        					( (uint16_t) ( X - REG_INPUT_START )   )
+#define GET_HOLDING_REG_INDEX(X)      					( (uint16_t) ( X - REG_HOLDING_START ) )
+
+#endif /* SJC__DEFINITIONS__NETWORK_CONFIGS_H_ */

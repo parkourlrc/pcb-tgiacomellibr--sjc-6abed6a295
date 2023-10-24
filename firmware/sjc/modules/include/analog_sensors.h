@@ -5,17 +5,15 @@
  *      Author: tiago
  */
 
-#ifndef SJC__ANALOG_SENSORS_H_
-#define SJC__ANALOG_SENSORS_H_
+#ifndef SJC__MODULES__ANALOG_SENSORS_H_
+#define SJC__MODULES__ANALOG_SENSORS_H_
 
-typedef enum {
-	SJC_CURRENT_SENSOR_1 = 0,
-	SJC_CURRENT_SENSOR_2,
-	SJC_VOLTAGE_SENSOR,
-	SJC_ANALOG_SENSOR_SIZE
-} eSjcAnalogSensor_t;
+#include "types.h"
 
-void SJC_AnalogSensorsInit(void);
-float SJC_AnalogSensors_GetConversion(const eSjcAnalogSensor_t sensor);
+eSjcReturnType_t SJC_AnalogSensors_Init(xSjcAnalogSensor_t *Sensor);
+eSjcReturnType_t SJC_AnalogSensors_StartMeasurements(uint32_t * buffer);
+eSjcReturnType_t SJC_AnalogSensors_StopMeasurements(void);
+eSjcReturnType_t SJC_AnalogSensors_ComputeConversionValue( const eSjcAnalogSensor_t input, const uint16_t conversion, float * value );
+eSjcReturnType_t SJC_AnalogSensors_ComputeFilteredValue( const eSjcAnalogSensor_t input, const float previous, const float actual, float * value );
 
-#endif /* SJC__ANALOG_SENSORS_H_ */
+#endif /* SJC__MODULES__ANALOG_SENSORS_H_ */

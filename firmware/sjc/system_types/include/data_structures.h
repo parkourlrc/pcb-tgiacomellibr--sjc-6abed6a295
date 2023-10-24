@@ -5,12 +5,197 @@
  *      Author: tiago
  */
 
-#ifndef SYSTEM_TYPES_DATA_STRUCTURES_H_
-#define SYSTEM_TYPES_DATA_STRUCTURES_H_
+#ifndef SJC__SYSTEM_TYPES__DATA_STRUCTURES_H_
+#define SJC__SYSTEM_TYPES__DATA_STRUCTURES_H_
+
+// System includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#include "stm32f446xx.h"
+// ------------------------------------------------------------------- //
+
+// Definitions includes ---------------------------------------------- //
+// ------------------------------------------------------------------- //
+typedef enum {
+	SJC_RET_NOK = 0x0000,
+	SJC_RET_OK = 0x00ff,
+	SJC_RET_SIZE
+} eSjcReturnType_t;
+
+typedef enum {
+	SJC_DIGITAL_OUTPUT_PORT	= 0,
+	SJC_DIGITAL_INOUT_PORT 	= 1,
+	SJC_DIGITAL_PORT_TYPE_SIZE
+} eSjcDigitalPortType_t;
+
+typedef enum {
+	SJC_TIME_DELAY_MS = 0,
+	SJC_TIME_DELAY_SEC,
+	SJC_TIME_DELAY_TYPE_SIZE
+} eSjcDelayType_t;
+
+typedef enum {
+	SJC_PASSIVE_JOINT = 0x00,
+	SJC_ACTIVE_JOINT,
+	SJC_JOINT_TYPE_SIZE
+} eSjcJointType_t;
+
+typedef enum {
+	SJC_ACTUATOR_JOINT = 0,
+	SJC_AUX_JOINT_A,
+	SJC_AUX_JOINT_B,
+	SJC_JOINTS_SIZE
+} eSjcJoints_t;
+
+typedef enum {
+	SJC_CONTROL_DISABLED 	= 0x0000,
+	SJC_OPEN_LOOP_CONTROL 	= 0x0001,
+	SJC_PRBS_EXCITATION 	= 0x00ff,
+	SJC_SPEED_CONTROL 		= 0xff00,
+	SJC_TORQUE_CONTROL 		= 0xffff
+} eSjcControlMode_t;
+
+typedef enum {
+	SJC_CURRENT_SENSOR_STD = 0,
+	SJC_CURRENT_SENSOR_AUX,
+	SJC_VOLTAGE_SENSOR,
+	SJC_ANALOG_SENSOR_SIZE
+} eSjcAnalogSensor_t;
+
+typedef enum {
+	SJC_JOINT_SWITCH_A = 0,
+	SJC_JOINT_SWITCH_B,
+	SJC_ISOLATED_INPUT_A,
+	SJC_ISOLATED_INPUT_B,
+	SJC_INPUTS_SIZE
+} eSjcDigitalInputs_t;
+
+typedef enum {
+	SJC_DIGITAL_OUTPUT_A = 0,
+	SJC_DIGITAL_OUTPUT_B,
+	SJC_HEARTBEAT_OUTPUT,
+	SJC_OUTPUTS_SIZE
+} eSjcDigitalOutputs_t;
+
+typedef enum {
+	PWM_FREQ_10kHz = 0,
+	PWM_FREQ_12kHz,
+	PWM_FREQ_14kHz,
+	PWM_FREQ_15kHz,
+	PWM_FREQ_16kHz,
+	PWM_FREQ_18kHz,
+	PWM_FREQ_20kHz
+} eSjcPwmBaseFreq_t;
+// ------------------------------------------------------------------- //
+
+// Data structures --------------------------------------------------- //
+// ------------------------------------------------------------------- //
+typedef struct {
+	uint32_t Timestamp;
+	float JointDisplacement;
+	float AuxJointDisplacementA;
+	float AuxJointDisplacementB;
+	float SystemVoltage;
+	float MotorCurrent;
+	uint8_t DigitalInputs;
+	uint8_t IsolatedInputs;
+	uint8_t DigitalOutputs;
+} xSjcLogData_t;
 
 typedef struct {
 	float Min;
 	float Max;
-} sjc_range_t;
+} xSjcRange_t;
 
-#endif /* SYSTEM_TYPES_DATA_STRUCTURES_H_ */
+typedef struct {
+	float Measurement;
+	float Resolution;
+	xSjcRange_t Range;
+	float CompFilterRatio;
+} xSjcAnalogSensor_t;
+
+typedef struct {
+	float Encoder;
+	int32_t Counts;
+	TIM_TypeDef *Instance;
+	uint16_t Resolution_PPR;
+} xSjcEncoder_t;
+
+typedef struct {
+	float Kp;
+	float Ki;
+	float Kd;
+	float Aux1;
+	float Aux2;
+} xControllerParameters_t;
+
+typedef struct {
+	xSjcRange_t Speed;
+	xSjcRange_t OutputCurrent;
+	xSjcRange_t OutputVoltage;
+} xSjcActuatorLimits_t;
+
+typedef struct {
+	TIM_TypeDef *Instance;
+	uint32_t CountPeriod;
+	uint32_t LeftChannel;
+	uint32_t LeftChannelComp;
+	uint32_t RightChannel;
+	uint32_t RightChannelComp;
+} xSjcActuatorPwmTimerConfig_t;
+
+typedef struct {
+	float DutyCycle;
+	uint32_t Frequency;
+	uint32_t DutyCount;
+	xSjcRange_t DutyRange;
+	xSjcActuatorPwmTimerConfig_t TimerConfig;
+} xSjcActuatorPwm_t;
+
+typedef struct {
+	bool State;
+	uint32_t Pin;
+	GPIO_TypeDef *Port;
+	eSjcDigitalPortType_t Type;
+} xSjcDigitalPort_t;
+
+typedef struct {
+	bool Active;
+	float BaseVoltage;
+	float OutputVoltage;
+	xSjcActuatorPwm_t PWM;
+	xSjcDigitalPort_t DriverPort;
+	xSjcRange_t OutputVoltageRange;
+	eSjcPwmBaseFreq_t BaseFrequency;
+} xSjcActuator_t;
+
+typedef struct {
+	float Derivative;
+	float Proportional;
+	float Integral;
+	float Error;
+} xControllerErrors_t;
+
+typedef struct {
+	uint32_t Rate;
+	float Reference;
+	eSjcControlMode_t Mode;
+	xControllerErrors_t Errors;
+	xControllerParameters_t Parameters;
+} xSjcController_t;
+
+typedef struct {
+	float Speed;
+	xSjcEncoder_t Encoder;
+	xSjcActuator_t Actuator;
+	xSjcController_t Controller;
+	xSjcActuatorLimits_t Limits;
+	xSjcAnalogSensor_t PSUVoltage;
+	xSjcAnalogSensor_t OutputCurrent;
+	xSjcDigitalPort_t DigitalSensors[SJC_INPUTS_SIZE];
+	xSjcDigitalPort_t DigitalActuators[SJC_OUTPUTS_SIZE];
+} xSjcJoint_t;
+// ------------------------------------------------------------------- //
+
+
+
+#endif /* SJC__SYSTEM_TYPES__DATA_STRUCTURES_H_ */
