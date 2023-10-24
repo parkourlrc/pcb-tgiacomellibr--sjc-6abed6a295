@@ -1,3 +1,7 @@
 ##
 *.plt
 docs
+*.bak
+debug/
+octave-workspace*
+*.asv
