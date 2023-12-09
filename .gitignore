@@ -5,3 +5,4 @@ docs
 debug/
 octave-workspace*
 *.asv
+*.lck
