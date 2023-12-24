@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(SJC_LIB VERSION 0.1.0 LANGUAGES C CXX)
+
+
+# Project definitions
+# ------------------------------------------------------------------------------------------------- #
+include(CMakePrintHelpers)
+
+set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
+
+message("CXX Flags: ${CMAKE_CXX_FLAGS}")
+message("DEBUG CXX Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+message("CXX Standard: ${CMAKE_CXX_STANDARD}")
+# ------------------------------------------------------------------------------------------------- #
+
+# 3rd party libs
+# ------------------------------------------------------------------------------------------------- #
+set(PROJECT_DEPS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
+
+set(LIB_MODBUS_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/modbus)
+set(LIB_MODBUS_SRCS_DIR ${LIB_MODBUS_BASE_DIR}/src)
+link_directories(modbus ${LIB_MODBUS_SRCS_DIR})
+
+# ------------------------------------------------------------------------------------------------- #
+
+# Project libs
+# ------------------------------------------------------------------------------------------------- #
+get_filename_component(SJC_FW_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/sjc/ ABSOLUTE)
+# set(SJC_BASE_INCS_DIR ${PARENT_DIR}/base/include/)
+# set(SJC_TYPES_INCS_DIR ${PARENT_DIR}/system_types/include/)
+
+message("Base dir: ${SJC_BASE_INCS_DIR}")
+message("Types dir: ${SJC_TYPES_INCS_DIR}")                                                
+
+set(SJC_INTERFACE_SRCS_DIR ${PROJECT_DEPS_DIR}/sjc_interface/src)
+set(SJC_INTERFACE_INCS_DIR ${PROJECT_DEPS_DIR}/sjc_interface/include)
+add_library(sjc_interface ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp)
+target_link_libraries(sjc_interface PUBLIC modbus)
+target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}
+                                                ${SJC_FW_BASE_DIR} 
+                                                ${LIB_MODBUS_SRCS_DIR}   
+                                                
+)
+# ------------------------------------------------------------------------------------------------- #
+
+# Project executables
+# ------------------------------------------------------------------------------------------------- #
+set(PROJECT_SRCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(PROJECT_INCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_executable(sjc_debug ${PROJECT_SRCS_DIR}/sjc_debug.cpp )
+target_link_libraries(sjc_debug PUBLIC modbus sjc_interface)
+target_include_directories(sjc_debug PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
+# # ------------------------------------------------------------------------------------------------- #
