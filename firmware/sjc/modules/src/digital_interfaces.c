@@ -47,24 +47,24 @@ eSjcReturnType_t SJC_DigitalInterfaces_init(xSjcDigitalPort_t *Interfaces, const
 	eSjcReturnType_t ret = SJC_RET_OK;
 
 	switch (type) {
-	case SJC_DIGITAL_INOUT_PORT:
+	case SJC_DIGITAL_INPUT_PORT:
 		Interfaces[SJC_JOINT_SWITCH_A].State = false;
-		Interfaces[SJC_JOINT_SWITCH_A].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_JOINT_SWITCH_A].Type = SJC_DIGITAL_INPUT_PORT;
 		Interfaces[SJC_JOINT_SWITCH_A].Pin = SJC_JOINT_SWITCH_A_PIN;
 		Interfaces[SJC_JOINT_SWITCH_A].Port = SJC_JOINT_SWITCH_A_PORT;
 
 		Interfaces[SJC_JOINT_SWITCH_B].State = false;
-		Interfaces[SJC_JOINT_SWITCH_B].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_JOINT_SWITCH_B].Type = SJC_DIGITAL_INPUT_PORT;
 		Interfaces[SJC_JOINT_SWITCH_B].Pin = SJC_JOINT_SWITCH_B_PIN;
 		Interfaces[SJC_JOINT_SWITCH_B].Port = SJC_JOINT_SWITCH_B_PORT;
 
 		Interfaces[SJC_ISOLATED_INPUT_A].State = false;
-		Interfaces[SJC_ISOLATED_INPUT_A].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_ISOLATED_INPUT_A].Type = SJC_DIGITAL_INPUT_PORT;
 		Interfaces[SJC_ISOLATED_INPUT_A].Pin = SJC_ISOLATED_INPUT_A_PIN;
 		Interfaces[SJC_ISOLATED_INPUT_A].Port = SJC_ISOLATED_INPUT_A_PORT;
 
 		Interfaces[SJC_ISOLATED_INPUT_B].State = false;
-		Interfaces[SJC_ISOLATED_INPUT_B].Type = SJC_DIGITAL_INOUT_PORT;
+		Interfaces[SJC_ISOLATED_INPUT_B].Type = SJC_DIGITAL_INPUT_PORT;
 		Interfaces[SJC_ISOLATED_INPUT_B].Pin = SJC_ISOLATED_INPUT_B_PIN;
 		Interfaces[SJC_ISOLATED_INPUT_B].Port = SJC_ISOLATED_INPUT_B_PORT;
 		break;
@@ -78,6 +78,11 @@ eSjcReturnType_t SJC_DigitalInterfaces_init(xSjcDigitalPort_t *Interfaces, const
 		Interfaces[SJC_DIGITAL_OUTPUT_B].Type = SJC_DIGITAL_OUTPUT_PORT;
 		Interfaces[SJC_DIGITAL_OUTPUT_B].Pin = SJC_DIGITAL_OUTPUT_B_PIN;
 		Interfaces[SJC_DIGITAL_OUTPUT_B].Port = SJC_DIGITAL_OUTPUT_B_PORT;
+
+		Interfaces[SJC_HEARTBEAT_OUTPUT].State = false;
+		Interfaces[SJC_HEARTBEAT_OUTPUT].Type = SJC_DIGITAL_OUTPUT_PORT;
+		Interfaces[SJC_HEARTBEAT_OUTPUT].Pin = SJC_HEARTBEAT_OUTPUT_PIN;
+		Interfaces[SJC_HEARTBEAT_OUTPUT].Port = SJC_HEARTBEAT_OUTPUT_PORT;
 		break;
 	default:
 		ret = SJC_RET_NOK;

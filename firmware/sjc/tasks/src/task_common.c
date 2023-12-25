@@ -10,8 +10,7 @@
 #include <task_common.h>
 #include <task_data_logger.h>
 #include <task_joint_controller.h>
-#include <task_network.h>
-#include <task_system_manager.h>
+#include <task_system_controller.h>
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
@@ -62,7 +61,7 @@ eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 		return SJC_RET_NOK;
 	}
 
-	if (SJC_RET_NOK == SJC_TaskJointController_SetSharedDataMutex(SharedDataMutexHandle))
+	if (SJC_RET_NOK == SJC_TaskActuatorController_SetSharedDataMutex(SharedDataMutexHandle))
 	{
 		return SJC_RET_NOK;
 	}
@@ -72,47 +71,32 @@ eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 		return SJC_RET_NOK;
 	}
 
-	if (SJC_RET_NOK == SJC_TaskNetwork_SetSharedDataMutex(SharedDataMutexHandle))
+	if (SJC_RET_NOK == SJC_TaskSystemController_SetSharedDataMutex(SharedDataMutexHandle))
 	{
 		return SJC_RET_NOK;
 	}
 
-	if (SJC_RET_NOK == SJC_TaskSystemManager_SetSharedDataMutex(SharedDataMutexHandle))
-	{
-		return SJC_RET_NOK;
-	}
+//	if (SJC_RET_OK == SJC_TaskActuatorController_Init())
+//	{
+//		SJC_DebugOutput_printf("\r\n[OS] Controller task created!");
+//	}
+//	else
+//	{
+//		SJC_DebugOutput_printf("\r\n[OS] Controller task not initiated...");
+//		return SJC_RET_NOK;
+//	}
 
-	if (SJC_RET_OK == SJC_TaskJointController_Init())
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Controller task created!");
-	}
-	else
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Controller task not initiated...");
-		return SJC_RET_NOK;
-	}
+//	if (SJC_RET_OK == SJC_TaskDataLogger_Init())
+//	{
+//		SJC_DebugOutput_printf("\r\n[OS] Data logger task created!");
+//	}
+//	else
+//	{
+//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
+//		return SJC_RET_NOK;
+//	}
 
-	if (SJC_RET_OK == SJC_TaskDataLogger_Init())
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Data logger task created!");
-	}
-	else
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
-		return SJC_RET_NOK;
-	}
-
-	if (SJC_RET_OK == SJC_TaskNetwork_Init())
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Sensors task created!");
-	}
-	else
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Sensors task not initiated...");
-		return SJC_RET_NOK;
-	}
-
-	if (SJC_RET_OK == SJC_TaskSystemManager_Init())
+	if (SJC_RET_OK == SJC_TaskSystemController_Init())
 	{
 		SJC_DebugOutput_printf("\r\n[OS] System manager task created!");
 	}
@@ -139,6 +123,7 @@ eSjcReturnType_t InitDataStructures(void)
 		return SJC_RET_NOK;
 	} else
 	{
+		osMutexRelease(SharedDataMutexHandle);
 		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex created!");
 	}
 

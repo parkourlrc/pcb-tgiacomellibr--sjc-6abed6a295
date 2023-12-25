@@ -96,16 +96,20 @@ int main(void)
 
   SJC_Init();
 
-  SJC_Delay(SJC_TIME_DELAY_SEC, 2);
+  SJC_Delay(SJC_TIME_SEC, 2);
 
   SJC_PresentSystemInfo();
 
-  SJC_Delay(SJC_TIME_DELAY_SEC, 1);
+  SJC_Delay(SJC_TIME_SEC, 1);
+
+  SJC_InitOsKernel();
 
   /* USER CODE END 2 */
 
   /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+  osKernelInitialize();
+
+  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
   /* Start scheduler */

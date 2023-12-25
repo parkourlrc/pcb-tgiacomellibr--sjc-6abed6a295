@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "port.h"
+#include "configs.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,7 +58,6 @@
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
-extern DMA_HandleTypeDef hdma_adc1;
 extern TIM_HandleTypeDef htim5;
 
 /* USER CODE BEGIN EV */
@@ -177,6 +177,37 @@ void DMA1_Stream6_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles ADC1, ADC2 and ADC3 interrupts.
+  */
+void ADC_IRQHandler(void)
+{
+  /* USER CODE BEGIN ADC_IRQn 0 */
+	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
+	{
+		/* Clear flag ADC group injected end of unitary conversion */
+		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
+
+		/* Call interruption treatment function */
+		AdcGrpInjectedUnitaryConvComplete_Callback();
+	}
+
+	/* Check whether ADC group regular overrun caused the ADC interruption */
+	if(LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
+	{
+		/* Clear flag ADC group regular overrun */
+		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
+
+		/* Call interruption treatment function */
+		//	    AdcGrpRegularOverrunError_Callback();
+	}
+  /* USER CODE END ADC_IRQn 0 */
+
+  /* USER CODE BEGIN ADC_IRQn 1 */
+
+  /* USER CODE END ADC_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM1 trigger and commutation interrupts and TIM11 global interrupt.
   */
 void TIM1_TRG_COM_TIM11_IRQHandler(void)
@@ -227,9 +258,16 @@ void TIM5_IRQHandler(void)
 void DMA2_Stream0_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
+	if(LL_DMA_IsActiveFlag_TC0(SJC_ADC_DMA_INSTANCE) == 1)
+	  {
+	    /* Clear flag DMA transfer complete */
+	    LL_DMA_ClearFlag_TC0(SJC_ADC_DMA_INSTANCE);
 
+	    /* Call interruption treatment function */
+
+	  }
   /* USER CODE END DMA2_Stream0_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_adc1);
+
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
 
   /* USER CODE END DMA2_Stream0_IRQn 1 */

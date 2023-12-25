@@ -11,11 +11,12 @@
 #include "types.h"
 
 void SJC_Init(void);
-eSjcReturnType_t SJC_InitOsTasks(void);
+eSjcReturnType_t SJC_InitOsKernel(void);
 void SJC_PresentSystemInfo(void);
+eSjcReturnType_t SJC_SetVersions(void);
 
-eSjcReturnType_t SJC_Delay(const eSjcDelayType_t type, const uint32_t value);
-eSjcReturnType_t SJC_GetTime(const eSjcDelayType_t type, uint32_t *value);
+eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
+eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
 
 eSjcControlMode_t SJC_GetControlMode(void);
 uint32_t SJC_GetControlUpdateRateHz(void);
@@ -24,8 +25,8 @@ uint32_t SJC_GetControlUpdatePeriodMs(void);
 void SJC_ReadNetworkCommands(void);
 void SJC_UpdateNetworkRegisters(void);
 
-eSjcReturnType_t SJC_InitAdc(void);
-eSjcReturnType_t SJC_EnableAdc(uint32_t * buffer);
+eSjcReturnType_t SJC_InitAdc(uint32_t * buffer, const uint32_t buffer_size);
+eSjcReturnType_t SJC_EnableAdc(void);
 eSjcReturnType_t SJC_DisableAdc(void);
 
 eSjcReturnType_t SJC_EnableJointActuators(void);
@@ -39,8 +40,10 @@ eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value);
 eSjcReturnType_t SJC_ReadDigitalInputs(uint8_t * states);
 eSjcReturnType_t SJC_ReadDigitalOutputs(uint8_t * states);
 eSjcReturnType_t SJC_WriteDigitalOutputs(const uint8_t states);
+eSjcReturnType_t SJC_ToggleDigitalOutput(const eSjcDigitalOutputs_t Output);
 eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input, bool * state);
 eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool * state);
 eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state);
+
 
 #endif /* SJC__MODULES__SYSTEM_PARAMETERS_H_ */

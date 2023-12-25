@@ -110,7 +110,7 @@ void LoggerTaskApp(void *argument)
 		if (osOK == osMutexAcquire(DataMutexHandle, DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			uint32_t TimeStamp;
-			SJC_GetTime(SJC_TIME_DELAY_MS, &TimeStamp);
+			SJC_GetTime(SJC_TIME_MS, &TimeStamp);
 //			uTxBuffLen = sprintf(xTxBuff, "\r\n[OS] Timestamp: %lu", TimeStamp);
 			uTxBuffLen = sprintf(xTxBuff, "\r\n%lu", TimeStamp-last_tick);
 			last_tick = TimeStamp;

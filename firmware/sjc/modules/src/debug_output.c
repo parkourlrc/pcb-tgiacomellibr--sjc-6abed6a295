@@ -53,10 +53,21 @@ void SJC_DebugOutput_Init(void)
 
 void SJC_DebugOutput_PresentSystemInfo(void)
 {
-	SJC_DebugOutput_printf("\f\r\n------------------------------------------------------------");
-	SJC_DebugOutput_printf("\r\n                        Crane Control                        ");
-	SJC_DebugOutput_printf("\r\n              Single Joint Control Board (SJC)               ");
-	SJC_DebugOutput_printf("\r\n------------------------------------------------------------\n");
+	SJC_DebugOutput_printf(
+			"\f\r\n------------------------------------------------------------");
+	SJC_DebugOutput_printf(
+			"\r\n                        Crane Control                        ");
+	SJC_DebugOutput_printf(
+			"\r\n              Single Joint Control Board (SJC)               ");
+	SJC_DebugOutput_printf(
+			"\r\n               FW Version: %u.%u.%u (%u/%lu)                 ",
+			SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH,
+			SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
+	SJC_DebugOutput_printf(
+			"\r\n                       HW Version: %u.%u                     ",
+			SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
+	SJC_DebugOutput_printf(
+			"\r\n------------------------------------------------------------\n");
 }
 
 int SJC_DebugOutput_printf(const char *format, ...)

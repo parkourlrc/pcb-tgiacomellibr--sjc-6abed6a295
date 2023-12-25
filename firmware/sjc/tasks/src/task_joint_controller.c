@@ -28,7 +28,7 @@
 #define CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS		( osWaitForever )
 #define CONTROLLER_MAX_BLOCK_TIME_TICKS					pdMS_TO_TICKS( 1 )
 
-#define ANALOG_SENSORS_CONV_BUFFER_SIZE					( (uint32_t ) 32UL)
+#define ANALOG_SENSORS_CONV_BUFFER_SIZE					( (uint32_t ) 64UL)
 #define ANALOG_CONV_MEASUREMENTS_TARGET					( (uint32_t ) 4UL)
 #define ANALOG_CONVS_REACHED_EVENT_NOTIFICATION    		0x01
 
@@ -36,7 +36,7 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-extern ADC_HandleTypeDef hadc1;
+//extern ADC_HandleTypeDef hadc1;
 
 // ------------------------------------------------------------------- //
 
@@ -79,7 +79,7 @@ void ControllerFunc(xSjcJoint_t Joint);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_TaskJointController_SetSharedDataMutex(osMutexId_t MutexHandle)
+eSjcReturnType_t SJC_TaskActuatorController_SetSharedDataMutex(osMutexId_t MutexHandle)
 {
 	DataMutexHandle = MutexHandle;
 
@@ -93,7 +93,7 @@ eSjcReturnType_t SJC_TaskJointController_SetSharedDataMutex(osMutexId_t MutexHan
 	}
 }
 
-eSjcReturnType_t SJC_TaskJointController_Init(void){
+eSjcReturnType_t SJC_TaskActuatorController_Init(void){
 	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
 
 	if (ControllerTaskHandle == NULL)
@@ -115,8 +115,9 @@ void ControllerTaskApp(void *argument)
 	/* USER CODE BEGIN ControllerTaskApp */
 	xAnalogConversionCounter = 0;
 
-	SJC_InitAdc();
-	SJC_EnableAdc(xAnalogSensorsConversionBuffer);
+	SJC_InitAdc(xAnalogSensorsConversionBuffer, ANALOG_SENSORS_CONV_BUFFER_SIZE);
+	SJC_EnableAdc();
+
 	uint32_t tick;
 	tick = osKernelGetTickCount();
 
@@ -174,23 +175,33 @@ void ControllerFunc(xSjcJoint_t Joint)
 }
 
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+//void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
+void AdcGrpInjectedUnitaryConvComplete_Callback(void)
 {
-	uint32_t CurrentConv = xAnalogSensorsConversionBuffer[0];
-	uint32_t VoltageConv = xAnalogSensorsConversionBuffer[1];
+	uint32_t VrefConv = xAnalogSensorsConversionBuffer[0];
+	uint32_t CurrentConv = xAnalogSensorsConversionBuffer[1];
+	uint32_t VoltageConv = xAnalogSensorsConversionBuffer[2];
+//	HAL_ADC_Stop(&hadc1);
 
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 
-	float TempActual;
-	float TempPrev;
+	static float TempActual[3] = {0, 0, 0};
+	static float TempPrev[3] = {0, 0, 0};
 
-	TempPrev = xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD];
-	SJC_AnalogSensors_ComputeConversionValue(SJC_CURRENT_SENSOR_STD, CurrentConv, &TempActual);
-	SJC_AnalogSensors_ComputeFilteredValue(SJC_CURRENT_SENSOR_STD, TempPrev, TempActual, &xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD]);
+//	LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
+//	LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
+//	LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3);
 
-	TempPrev = xAnalogSensorsValueBuffer[SJC_VOLTAGE_SENSOR];
-	SJC_AnalogSensors_ComputeConversionValue(SJC_VOLTAGE_SENSOR, VoltageConv, &TempActual);
-	SJC_AnalogSensors_ComputeFilteredValue(SJC_VOLTAGE_SENSOR, TempPrev, TempActual, &xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD]);
+	TempPrev[0] = TempActual[0];
+	TempActual[0] = __LL_ADC_CALC_VREFANALOG_VOLTAGE(VrefConv, LL_ADC_RESOLUTION_12B);
+
+	TempPrev[1] = xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD];
+	SJC_AnalogSensors_ComputeConversionValue(SJC_CURRENT_SENSOR_STD, CurrentConv, &TempActual[1]);
+	SJC_AnalogSensors_ComputeFilteredValue(SJC_CURRENT_SENSOR_STD, TempPrev[1], TempActual[1], &xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD]);
+
+	TempPrev[2] = xAnalogSensorsValueBuffer[SJC_VOLTAGE_SENSOR];
+	SJC_AnalogSensors_ComputeConversionValue(SJC_VOLTAGE_SENSOR, VoltageConv, &TempActual[2]);
+	SJC_AnalogSensors_ComputeFilteredValue(SJC_VOLTAGE_SENSOR, TempPrev[2], TempActual[2], &xAnalogSensorsValueBuffer[SJC_CURRENT_SENSOR_STD]);
 
 	xAnalogConversionCounter++;
 
@@ -201,22 +212,20 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 
 	}
-
 }
 
-void TIM4_IRQHandler(void)
-{
-	/* USER CODE BEGIN TIM4_IRQn 0 */
-	if(LL_TIM_IsActiveFlag_UPDATE(TIM4) && LL_TIM_IsEnabledIT_UPDATE(TIM4))
-	{
-		LL_TIM_ClearFlag_UPDATE(TIM4);
-
-
-//		SJC_DebugOutput_printf("\r\n%.2f", Iin);
-	}
-	/* USER CODE END TIM4_IRQn 0 */
-	/* USER CODE BEGIN TIM4_IRQn 1 */
-
-	/* USER CODE END TIM4_IRQn 1 */
-}
+//void TIM4_IRQHandler(void)
+//{
+//	/* USER CODE BEGIN TIM4_IRQn 0 */
+//	if(LL_TIM_IsActiveFlag_UPDATE(TIM4) && LL_TIM_IsEnabledIT_UPDATE(TIM4))
+//	{
+//		LL_TIM_ClearFlag_UPDATE(TIM4);
+//		HAL_ADC_Start(&hadc1);
+////		SJC_DebugOutput_printf("\r\n%.2f", Iin);
+//	}
+//	/* USER CODE END TIM4_IRQn 0 */
+//	/* USER CODE BEGIN TIM4_IRQn 1 */
+//
+//	/* USER CODE END TIM4_IRQn 1 */
+//}
 // ------------------------------------------------------------------- //

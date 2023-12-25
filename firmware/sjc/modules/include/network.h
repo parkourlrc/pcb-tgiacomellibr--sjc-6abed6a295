@@ -10,7 +10,10 @@
 
 #include "types.h"
 
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress);
+eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t xBaudRate, const char xParity);
+eSjcReturnType_t SJC_Network_GetParameters(uint8_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity);
 void SJC_Network_Update(void);
+
+
 
 #endif /* MOTOR_H_ */

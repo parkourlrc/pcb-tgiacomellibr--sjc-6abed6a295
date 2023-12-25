@@ -26,7 +26,7 @@
 
 // Module data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
-extern ADC_HandleTypeDef hadc1;
+//extern ADC_HandleTypeDef hadc1;
 // ------------------------------------------------------------------- //
 
 // Module variables -------------------------------------------------- //
@@ -53,24 +53,66 @@ eSjcReturnType_t SJC_AnalogSensors_Init(xSjcAnalogSensor_t *Sensor)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_AnalogSensors_StartMeasurements(uint32_t * buffer)
+eSjcReturnType_t SJC_AnalogSensors_Configure(uint32_t * buffer, const uint32_t buffer_size)
 {
-	LL_TIM_EnableCounter(TIM4);
+	if (true == LL_ADC_IsEnabled(SJC_ADC_INSTANCE))
+	{
+		return SJC_RET_NOK;
+	}
 
-	HAL_ADC_Start_DMA(&hadc1, buffer, xAnalogSensorsInitiated);
+	MX_ADC1_Init();
 
-	LL_TIM_EnableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+	/* Set DMA transfer addresses of source and destination */
+	LL_DMA_ConfigAddresses(SJC_ADC_DMA_INSTANCE,
+			SJC_ADC_DMA_STREAM, LL_ADC_DMA_GetRegAddr(SJC_ADC_INSTANCE,
+					LL_ADC_DMA_REG_REGULAR_DATA), (uint32_t) &buffer,
+					LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
+
+
+	/* Set DMA transfer size */
+	LL_DMA_SetDataLength(SJC_ADC_DMA_INSTANCE, SJC_ADC_DMA_STREAM, buffer_size);
+
+	/* Enable DMA transfer interruption: transfer complete */
+	LL_DMA_EnableIT_TC(SJC_ADC_DMA_INSTANCE, SJC_ADC_DMA_STREAM);
+
+	//	  /* Enable DMA transfer interruption: half transfer */
+	//	  LL_DMA_EnableIT_HT(DMA1, LL_DMA_CHANNEL_1);
+	//
+	//	  /* Enable DMA transfer interruption: transfer error */
+	//	  LL_DMA_EnableIT_TE(DMA1, LL_DMA_CHANNEL_1);
+
+	/*## Activation of DMA #####################################################*/
+	/* Enable the DMA transfer */
+	LL_DMA_EnableStream(SJC_ADC_DMA_INSTANCE, SJC_ADC_DMA_STREAM);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_AnalogSensors_StartMeasurements(void)
+{
+//	LL_TIM_EnableCounter(TIM4);
+//
+//	LL_TIM_EnableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+
+//	HAL_ADC_Start_DMA(&hadc1, buffer, xAnalogSensorsInitiated);
+
+	LL_ADC_DisableIT_EOCS(SJC_ADC_INSTANCE);
+
+	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
+
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_AnalogSensors_StopMeasurements(void)
 {
-	LL_TIM_DisableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+//	LL_TIM_DisableIT_UPDATE(ADC_CONV_DISPATCH_TIMER_INSTANCE);
+//
+//	LL_TIM_DisableCounter(TIM4);
 
-	LL_TIM_DisableCounter(TIM4);
+//	HAL_ADC_Stop_DMA(&hadc1);
 
-	HAL_ADC_Stop_DMA(&hadc1);
+	LL_ADC_DisableIT_JEOS(SJC_ADC_INSTANCE);
 
 	return SJC_RET_OK;
 }

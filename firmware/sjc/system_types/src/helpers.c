@@ -5,30 +5,23 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "main.h"
-#include "cmsis_os.h"
+
 // ------------------------------------------------------------------- //
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "helpers.h"
-
-#include "configs.h"
 // ------------------------------------------------------------------- //
-
 
 // Module defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-
 
 // ------------------------------------------------------------------- //
 
 // Module data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-
 
 // ------------------------------------------------------------------- //
 
@@ -100,6 +93,37 @@ uint32_t SJC_Helpers_UintClamp(const uint32_t var, const uint32_t LimitMin, cons
 	}
 
 	return ret;
+}
+
+void compose_byte_array_from_ui32(const uint32_t src, uint16_t *dst)
+{
+	uint16_t *ptr = (uint16_t *)(&src);
+	dst[0] = ptr[1];
+	dst[1] = ptr[0];
+}
+
+void compose_ui32_from_byte_array(const uint16_t *src, uint32_t *dst)
+{
+	uint16_t *ptr = (uint16_t *)(dst);
+
+	ptr[1] = src[0];
+	ptr[0] = src[1];
+}
+
+void compose_byte_array_from_float(const float src, uint16_t *dst)
+{
+	uint16_t *ptr = (uint16_t *)(&src);
+	dst[0] = ptr[1];
+	dst[1] = ptr[0];
+}
+
+
+void compose_float_from_byte_array(const uint16_t *src, float *dst)
+{
+	uint16_t *ptr = (uint16_t *)(dst);
+
+	ptr[1] = src[0];
+	ptr[0] = src[1];
 }
 
 // ------------------------------------------------------------------- //

@@ -44,6 +44,7 @@ volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
 static USHORT   usRegInputStart = REG_INPUT_START;
 static USHORT   usRegHoldingStart = REG_HOLDING_START;
+static xSjcNetworkInfo_t xNetworkParameters;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -53,9 +54,13 @@ static USHORT   usRegHoldingStart = REG_HOLDING_START;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
+eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t xBaudRate, const char xParity)
 {
 	eMBErrorCode    eStatus;
+
+	xNetworkParameters.address = xSlaveAddress;
+	xNetworkParameters.baudrate = xBaudRate;
+	xNetworkParameters.parity = xParity;
 
 	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xSlaveAddress, 1, NETWORK_BAUD_RATE, MB_PAR_NONE ) ) )
 	{
@@ -87,12 +92,26 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 
 	usRegHoldingBuf[0] = 1;
 	SJC_DebugOutput_printf("\r\n[OS] Modbus network initiated!");
+
+	// Update Network Registers
+	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
+	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
+	compose_byte_array_from_ui32(xBaudRate, &usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE]);
+
 	return SJC_RET_OK;
 }
 
 void SJC_Network_Update(void)
 {
 	( void )eMBPoll(  );
+}
+
+eSjcReturnType_t SJC_Network_GetParameters(uint8_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
+{
+	*xSlaveAddress = xNetworkParameters.address;
+	*xBaudRate = xNetworkParameters.baudrate;
+	*xParity = xNetworkParameters.parity;
+	return SJC_RET_OK;
 }
 
 // ------------------------------------------------------------------- //
@@ -108,8 +127,7 @@ eMBRegInputCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs )
 
     if( ( usRegAddress >= REG_INPUT_START ) && ( usRegAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS ) )
     {
-        LL_GPIO_TogglePin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
-    	iRegIndex = ( int )( usRegAddress - usRegInputStart );
+        iRegIndex = ( int )( usRegAddress - usRegInputStart );
         while( usNRegs > 0 )
         {
             *pucRegBuffer++ = ( unsigned char )( usRegInputBuf[iRegIndex] >> 8 );
@@ -135,7 +153,6 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
 
     if( ( usRegAddress >= REG_HOLDING_START ) && ( usRegAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS ) )
     {
-    	LL_GPIO_TogglePin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
     	iRegIndex = ( int )( usRegAddress - usRegHoldingStart );
         switch ( eMode )
         {

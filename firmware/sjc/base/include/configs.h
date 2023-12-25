@@ -14,16 +14,15 @@
 
 // Firmware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
-#define SJC_FW_VERSION_MAJOR										0U
+#define SJC_FW_VERSION_MAJOR										1U
 #define SJC_FW_VERSION_MINOR										0U
-#define SJC_FW_VERSION_PATCH										1U
+#define SJC_FW_VERSION_PATCH										0U
 
 #define SJC_FW_RELEASE_MONTH										10U
 #define SJC_FW_RELEASE_YEAR											2023UL
 
 #define SJC_HW_VERSION_MAJOR										1U
 #define SJC_HW_VERSION_MINOR										0U
-
 
 
 // PWM Configs -------------------------------------------------------------------- //
@@ -41,9 +40,8 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_NETWORK_UPDATE_PERIOD_MS						( (uint32_t) 10UL)
 #define SJC_DATA_LOGGER_UPDATE_PERIOD_MS					( (uint32_t) 1UL)
-#define SJC_SYSTEM_MANAGER_UPDATE_PERIOD_MS					( (uint32_t) 100UL)
+#define SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS				( (uint32_t) 5UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -86,12 +84,19 @@
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
+#define SJC_ADC_INSTANCE 									( ADC1 )
+#define SJC_ADC_DMA_INSTANCE								DMA2
+#define SJC_ADC_DMA_STREAM									LL_DMA_STREAM_0
 #define ADC_CONV_TIMEOUT_MS 								( (uint32_t) 10 )
 #define ADC_CONV_RESOLUTION 								( (uint32_t) 4095 )
 #define ADC_CONV_MAX_VALUE_FLOAT							( (float) (3.3f) )
 #define ADC_CONV_MIN_VALUE_FLOAT							( (float) (0.0f) )
 #define ADC_CONV_TO_FLOAT(X)								( (float) (X*ADC_CONV_MAX_VALUE_FLOAT)/ADC_CONV_RESOLUTION )
 #define ADC_CONV_DISPATCH_TIMER_INSTANCE					TIM4
+
+// ADC ISR Callback function
+void AdcGrpInjectedUnitaryConvComplete_Callback(void);
+
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -113,4 +118,7 @@
 
 #define SJC_DIGITAL_OUTPUT_A_PORT							GP_OUT_A_GPIO_Port
 #define SJC_DIGITAL_OUTPUT_B_PORT							GP_OUT_B_GPIO_Port
+
+#define SJC_HEARTBEAT_OUTPUT_PIN							SYS_HEARTBEAT_Pin
+#define SJC_HEARTBEAT_OUTPUT_PORT							SYS_HEARTBEAT_GPIO_Port
 #endif /* SJC__DEFINITIONS__CONFIGS_H_ */

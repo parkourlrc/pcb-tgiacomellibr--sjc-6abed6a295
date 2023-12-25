@@ -23,15 +23,15 @@ typedef enum {
 
 typedef enum {
 	SJC_DIGITAL_OUTPUT_PORT	= 0,
-	SJC_DIGITAL_INOUT_PORT 	= 1,
+	SJC_DIGITAL_INPUT_PORT 	= 1,
 	SJC_DIGITAL_PORT_TYPE_SIZE
 } eSjcDigitalPortType_t;
 
 typedef enum {
-	SJC_TIME_DELAY_MS = 0,
-	SJC_TIME_DELAY_SEC,
-	SJC_TIME_DELAY_TYPE_SIZE
-} eSjcDelayType_t;
+	SJC_TIME_MS = 0,
+	SJC_TIME_SEC,
+	SJC_TIME_TYPE_SIZE
+} eSjcTimeType_t;
 
 typedef enum {
 	SJC_PASSIVE_JOINT = 0x00,
@@ -194,6 +194,13 @@ typedef struct {
 	xSjcDigitalPort_t DigitalSensors[SJC_INPUTS_SIZE];
 	xSjcDigitalPort_t DigitalActuators[SJC_OUTPUTS_SIZE];
 } xSjcJoint_t;
+
+typedef struct
+{
+    uint8_t address;
+    uint32_t baudrate;
+    char parity;
+} xSjcNetworkInfo_t;
 // ------------------------------------------------------------------- //
 
 

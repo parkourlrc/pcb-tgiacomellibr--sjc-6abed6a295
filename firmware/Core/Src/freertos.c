@@ -104,8 +104,7 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
   */
 void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN Init */
-	SJC_InitOsTasks();
-	return;
+
   /* USER CODE END Init */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -148,11 +147,13 @@ void MX_FREERTOS_Init(void) {
 __weak void MainTaskApp(void *argument)
 {
   /* USER CODE BEGIN MainTaskApp */
+
   /* Infinite loop */
-//  for(;;)
-//  {
-//    osDelay(1);
-//  }
+	for(;;)
+	{
+		osDelay(1);
+	}
+	return;
   /* USER CODE END MainTaskApp */
 }
 
