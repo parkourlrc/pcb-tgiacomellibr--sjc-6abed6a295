@@ -22,10 +22,10 @@ public:
     eSjcReturnType_t connect(void);
     eSjcReturnType_t disconnect(void);
 
-    eSjcReturnType_t getDeviceInfo(void);
-	eSjcReturnType_t getRuntimeInfo(void);
+    eSjcReturnType_t getDeviceInfo(xSjcDeviceInfo_t * info);
+	eSjcReturnType_t getRuntimeInfo(xSjcRuntimeInfo_t * info);
 
-	eSjcReturnType_t getNetworkParameters(void);
+	eSjcReturnType_t getNetworkParameters(xSjcNetworkInfo_t * info);
     eSjcReturnType_t setNetworkParameters(void);
 
 	eSjcReturnType_t getActuatorParameters(void);

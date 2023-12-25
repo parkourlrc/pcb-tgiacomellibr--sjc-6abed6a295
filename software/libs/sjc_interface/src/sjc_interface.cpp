@@ -5,7 +5,8 @@ extern "C"
 {
 #include "errno.h"
 #include "unistd.h"
-#include "base/include/network_configs.h"
+#include "network_configs.h"
+#include "helpers.h"
 }
 #endif
 
@@ -52,49 +53,78 @@ eSjcReturnType_t SjcInterface::disconnect(void)
     return SJC_DISCONNECTED;
 }
 
-eSjcReturnType_t SjcInterface::getDeviceInfo(void)
+eSjcReturnType_t SjcInterface::getDeviceInfo(xSjcDeviceInfo_t * info)
 {
-    const int nb = 1 - REG_INPUT_HW_VERSION + REG_INPUT_FW_VERSION;
+    const int nb = 3;
     uint16_t tab_reg[nb];
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_START + REG_INPUT_HW_VERSION, nb, tab_reg))
     {
+        info->firmware_ver.major = tab_reg[REG_INPUT_FW_VERSION - DEVICE_INFO_OFFSET] >> 8;                
+        info->firmware_ver.minor = tab_reg[REG_INPUT_FW_VERSION - DEVICE_INFO_OFFSET+1] & 0x00ff;                
+        info->firmware_ver.patch = tab_reg[REG_INPUT_FW_VERSION+1 - DEVICE_INFO_OFFSET];
+        
+        info->hardware_ver.major = tab_reg[REG_INPUT_HW_VERSION - DEVICE_INFO_OFFSET] >> 8;                
+        info->hardware_ver.minor = tab_reg[REG_INPUT_HW_VERSION - DEVICE_INFO_OFFSET] & 0x00ff;                
 
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
 }
 
-eSjcReturnType_t SjcInterface::getRuntimeInfo(void)
+eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t * info)
 {
-    const int nb = 1 - REG_INPUT_SYSTEM_UPTIME + REG_INPUT_SYSTEM_ERROR_FLAGS;
-    uint16_t tab_reg[nb];
+    const int nb = 19;
+    uint16_t tab_reg[nb];    
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_START + REG_INPUT_SYSTEM_UPTIME, nb, tab_reg))
     {
+        compose_ui32_from_byte_array(&tab_reg[REG_INPUT_SYSTEM_UPTIME - DEVICE_RUNTIME_OFFSET], &info->uptime);
+
+        info->controller_mode = tab_reg[REG_INPUT_CONTROL_MODE - DEVICE_RUNTIME_OFFSET];
+        compose_float_from_byte_array(&tab_reg[REG_INPUT_CONTROL_ERROR - DEVICE_RUNTIME_OFFSET], &info->controller_error);
+        compose_float_from_byte_array(&tab_reg[REG_INPUT_CONTROL_MODE - DEVICE_RUNTIME_OFFSET], &info->controller_ref);
+
+        compose_float_from_byte_array(&tab_reg[REG_INPUT_ACTUATOR_DISPLACEMENT - DEVICE_RUNTIME_OFFSET], &info->actuator_displacement);
+        compose_float_from_byte_array(&tab_reg[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT - DEVICE_RUNTIME_OFFSET], &info->aux_A_displacement);
+        compose_float_from_byte_array(&tab_reg[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT - DEVICE_RUNTIME_OFFSET], &info->aux_B_displacement);
+
+        info->actuator_displacement = tab_reg[REG_INPUT_ACTUATOR_OUTPUT_VOLTAGE - DEVICE_RUNTIME_OFFSET];
+        info->aux_A_displacement = tab_reg[REG_INPUT_ACTUATOR_CURRENT - DEVICE_RUNTIME_OFFSET];
+
+        info->digital_inputs = tab_reg[REG_INPUT_DIGITAL_INPUTS - DEVICE_RUNTIME_OFFSET];
+        info->digital_outputs = tab_reg[REG_INPUT_DIGITAL_OUTPUTS - DEVICE_RUNTIME_OFFSET];
+
+        info->system_voltage = tab_reg[REG_INPUT_SYSTEM_VOLTAGE - DEVICE_RUNTIME_OFFSET];
+        
+        info->error_flags = tab_reg[REG_INPUT_SYSTEM_ERROR_FLAGS - DEVICE_RUNTIME_OFFSET];        
 
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
 }
 
-eSjcReturnType_t SjcInterface::getNetworkParameters(void)
+eSjcReturnType_t SjcInterface::getNetworkParameters(xSjcNetworkInfo_t * info)
 {
-    const int nb = 1 - REG_INPUT_NETWORK_ADDRESS + REG_INPUT_NETWORK_PARITY;
+    const int nb = 4;
     uint16_t tab_reg[nb];
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_START + REG_INPUT_NETWORK_ADDRESS, nb, tab_reg))
     {
-
+        info->address = tab_reg[REG_INPUT_NETWORK_ADDRESS - NETWORK_INFO_OFFSET];
+        info->parity = tab_reg[REG_INPUT_NETWORK_PARITY - NETWORK_INFO_OFFSET];
+        // compose_ui32_from_byte_array(&tab_reg[REG_INPUT_NETWORK_BAUD_RATE - NETWORK_INFO_OFFSET], &info->baudrate);        
+        info->baudrate = tab_reg[REG_INPUT_NETWORK_BAUD_RATE - NETWORK_INFO_OFFSET] << 16 | tab_reg[REG_INPUT_NETWORK_BAUD_RATE - NETWORK_INFO_OFFSET + 1];
+        
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
@@ -115,7 +145,7 @@ eSjcReturnType_t SjcInterface::getActuatorParameters(void)
 
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
@@ -136,7 +166,7 @@ eSjcReturnType_t SjcInterface::getControllerParameters(void)
 
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
@@ -157,7 +187,7 @@ eSjcReturnType_t SjcInterface::getSensorsParameters(void)
 
         return SJC_RET_OK;
     }
-    else 
+    else
     {
         return SJC_RET_NOK;
     }
@@ -199,7 +229,7 @@ eSjcReturnType_t SjcInterface::release(void)
 eSjcReturnType_t SjcInterface::getInputRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table)
 {
     int rc;
-            
+
     try
     {
         rc = modbus_read_input_registers(ctx, initial_reg, num_of_registers, reg_table);
@@ -227,7 +257,7 @@ eSjcReturnType_t SjcInterface::getInputRegisters(const int initial_reg, const in
 eSjcReturnType_t SjcInterface::getHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table)
 {
     int rc;
-            
+
     try
     {
         rc = modbus_read_registers(ctx, initial_reg, num_of_registers, reg_table);
@@ -255,7 +285,7 @@ eSjcReturnType_t SjcInterface::getHoldingRegisters(const int initial_reg, const 
 eSjcReturnType_t SjcInterface::setHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table)
 {
     int rc;
-            
+
     try
     {
         rc = modbus_write_registers(ctx, initial_reg, num_of_registers, reg_table);

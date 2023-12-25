@@ -5,9 +5,15 @@
 #include <string>
 #include <chrono>
 
+#ifdef __cplusplus
+extern "C"
+{
+#include "helpers.h"
+}
+#endif
+
 int main(int argc, char *argv[])
 {
-
     std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
     std::cout << "- SJC debug initialization" << std::endl;
     std::cout << "----------------------------------------------------------------------------------" << std::endl;
@@ -58,38 +64,89 @@ int main(int argc, char *argv[])
         {
             static int cycle;
 
+            xSjcRuntimeInfo_t RuntimeInfo;
+            xSjcDeviceInfo_t DeviceInfo;
+            xSjcNetworkInfo_t NetworkInfo;
+
+            system("clear");
             const auto start = std::chrono::steady_clock::now();
 
-            if (SJC_RET_OK == Sjc.getRuntimeInfo())
-            // if (SJC_RET_OK == Sjc.getDeviceInfo())
+            std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
+            std::cout << "- Cycle: " << cycle++ << std::endl;
+            std::cout << "----------------------------------------------------------------------------------" << std::endl;
+            if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))
             {
-                const auto end = std::chrono::steady_clock::now();
-
-                system("clear");
-
-                std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
-                std::cout << "- Cycle: " << cycle++ << std::endl;
-                std::cout << "----------------------------------------------------------------------------------" << std::endl;
-
-                // Modbus Address
-                uint32_t net_addr = std::stoi(address.c_str());
-                std::cout << "\n\rNetwork Address: " << net_addr << std::endl;
-                const std::chrono::duration<double> diff = end - start;               
-
-                std::cout << "It took me " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms.";
-
-                // Evse.setChargeDisable();
-                usleep(100e3);
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Fw version: ";
+                std::cout.operator<<(DeviceInfo.firmware_ver.major);  
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.firmware_ver.minor);  
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.firmware_ver.patch);  
+                std::cout << " - Hw version: ";
+                std::cout.operator<<(DeviceInfo.hardware_ver.major);  
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.hardware_ver.minor);  
+                std::cout << std::endl;
             }
             else
             {
                 usleep(10e6);
-                std::cout << "Communication failed! \nPlease check the modbuss slave address..." << std::endl;
+                std::cout << "Device info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
             }
 
-            std::cout << "\n----------------------------------------------------------------------------------" << std::endl;
+            if (SJC_RET_OK == Sjc.getNetworkParameters(&NetworkInfo))
+            {
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Address: ";
+                std::cout.operator<<(NetworkInfo.address);  
+                std::cout << " - Parity: " << NetworkInfo.parity;
+                std::cout << " - Baudrate: ";
+                std::cout.operator<<(NetworkInfo.baudrate);  
+                std::cout << " bps" << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Network info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
 
-        } while (1);
+            if (SJC_RET_OK == Sjc.getRuntimeInfo(&RuntimeInfo))
+            {
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "uptime: " << RuntimeInfo.uptime << " ms." << std::endl;
+                std::cout << "Input Voltage: " << RuntimeInfo.system_voltage << " V" << std::endl;
+                std::cout << "Error flags: " << RuntimeInfo.error_flags << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Ctrl. Mode: " << RuntimeInfo.controller_mode << std::endl;
+                std::cout << "Ctrl. Ref.: " << RuntimeInfo.controller_ref << std::endl;
+                std::cout << "Ctrl. Error: " << RuntimeInfo.controller_error << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Jnt. Dp.: " << RuntimeInfo.actuator_displacement << " rd" << std::endl;
+                std::cout << "Aux A. Dp.: " << RuntimeInfo.aux_A_displacement << " rd" << std::endl;
+                std::cout << "Aux B. Dp.: " << RuntimeInfo.aux_B_displacement << " rd" << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Jnt. Voltage: " << RuntimeInfo.actuator_output_voltage << " V" << std::endl;
+                std::cout << "Jnt. Current: " << RuntimeInfo.actuator_current << " A" << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Dig. Inputs: " << RuntimeInfo.digital_inputs << std::endl;
+                std::cout << "Dig. Outputs: " << RuntimeInfo.digital_outputs << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Runtime info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
+
+            const auto end = std::chrono::steady_clock::now();
+            const std::chrono::duration<double> diff = end - start;
+            std::cout << "Com. time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms." << std::endl;
+            std::cout << "----------------------------------" << std::endl;
+            usleep(1e6);
+            std::cout << "\n----------------------------------------------------------------------------------" << std::endl;
+        }
+        while (1);
     }
     Sjc.~SjcInterface();
 
