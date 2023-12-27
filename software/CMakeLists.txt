@@ -56,7 +56,11 @@ target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}
 set(PROJECT_SRCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(PROJECT_INCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_executable(sjc_debug ${PROJECT_SRCS_DIR}/sjc_debug.cpp )
-target_link_libraries(sjc_debug PUBLIC modbus sjc_interface)
-target_include_directories(sjc_debug PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
+add_executable(sjc_read_test ${PROJECT_SRCS_DIR}/sjc_read_registers.cpp )
+target_link_libraries(sjc_read_test PUBLIC modbus sjc_interface)
+target_include_directories(sjc_read_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
+
+add_executable(sjc_write_test ${PROJECT_SRCS_DIR}/sjc_write_registers.cpp )
+target_link_libraries(sjc_write_test PUBLIC modbus sjc_interface)
+target_include_directories(sjc_write_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
 # ------------------------------------------------------------------------------------------------- #
