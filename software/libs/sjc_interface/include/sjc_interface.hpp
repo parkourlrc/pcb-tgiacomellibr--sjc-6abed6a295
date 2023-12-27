@@ -1,5 +1,5 @@
-#ifndef _ZLETRIC_EVSE_INTERFACE_H_
-#define _ZLETRIC_EVSE_INTERFACE_H_
+#ifndef _SJC_INTERFACE_H_
+#define _SJC_INTERFACE_H_
 
 #ifdef __cplusplus
 extern "C"
@@ -49,4 +49,4 @@ private:
     eSjcReturnType_t getInputRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table);
     eSjcReturnType_t setHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table);
 };
-#endif // _ZLETRIC_EVSE_INTERFACE_H_
+#endif // _SJC_INTERFACE_H_
