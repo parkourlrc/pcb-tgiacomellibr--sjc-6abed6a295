@@ -285,7 +285,7 @@ eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Paramete
 }
 
 
-void SJC_GetCommands(void)
+void SJC_ExecuteNetworkCommands(void)
 {
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
@@ -296,7 +296,7 @@ void SJC_GetCommands(void)
 	Net_ExecuteControllerParametersUpdateCmd();
 }
 
-void SJC_SetDataRegisters(void)
+void SJC_UpdateNetworkDataRegisters(void)
 {
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
@@ -364,6 +364,13 @@ eSjcReturnType_t SJC_SetJointActuatorVoltage(float voltage)
 	return ret;
 }
 
+eSjcReturnType_t SJC_GetJointDisplacementRadians(float * disp)
+{
+	eSjcReturnType_t ret = SJC_Encoder_GetLastDisplacementRadians(&xSjcJoint[SJC_ACTUATOR_JOINT].Encoder, disp);
+
+	return ret;
+}
+
 eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t * freq)
 {
 	*freq = xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.PWM.Frequency;
@@ -382,12 +389,8 @@ eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value)
 
 eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t * states)
 {
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadInputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors);
-	*states = 0;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[SJC_JOINT_SWITCH_A].State << SJC_JOINT_SWITCH_A;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[SJC_JOINT_SWITCH_B].State << SJC_JOINT_SWITCH_B;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[SJC_ISOLATED_INPUT_A].State << SJC_ISOLATED_INPUT_A;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[SJC_ISOLATED_INPUT_B].State << SJC_ISOLATED_INPUT_B;
+	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadInputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors, states);
+
 	return ret;
 }
 
@@ -466,6 +469,7 @@ void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJ
 		JointObject[SJC_ACTUATOR_JOINT].Limits.Voltage.Min = -SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
 
 		SJC_Actuator_Init(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, PWM_FREQ_20kHz, 24.0);
+//		SJC_Actuator_Init(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, PWM_FREQ_16kHz, 24.0);
 	}
 }
 
@@ -569,7 +573,7 @@ void Net_UpdateSensorsParametersRegisters(void)
 
 void Net_UpdateActuatorParametersRegisters(void)
 {
-	uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed));
+	uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max));
 	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED+1] = ui16ptr[0];
 	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.BaseVoltage*100.0f;

@@ -105,19 +105,30 @@ void SystemTaskApp(void *argument) {
 	uint32_t timestamp;
 	uint32_t cycle = 0;
 
+	SJC_EnableJointActuators();
+
+
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
 		if (osOK == osMutexAcquire(DataMutexHandle, SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			SJC_Network_Update();
-			SJC_GetCommands();
-			SJC_SetDataRegisters();
+			SJC_ExecuteNetworkCommands();
+			SJC_UpdateNetworkDataRegisters();
+
+			// temp
+			// --------------------------------------------------------------------------------------------
+			float ref;
+			SJC_GetControlReference(&ref);
+			SJC_SetJointActuatorVoltage(ref);
+			// --------------------------------------------------------------------------------------------
+
 			osMutexRelease(DataMutexHandle);
 
 			SJC_GetTime(SJC_TIME_MS, &timestamp);
 
-			if (++cycle % 500 == 0)
+			if (++cycle % 100 == 0)
 			{
 				SJC_DebugOutput_printf("\n\r[OS] System controller (%lu ms)", timestamp);
 				SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);

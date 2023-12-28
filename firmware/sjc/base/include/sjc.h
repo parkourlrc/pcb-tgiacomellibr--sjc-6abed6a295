@@ -19,8 +19,8 @@ eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
 
 
-void SJC_GetCommands(void);
-void SJC_SetDataRegisters(void);
+void SJC_ExecuteNetworkCommands(void);
+void SJC_UpdateNetworkDataRegisters(void);
 
 eSjcReturnType_t SJC_InitAdc(uint32_t *buffer, const uint32_t buffer_size);
 eSjcReturnType_t SJC_EnableAdc(void);
@@ -30,6 +30,9 @@ eSjcReturnType_t SJC_EnableJointActuators(void);
 eSjcReturnType_t SJC_DisableJointActuators(void);
 eSjcReturnType_t SJC_GetJointActuatorState(const eSjcJoints_t sel, bool * state);
 eSjcReturnType_t SJC_SetJointActuatorVoltage(float voltage);
+
+eSjcReturnType_t SJC_GetJointDisplacementRadians(float * disp);
+
 eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t *freq);
 eSjcReturnType_t SJC_SetJointActuatorFilteredPsuVoltage(const float value);
 eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value);
@@ -44,14 +47,14 @@ eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const
 
 eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t * config);
 eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config);
-eSjcReturnType_t SJC_GetControlReference(float * reference);
-eSjcReturnType_t SJC_SetControlReference(const float reference);
 eSjcReturnType_t SJC_GetControlError(float * controller_error);
 eSjcReturnType_t SJC_SetControlError(const float controller_error);
+eSjcReturnType_t SJC_GetControlReference(float * reference);
+eSjcReturnType_t SJC_SetControlReference(const float reference);
+eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters);
+eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters);
 eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config);
 eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config);
 eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config);
-eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters);
-eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters);
 
 #endif /* SJC__MODULES__SYSTEM_PARAMETERS_H_ */

@@ -125,12 +125,26 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(xSjcDigitalPort_t *Inter
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(xSjcDigitalPort_t *Interfaces)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(xSjcDigitalPort_t *Interfaces, uint16_t * states)
 {
-	Interfaces[SJC_ISOLATED_INPUT_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_A].Port, Interfaces[SJC_ISOLATED_INPUT_A].Pin);
-	Interfaces[SJC_ISOLATED_INPUT_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_A].Port, Interfaces[SJC_ISOLATED_INPUT_A].Pin);
-	Interfaces[SJC_JOINT_SWITCH_A].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_A].Port, Interfaces[SJC_JOINT_SWITCH_A].Pin);
-	Interfaces[SJC_JOINT_SWITCH_B].State = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_B].Port, Interfaces[SJC_JOINT_SWITCH_B].Pin);
+	*states = 0;
+
+	bool pin_state = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_A].Port, Interfaces[SJC_ISOLATED_INPUT_A].Pin);
+	Interfaces[SJC_ISOLATED_INPUT_A].State = pin_state;
+	*states |= ( pin_state <<  SJC_ISOLATED_INPUT_A );
+
+	pin_state = LL_GPIO_IsInputPinSet(Interfaces[SJC_ISOLATED_INPUT_B].Port, Interfaces[SJC_ISOLATED_INPUT_B].Pin);
+	Interfaces[SJC_ISOLATED_INPUT_B].State = pin_state;
+	*states |= ( pin_state <<  SJC_ISOLATED_INPUT_B );
+
+	pin_state = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_A].Port, Interfaces[SJC_JOINT_SWITCH_A].Pin);
+	Interfaces[SJC_JOINT_SWITCH_A].State = pin_state;
+	*states |= ( pin_state <<  SJC_JOINT_SWITCH_A );
+
+	pin_state = LL_GPIO_IsInputPinSet(Interfaces[SJC_JOINT_SWITCH_B].Port, Interfaces[SJC_JOINT_SWITCH_B].Pin);
+	Interfaces[SJC_JOINT_SWITCH_B].State = pin_state;
+	*states |= ( pin_state <<  SJC_JOINT_SWITCH_B );
+
 	return SJC_RET_OK;
 }
 

@@ -17,7 +17,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(xSjcDigitalPort_t *Interf
 eSjcReturnType_t SJC_DigitalInterfaces_ToggleOutputState(xSjcDigitalPort_t *Interface);
 eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(xSjcDigitalPort_t *Interface, const bool state);
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(xSjcDigitalPort_t *Interfaces);
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(xSjcDigitalPort_t *Interfaces, uint16_t * states);
 eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(xSjcDigitalPort_t *Interfaces);
 eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputStates(xSjcDigitalPort_t *Interface, const uint8_t states);
 
