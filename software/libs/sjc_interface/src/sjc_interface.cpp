@@ -99,12 +99,12 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
 
         uint16_t digital_inputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_INPUTS, RUNTIME_INFO_OFFSET)];
         uint16_t digital_outputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_OUTPUTS, RUNTIME_INFO_OFFSET)];
-        config->inputs.switchA = digital_inputs & switchA_msk;
-        config->inputs.switchB = digital_inputs & switchB_msk;
-        config->inputs.iso_inputA = digital_inputs & iso_inputA_msk;
-        config->inputs.iso_inputB = digital_inputs & iso_inputB_msk;
-        config->outputs.outputA = digital_outputs & outputA_msk;
-        config->outputs.outputB = digital_outputs & outputB_msk;
+        config->inputs.switchA = digital_inputs & (1 << switchA_msk);
+        config->inputs.switchB = digital_inputs & (1 << switchB_msk);
+        config->inputs.iso_inputA = digital_inputs & (1 << iso_inputA_msk);
+        config->inputs.iso_inputB = digital_inputs & (1 << iso_inputB_msk);
+        config->outputs.outputA = digital_outputs & (1 << outputA_msk);
+        config->outputs.outputB = digital_outputs & (1 << outputB_msk);
 
         config->error_flags = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_ERROR_FLAGS, RUNTIME_INFO_OFFSET)];
 
