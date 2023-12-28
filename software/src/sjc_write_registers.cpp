@@ -71,25 +71,27 @@ int main(int argc, char *argv[])
             xSjcActuatorConfig_t xActuatorConfig;
             xSjcOutputsStates_t xOutputsStateConfig;
             xSjcControllerConfig_t xControllerConfig;
+            xSjcControllerParameters_t xControllerParameters;
 
             system("clear");
-            const auto start = std::chrono::steady_clock::now();
+            // const auto start = std::chrono::steady_clock::now();
 
             std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
-            
+
             xNetworkConfig.address = NETWORK_BASE_ADRESS;
             xNetworkConfig.parity = 'N';
             xNetworkConfig.baudrate = NETWORK_BAUD_RATE;
 
             std::cout << "Network config: " << std::endl;
             std::cout << " * Address: " << std::to_string(xNetworkConfig.address);
-            std::cout << " - Parity: " << xNetworkConfig.parity;            
-            std::cout << " - Baudrate: " << xNetworkConfig.baudrate << " bps" << std::endl;            
+            std::cout << " - Parity: " << xNetworkConfig.parity;
+            std::cout << " - Baudrate: " << xNetworkConfig.baudrate << " bps" << std::endl;
             if (SJC_RET_OK == Sjc.setNetworkParameters(xNetworkConfig))
             {
                 std::cout << " <|> Network parameters setted" << std::endl;
+                usleep(500e3);
             }
             else
             {
@@ -104,16 +106,17 @@ int main(int argc, char *argv[])
             xActuatorConfig.current_limit = 9.8;
             xActuatorConfig.speed_limit = 1.0;
 
-            std::cout << "Controller config: " << std::endl;
-            std::cout << " * State: " << ( (xActuatorConfig.state > 0) ? "En" : "Dis" );
+            std::cout << "Actuator config: " << std::endl;
+            std::cout << " * State: " << ((xActuatorConfig.state > 0) ? "En" : "Dis");
             std::cout << " - Base Voltage: " << xActuatorConfig.base_voltage << " V";
             std::cout << " - Voltage limit: " << xActuatorConfig.voltage_limit << " V";
             std::cout << " - Current limit: " << xActuatorConfig.current_limit << " A";
             std::cout << " - Speed limit: " << xActuatorConfig.speed_limit << " rd/s" << std::endl;
-            
+
             if (SJC_RET_OK == Sjc.setActuatorParameters(xActuatorConfig))
             {
                 std::cout << " <|> Actuator parameters setted" << std::endl;
+                usleep(500e3);
             }
             else
             {
@@ -122,18 +125,19 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 2048;
-            xSensorsConfig.auxA_sensor_res_ppr= 2048;
-            xSensorsConfig.auxB_sensor_res_ppr= 2048;
+            xSensorsConfig.actuator_sensor_res_ppr = 2048*4;
+            xSensorsConfig.auxA_sensor_res_ppr = 2048*4;
+            xSensorsConfig.auxB_sensor_res_ppr = 2048*4;
 
             std::cout << "Sensors config: " << std::endl;
-            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr*4 << " ppr (Quad.)";
-            std::cout << " - Aux A resolution: " << xSensorsConfig.auxA_sensor_res_ppr*4 << " ppr (Quad.)";
-            std::cout << " - Aux B resolution: " << xSensorsConfig.auxA_sensor_res_ppr*4 << " ppr (Quad.)" << std::endl;
-            
+            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr (Quad.)";
+            std::cout << " - Aux A resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr (Quad.)";
+            std::cout << " - Aux B resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr (Quad.)" << std::endl;
+
             if (SJC_RET_OK == Sjc.setSensorsParameters(xSensorsConfig))
             {
                 std::cout << " <|> Sensors parameters setted" << std::endl;
+                usleep(500e3);
             }
             else
             {
@@ -142,29 +146,68 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xControllerConfig.kp_parameter = 1.0;
-            xControllerConfig.ki_parameter = 0.0;
-            xControllerConfig.kd_parameter = 1000.0;
-            xControllerConfig.aux1_parameter = 10000.0;
-            xControllerConfig.aux2_parameter = 30000.0;
-            xControllerConfig.rate_parameter = 50000.0;
+            xControllerParameters.kp_parameter = 1.0;
+            xControllerParameters.ki_parameter = 0.0;
+            xControllerParameters.kd_parameter = 1000.0;
+            xControllerParameters.aux1_parameter = 10000.0;
+            xControllerParameters.aux2_parameter = 30000.0;
+            xControllerParameters.rate_parameter = 500.0;
 
-            std::cout << "Controller config: " << std::endl;
-            std::cout << " * Kp: "   << xControllerConfig.kp_parameter;
-            std::cout << " - Ki: "   << xControllerConfig.ki_parameter;
-            std::cout << " - Kd: "   << xControllerConfig.kd_parameter;
-            std::cout << " - Aux1: " << xControllerConfig.aux1_parameter;
-            std::cout << " - Aux2: " << xControllerConfig.aux2_parameter;
-            std::cout << " - Rate: " << xControllerConfig.rate_parameter << std::endl;
-            
-            if (SJC_RET_OK == Sjc.setControllerParameters(xControllerConfig))
+            std::cout << "Controller parameters: " << std::endl;
+            std::cout << " * Kp: " << xControllerParameters.kp_parameter;
+            std::cout << " - Ki: " << xControllerParameters.ki_parameter;
+            std::cout << " - Kd: " << xControllerParameters.kd_parameter;
+            std::cout << " - Aux1: " << xControllerParameters.aux1_parameter;
+            std::cout << " - Aux2: " << xControllerParameters.aux2_parameter;
+            std::cout << " - Rate: " << xControllerParameters.rate_parameter << std::endl;
+
+            if (SJC_RET_OK == Sjc.setControllerParameters(xControllerParameters))
             {
-                std::cout << " <|> Sensors parameters setted" << std::endl;
+                std::cout << " <|> Controller parameters setted" << std::endl;
+                usleep(500e3);
             }
             else
             {
                 usleep(10e6);
-                std::cout << " <|> Sensors parameters not set! \nPlease check the modbuss slave address..." << std::endl;
+                std::cout << " <|> Controller parameters not set! \nPlease check the modbuss slave address..." << std::endl;
+            }
+            std::cout << "----------------------------------" << std::endl;
+
+            xControllerConfig.controller_ref = 5.0;
+            xControllerConfig.controller_mode_update = SJC_OPEN_LOOP_CONTROL;
+
+            std::cout << "Controller config: " << std::endl;
+            std::cout << " * Mode: ";
+            switch (xControllerConfig.controller_mode_update)
+            {
+            case SJC_OPEN_LOOP_CONTROL:
+                std::cout << "Open loop";
+                break;
+            case SJC_PRBS_EXCITATION:
+                std::cout << "PRBS Excitation";
+                break;
+            case SJC_SPEED_CONTROL:
+                std::cout << "Speed control";
+                break;
+            case SJC_TORQUE_CONTROL:
+                std::cout << "Torque control";
+                break;
+
+            default: // SJC_CONTROL_DISABLED
+                std::cout << "Control disabled";
+                break;
+            }
+            std::cout << " - Ref: " << xControllerConfig.controller_ref << std::endl;
+
+            if (SJC_RET_OK == Sjc.setControllerConfig(xControllerConfig))
+            {
+                std::cout << " <|> Controller configs setted" << std::endl;
+                usleep(500e3);
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << " <|> Controller configs not set! \nPlease check the modbuss slave address..." << std::endl;
             }
             std::cout << "----------------------------------" << std::endl;
 
@@ -172,12 +215,13 @@ int main(int argc, char *argv[])
             xOutputsStateConfig.outputB = true;
 
             std::cout << "Digital outputs: " << std::endl;
-            std::cout << " * OutA: "   << std::to_string(xOutputsStateConfig.outputA);
-            std::cout << " - OutB: "   << std::to_string(xOutputsStateConfig.outputB);
-            
+            std::cout << " * OutA: " << std::to_string(xOutputsStateConfig.outputA);
+            std::cout << " - OutB: " << std::to_string(xOutputsStateConfig.outputB);
+
             if (SJC_RET_OK == Sjc.setDigitalOutputsStates(xOutputsStateConfig))
             {
                 std::cout << " <|> Digital outputs stated setted" << std::endl;
+                usleep(500e3);
             }
             else
             {
@@ -186,11 +230,11 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            const auto end = std::chrono::steady_clock::now();
-            const std::chrono::duration<double> diff = end - start;
-            std::cout << "Com. time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms." << std::endl;
-            std::cout << "----------------------------------" << std::endl;
-            usleep(1e6);
+            // const auto end = std::chrono::steady_clock::now();
+            // const std::chrono::duration<double> diff = end - start;
+            // std::cout << "Com. time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms." << std::endl;
+            // std::cout << "----------------------------------" << std::endl;
+            // usleep(1e6);
             std::cout << "\n----------------------------------------------------------------------------------" << std::endl;
         }
     }

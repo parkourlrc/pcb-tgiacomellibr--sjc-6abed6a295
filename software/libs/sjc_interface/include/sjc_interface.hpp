@@ -23,6 +23,8 @@ public:
 
     eSjcReturnType_t getDeviceInfo(xSjcDeviceInfo_t *config);
     eSjcReturnType_t getRuntimeInfo(xSjcRuntimeInfo_t *config);
+    eSjcReturnType_t setControllerConfig(xSjcControllerConfig_t config);
+
 
     eSjcReturnType_t getNetworkParameters(xSjcNetworkConfig_t *config);
     eSjcReturnType_t setNetworkParameters(const xSjcNetworkConfig_t config);
@@ -30,8 +32,8 @@ public:
     eSjcReturnType_t getActuatorParameters(xSjcActuatorConfig_t *config);
     eSjcReturnType_t setActuatorParameters(const xSjcActuatorConfig_t config);
 
-    eSjcReturnType_t getControllerParameters(xSjcControllerConfig_t *config);
-    eSjcReturnType_t setControllerParameters(const xSjcControllerConfig_t config);
+    eSjcReturnType_t getControllerParameters(xSjcControllerParameters_t *config);
+    eSjcReturnType_t setControllerParameters(const xSjcControllerParameters_t config);
 
     eSjcReturnType_t getSensorsParameters(xSjcSensorsConfig_t *config);
     eSjcReturnType_t setSensorsParameters(const xSjcSensorsConfig_t config);

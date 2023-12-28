@@ -129,9 +129,24 @@ typedef struct {
 } xControllerParameters_t;
 
 typedef struct {
+	float Derivative;
+	float Proportional;
+	float Integral;
+	float Error;
+} xControllerErrors_t;
+
+typedef struct {
+	float Rate;
+	float Reference;
+	eSjcControlMode_t Mode;
+	xControllerErrors_t Errors;
+	xControllerParameters_t Parameters;
+} xSjcController_t;
+
+typedef struct {
 	xSjcRange_t Speed;
-	xSjcRange_t OutputCurrent;
-	xSjcRange_t OutputVoltage;
+	xSjcRange_t Current;
+	xSjcRange_t Voltage;
 } xSjcActuatorLimits_t;
 
 typedef struct {
@@ -169,21 +184,6 @@ typedef struct {
 } xSjcActuator_t;
 
 typedef struct {
-	float Derivative;
-	float Proportional;
-	float Integral;
-	float Error;
-} xControllerErrors_t;
-
-typedef struct {
-	uint32_t Rate;
-	float Reference;
-	eSjcControlMode_t Mode;
-	xControllerErrors_t Errors;
-	xControllerParameters_t Parameters;
-} xSjcController_t;
-
-typedef struct {
 	float Speed;
 	xSjcEncoder_t Encoder;
 	xSjcActuator_t Actuator;
@@ -197,10 +197,10 @@ typedef struct {
 
 typedef struct
 {
-    uint8_t address;
-    uint32_t baudrate;
-    char parity;
-} xSjcNetworkInfo_t;
+    uint16_t Address;
+    uint32_t Baudrate;
+    char Parity;
+} xSjcNetworkConfig_t;
 // ------------------------------------------------------------------- //
 
 

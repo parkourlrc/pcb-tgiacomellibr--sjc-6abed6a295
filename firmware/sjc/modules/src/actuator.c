@@ -57,7 +57,7 @@ void SJC_Actuator_Init(xSjcActuator_t * Actuator, eSjcPwmBaseFreq_t BaseFrequenc
 
 	SJC_Actuator_SetBaseVoltage(Actuator, BaseVoltage);
 
-	SJC_Actuator_SetOutputVoltage(Actuator, 0.0f);
+	SJC_Actuator_SetVoltage(Actuator, 0.0f);
 }
 
 float SJC_Actuator_GetBaseVoltage(xSjcActuator_t * Actuator)
@@ -80,7 +80,7 @@ void SJC_Actuator_Enable(xSjcActuator_t * Actuator)
 
 	SJC_PWM_Enable(&Actuator->PWM);
 
-	SJC_Actuator_SetOutputVoltage(Actuator, 0.0f);
+	SJC_Actuator_SetVoltage(Actuator, 0.0f);
 
 	Actuator->DriverPort.State = false;
 
@@ -89,7 +89,7 @@ void SJC_Actuator_Enable(xSjcActuator_t * Actuator)
 
 void SJC_Actuator_Disable(xSjcActuator_t * Actuator)
 {
-	SJC_Actuator_SetOutputVoltage(Actuator, 0.0f);
+	SJC_Actuator_SetVoltage(Actuator, 0.0f);
 
 	SJC_PWM_Disable(&Actuator->PWM);
 
@@ -105,12 +105,12 @@ float SJC_Actuator_GetPowerSupplyState(void)
 	return 0.0f;
 }
 
-float SJC_Actuator_GetOutputVoltage(xSjcActuator_t * Actuator)
+float SJC_Actuator_GetVoltage(xSjcActuator_t * Actuator)
 {
 	return Actuator->OutputVoltage;
 }
 
-float SJC_Actuator_SetOutputVoltage(xSjcActuator_t * Actuator, const float voltage)
+float SJC_Actuator_SetVoltage(xSjcActuator_t * Actuator, const float voltage)
 {
 	Actuator->OutputVoltage = SJC_Helpers_RealClamp(voltage, Actuator->OutputVoltageRange.Min, Actuator->OutputVoltageRange.Max);
 
@@ -119,6 +119,45 @@ float SJC_Actuator_SetOutputVoltage(xSjcActuator_t * Actuator, const float volta
 	SJC_PWM_SetDutyCycle(&Actuator->PWM, xPwmDuty);
 
 	return Actuator->OutputVoltage;
+}
+
+float SJC_Actuator_GetVoltageLimit(xSjcActuatorLimits_t * Limits)
+{
+	return Limits->Voltage.Max;
+}
+
+float SJC_Actuator_SetVoltageLimit(xSjcActuatorLimits_t * Limits, const float value)
+{
+	Limits->Voltage.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_VOLTAGE, value);
+	Limits->Voltage.Min = -Limits->Voltage.Max;
+
+	return Limits->Voltage.Max;
+}
+
+float SJC_Actuator_GetCurrentLimit(xSjcActuatorLimits_t * Limits)
+{
+	return Limits->Current.Max;
+}
+
+float SJC_Actuator_SetCurrentLimit(xSjcActuatorLimits_t * Limits, const float value)
+{
+	Limits->Current.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_CURRENT, value);
+	Limits->Current.Min = -Limits->Current.Max;
+
+	return Limits->Current.Max;
+}
+
+float SJC_Actuator_GetSpeedLimit(xSjcActuatorLimits_t * Limits)
+{
+	return Limits->Speed.Max;
+}
+
+float SJC_Actuator_SetSpeedLimit(xSjcActuatorLimits_t * Limits, const float value)
+{
+	Limits->Speed.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_SPEED, value);
+	Limits->Speed.Min = -Limits->Speed.Max;
+
+	return Limits->Speed.Max;
 }
 // ------------------------------------------------------------------- //
 

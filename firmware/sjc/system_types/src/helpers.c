@@ -117,7 +117,6 @@ void compose_byte_array_from_float(const float src, uint16_t *dst)
 	dst[1] = ptr[0];
 }
 
-
 void compose_float_from_byte_array(const uint16_t *src, float *dst)
 {
 	uint16_t *ptr = (uint16_t *)(dst);

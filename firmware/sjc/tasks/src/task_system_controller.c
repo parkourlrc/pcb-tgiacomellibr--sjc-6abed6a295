@@ -8,7 +8,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <task_system_controller.h>
+#include "task_system_controller.h"
 #include "main.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
@@ -110,9 +110,9 @@ void SystemTaskApp(void *argument) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
 		if (osOK == osMutexAcquire(DataMutexHandle, SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
-			SJC_UpdateNetworkRegisters();
 			SJC_Network_Update();
-			SJC_ReadNetworkCommands();
+			SJC_GetCommands();
+			SJC_SetDataRegisters();
 			osMutexRelease(DataMutexHandle);
 
 			SJC_GetTime(SJC_TIME_MS, &timestamp);

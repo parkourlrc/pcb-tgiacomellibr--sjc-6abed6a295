@@ -5,8 +5,8 @@
  *      Author: tiago
  */
 
-#ifndef SJC__MODULES__SYSTEM_PARAMETERS_H_
-#define SJC__MODULES__SYSTEM_PARAMETERS_H_
+#ifndef SJC__BASE__SJC_H_
+#define SJC__BASE__SJC_H_
 
 #include "types.h"
 
@@ -18,32 +18,41 @@ eSjcReturnType_t SJC_SetVersions(void);
 eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
 
-eSjcControlMode_t SJC_GetControlMode(void);
-uint32_t SJC_GetControlUpdateRateHz(void);
-uint32_t SJC_GetControlUpdatePeriodMs(void);
 
-void SJC_ReadNetworkCommands(void);
-void SJC_UpdateNetworkRegisters(void);
+void SJC_GetCommands(void);
+void SJC_SetDataRegisters(void);
 
-eSjcReturnType_t SJC_InitAdc(uint32_t * buffer, const uint32_t buffer_size);
+eSjcReturnType_t SJC_InitAdc(uint32_t *buffer, const uint32_t buffer_size);
 eSjcReturnType_t SJC_EnableAdc(void);
 eSjcReturnType_t SJC_DisableAdc(void);
 
 eSjcReturnType_t SJC_EnableJointActuators(void);
 eSjcReturnType_t SJC_DisableJointActuators(void);
-eSjcReturnType_t SJC_GetJointStates(const eSjcJoints_t sel, xSjcJoint_t * Joint);
+eSjcReturnType_t SJC_GetJointActuatorState(const eSjcJoints_t sel, bool * state);
 eSjcReturnType_t SJC_SetJointActuatorVoltage(float voltage);
-eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t * freq);
+eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t *freq);
 eSjcReturnType_t SJC_SetJointActuatorFilteredPsuVoltage(const float value);
 eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value);
 
-eSjcReturnType_t SJC_ReadDigitalInputs(uint8_t * states);
-eSjcReturnType_t SJC_ReadDigitalOutputs(uint8_t * states);
+eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t *states);
+eSjcReturnType_t SJC_ReadDigitalOutputs(uint16_t *states);
 eSjcReturnType_t SJC_WriteDigitalOutputs(const uint8_t states);
 eSjcReturnType_t SJC_ToggleDigitalOutput(const eSjcDigitalOutputs_t Output);
-eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input, bool * state);
-eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool * state);
+eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input,
+bool *state);
+eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool *state);
 eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state);
 
+eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t * config);
+eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config);
+eSjcReturnType_t SJC_GetControlReference(float * reference);
+eSjcReturnType_t SJC_SetControlReference(const float reference);
+eSjcReturnType_t SJC_GetControlError(float * controller_error);
+eSjcReturnType_t SJC_SetControlError(const float controller_error);
+eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config);
+eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config);
+eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config);
+eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters);
+eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters);
 
 #endif /* SJC__MODULES__SYSTEM_PARAMETERS_H_ */

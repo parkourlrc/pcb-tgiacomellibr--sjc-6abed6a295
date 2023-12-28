@@ -60,57 +60,21 @@ void InitJointTimers(void);
 void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJoint_t * JointObject);
 
 // Input registers update process ------------------------------------ //
-void write_system_uptime_reg(const uint32_t uptime);
-void write_system_voltage_reg(const float voltage);
-void write_system_error_flags_reg(const uint16_t flags);
-
-void write_control_mode_reg(const eSjcControlMode_t mode);
-void write_control_rate_reg(const uint16_t rate);
-void write_control_error_reg(const float error);
-void write_control_reference_reg(const float reference);
-
-void write_control_setup_Kp_reg(const float value);
-void write_control_setup_Ki_reg(const float value);
-void write_control_setup_Kd_reg(const float value);
-void write_control_setup_Aux1_reg(const float value);
-void write_control_setup_Aux2_reg(const float value);
-
-void write_joint_displacement_reg(const float displacement);
-void write_joint_output_voltage_reg(const float voltage);
-void write_joint_output_current_reg(const float current);
-void write_joint_actuator_state_reg(const uint16_t state);
-
-void write_joint_encoder_resolution_reg(const uint16_t resolution);
-void write_aux_A_encoder_resolution_reg(const uint16_t resolution);
-void write_aux_B_encoder_resolution_reg(const uint16_t resolution);
-
-void write_aux_A_displacement_reg(const float displacement);
-void write_aux_B_displacement_reg(const float displacement);
-
-void write_digital_inputs_state_reg(const uint16_t state);
-void write_digital_outputs_state_reg(const uint16_t state);
-
-void write_actuator_base_voltage_reg(const float voltage);
-void write_actuator_speed_limit_reg(const float limit);
-void write_actuator_voltage_limit_reg(const float limit);
-void write_actuator_current_limit_reg(const float limit);
+void Net_UpdateRuntimeInfoRegisters(void);
+void Net_UpdateNetworkParametersRegisters(void);
+void Net_UpdateSensorsParametersRegisters(void);
+void Net_UpdateActuatorParametersRegisters(void);
+void Net_UpdateControllerParametersRegisters(void);
 
 // Holding registers update process ---------------------------------- //
-void read_control_mode_reg(void);
-void read_control_reference_reg(void);
-void read_digital_outputs_command_reg(void);
-void read_actuator_base_voltage_reg(void);
-void read_actuator_voltage_limit_reg(void);
-void read_actuator_current_limit_reg(void);
-void read_actuator_speed_limit_reg(void);
-void read_control_setup_Kp_reg(void);
-void read_control_setup_Ki_reg(void);
-void read_control_setup_Kd_reg(void);
-void read_control_setup_Aux1_reg(void);
-void read_control_setup_Aux2_reg(void);
-void read_joint_encoder_setup_resolution_reg(void);
-void read_aux_A_encoder_setup_resolution_reg(void);
-void read_aux_B_encoder_setup_resolution_reg(void);
+void Net_ExecuteSystemConfigsUpdateCmd(void);
+void Net_ExecuteNetworkConfigsUpdateCmd(void);
+void Net_ExecuteSensorsConfigsUpdateCmd(void);
+void Net_ExecuteActuatorConfigsUpdateCmd(void);
+void Net_ExecuteControllerConfigsUpdateCmd(void);
+void Net_ExecuteDigitalOutputsUpdateCmd(void);
+void Net_ExecuteControllerParametersUpdateCmd(void);
+
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -207,78 +171,168 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 		return ret;
 }
 
-eSjcControlMode_t SJC_GetControlMode(void)
-{
-	return xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode;
+eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t *config) {
+	*config = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode;
+	return SJC_RET_OK;
 }
 
-uint32_t SJC_GetControlUpdateRateHz(void)
+eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config)
 {
-	return (xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode = config;
+
+	switch (xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode) {
+	case SJC_OPEN_LOOP_CONTROL:
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Open loop");
+		break;
+	case SJC_PRBS_EXCITATION:
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: PRBS Excitation");
+		break;
+	case SJC_SPEED_CONTROL:
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Speed control");
+		break;
+	case SJC_TORQUE_CONTROL:
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
+		break;
+
+	default: // SJC_CONTROL_DISABLED
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Control disabled");
+		break;
+	}
+
+	return SJC_RET_OK;
 }
 
-uint32_t SJC_GetControlUpdatePeriodMs(void)
+eSjcReturnType_t SJC_GetControlReference(float * reference)
 {
-	return (1000/xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
+	*reference = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference;
+
+	return SJC_RET_OK;
 }
 
-void SJC_ReadNetworkCommands(void)
+eSjcReturnType_t SJC_SetControlReference(const float reference)
 {
-	read_control_mode_reg();
-	read_control_reference_reg();
-	read_digital_outputs_command_reg();
-	read_actuator_voltage_limit_reg();
-	read_actuator_current_limit_reg();
-	read_actuator_speed_limit_reg();
-	read_control_setup_Kp_reg();
-	read_control_setup_Ki_reg();
-	read_control_setup_Kd_reg();
-	read_control_setup_Aux1_reg();
-	read_control_setup_Aux2_reg();
-	read_joint_encoder_setup_resolution_reg();
-	read_aux_A_encoder_setup_resolution_reg();
-	read_aux_B_encoder_setup_resolution_reg();
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference = reference;
+
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller reference: %f", reference);
+
+	return SJC_RET_OK;
 }
 
-void SJC_UpdateNetworkRegisters(void)
+eSjcReturnType_t SJC_GetControlError(float * controller_error)
 {
-	write_system_uptime_reg(SJC_Timer_GetTimeMs());
-	write_system_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].PSUVoltage.Measurement);
-	write_system_error_flags_reg(0x00);
+	*controller_error = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_SetControlError(const float controller_error)
+{
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error = controller_error;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config)
+{
+	*config = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config)
+{
+
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate = SJC_Helpers_RealClamp(config, SJC_CONTROLLER_MIN_UPDATE_RATE_HZ, SJC_CONTROLLER_MAX_UPDATE_RATE_HZ);
+
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f", xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config)
+{
+	*config = ((uint32_t) (1000/xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate));
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters)
+{
+	Parameters->Kp = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp;
+	Parameters->Ki = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki;
+	Parameters->Kd = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd;
+	Parameters->Aux1 = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1;
+	Parameters->Aux2 = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters)
+{
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp = Parameters.Kp;
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki = Parameters.Ki;
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd = Parameters.Kd;
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1 = Parameters.Aux1;
+	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2 = Parameters.Aux2;
+
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f",   xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp);
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f",   xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki);
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f",   xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd);
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1);
+	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2);
+
+	return SJC_RET_OK;
+}
+
+
+void SJC_GetCommands(void)
+{
+	Net_ExecuteSystemConfigsUpdateCmd();
+	Net_ExecuteDigitalOutputsUpdateCmd();
+	Net_ExecuteNetworkConfigsUpdateCmd();
+	Net_ExecuteSensorsConfigsUpdateCmd();
+	Net_ExecuteActuatorConfigsUpdateCmd();
+	Net_ExecuteControllerConfigsUpdateCmd();
+	Net_ExecuteControllerParametersUpdateCmd();
+}
+
+void SJC_SetDataRegisters(void)
+{
+	Net_UpdateRuntimeInfoRegisters();
+	Net_UpdateNetworkParametersRegisters();
+	Net_UpdateSensorsParametersRegisters();
+	Net_UpdateActuatorParametersRegisters();
+	Net_UpdateControllerParametersRegisters();
+
+//	write_system_uptime_reg(SJC_Timer_GetTimeMs());
+//	write_system_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].PSUVoltage.Measurement);
+//	write_system_error_flags_reg(0x00);
+////
+//	write_control_mode_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode);
+//	write_control_rate_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
+//	write_control_error_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error);
+//	write_control_reference_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference);
 //
-	write_control_mode_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode);
-	write_control_rate_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
-	write_control_error_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error);
-	write_control_reference_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference);
+//	write_control_setup_Kp_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp);
+//	write_control_setup_Ki_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki);
+//	write_control_setup_Kd_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd);
+//	write_control_setup_Aux1_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1);
+//	write_control_setup_Aux2_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2);
+//
+//	write_joint_displacement_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Counts);
+//	write_joint_output_current_reg(xSjcJoint[SJC_ACTUATOR_JOINT].OutputCurrent.Measurement);
+//	write_joint_output_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.OutputVoltage);
+//	write_joint_actuator_state_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.Active);
 
-	write_control_setup_Kp_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp);
-	write_control_setup_Ki_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki);
-	write_control_setup_Kd_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd);
-	write_control_setup_Aux1_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1);
-	write_control_setup_Aux2_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2);
-
-	write_joint_displacement_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Counts);
-	write_joint_output_current_reg(xSjcJoint[SJC_ACTUATOR_JOINT].OutputCurrent.Measurement);
-	write_joint_output_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.OutputVoltage);
-	write_joint_actuator_state_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.Active);
-
-	write_joint_encoder_resolution_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
-	write_aux_A_encoder_resolution_reg(xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
-	write_aux_B_encoder_resolution_reg(xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR);
-
-	write_aux_A_displacement_reg(xSjcJoint[SJC_AUX_JOINT_A].Encoder.Counts);
-	write_aux_B_displacement_reg(xSjcJoint[SJC_AUX_JOINT_B].Encoder.Counts);
-
-	uint8_t states;
-	SJC_ReadDigitalInputs(&states);
-	write_digital_inputs_state_reg(states);
-
-	SJC_ReadDigitalOutputs(&states);
-	write_digital_outputs_state_reg(states);
-
-	write_actuator_speed_limit_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max);
-	write_actuator_voltage_limit_reg((100*xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max));
-	write_actuator_current_limit_reg((100*xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputCurrent.Max));
+//	write_aux_A_displacement_reg(xSjcJoint[SJC_AUX_JOINT_A].Encoder.Counts);
+//	write_aux_B_displacement_reg(xSjcJoint[SJC_AUX_JOINT_B].Encoder.Counts);
+//
+//	uint8_t states;
+//	SJC_ReadDigitalInputs(&states);
+//	write_digital_inputs_state_reg(states);
+//
+//	SJC_ReadDigitalOutputs(&states);
+//	write_digital_outputs_state_reg(states);
 }
 
 eSjcReturnType_t SJC_InitAdc(uint32_t * buffer, const uint32_t buffer_size)
@@ -311,21 +365,22 @@ eSjcReturnType_t SJC_DisableJointActuators(void)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_GetJointStates(const eSjcJoints_t sel, xSjcJoint_t *Joint)
+eSjcReturnType_t SJC_GetJointActuatorState(const eSjcJoints_t sel, bool * state)
 {
 	eSjcReturnType_t ret = SJC_RET_OK;
 
 	switch (sel) {
 	case SJC_ACTUATOR_JOINT:
-		*Joint = xSjcJoint[SJC_ACTUATOR_JOINT];
+		*state = xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.Active;
 		break;
 	case SJC_AUX_JOINT_A:
-		*Joint = xSjcJoint[SJC_AUX_JOINT_A];
+		*state = xSjcJoint[SJC_AUX_JOINT_A].Actuator.Active;
 		break;
 	case SJC_AUX_JOINT_B:
-		*Joint = xSjcJoint[SJC_AUX_JOINT_B];
+		*state = xSjcJoint[SJC_AUX_JOINT_B].Actuator.Active;
 		break;
 	default:
+		*state = xSjcJoint[SJC_AUX_JOINT_B].Actuator.Active;
 		ret = SJC_RET_NOK;
 		break;
 	}
@@ -335,7 +390,7 @@ eSjcReturnType_t SJC_GetJointStates(const eSjcJoints_t sel, xSjcJoint_t *Joint)
 
 eSjcReturnType_t SJC_SetJointActuatorVoltage(float voltage)
 {
-	eSjcReturnType_t ret = SJC_Actuator_SetOutputVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, voltage);
+	eSjcReturnType_t ret = SJC_Actuator_SetVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, voltage);
 	return ret;
 }
 
@@ -355,7 +410,7 @@ eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value)
 	xSjcJoint[SJC_ACTUATOR_JOINT].OutputCurrent.Measurement = value;
 }
 
-eSjcReturnType_t SJC_ReadDigitalInputs(uint8_t * states)
+eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t * states)
 {
 	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadInputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors);
 	*states = 0;
@@ -366,7 +421,7 @@ eSjcReturnType_t SJC_ReadDigitalInputs(uint8_t * states)
 	return ret;
 }
 
-eSjcReturnType_t SJC_ReadDigitalOutputs(uint8_t * states)
+eSjcReturnType_t SJC_ReadDigitalOutputs(uint16_t * states)
 {
 	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadOutputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators);
 	*states = 0;
@@ -434,11 +489,11 @@ void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJ
 		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Max = SJC_ACTUATOR_LIMIT_MAX_SPEED;
 		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Min = -SJC_ACTUATOR_LIMIT_MAX_SPEED;
 
-		JointObject[SJC_ACTUATOR_JOINT].Limits.OutputCurrent.Max = SJC_ACTUATOR_LIMIT_MAX_CURRENT;
-		JointObject[SJC_ACTUATOR_JOINT].Limits.OutputCurrent.Min = -SJC_ACTUATOR_LIMIT_MAX_CURRENT;
+		JointObject[SJC_ACTUATOR_JOINT].Limits.Current.Max = SJC_ACTUATOR_LIMIT_MAX_CURRENT;
+		JointObject[SJC_ACTUATOR_JOINT].Limits.Current.Min = -SJC_ACTUATOR_LIMIT_MAX_CURRENT;
 
-		JointObject[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max = SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
-		JointObject[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Min = -SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
+		JointObject[SJC_ACTUATOR_JOINT].Limits.Voltage.Max = SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
+		JointObject[SJC_ACTUATOR_JOINT].Limits.Voltage.Min = -SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
 
 		SJC_Actuator_Init(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, PWM_FREQ_20kHz, 24.0);
 	}
@@ -453,294 +508,288 @@ void InitJointTimers(void)
 }
 
 // Input registers update process ------------------------------------ //
-void write_system_uptime_reg(const uint32_t uptime)
+void Net_UpdateRuntimeInfoRegisters(void)
 {
+	float fAux;
+	uint16_t ui16Aux;
+	uint32_t uptime = SJC_Timer_GetTimeMs();
 	uint16_t * ui16ptr = ((uint16_t*)(&uptime));
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME+1] = ui16ptr[0];
-}
 
-void write_system_voltage_reg(const float voltage)
-{
-	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE] = ( (uint16_t) (voltage*100) );
-}
-
-void write_system_error_flags_reg(const uint16_t flags)
-{
-	usRegInputBuf[REG_INPUT_SYSTEM_ERROR_FLAGS] = flags;
-}
-
-void write_control_mode_reg(const eSjcControlMode_t mode)
-{
+	eSjcControlMode_t mode;
+	SJC_GetControlMode(&mode);
 	usRegInputBuf[REG_INPUT_CONTROL_MODE] = mode;
-}
 
-void write_control_rate_reg(const uint16_t rate)
-{
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_RATE] = rate;
-}
-
-void write_control_error_reg(const float error)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&error));
+	fAux = 0;
+	SJC_GetControlError(&fAux);
+	ui16ptr = ((uint16_t*)(&fAux));
 	usRegInputBuf[REG_INPUT_CONTROL_ERROR] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_CONTROL_ERROR+1] = ui16ptr[0];
-}
 
-void write_control_reference_reg(const float reference)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&reference));
+	fAux = 0;
+	SJC_GetControlReference(&fAux);
+	ui16ptr = ((uint16_t*)(&fAux));
 	usRegInputBuf[REG_INPUT_CONTROL_REFERENCE] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_CONTROL_REFERENCE+1] = ui16ptr[0];
-}
 
-void write_control_setup_Kp_reg(const float value)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&value)) ;
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP+1] = ui16ptr[0];
-}
-
-void write_control_setup_Ki_reg(const float value)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&value)) ;
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI+1] = ui16ptr[0];
-}
-
-void write_control_setup_Kd_reg(const float value)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&value)) ;
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD+1] = ui16ptr[0];
-
-}
-
-void write_control_setup_Aux1_reg(const float value)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&value)) ;
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1+1] = ui16ptr[0];
-
-}
-
-void write_control_setup_Aux2_reg(const float value)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&value)) ;
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2+1] = ui16ptr[0];
-
-}
-
-void write_joint_displacement_reg(const float displacement)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&displacement));
+	fAux = 0;
+	SJC_Encoder_GetLastDisplacementRadians(&xSjcJoint[SJC_ACTUATOR_JOINT].Encoder, &fAux);
+	ui16ptr = ((uint16_t*)(&fAux));
 	usRegInputBuf[REG_INPUT_ACTUATOR_DISPLACEMENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_ACTUATOR_DISPLACEMENT+1] = ui16ptr[0];
-}
 
-void write_joint_output_voltage_reg(const float voltage)
-{
-	usRegInputBuf[REG_INPUT_ACTUATOR_OUTPUT_VOLTAGE] = ( (uint16_t) (voltage*100) );
-}
-
-void write_joint_output_current_reg(const float current)
-{
-	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ( (uint16_t) (current*100) );
-}
-
-void write_joint_actuator_state_reg(const uint16_t state)
-{
-	usRegInputBuf[REG_INPUT_ACTUATOR_STATE] = state;
-}
-
-void write_joint_encoder_resolution_reg(const uint16_t resolution)
-{
-	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = resolution;
-}
-
-void write_aux_A_encoder_resolution_reg(const uint16_t resolution)
-{
-	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = resolution;
-}
-
-void write_aux_B_encoder_resolution_reg(const uint16_t resolution)
-{
-	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = resolution;
-}
-
-void write_aux_A_displacement_reg(const float displacement)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&displacement)) ;
+	fAux = 0;
+	SJC_Encoder_GetLastDisplacementRadians(&xSjcJoint[SJC_AUX_JOINT_A].Encoder, &fAux);
+	ui16ptr = ((uint16_t*)(&fAux));
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT+1] = ui16ptr[0];
-}
 
-void write_aux_B_displacement_reg(const float displacement)
-{
-	uint16_t * ui16ptr = ((uint16_t*)(&displacement)) ;
+	fAux = 0;
+	SJC_Encoder_GetLastDisplacementRadians(&xSjcJoint[SJC_AUX_JOINT_B].Encoder, &fAux);
+	ui16ptr = ((uint16_t*)(&fAux));
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT+1] = ui16ptr[0];
-}
 
-void write_digital_inputs_state_reg(const uint16_t state)
-{
+	fAux = SJC_Actuator_GetVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator);
+	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE] = fAux*100.0f;
+
+//	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = fAux*100.0f;
+
+	bool state;
+	SJC_GetJointActuatorState(SJC_ACTUATOR_JOINT, &state);
+	usRegInputBuf[REG_INPUT_ACTUATOR_STATE] = state;
+
+	ui16Aux = 0;
+	SJC_ReadDigitalInputs(&ui16Aux);
+	usRegInputBuf[REG_INPUT_DIGITAL_INPUTS] = ui16Aux;
+
+	ui16Aux = 0;
+	SJC_ReadDigitalOutputs(&ui16Aux);
+	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = ui16Aux;
+
+	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE] = ( (uint16_t) (voltage*100) );
+	usRegInputBuf[REG_INPUT_SYSTEM_ERROR_FLAGS] = flags;
+
+
+
+
 	usRegInputBuf[REG_INPUT_DIGITAL_INPUTS] = state;
-}
-
-void write_digital_outputs_state_reg(const uint16_t state)
-{
 	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = state;
 }
 
-void write_actuator_base_voltage_reg(const float voltage)
+void Net_UpdateNetworkParametersRegisters(void)
 {
-	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = ( (uint16_t) (voltage*100) );
+	uint16_t xSlaveAddress;
+	uint32_t xBaudRate;
+	char xParity;
+	SJC_Network_GetParameters(&xSlaveAddress, &xBaudRate, &xParity);
+
+
+	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
+	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
+	uint16_t * ptr = (uint16_t *)(&xBaudRate);
+	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ptr[1];
+	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE+1] = ptr[0];
 }
 
-void write_actuator_speed_limit_reg(const float limit)
+void Net_UpdateSensorsParametersRegisters(void)
 {
-	uint16_t * ui16ptr = ((uint16_t*)(&limit));
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_OUTPUT_SPEED] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_OUTPUT_SPEED+1] = ui16ptr[0];
+	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR;
+	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR;
+	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR;
 }
 
-void write_actuator_voltage_limit_reg(const float limit)
+void Net_UpdateActuatorParametersRegisters(void)
 {
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_OUTPUT_VOLTAGE] = ( (uint16_t) (limit*100) );
+	uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed));
+	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED] = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED+1] = ui16ptr[0];
+	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.BaseVoltage*100.0f;
+	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Voltage.Max*100.0f;
+	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_CURRENT] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Current.Max*100.0f;
 }
 
-void write_actuator_current_limit_reg(const float limit)
+void Net_UpdateControllerParametersRegisters(void)
 {
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_OUTPUT_CURRENT] = ( (uint16_t) (limit*100) );
+	xControllerParameters_t Parameters;
+	SJC_GetControlParameters(&Parameters);
+
+	uint16_t * ui16ptr = (uint16_t *)(&Parameters.Kp);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP] 	  = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP+1]   = ui16ptr[0];
+
+	ui16ptr = (uint16_t *)(&Parameters.Ki);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI]     = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI+1]   = ui16ptr[0];
+
+	ui16ptr = (uint16_t *)(&Parameters.Kd);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD]     = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD+1]   = ui16ptr[0];
+
+	ui16ptr = (uint16_t *)(&Parameters.Aux1);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1]   = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1+1] = ui16ptr[0];
+
+	ui16ptr = (uint16_t *)(&Parameters.Aux2);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2]   = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2+1] = ui16ptr[0];
+
+	float rate = 0;
+	ui16ptr = (uint16_t *)(&rate);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_RATE]   = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_RATE+1] = ui16ptr[0];
 }
 
 // Holding registers update process ---------------------------------- //
-void read_control_mode_reg(void)
-{
-	uint16_t Reg = usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode = Reg;
-}
 
-void read_control_reference_reg(void)
-{
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference = value;
-}
+void Net_ExecuteSystemConfigsUpdateCmd(void) {
+	if (usRegHoldingBuf[REG_HOLDING_SYSTEM_REBOOT]) {
 
-void read_control_rate_reg(void)
-{
-	uint16_t Reg = SJC_Helpers_IntClamp(usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_RATE], SJC_CONTROLLER_MIN_UPDATE_RATE_HZ, SJC_CONTROLLER_MAX_UPDATE_RATE_HZ);
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate = Reg;
-}
+		// Define digital outputs states
+		usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] &= 0x0000;
 
-void read_digital_outputs_command_reg(void)
-{
-	uint16_t Reg = (usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] & 0b11);
-	SJC_WriteDigitalOutputs(Reg);
-}
-
-void read_actuator_base_voltage_reg(void)
-{
-	uint16_t Reg = usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE];
-	if (Reg != xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.BaseVoltage)
-	{
-		SJC_Actuator_SetBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, ( (1.0f*Reg)/100.0f ) );
+		// Apply system reboot
 	}
 }
 
-void read_actuator_voltage_limit_reg(void)
+void Net_ExecuteDigitalOutputsUpdateCmd(void)
 {
-	uint16_t Reg = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_VOLTAGE];
-	float Aux = (1.0f*Reg)/100.0f;
+	if (usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] & DIGITAL_OUTPUTS_UPDATE_MSK) {
 
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_VOLTAGE, Aux);
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Min = -xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max;
+		// Define digital outputs states
+		usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] &= (~DIGITAL_OUTPUTS_UPDATE_MSK);
+
+		SJC_WriteDigitalOutputs(usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE]);
+	}
 }
 
-void read_actuator_current_limit_reg(void)
+void Net_ExecuteControllerConfigsUpdateCmd(void)
 {
-	uint16_t Reg = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_CURRENT];
-	float Aux = (1.0f*Reg)/100.0f;
+	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] & CONTROLLER_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] &= (~CONTROLLER_UPDATE_MSK);
 
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_CURRENT, Aux);
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Min = -xSjcJoint[SJC_ACTUATOR_JOINT].Limits.OutputVoltage.Max;
+		// Controller reference
+		float reference;
+		uint16_t * ptr = (uint16_t*) (&reference);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
+		SJC_SetControlReference(reference);
+
+		// Controller operating mode
+		SJC_SetControlMode(usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE]);
+	}
 }
 
-void read_actuator_speed_limit_reg(void)
+void Net_ExecuteActuatorConfigsUpdateCmd(void)
 {
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_SPEED+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_OUTPUT_SPEED];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_SPEED, value);
-	xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Min = -xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max;
+	if (usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] & ACTUATOR_CONFIGS_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
+
+		// Controller reference
+		float base_voltage  = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE]/100.0f);
+		float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+		float current_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_CURRENT]/100.0f);
+		float speed_limit;
+
+		uint16_t *ptr = (uint16_t*) (&speed_limit);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED];
+
+		SJC_Actuator_SetBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator, base_voltage );
+
+		SJC_Actuator_SetSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, speed_limit);
+		SJC_Actuator_SetCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, current_limit);
+		SJC_Actuator_SetVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, voltage_limit);
+
+		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator base voltage: %f V", SJC_Actuator_GetBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator));
+		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator voltage limit: %f V", SJC_Actuator_GetVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator current limit: %f A", SJC_Actuator_GetCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator speed limit: %f rd/s", SJC_Actuator_GetSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+	}
 }
 
-void read_control_setup_Kp_reg(void)
-{
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp = value;
+void Net_ExecuteNetworkConfigsUpdateCmd(void) {
+	if (usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_UPDATE] & NETWORK_PARAMETERS_UPDATE_MSK)
+	{
+
+		// Network parameters
+		usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_UPDATE] &= (~NETWORK_PARAMETERS_UPDATE_MSK);
+
+		xSjcNetworkConfig_t config;
+
+		uint16_t *ptr = (uint16_t*) (&config.Baudrate);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_BAUD_RATE + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_BAUD_RATE];
+
+		config.Parity = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_PARITY];
+		config.Address = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_ADDRESS];
+
+		SJC_DebugOutput_printf("\r\n[NetCmd] Network address: %u", config.Address);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Network parity: %c", config.Parity);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Network baudrate: %lu bps", config.Baudrate);
+
+		// Write to flash
+		// Reboot
+	}
 }
 
-void read_control_setup_Ki_reg(void)
-{
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki = value;
+void Net_ExecuteSensorsConfigsUpdateCmd(void) {
+	if (usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] & SENSORS_PARAMETERS_UPDATE_MSK) {
+
+		// Encoders parameters
+		usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] &= (~SENSORS_PARAMETERS_UPDATE_MSK);
+
+		xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR];
+		xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR];
+		xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR];
+
+		SJC_DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
+		SJC_DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator encoder res.: %u ppr", xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
+	}
 }
 
-void read_control_setup_Kd_reg(void)
+void Net_ExecuteControllerParametersUpdateCmd(void)
 {
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd = value;
+	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] & CONTROLLER_PARAMETERS_UPDATE_MSK) {
+
+		// Controller parameters
+		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~CONTROLLER_PARAMETERS_UPDATE_MSK);
+
+		xControllerParameters_t params;
+		uint16_t *ptr = (uint16_t*) (&params.Kp);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP];
+
+		ptr = (uint16_t*) (&params.Ki);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KI + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KI];
+
+		ptr = (uint16_t*) (&params.Kd);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD];
+
+		ptr = (uint16_t*) (&params.Aux1);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX1 + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX1];
+
+		ptr = (uint16_t*) (&params.Aux2);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX2 + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX2];
+
+		SJC_SetControlParameters(params);
+
+		// Controller update rate
+		float control_rate;
+		ptr = (uint16_t*) (&control_rate);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_RATE + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_RATE];
+		SJC_SetControlUpdateRateHz(control_rate);
+	}
 }
 
-void read_control_setup_Aux1_reg(void)
-{
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1 = value;
-}
-
-void read_control_setup_Aux2_reg(void)
-{
-	float value = 0;
-	uint16_t * ui16ptr = ((uint16_t*)(&value));
-	ui16ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE+1];
-	ui16ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2 = value;
-}
-
-void read_joint_encoder_setup_resolution_reg(void)
-{
-	uint16_t Reg = usRegInputBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR];
-	xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR = Reg;
-}
-
-void read_aux_A_encoder_setup_resolution_reg(void)
-{
-	uint16_t Reg = usRegInputBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR];
-	xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR = Reg;
-}
-
-void read_aux_B_encoder_setup_resolution_reg(void)
-{
-	uint16_t Reg = usRegInputBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR];
-	xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR = Reg;
-}
 
 // ------------------------------------------------------------------- //

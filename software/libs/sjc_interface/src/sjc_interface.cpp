@@ -116,6 +116,28 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
     }
 }
 
+eSjcReturnType_t SjcInterface::setControllerConfig(xSjcControllerConfig_t config)
+{
+    const int nb = 3;
+    uint16_t tab_reg[nb];
+    
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_UPDATE_OFFSET)] = config.controller_mode_update | CONTROLLER_UPDATE_MSK;    
+    compose_byte_array_from_float(config.controller_ref, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
+    printf("\n\rRef: %f\n", config.controller_ref);
+    printf("\n\rDst[0]: %lu\n", tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
+    printf("\n\rDst[1]: %lu\n", tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE+1, CONTROLLER_UPDATE_OFFSET)]);
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
 eSjcReturnType_t SjcInterface::getNetworkParameters(xSjcNetworkConfig_t *config)
 {
     const int nb = 4;
@@ -201,7 +223,7 @@ eSjcReturnType_t SjcInterface::setActuatorParameters(const xSjcActuatorConfig_t 
     }
 }
 
-eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerConfig_t *config)
+eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerParameters_t *config)
 {
     const int nb = 12;
     uint16_t tab_reg[nb];
@@ -223,7 +245,7 @@ eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerConfig_t *c
     }
 }
 
-eSjcReturnType_t SjcInterface::setControllerParameters(const xSjcControllerConfig_t config)
+eSjcReturnType_t SjcInterface::setControllerParameters(const xSjcControllerParameters_t config)
 {
     const int nb = 13;
     uint16_t tab_reg[nb];
@@ -270,12 +292,12 @@ eSjcReturnType_t SjcInterface::setSensorsParameters(const xSjcSensorsConfig_t co
     const int nb = 4;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODERS_SETUP_UPDATE, SENSORS_PARAMETERS_UPDATE_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_SENSORS_SETUP_UPDATE, SENSORS_PARAMETERS_UPDATE_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.auxA_sensor_res_ppr;
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.auxB_sensor_res_ppr;
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_sensor_res_ppr;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_NETWORK_CONFIG_ADDRESS, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
     {
 
         return SJC_RET_OK;

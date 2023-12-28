@@ -127,7 +127,8 @@ void ControllerTaskApp(void *argument)
 	/* Infinite loop */
 	for(;;)
 	{
-		uint32_t Period = SJC_GetControlUpdatePeriodMs();
+		uint32_t Period;
+		SJC_GetControlUpdatePeriodMs(&Period);
 		tick += pdMS_TO_TICKS(Period);
 
 		xResult = xTaskNotifyWait( 	pdFALSE, 0xffffffff, &ulNotifiedValue, CONTROLLER_MAX_BLOCK_TIME_TICKS*5 );
@@ -138,7 +139,7 @@ void ControllerTaskApp(void *argument)
 			{
 				MeasurementsUpdate();
 
-				SJC_GetJointStates(SJC_ACTUATOR_JOINT, &Joint);
+				SJC_GetJointActuatorState(SJC_ACTUATOR_JOINT, &Joint);
 				ControllerFunc(Joint);
 			}
 

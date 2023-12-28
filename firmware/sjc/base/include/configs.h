@@ -5,8 +5,8 @@
  *      Author: tiago
  */
 
-#ifndef SJC__DEFINITIONS__CONFIGS_H_
-#define SJC__DEFINITIONS__CONFIGS_H_
+#ifndef SJC__BASE__CONFIGS_H_
+#define SJC__BASE__CONFIGS_H_
 
 // HAL Includes ------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -121,4 +121,4 @@ void AdcGrpInjectedUnitaryConvComplete_Callback(void);
 
 #define SJC_HEARTBEAT_OUTPUT_PIN							SYS_HEARTBEAT_Pin
 #define SJC_HEARTBEAT_OUTPUT_PORT							SYS_HEARTBEAT_GPIO_Port
-#endif /* SJC__DEFINITIONS__CONFIGS_H_ */
+#endif /* SJC__BASE__CONFIGS_H_ */

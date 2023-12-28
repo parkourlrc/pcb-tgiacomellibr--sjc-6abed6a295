@@ -44,7 +44,7 @@ volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
 static USHORT   usRegInputStart = REG_INPUT_START;
 static USHORT   usRegHoldingStart = REG_HOLDING_START;
-static xSjcNetworkInfo_t xNetworkParameters;
+static xSjcNetworkConfig_t xNetworkParameters;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -58,9 +58,9 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 {
 	eMBErrorCode    eStatus;
 
-	xNetworkParameters.address = xSlaveAddress;
-	xNetworkParameters.baudrate = xBaudRate;
-	xNetworkParameters.parity = xParity;
+	xNetworkParameters.Address = xSlaveAddress;
+	xNetworkParameters.Baudrate = xBaudRate;
+	xNetworkParameters.Parity = xParity;
 
 	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xSlaveAddress, 1, NETWORK_BAUD_RATE, MB_PAR_NONE ) ) )
 	{
@@ -106,11 +106,12 @@ void SJC_Network_Update(void)
 	( void )eMBPoll(  );
 }
 
-eSjcReturnType_t SJC_Network_GetParameters(uint8_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
+eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
 {
-	*xSlaveAddress = xNetworkParameters.address;
-	*xBaudRate = xNetworkParameters.baudrate;
-	*xParity = xNetworkParameters.parity;
+	*xSlaveAddress = xNetworkParameters.Address;
+	*xBaudRate = xNetworkParameters.Baudrate;
+	*xParity = xNetworkParameters.Parity;
+
 	return SJC_RET_OK;
 }
 

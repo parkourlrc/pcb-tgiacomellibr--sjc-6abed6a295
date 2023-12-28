@@ -16,6 +16,7 @@
 #include "math.h"
 
 #include "helpers.h"
+#include "data_masks.h"
 #include "rtos_types.h"
 #include "data_structures.h"
 

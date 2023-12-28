@@ -17,6 +17,14 @@ typedef enum
     SJC_RET_SIZE
 } eSjcReturnType_t;
 
+typedef enum {
+	SJC_CONTROL_DISABLED 	= 0x0000,
+	SJC_OPEN_LOOP_CONTROL 	= 0x0001,
+	SJC_PRBS_EXCITATION 	= 0x00ff,
+	SJC_SPEED_CONTROL 		= 0xff00,
+	SJC_TORQUE_CONTROL 		= 0xffff
+} eSjcControlMode_t;
+
 typedef struct
 {
     bool switchA;
@@ -57,7 +65,7 @@ typedef struct
 
 typedef struct
 {
-    uint8_t address;
+    uint16_t address;
     uint32_t baudrate;
     char parity;
 } xSjcNetworkConfig_t;
@@ -85,7 +93,7 @@ typedef struct
     float aux1_parameter;
     float aux2_parameter;
     float rate_parameter;
-} xSjcControllerConfig_t;
+} xSjcControllerParameters_t;
 
 typedef struct
 {
@@ -93,3 +101,9 @@ typedef struct
     uint16_t auxA_sensor_res_ppr;
     uint16_t auxB_sensor_res_ppr;
 } xSjcSensorsConfig_t;
+
+typedef struct
+{
+    uint16_t controller_mode_update;
+    float controller_ref;
+} xSjcControllerConfig_t;

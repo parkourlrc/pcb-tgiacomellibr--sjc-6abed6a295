@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
             xSjcNetworkConfig_t NetworkInfo;
             xSjcActuatorConfig_t ActuatorInfo;
             xSjcSensorsConfig_t SensorsInfo;
-            xSjcControllerConfig_t ControllerInfo;
+            xSjcControllerParameters_t ControllerInfo;
 
             system("clear");
             const auto start = std::chrono::steady_clock::now();
