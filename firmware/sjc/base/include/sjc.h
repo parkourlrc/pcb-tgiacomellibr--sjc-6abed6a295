@@ -38,8 +38,7 @@ eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t *states);
 eSjcReturnType_t SJC_ReadDigitalOutputs(uint16_t *states);
 eSjcReturnType_t SJC_WriteDigitalOutputs(const uint8_t states);
 eSjcReturnType_t SJC_ToggleDigitalOutput(const eSjcDigitalOutputs_t Output);
-eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input,
-bool *state);
+eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input, bool *state);
 eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool *state);
 eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state);
 

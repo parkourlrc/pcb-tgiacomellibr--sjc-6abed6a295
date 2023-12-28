@@ -18,8 +18,6 @@ float SJC_Actuator_GetPowerSupplyState(void);
 
 float SJC_Actuator_GetVoltage(xSjcActuator_t * Actuator);
 float SJC_Actuator_SetVoltage(xSjcActuator_t * Actuator, const float voltage);
-//float SJC_Actuator_GetCurrent(xSjcActuator_t * Actuator);
-//float SJC_Actuator_SetCurrent(xSjcActuator_t * Actuator, const float current);
 
 float SJC_Actuator_GetSpeedLimit(xSjcActuatorLimits_t * Limits);
 float SJC_Actuator_SetSpeedLimit(xSjcActuatorLimits_t * Limits, const float value);

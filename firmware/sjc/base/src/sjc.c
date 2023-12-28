@@ -303,36 +303,6 @@ void SJC_SetDataRegisters(void)
 	Net_UpdateSensorsParametersRegisters();
 	Net_UpdateActuatorParametersRegisters();
 	Net_UpdateControllerParametersRegisters();
-
-//	write_system_uptime_reg(SJC_Timer_GetTimeMs());
-//	write_system_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].PSUVoltage.Measurement);
-//	write_system_error_flags_reg(0x00);
-////
-//	write_control_mode_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode);
-//	write_control_rate_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate);
-//	write_control_error_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error);
-//	write_control_reference_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference);
-//
-//	write_control_setup_Kp_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp);
-//	write_control_setup_Ki_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki);
-//	write_control_setup_Kd_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd);
-//	write_control_setup_Aux1_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1);
-//	write_control_setup_Aux2_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2);
-//
-//	write_joint_displacement_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Counts);
-//	write_joint_output_current_reg(xSjcJoint[SJC_ACTUATOR_JOINT].OutputCurrent.Measurement);
-//	write_joint_output_voltage_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.OutputVoltage);
-//	write_joint_actuator_state_reg(xSjcJoint[SJC_ACTUATOR_JOINT].Actuator.Active);
-
-//	write_aux_A_displacement_reg(xSjcJoint[SJC_AUX_JOINT_A].Encoder.Counts);
-//	write_aux_B_displacement_reg(xSjcJoint[SJC_AUX_JOINT_B].Encoder.Counts);
-//
-//	uint8_t states;
-//	SJC_ReadDigitalInputs(&states);
-//	write_digital_inputs_state_reg(states);
-//
-//	SJC_ReadDigitalOutputs(&states);
-//	write_digital_outputs_state_reg(states);
 }
 
 eSjcReturnType_t SJC_InitAdc(uint32_t * buffer, const uint32_t buffer_size)
@@ -554,7 +524,8 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	fAux = SJC_Actuator_GetVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].Actuator);
 	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE] = fAux*100.0f;
 
-//	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = fAux*100.0f;
+	fAux = xSjcJoint[SJC_ACTUATOR_JOINT].OutputCurrent.Measurement;
+	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = fAux*100.0f;
 
 	bool state;
 	SJC_GetJointActuatorState(SJC_ACTUATOR_JOINT, &state);
@@ -568,14 +539,10 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	SJC_ReadDigitalOutputs(&ui16Aux);
 	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = ui16Aux;
 
-	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE] = ( (uint16_t) (voltage*100) );
-	usRegInputBuf[REG_INPUT_SYSTEM_ERROR_FLAGS] = flags;
+	fAux = xSjcJoint[SJC_ACTUATOR_JOINT].PSUVoltage.Measurement;
+	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE] = fAux*100.0f;
 
-
-
-
-	usRegInputBuf[REG_INPUT_DIGITAL_INPUTS] = state;
-	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = state;
+	usRegInputBuf[REG_INPUT_SYSTEM_ERROR_FLAGS] = 0x00;
 }
 
 void Net_UpdateNetworkParametersRegisters(void)
