@@ -78,21 +78,20 @@ eSjcReturnType_t SjcInterface::getDeviceInfo(xSjcDeviceInfo_t *config)
 
 eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
 {
-    const int nb = 19;
+    const int nb = 21;
     uint16_t tab_reg[nb];
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_SYSTEM_UPTIME, nb, tab_reg))
     {
         compose_ui32_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_UPTIME, RUNTIME_INFO_OFFSET)], &config->uptime);
-
-        config->system_voltage = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_VOLTAGE, RUNTIME_INFO_OFFSET)] / 100);
-
+        
         config->controller_mode = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_MODE, RUNTIME_INFO_OFFSET)];
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_ERROR, RUNTIME_INFO_OFFSET)], &config->controller_error);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_REFERENCE, RUNTIME_INFO_OFFSET)], &config->controller_ref);
 
-        config->actuator_current = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_CURRENT, RUNTIME_INFO_OFFSET)] / 100);
-        config->actuator_voltage = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_VOLTAGE, RUNTIME_INFO_OFFSET)] / 100);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->system_voltage);        
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_CURRENT, RUNTIME_INFO_OFFSET)], &config->actuator_current);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->actuator_voltage);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->actuator_displacement);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_A_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_A_displacement);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_B_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_B_displacement);
@@ -123,9 +122,6 @@ eSjcReturnType_t SjcInterface::setControllerConfig(xSjcControllerConfig_t config
     
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_UPDATE_OFFSET)] = config.controller_mode_update | CONTROLLER_UPDATE_MSK;    
     compose_byte_array_from_float(config.controller_ref, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
-    printf("\n\rRef: %f\n", config.controller_ref);
-    printf("\n\rDst[0]: %lu\n", tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
-    printf("\n\rDst[1]: %lu\n", tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE+1, CONTROLLER_UPDATE_OFFSET)]);
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE, nb, tab_reg))
     {

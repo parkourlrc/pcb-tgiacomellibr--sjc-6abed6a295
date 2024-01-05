@@ -62,6 +62,8 @@ int main(int argc, char *argv[])
     uint32_t dur = 0;
     auto start = std::chrono::steady_clock::now();
     auto end = std::chrono::steady_clock::now();
+    uint32_t last_time = 0;
+    float last_dp = 0;
 
     if (ret == SJC_CONNECTED)
     {
@@ -76,18 +78,16 @@ int main(int argc, char *argv[])
             xSjcSensorsConfig_t SensorsInfo;
             xSjcControllerParameters_t ControllerInfo;
 
-            uint32_t last_time = 1;
-            float last_dp = 0;
             end = std::chrono::steady_clock::now();
-            dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();            
-            start = end;            
-            
+            dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+            start = end;
+
             system("clear");
 
             std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
-            // if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))            
+            // if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))
             // {
             //     std::cout << "Version: " << std::endl
             //               << " *Fw: ";
@@ -129,16 +129,23 @@ int main(int argc, char *argv[])
             {
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "System info: " << std::endl
-                          << " * Uptime: " << RuntimeInfo.uptime << " ms. - Input Voltage: " << RuntimeInfo.system_voltage << " V - Error flags: " << RuntimeInfo.error_flags << std::endl;
+                          << " * Uptime: " << RuntimeInfo.uptime;
+                std::cout << " ms. - Input Voltage: " << std::to_string(RuntimeInfo.system_voltage) << " V - Error flags: " << RuntimeInfo.error_flags << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Controller:" << std::endl
                           << " * Mode: " << RuntimeInfo.controller_mode << " - Ref.: " << RuntimeInfo.controller_ref << " - Error: " << RuntimeInfo.controller_error << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Displacement sensors: " << std::endl
                           << " * Actuator: " << RuntimeInfo.actuator_displacement << " rd - Aux A: " << RuntimeInfo.aux_A_displacement << " rd - Aux B: " << RuntimeInfo.aux_B_displacement << " rd" << std::endl;
-                std::cout << " * Speed: " << (1000 * RuntimeInfo.actuator_displacement - last_dp) / (RuntimeInfo.uptime - last_time) << " rd/s (" << (1000 * 180.0 / M_PI) * (RuntimeInfo.actuator_displacement - last_dp) / (RuntimeInfo.uptime - last_time) << " dg/s)" << std::endl;
-                last_dp = RuntimeInfo.actuator_displacement;
+                float dt = (RuntimeInfo.uptime - last_time) / 1000.0f;
                 last_time = RuntimeInfo.uptime;
+                float ds = RuntimeInfo.actuator_displacement - last_dp;
+                last_dp = RuntimeInfo.actuator_displacement;
+                float vel = ds / dt;
+                float vel_rpm = vel*(180 * 60) / (M_PI * 360);
+                std::cout << " * Ds: " << std::to_string(ds) << " rad - Dt: " << std::to_string(dt) << " s" << std::endl;
+                std::cout << " * Speed: " << (vel) << " rd/s (" << vel_rpm << " rpm)" << std::endl;
+
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Actuator efforts: " << std::endl;
                 std::cout << " * Voltage: " << std::to_string(RuntimeInfo.actuator_voltage) << " V";
@@ -184,46 +191,46 @@ int main(int argc, char *argv[])
                 std::cout << "Actuator info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
             }
 
-            // if (SJC_RET_OK == Sjc.getSensorsParameters(&SensorsInfo))
-            // {
-            //     std::cout << "----------------------------------" << std::endl;
-            //     std::cout << "Sensors parameters: " << std::endl;
-            //     std::cout << " * Actuator encoder: " << SensorsInfo.actuator_sensor_res_ppr << " ppr";
-            //     std::cout << " - Aux A encoder: " << SensorsInfo.auxA_sensor_res_ppr << " ppr";
-            //     std::cout << " - Aux B encoder: " << SensorsInfo.auxB_sensor_res_ppr << " ppr" << std::endl;
-            //     std::cout << "----------------------------------" << std::endl;
-            // }
-            // else
-            // {
-            //     usleep(10e6);
-            //     std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
-            // }
+            if (SJC_RET_OK == Sjc.getSensorsParameters(&SensorsInfo))
+            {
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Sensors parameters: " << std::endl;
+                std::cout << " * Actuator encoder: " << SensorsInfo.actuator_sensor_res_ppr << " ppr";
+                std::cout << " - Aux A encoder: " << SensorsInfo.auxA_sensor_res_ppr << " ppr";
+                std::cout << " - Aux B encoder: " << SensorsInfo.auxB_sensor_res_ppr << " ppr" << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
 
-            // if (SJC_RET_OK == Sjc.getControllerParameters(&ControllerInfo))
-            // {
-            //     std::cout << "----------------------------------" << std::endl;
-            //     std::cout << "Controller parameters: " << std::endl;
-            //     std::cout << " * Kp: " << ControllerInfo.kp_parameter;
-            //     std::cout << " - Ki: " << ControllerInfo.ki_parameter;
-            //     std::cout << " - Kd: " << ControllerInfo.kd_parameter;
-            //     std::cout << " - Aux1: " << ControllerInfo.aux1_parameter;
-            //     std::cout << " - Aux2: " << ControllerInfo.aux2_parameter;
-            //     std::cout << " - Rate: " << ControllerInfo.rate_parameter << std::endl;
-            //     std::cout << "----------------------------------" << std::endl;
-            // }
-            // else
-            // {
-            //     usleep(10e6);
-            //     std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
-            // }
+            if (SJC_RET_OK == Sjc.getControllerParameters(&ControllerInfo))
+            {
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Controller parameters: " << std::endl;
+                std::cout << " * Kp: " << std::to_string(ControllerInfo.kp_parameter);
+                std::cout << " - Ki: " << std::to_string(ControllerInfo.ki_parameter);
+                std::cout << " - Kd: " << std::to_string(ControllerInfo.kd_parameter);
+                std::cout << " - Aux1: " << std::to_string(ControllerInfo.aux1_parameter);
+                std::cout << " - Aux2: " << std::to_string(ControllerInfo.aux2_parameter);
+                std::cout << " - Rate: " << std::to_string(ControllerInfo.rate_parameter) << std::endl;
+                std::cout << "----------------------------------" << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
 
             std::cout << "----------------------------------" << std::endl;
             std::cout << " * Prev. Cycle duration: " << std::to_string(dur) << " ms." << std::endl;
             const auto end_cycle = std::chrono::steady_clock::now();
-            uint32_t dt = std::chrono::duration_cast<std::chrono::milliseconds>(end_cycle - start).count();            
-            int delta = (100 - dt)*1e3;
+            uint32_t dt = std::chrono::duration_cast<std::chrono::milliseconds>(end_cycle - start).count();
+            int delta = (100 - dt) * 1e3;
             uint32_t wait = (delta < 0) ? 100e3 : delta;
-            std::cout << " * Wait time: " << std::to_string(wait/1000) << " ms" << std::endl;
+            std::cout << " * Wait time: " << std::to_string(wait / 1000) << " ms" << std::endl;
             std::cout << "\n----------------------------------------------------------------------------------" << std::endl;
             usleep(wait);
 

@@ -42,8 +42,8 @@ typedef struct
 typedef struct
 {
     uint32_t uptime;
-    float system_voltage;
     uint16_t controller_mode;
+    float system_voltage;
     float controller_error;
     float controller_ref;
     float actuator_voltage;

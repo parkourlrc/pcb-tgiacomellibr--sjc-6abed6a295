@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 180*4;
+            xSensorsConfig.actuator_sensor_res_ppr = 180;
             xSensorsConfig.auxA_sensor_res_ppr = 2048*4;
             xSensorsConfig.auxB_sensor_res_ppr = 2048*4;
 
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
             xControllerParameters.kd_parameter = 1000.0;
             xControllerParameters.aux1_parameter = 10000.0;
             xControllerParameters.aux2_parameter = 30000.0;
-            xControllerParameters.rate_parameter = 500.0;
+            xControllerParameters.rate_parameter = 1000.0;
 
             std::cout << "Controller parameters: " << std::endl;
             std::cout << " * Kp: " << xControllerParameters.kp_parameter;
@@ -173,7 +173,7 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xControllerConfig.controller_ref = 15.0;
+            xControllerConfig.controller_ref = 0.0;
             xControllerConfig.controller_mode_update = SJC_OPEN_LOOP_CONTROL;
 
             std::cout << "Controller config: " << std::endl;
