@@ -6,3 +6,4 @@ debug/
 octave-workspace*
 *.asv
 *.lck
+*.zip
