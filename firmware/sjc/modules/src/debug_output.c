@@ -10,6 +10,8 @@
 // ------------------------------------------------------------------- //
 #include "usart.h"
 #include "usb_device.h"
+#include "usbd_cdc.h"
+#include "usbd_cdc_if.h"
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
@@ -24,6 +26,7 @@
 // ------------------------------------------------------------------- //
 #define DEBUG_IFC_INSTANCE USART3
 #define DEBUG_BUFF_SIZE (512UL)
+#define DEBUG_USB_BUFF_SIZE (512UL)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -34,6 +37,7 @@
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static char g_debug_buff[DEBUG_BUFF_SIZE];
+static char g_usb_debug_buff[DEBUG_USB_BUFF_SIZE];
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -91,6 +95,18 @@ int SJC_DebugOutput_printf(const char *format, ...)
 
 int SJC_DebugOutput_UsbPrintf(const char *format, ...)
 {
+	va_list apx;
+	int n = 0;
+	va_start(apx, format);
+	n = vsnprintf(g_usb_debug_buff, DEBUG_USB_BUFF_SIZE, format, apx);
+	va_end(apx);
+
+	if (n > 0)
+	{
+		CDC_Transmit_FS(g_usb_debug_buff, n);
+	}
+
+	return n;
 
 }
 // ------------------------------------------------------------------- //

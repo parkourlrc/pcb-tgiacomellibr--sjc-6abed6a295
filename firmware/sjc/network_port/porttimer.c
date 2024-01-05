@@ -27,7 +27,8 @@
 #include "mbport.h"
 
 /* ----------------------- Defines ------------------------------------------*/
-#define 				MODBUS_TIMER_INSTANCE TIM11
+#define 				MODBUS_TIMER_INIT			MX_TIM11_Init
+#define 				MODBUS_TIMER_INSTANCE 		TIM11
 
 /* ----------------------- Static variables ---------------------------------*/
 
@@ -36,13 +37,18 @@
 BOOL
 xMBPortTimersInit( USHORT usTim1Timerout50us )
 {
-	MX_TIM11_Init();
+	MODBUS_TIMER_INIT();
 
 	volatile uint32_t Period = usTim1Timerout50us;
 
 	if (NETWORK_BAUD_RATE > 19200UL)
 	{
 		Period = ceil(3.5f * 220000UL/NETWORK_BAUD_RATE);
+	}
+
+	if (Period <2)
+	{
+		Period = 2;
 	}
 
 	LL_TIM_SetAutoReload(MODBUS_TIMER_INSTANCE, Period-1);

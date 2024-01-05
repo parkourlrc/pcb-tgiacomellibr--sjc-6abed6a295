@@ -30,8 +30,8 @@
 #include "network_configs.h"
 #include "cmsis_os.h"
 
-#include <assert.h>
-#include <inttypes.h>
+#include "assert.h"
+#include "inttypes.h"
 
 /* ----------------------- Platform structures -------------------------------*/
 typedef enum {
@@ -76,8 +76,6 @@ void vMBPortEnterCritical(void);
 void vMBPortExitCritical(void);
 
 void prvvMBTimerIRQHandler(void);
-void prvvMBSerialRxIRQHandler(void);
-void prvvMBSerialTxIRQHandler(void);
 
 void prvvUARTTxReadyISR(void);
 void prvvUARTRxISR(void);

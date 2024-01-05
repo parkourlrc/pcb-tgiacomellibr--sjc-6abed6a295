@@ -18,24 +18,24 @@ eSjcReturnType_t SJC_SetVersions(void);
 eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
 
-
 void SJC_ExecuteNetworkCommands(void);
 void SJC_UpdateNetworkDataRegisters(void);
 
-eSjcReturnType_t SJC_InitAdc(uint32_t *buffer, const uint32_t buffer_size);
 eSjcReturnType_t SJC_EnableAdc(void);
 eSjcReturnType_t SJC_DisableAdc(void);
 
 eSjcReturnType_t SJC_EnableJointActuators(void);
 eSjcReturnType_t SJC_DisableJointActuators(void);
+eSjcReturnType_t SJC_GetJointActuatorHandle(xSjcJoint_t * joint);
 eSjcReturnType_t SJC_GetJointActuatorState(const eSjcJoints_t sel, bool * state);
-eSjcReturnType_t SJC_SetJointActuatorVoltage(float voltage);
-
-eSjcReturnType_t SJC_GetJointDisplacementRadians(float * disp);
-
+eSjcReturnType_t SJC_GetJointActuatorVoltage(float * voltage);
+eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage);
 eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t *freq);
-eSjcReturnType_t SJC_SetJointActuatorFilteredPsuVoltage(const float value);
-eSjcReturnType_t SJC_SetJointActuatorFilteredOutputCurrent(const float value);
+eSjcReturnType_t SJC_GetJointActuatorCurrent(float * value);
+eSjcReturnType_t SJC_GetJointActuatorPowerSupplyVoltage(float * value);
+
+eSjcReturnType_t SJC_GetJointDisplacementRadians(eSjcJointType_t joint, float * disp);
+
 
 eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t *states);
 eSjcReturnType_t SJC_ReadDigitalOutputs(uint16_t *states);

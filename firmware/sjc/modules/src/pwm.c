@@ -122,11 +122,11 @@ uint32_t SJC_PWM_SetFrequency(xSjcActuatorPwm_t * Pwm, const eSjcPwmBaseFreq_t B
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*2.0f) );
 		break;
 	case PWM_FREQ_12kHz:
-		Pwm->Frequency = 10000;
+		Pwm->Frequency = 12000;
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.665f) );
 		break;
 	case PWM_FREQ_14kHz:
-		Pwm->Frequency = 10000;
+		Pwm->Frequency = 14000;
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.428f) );
 		break;
 	case PWM_FREQ_15kHz:
@@ -134,11 +134,11 @@ uint32_t SJC_PWM_SetFrequency(xSjcActuatorPwm_t * Pwm, const eSjcPwmBaseFreq_t B
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.332f) );
 		break;
 	case PWM_FREQ_16kHz:
-		Pwm->Frequency = 15000;
+		Pwm->Frequency = 16000;
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.249f) );
 		break;
 	case PWM_FREQ_18kHz:
-		Pwm->Frequency = 15000;
+		Pwm->Frequency = 18000;
 		Pwm->TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.110f) );
 		break;
 	default: // PWM_FREQ_20kHz:

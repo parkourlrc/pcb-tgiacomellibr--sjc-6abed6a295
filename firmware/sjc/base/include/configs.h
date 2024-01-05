@@ -94,9 +94,6 @@
 #define ADC_CONV_TO_FLOAT(X)								( (float) (X*ADC_CONV_MAX_VALUE_FLOAT)/ADC_CONV_RESOLUTION )
 #define ADC_CONV_DISPATCH_TIMER_INSTANCE					TIM4
 
-// ADC ISR Callback function
-void AdcGrpInjectedUnitaryConvComplete_Callback(void);
-
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -104,12 +101,19 @@ void AdcGrpInjectedUnitaryConvComplete_Callback(void);
 #define AD8418_VREF											( (float) 2.5f		)
 #define AD8418_SHUNT_RESISTANCE								( (float) 0.008f	)
 #define AD8418_ANALOG_FRONTED_GAIN							( (float) 0.79f		)
-#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.75f		)
+#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.8f		)
+#define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO				( 1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO	)
 
 // Voltage Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.75f		)
 #define VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN			( (float) 11.0f		)
+#define VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.8f		)
+#define VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO				( 1.0f - VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO	)
+
+// VrefInt Sensor ----------------------------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+#define VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.8f		)
+#define VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO				( 1.0f - VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO	)
 
 // Digital Actuators -------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //

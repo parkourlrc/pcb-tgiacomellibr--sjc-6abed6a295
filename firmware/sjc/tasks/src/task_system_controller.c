@@ -105,9 +105,6 @@ void SystemTaskApp(void *argument) {
 	uint32_t timestamp;
 	uint32_t cycle = 0;
 
-	SJC_EnableJointActuators();
-
-
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
@@ -116,13 +113,6 @@ void SystemTaskApp(void *argument) {
 			SJC_Network_Update();
 			SJC_ExecuteNetworkCommands();
 			SJC_UpdateNetworkDataRegisters();
-
-			// temp
-			// --------------------------------------------------------------------------------------------
-			float ref;
-			SJC_GetControlReference(&ref);
-			SJC_SetJointActuatorVoltage(ref);
-			// --------------------------------------------------------------------------------------------
 
 			osMutexRelease(DataMutexHandle);
 

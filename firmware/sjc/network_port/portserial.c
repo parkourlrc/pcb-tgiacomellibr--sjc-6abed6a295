@@ -136,32 +136,9 @@ BOOL xMBPortSerialGetByte(CHAR * pucByte)
 	return TRUE;
 }
 
-void prvvMBSerialRxIRQHandler(void)
+void DMA1_Stream6_IRQHandler(void)
 {
-	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE)) {
-		LL_USART_ClearFlag_RXNE(MODBUS_SERIAL_INSTANCE);
-		pxMBFrameCBByteReceived();
-	}
-
-	if (LL_USART_IsActiveFlag_TC(USART2) & LL_USART_IsEnabledIT_TC(USART2)) {
-		LL_USART_ClearFlag_TC(USART2);
-		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
-		pxMBFrameCBTransmitterEmpty();
-	}
-
-//	if (LL_USART_IsActiveFlag_IDLE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_IDLE(MODBUS_SERIAL_INSTANCE)) {
-//			LL_USART_ClearFlag_IDLE(MODBUS_SERIAL_INSTANCE);
-//
-//		}
-
-//	if (LL_USART_IsActiveFlag_TXE(USART2) & LL_USART_IsEnabledIT_TXE(USART2)) {
-//		pxMBFrameCBTransmitterEmpty();
-//	}
-}
-
-void prvvMBSerialTxIRQHandler(void)
-{
-	if( LL_DMA_IsActiveFlag_TC6(DMA1) == 1){
+  if( LL_DMA_IsActiveFlag_TC6(DMA1) == 1){
 		LL_DMA_ClearFlag_TC6(DMA1);
 		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
@@ -175,4 +152,26 @@ void prvvMBSerialTxIRQHandler(void)
 	{
 		LL_DMA_ClearFlag_TE6(DMA1);
 	}
+}
+
+void USART2_IRQHandler(void)
+{
+	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE)) {
+		LL_USART_ClearFlag_RXNE(MODBUS_SERIAL_INSTANCE);
+		pxMBFrameCBByteReceived();
+	}
+
+	if (LL_USART_IsActiveFlag_TC(USART2) & LL_USART_IsEnabledIT_TC(USART2)) {
+		LL_USART_ClearFlag_TC(USART2);
+		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
+		pxMBFrameCBTransmitterEmpty();
+	}
+//	if (LL_USART_IsActiveFlag_IDLE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_IDLE(MODBUS_SERIAL_INSTANCE)) {
+//			LL_USART_ClearFlag_IDLE(MODBUS_SERIAL_INSTANCE);
+//
+//		}
+
+//	if (LL_USART_IsActiveFlag_TXE(USART2) & LL_USART_IsEnabledIT_TXE(USART2)) {
+//		pxMBFrameCBTransmitterEmpty();
+//	}
 }

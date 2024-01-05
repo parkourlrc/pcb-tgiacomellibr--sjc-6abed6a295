@@ -7,10 +7,10 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <task_common.h>
-#include <task_data_logger.h>
-#include <task_joint_controller.h>
-#include <task_system_controller.h>
+#include "task_common.h"
+#include "task_data_logger.h"
+#include "task_joint_controller.h"
+#include "task_system_controller.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
@@ -76,15 +76,15 @@ eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 		return SJC_RET_NOK;
 	}
 
-//	if (SJC_RET_OK == SJC_TaskActuatorController_Init())
-//	{
-//		SJC_DebugOutput_printf("\r\n[OS] Controller task created!");
-//	}
-//	else
-//	{
-//		SJC_DebugOutput_printf("\r\n[OS] Controller task not initiated...");
-//		return SJC_RET_NOK;
-//	}
+	if (SJC_RET_OK == SJC_TaskActuatorController_Init())
+	{
+		SJC_DebugOutput_printf("\r\n[OS] Controller task created!");
+	}
+	else
+	{
+		SJC_DebugOutput_printf("\r\n[OS] Controller task not initiated...");
+		return SJC_RET_NOK;
+	}
 
 //	if (SJC_RET_OK == SJC_TaskDataLogger_Init())
 //	{

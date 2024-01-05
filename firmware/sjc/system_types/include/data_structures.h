@@ -59,7 +59,7 @@ typedef enum {
 	SJC_CURRENT_SENSOR_AUX,
 	SJC_VOLTAGE_SENSOR,
 	SJC_ANALOG_SENSOR_SIZE
-} eSjcAnalogSensor_t;
+} eSjcAnalogSensorType_t;
 
 typedef enum {
 	SJC_JOINT_SWITCH_A = 0,
@@ -174,23 +174,23 @@ typedef struct {
 } xSjcDigitalPort_t;
 
 typedef struct {
-	bool Active;
+	bool State;
 	float BaseVoltage;
-	float OutputVoltage;
 	xSjcActuatorPwm_t PWM;
-	xSjcDigitalPort_t DriverPort;
 	xSjcRange_t OutputVoltageRange;
-	eSjcPwmBaseFreq_t BaseFrequency;
-} xSjcActuator_t;
+	xSjcAnalogSensor_t OutputVoltage;
+	xSjcAnalogSensor_t OutputCurrent;
+	xSjcDigitalPort_t DriveEnablePort;
+	xSjcAnalogSensor_t PowerSupplyVoltage;
+} xSjcMotorDrive_t;
 
 typedef struct {
 	float Speed;
 	xSjcEncoder_t Encoder;
-	xSjcActuator_t Actuator;
+	xSjcAnalogSensor_t Displacement;
+	xSjcMotorDrive_t MotorDrive;
 	xSjcController_t Controller;
 	xSjcActuatorLimits_t Limits;
-	xSjcAnalogSensor_t PSUVoltage;
-	xSjcAnalogSensor_t OutputCurrent;
 	xSjcDigitalPort_t DigitalSensors[SJC_INPUTS_SIZE];
 	xSjcDigitalPort_t DigitalActuators[SJC_OUTPUTS_SIZE];
 } xSjcJoint_t;

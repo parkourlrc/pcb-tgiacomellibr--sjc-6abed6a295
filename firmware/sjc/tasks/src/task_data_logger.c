@@ -8,8 +8,8 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <actuator.h>
-#include <task_data_logger.h>
+#include <motor_drive.h>
+#include "task_data_logger.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "usbd_cdc.h"
