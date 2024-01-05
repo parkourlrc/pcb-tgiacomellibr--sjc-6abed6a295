@@ -163,51 +163,6 @@ void DebugMon_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles DMA1 stream6 global interrupt.
-  */
-void DMA1_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 0 */
-	prvvMBSerialTxIRQHandler();
-  /* USER CODE END DMA1_Stream6_IRQn 0 */
-
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream6_IRQn 1 */
-}
-
-/**
-  * @brief This function handles ADC1, ADC2 and ADC3 interrupts.
-  */
-void ADC_IRQHandler(void)
-{
-  /* USER CODE BEGIN ADC_IRQn 0 */
-	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group injected end of unitary conversion */
-		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
-
-		/* Call interruption treatment function */
-		AdcGrpInjectedUnitaryConvComplete_Callback();
-	}
-
-	/* Check whether ADC group regular overrun caused the ADC interruption */
-	if(LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group regular overrun */
-		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
-
-		/* Call interruption treatment function */
-		//	    AdcGrpRegularOverrunError_Callback();
-	}
-  /* USER CODE END ADC_IRQn 0 */
-
-  /* USER CODE BEGIN ADC_IRQn 1 */
-
-  /* USER CODE END ADC_IRQn 1 */
-}
-
-/**
   * @brief This function handles TIM1 trigger and commutation interrupts and TIM11 global interrupt.
   */
 void TIM1_TRG_COM_TIM11_IRQHandler(void)
@@ -226,19 +181,6 @@ void TIM1_TRG_COM_TIM11_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles USART2 global interrupt.
-  */
-void USART2_IRQHandler(void)
-{
-  /* USER CODE BEGIN USART2_IRQn 0 */
-	prvvMBSerialRxIRQHandler();
-  /* USER CODE END USART2_IRQn 0 */
-  /* USER CODE BEGIN USART2_IRQn 1 */
-
-  /* USER CODE END USART2_IRQn 1 */
-}
-
-/**
   * @brief This function handles TIM5 global interrupt.
   */
 void TIM5_IRQHandler(void)
@@ -250,27 +192,6 @@ void TIM5_IRQHandler(void)
   /* USER CODE BEGIN TIM5_IRQn 1 */
 
   /* USER CODE END TIM5_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA2 stream0 global interrupt.
-  */
-void DMA2_Stream0_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream0_IRQn 0 */
-	if(LL_DMA_IsActiveFlag_TC0(SJC_ADC_DMA_INSTANCE) == 1)
-	  {
-	    /* Clear flag DMA transfer complete */
-	    LL_DMA_ClearFlag_TC0(SJC_ADC_DMA_INSTANCE);
-
-	    /* Call interruption treatment function */
-
-	  }
-  /* USER CODE END DMA2_Stream0_IRQn 0 */
-
-  /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
-
-  /* USER CODE END DMA2_Stream0_IRQn 1 */
 }
 
 /**

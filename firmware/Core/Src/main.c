@@ -93,10 +93,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-
   SJC_Init();
 
-  SJC_Delay(SJC_TIME_SEC, 2);
+  SJC_Delay(SJC_TIME_SEC, 1);
 
   SJC_PresentSystemInfo();
 
