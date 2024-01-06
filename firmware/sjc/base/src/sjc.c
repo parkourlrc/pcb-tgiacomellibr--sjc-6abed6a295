@@ -91,6 +91,8 @@ void SJC_Init(void)
 
 	SJC_DebugOutput_Init();
 
+	SJC_AnalogInterfaces_Init();
+
 	InitJointObject(SJC_AUX_JOINT_A, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_A]);
 	InitJointObject(SJC_AUX_JOINT_B, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_B]);
 	InitJointObject(SJC_ACTUATOR_JOINT, SJC_ACTIVE_JOINT, &xSjcJoint[SJC_ACTUATOR_JOINT]);
@@ -280,12 +282,12 @@ void SJC_UpdateNetworkDataRegisters(void)
 
 eSjcReturnType_t SJC_EnableAdc(void)
 {
-	return SJC_AnalogInterfaces_Enable();
+	return SJC_AnalogInterfaces_MeasurementEnable();
 }
 
 eSjcReturnType_t SJC_DisableAdc(void)
 {
-	return SJC_AnalogInterfaces_Disable();
+	return SJC_AnalogInterfaces_MeasurementDisable();
 }
 
 eSjcReturnType_t SJC_EnableJointActuators(void)
@@ -451,8 +453,8 @@ void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJ
 	{
 		SJC_DigitalInterfaces_init(JointObject->DigitalSensors, SJC_DIGITAL_INPUT_PORT);
 		SJC_DigitalInterfaces_init(JointObject->DigitalActuators, SJC_DIGITAL_OUTPUT_PORT);
-		SJC_AnalogInterfaces_Init(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.PowerSupplyVoltage);
-		SJC_AnalogInterfaces_Init(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.OutputCurrent);
+		SJC_AnalogInterfaces_ConfigureInterface(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.PowerSupplyVoltage);
+		SJC_AnalogInterfaces_ConfigureInterface(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.OutputCurrent);
 
 		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Max = SJC_ACTUATOR_LIMIT_MAX_SPEED;
 		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Min = -SJC_ACTUATOR_LIMIT_MAX_SPEED;

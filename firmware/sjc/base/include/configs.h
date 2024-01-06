@@ -10,6 +10,7 @@
 
 // HAL Includes ------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
+#include "adc.h"
 #include "tim.h"
 
 // Firmware info ------------------------------------------------------------------ //
@@ -84,6 +85,7 @@
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
+#define SJC_ADC_INIT	 									MX_ADC1_Init
 #define SJC_ADC_INSTANCE 									( ADC1 )
 #define SJC_ADC_DMA_INSTANCE								DMA2
 #define SJC_ADC_DMA_STREAM									LL_DMA_STREAM_0
@@ -137,7 +139,7 @@
 #define SJC_DEBUG_SERIAL_PRINTF_ENABLE
 
 #ifdef SJC_DEBUG_USB_PRINTF_ENABLE
-#define SJC_DEBUG_PRINT_NET_CMDS
+//#define SJC_DEBUG_PRINT_NET_CMDS
 #define SJC_DEBUG_PRINT_NET_REGS
 #endif
 // -------------------------------------------------------------------------------- //

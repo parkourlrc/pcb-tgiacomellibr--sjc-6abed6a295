@@ -16,6 +16,7 @@
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "debug_output.h"
+#include "analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
 
@@ -40,8 +41,6 @@ const osMutexAttr_t SharedDataMutex_attributes = {
 		.cb_size = sizeof(SharedDataMutexControlBlock),
 };
 
-SemaphoreHandle_t xMeasurementSemaphoreHandle;
-StaticSemaphore_t xMeasurementSemaphoreBuffer;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -78,6 +77,11 @@ eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 		return SJC_RET_NOK;
 	}
 
+	if (SJC_RET_NOK == SJC_AnalogInterfaces_SetSharedDataMutex(SharedDataMutexHandle))
+	{
+		return SJC_RET_NOK;
+	}
+
 	if (SJC_RET_OK == SJC_TaskActuatorController_Init())
 	{
 		SJC_DebugOutput_printf("\r\n[OS] Controller task created!");
@@ -88,15 +92,15 @@ eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 		return SJC_RET_NOK;
 	}
 
-//	if (SJC_RET_OK == SJC_TaskDataLogger_Init())
-//	{
-//		SJC_DebugOutput_printf("\r\n[OS] Data logger task created!");
-//	}
-//	else
-//	{
-//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
-//		return SJC_RET_NOK;
-//	}
+	//	if (SJC_RET_OK == SJC_TaskDataLogger_Init())
+	//	{
+	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task created!");
+	//	}
+	//	else
+	//	{
+	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
+	//		return SJC_RET_NOK;
+	//	}
 
 	if (SJC_RET_OK == SJC_TaskSystemController_Init())
 	{
@@ -127,18 +131,6 @@ eSjcReturnType_t InitDataStructures(void)
 	{
 		osMutexRelease(SharedDataMutexHandle);
 		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex created!");
-	}
-
-	xMeasurementSemaphoreHandle = xSemaphoreCreateBinaryStatic( &xMeasurementSemaphoreBuffer );
-
-	if (xMeasurementSemaphoreHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Measurement semaphore not created...");
-		return SJC_RET_NOK;
-	} else
-	{
-		osMutexRelease(SharedDataMutexHandle);
-		SJC_DebugOutput_printf("\r\n[OS] Measurement semaphore  created!");
 	}
 
 	return SJC_RET_OK;

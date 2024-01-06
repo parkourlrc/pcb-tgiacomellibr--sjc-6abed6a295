@@ -43,12 +43,12 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static osMutexId_t DataMutexHandle;
+osMutexId_t SystemControllerMutexHandle;
 
 osThreadId_t SystemTaskHandle;
 StaticTask_t SystemTaskControlBlock;
 
-uint32_t SystemTaskBuffer[ 512 ];
+uint32_t SystemTaskBuffer[ 256 ];
 const osThreadAttr_t SystemTask_attributes = {
 		.name = "SystemTask",
 		.cb_mem = &SystemTaskControlBlock,
@@ -68,9 +68,9 @@ void SystemTaskApp(void *argument);
 // ------------------------------------------------------------------- //
 eSjcReturnType_t SJC_TaskSystemController_SetSharedDataMutex(osMutexId_t MutexHandle)
 {
-	DataMutexHandle = MutexHandle;
+	SystemControllerMutexHandle = MutexHandle;
 
-	if (DataMutexHandle == NULL)
+	if (SystemControllerMutexHandle == NULL)
 	{
 		SJC_DebugOutput_printf("\r\n[OS] System controller task: Shared data mutex not available...");
 		return SJC_RET_NOK;
@@ -100,8 +100,7 @@ eSjcReturnType_t SJC_TaskSystemController_Init(void)
 void SystemTaskApp(void *argument) {
 	/* USER CODE BEGIN SystemTaskApp */
 
-	uint32_t tick;
-	tick = osKernelGetTickCount();
+	uint32_t tick = osKernelGetTickCount();
 
 	uint32_t timestamp;
 	uint32_t cycle = 0;
@@ -111,23 +110,22 @@ void SystemTaskApp(void *argument) {
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
-		if (osOK == osMutexAcquire(DataMutexHandle, SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		if (osOK == osMutexAcquire(SystemControllerMutexHandle, SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			SJC_Network_Update();
 			SJC_ExecuteNetworkCommands();
 			SJC_UpdateNetworkDataRegisters();
 
-			osMutexRelease(DataMutexHandle);
+			osMutexRelease(SystemControllerMutexHandle);
 
 			SJC_GetTime(SJC_TIME_MS, &timestamp);
 
-			if (++cycle % 100 == 0)
+			if (++cycle % 200 == 0)
 			{
-				SJC_DebugOutput_printf("\n\r[OS] System controller (%lu ms)", timestamp);
-				SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 				SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
 				float MeanSampleTime_ms = 1000.0f*(Ts.timesteps)/(Ts.samples);
-				SJC_DebugOutput_printf("\n\r[OS] Sensors Ts: (%.3f ms)", MeanSampleTime_ms);
+				SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f ms)", timestamp, MeanSampleTime_ms);
+				SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 			}
 
 			osDelayUntil(tick);

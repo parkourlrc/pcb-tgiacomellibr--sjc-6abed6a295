@@ -38,7 +38,7 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static osMutexId_t DataMutexHandle;
+osMutexId_t DataLoggerMutexHandle;
 
 osThreadId_t LoggerTaskHandle;
 StaticTask_t LoggerTaskControlBlock;
@@ -66,9 +66,9 @@ void LoggerTaskApp(void *argument);
 // ------------------------------------------------------------------- //
 eSjcReturnType_t SJC_TaskDataLogger_SetSharedDataMutex(osMutexId_t MutexHandle)
 {
-	DataMutexHandle = MutexHandle;
+	DataLoggerMutexHandle = MutexHandle;
 
-	if (DataMutexHandle == NULL)
+	if (DataLoggerMutexHandle == NULL)
 	{
 		SJC_DebugOutput_printf("\r\n[OS] Data logger task: Shared data mutex not available...");
 		return SJC_RET_NOK;
@@ -107,7 +107,7 @@ void LoggerTaskApp(void *argument)
 	for(;;)
 	{
 		tick += pdMS_TO_TICKS(SJC_DATA_LOGGER_UPDATE_PERIOD_MS);
-		if (osOK == osMutexAcquire(DataMutexHandle, DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		if (osOK == osMutexAcquire(DataLoggerMutexHandle, DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			uint32_t TimeStamp;
 			SJC_GetTime(SJC_TIME_MS, &TimeStamp);
@@ -122,7 +122,7 @@ void LoggerTaskApp(void *argument)
 			//		xLogData.MotorCurrent = SJC_Motor_GetElectricCurrent();
 			//		xLogData.SystemVoltage = SJC_Motor_GetPowerSupplyVoltage();
 
-			osMutexRelease(DataMutexHandle);
+			osMutexRelease(DataLoggerMutexHandle);
 
 			osDelayUntil(tick);
 		}

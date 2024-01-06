@@ -26,13 +26,7 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS		( osWaitForever )
-#define CONTROLLER_MAX_BLOCK_TIME_TICKS					pdMS_TO_TICKS(  ) )
-
-#define ANALOG_CONV_MEASUREMENTS_TARGET					( (uint32_t ) 20UL)
-#define ANALOG_CONVS_REACHED_EVENT_NOTIFICATION    		0x01
-
-#define CONTROLLER_MUTEX_WAIT_TIME_MS					( portMAX_DELAY )
+#define CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS		( (uint32_t) 1U )
 
 // ------------------------------------------------------------------- //
 
@@ -44,7 +38,7 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static osMutexId_t DataMutexHandle;
+osMutexId_t SystemMutexHandle;
 
 osThreadId_t ControllerTaskHandle;
 StaticTask_t ControllerTaskControlBlock;
@@ -56,9 +50,10 @@ const osThreadAttr_t ControllerTask_attributes = {
 		.cb_size = sizeof(ControllerTaskControlBlock),
 		.stack_mem = &ControllerTaskBuffer[0],
 		.stack_size = sizeof(ControllerTaskBuffer),
-		.priority = (osPriority_t) osPriorityBelowNormal7,
+		.priority = (osPriority_t) osPriorityRealtime,
 };
 
+extern volatile bool bMeasurementDone;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -72,9 +67,9 @@ void ControllerTaskApp(void *argument);
 // ------------------------------------------------------------------- //
 eSjcReturnType_t SJC_TaskActuatorController_SetSharedDataMutex(osMutexId_t MutexHandle)
 {
-	DataMutexHandle = MutexHandle;
+	SystemMutexHandle = MutexHandle;
 
-	if (DataMutexHandle == NULL)
+	if (SystemMutexHandle == NULL)
 	{
 		SJC_DebugOutput_printf("\r\n[OS] Controller task: Shared data mutex not available...");
 		return SJC_RET_NOK;
@@ -104,57 +99,53 @@ eSjcReturnType_t SJC_TaskActuatorController_Init(void){
 void ControllerTaskApp(void *argument)
 {
 	/* USER CODE BEGIN ControllerTaskApp */
-	SJC_AnalogInterfaces_Enable();
+	SJC_AnalogInterfaces_MeasurementEnable();
 
-	uint32_t tick;
-	tick = osKernelGetTickCount();
+	uint32_t tick = osKernelGetTickCount();
+	uint32_t ControlPeriod;
 
 	/* Infinite loop */
 	for(;;)
 	{
-		uint32_t Period;
-		SJC_GetControlUpdatePeriodMs(&Period);
-		tick += pdMS_TO_TICKS(Period);
+		SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+		tick += pdMS_TO_TICKS(ControlPeriod);
 
-		if (osOK == osMutexAcquire(DataMutexHandle, CONTROLLER_MUTEX_WAIT_TIME_MS))
+		if (osOK == osMutexAcquire(SystemMutexHandle, CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
+//			bMeasurementDone = false;
+//			tick = osKernelGetTickCount();
+
 			ControllerFunc();
-			osMutexRelease(DataMutexHandle);
+			osMutexRelease(SystemMutexHandle);
+
 			osDelayUntil(tick);
 		}
+
 	}
 }
 
 
 void ControllerFunc(void)
 {
-	static uint32_t stmp;
 	eSjcControlMode_t ControlMode;
-	static float Ref, aux1, aux2, aux3, Displacement, ds, dt;
+	float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, ds = 0, dt = 0, vel = 0;
+	static float Displacement;
+	static uint32_t stmp;
 
 	SJC_GetControlMode(&ControlMode);
 	SJC_GetControlReference(&Ref);
 
 	switch (ControlMode) {
-	//			case SJC_SPEED_CONTROL:
-	//
-	//				break;
-	//
+	//	case SJC_SPEED_CONTROL:
 	//	case SJC_TORQUE_CONTROL:
-	//		SJC_EnableJointActuators();
-	//
-	//		break;
-	//
-	//			case SJC_PRBS_EXCITATION:
-	//
-	//				break;
+	//	case SJC_PRBS_EXCITATION:
 
 	case SJC_OPEN_LOOP_CONTROL:
 		SJC_EnableJointActuators();
 		SJC_SetJointActuatorVoltage(Ref);
-		SJC_GetJointActuatorPowerSupplyVoltage(&aux1);
-		SJC_GetJointActuatorVoltage(&aux2);
-		SJC_GetJointActuatorCurrent(&aux3);
+		SJC_GetJointActuatorPowerSupplyVoltage(&PsuVoltage);
+		SJC_GetJointActuatorVoltage(&ActuatorVoltage);
+		SJC_GetJointActuatorCurrent(&ActuatorCurrent);
 
 		SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ds, Displacement);
 		Displacement += ds;
@@ -163,9 +154,8 @@ void ControllerFunc(void)
 		SJC_GetTime(SJC_TIME_MS, &stmp);
 		dt += 1e-3*stmp;
 
-		float vel = ds*60/(2*M_PI*dt);
-		SJC_DebugOutput_UsbPrintf("\rVin: %.3f, Eff: %.3f, I: %.3f, Dp: %.3f, Rpm: %.3f\n", aux1, aux2, aux3, ds, vel);
-
+		vel = ds*60/(2*M_PI*dt);
+		vel /= 7600;
 
 		break;
 
@@ -173,6 +163,11 @@ void ControllerFunc(void)
 		SJC_DisableJointActuators();
 		break;
 	}
+
+//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, ds, (vel/7600));
+	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Rpm: \n");
+//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (vel/7600));
+	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f\n", stmp, (PsuVoltage), (ActuatorVoltage), (ActuatorCurrent), (vel));
 }
 
 // ------------------------------------------------------------------- //

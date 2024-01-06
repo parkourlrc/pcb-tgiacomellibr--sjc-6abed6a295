@@ -10,9 +10,11 @@
 
 #include "types.h"
 
-eSjcReturnType_t SJC_AnalogInterfaces_Init(xSjcAnalogSensor_t *Sensor);
-eSjcReturnType_t SJC_AnalogInterfaces_Enable(void);
-eSjcReturnType_t SJC_AnalogInterfaces_Disable(void);
+eSjcReturnType_t SJC_AnalogInterfaces_Init(void);
+eSjcReturnType_t SJC_AnalogInterfaces_ConfigureInterface(xSjcAnalogSensor_t *Sensor);
+eSjcReturnType_t SJC_AnalogInterfaces_MeasurementEnable(void);
+eSjcReturnType_t SJC_AnalogInterfaces_MeasurementDisable(void);
+eSjcReturnType_t SJC_AnalogInterfaces_SetSharedDataMutex(osMutexId_t MutexHandle);
 eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcSampleTimeMeasurement_t * Ts);
 eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float * value);
 
