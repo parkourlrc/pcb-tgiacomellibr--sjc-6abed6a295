@@ -102,16 +102,16 @@ int main(int argc, char *argv[])
 
             xActuatorConfig.state = 1;
             xActuatorConfig.base_voltage = 24.0;
-            xActuatorConfig.voltage_limit = 23.5;
-            xActuatorConfig.current_limit = 9.8;
-            xActuatorConfig.speed_limit = 1.0;
+            xActuatorConfig.voltage_limit = 24.0;
+            xActuatorConfig.current_limit = 10.0;
+            xActuatorConfig.speed_limit = 7600.0;
 
             std::cout << "Actuator config: " << std::endl;
             std::cout << " * State: " << ((xActuatorConfig.state > 0) ? "En" : "Dis");
             std::cout << " - Base Voltage: " << xActuatorConfig.base_voltage << " V";
             std::cout << " - Voltage limit: " << xActuatorConfig.voltage_limit << " V";
             std::cout << " - Current limit: " << xActuatorConfig.current_limit << " A";
-            std::cout << " - Speed limit: " << xActuatorConfig.speed_limit << " rd/s" << std::endl;
+            std::cout << " - Speed limit: " << xActuatorConfig.speed_limit << " rpm" << std::endl;
 
             if (SJC_RET_OK == Sjc.setActuatorParameters(xActuatorConfig))
             {
@@ -126,13 +126,13 @@ int main(int argc, char *argv[])
             std::cout << "----------------------------------" << std::endl;
 
             xSensorsConfig.actuator_sensor_res_ppr = 180;
-            xSensorsConfig.auxA_sensor_res_ppr = 2048*4;
-            xSensorsConfig.auxB_sensor_res_ppr = 2048*4;
+            xSensorsConfig.auxA_sensor_res_ppr = 2048;
+            xSensorsConfig.auxB_sensor_res_ppr = 2048;
 
             std::cout << "Sensors config: " << std::endl;
-            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr (Quad.)";
-            std::cout << " - Aux A resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr (Quad.)";
-            std::cout << " - Aux B resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr (Quad.)" << std::endl;
+            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr ";
+            std::cout << " - Aux A resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr ";
+            std::cout << " - Aux B resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr " << std::endl;
 
             if (SJC_RET_OK == Sjc.setSensorsParameters(xSensorsConfig))
             {

@@ -87,43 +87,43 @@ int main(int argc, char *argv[])
             std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
-            // if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))
-            // {
-            //     std::cout << "Version: " << std::endl
-            //               << " *Fw: ";
-            //     std::cout.operator<<(DeviceInfo.firmware_ver.major);
-            //     std::cout << ".";
-            //     std::cout.operator<<(DeviceInfo.firmware_ver.minor);
-            //     std::cout << ".";
-            //     std::cout.operator<<(DeviceInfo.firmware_ver.patch);
-            //     std::cout << " - Hw: ";
-            //     std::cout.operator<<(DeviceInfo.hardware_ver.major);
-            //     std::cout << ".";
-            //     std::cout.operator<<(DeviceInfo.hardware_ver.minor);
-            //     std::cout << std::endl;
-            // }
-            // else
-            // {
-            //     usleep(10e6);
-            //     std::cout << "Device info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
-            // }
+            if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))
+            {
+                std::cout << "Version: " << std::endl
+                          << " *Fw: ";
+                std::cout.operator<<(DeviceInfo.firmware_ver.major);
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.firmware_ver.minor);
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.firmware_ver.patch);
+                std::cout << " - Hw: ";
+                std::cout.operator<<(DeviceInfo.hardware_ver.major);
+                std::cout << ".";
+                std::cout.operator<<(DeviceInfo.hardware_ver.minor);
+                std::cout << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Device info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
 
-            // if (SJC_RET_OK == Sjc.getNetworkParameters(&NetworkInfo))
-            // {
-            //     std::cout << "----------------------------------" << std::endl;
-            //     std::cout << "Network: " << std::endl
-            //               << " * Address: ";
-            //     std::cout.operator<<(NetworkInfo.address);
-            //     std::cout << " - Parity: " << NetworkInfo.parity;
-            //     std::cout << " - Baudrate: ";
-            //     std::cout.operator<<(NetworkInfo.baudrate);
-            //     std::cout << " bps" << std::endl;
-            // }
-            // else
-            // {
-            //     usleep(10e6);
-            //     std::cout << "Network info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
-            // }
+            if (SJC_RET_OK == Sjc.getNetworkParameters(&NetworkInfo))
+            {
+                std::cout << "----------------------------------" << std::endl;
+                std::cout << "Network: " << std::endl
+                          << " * Address: ";
+                std::cout.operator<<(NetworkInfo.address);
+                std::cout << " - Parity: " << NetworkInfo.parity;
+                std::cout << " - Baudrate: ";
+                std::cout.operator<<(NetworkInfo.baudrate);
+                std::cout << " bps" << std::endl;
+            }
+            else
+            {
+                usleep(10e6);
+                std::cout << "Network info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            }
 
             if (SJC_RET_OK == Sjc.getRuntimeInfo(&RuntimeInfo))
             {
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
                 std::cout << " - Base voltage: " << ActuatorInfo.base_voltage << " V";
                 std::cout << " - Current limit: " << ActuatorInfo.current_limit << " A";
                 std::cout << " - Voltage limit: " << ActuatorInfo.voltage_limit << " V";
-                std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rd/s" << std::endl;
+                std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rpm" << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
             else

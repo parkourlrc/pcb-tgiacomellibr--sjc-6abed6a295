@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
                 std::cout << " - Base voltage: " << ActuatorInfo.base_voltage << " V";
                 std::cout << " - Current limit: " << ActuatorInfo.current_limit << " A";
                 std::cout << " - Voltage limit: " << ActuatorInfo.voltage_limit << " V";
-                std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rd/s" << std::endl;
+                std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rpm" << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
             else
