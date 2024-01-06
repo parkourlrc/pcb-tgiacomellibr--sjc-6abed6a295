@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
                 std::cout << "Runtime info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
             }
 
-            if ((RuntimeInfo.uptime - last_control_time) >= 750)
+            if ((RuntimeInfo.uptime - last_control_time) >= 100)
             {
                 last_control_time = RuntimeInfo.uptime;
                 xSjcControllerConfig_t config;
