@@ -11,7 +11,6 @@
 #include "task_data_logger.h"
 #include "task_joint_controller.h"
 #include "task_system_controller.h"
-#include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
 // Task includes ----------------------------------------------------- //
@@ -40,6 +39,9 @@ const osMutexAttr_t SharedDataMutex_attributes = {
 		.cb_mem = &SharedDataMutexControlBlock,
 		.cb_size = sizeof(SharedDataMutexControlBlock),
 };
+
+SemaphoreHandle_t xMeasurementSemaphoreHandle;
+StaticSemaphore_t xMeasurementSemaphoreBuffer;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -125,6 +127,18 @@ eSjcReturnType_t InitDataStructures(void)
 	{
 		osMutexRelease(SharedDataMutexHandle);
 		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex created!");
+	}
+
+	xMeasurementSemaphoreHandle = xSemaphoreCreateBinaryStatic( &xMeasurementSemaphoreBuffer );
+
+	if (xMeasurementSemaphoreHandle == NULL)
+	{
+		SJC_DebugOutput_printf("\r\n[OS] Measurement semaphore not created...");
+		return SJC_RET_NOK;
+	} else
+	{
+		osMutexRelease(SharedDataMutexHandle);
+		SJC_DebugOutput_printf("\r\n[OS] Measurement semaphore  created!");
 	}
 
 	return SJC_RET_OK;

@@ -41,6 +41,7 @@ void MX_TIM2_Init(void);
 void MX_TIM3_Init(void);
 void MX_TIM8_Init(void);
 void MX_TIM11_Init(void);
+void MX_TIM14_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 

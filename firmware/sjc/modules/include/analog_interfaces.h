@@ -13,7 +13,7 @@
 eSjcReturnType_t SJC_AnalogInterfaces_Init(xSjcAnalogSensor_t *Sensor);
 eSjcReturnType_t SJC_AnalogInterfaces_Enable(void);
 eSjcReturnType_t SJC_AnalogInterfaces_Disable(void);
+eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcSampleTimeMeasurement_t * Ts);
 eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float * value);
-
 
 #endif /* SJC__MODULES__ANALOG_INTERFACES_H_ */

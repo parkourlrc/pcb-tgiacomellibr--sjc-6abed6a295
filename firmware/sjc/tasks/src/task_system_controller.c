@@ -23,6 +23,7 @@
 #include "sjc.h"
 #include "configs.h"
 #include "network.h"
+#include "analog_interfaces.h"
 #include "debug_output.h"
 #include "timeout_timer.h"
 #include "network_configs.h"
@@ -105,6 +106,8 @@ void SystemTaskApp(void *argument) {
 	uint32_t timestamp;
 	uint32_t cycle = 0;
 
+	xSjcSampleTimeMeasurement_t Ts;
+
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
@@ -122,6 +125,9 @@ void SystemTaskApp(void *argument) {
 			{
 				SJC_DebugOutput_printf("\n\r[OS] System controller (%lu ms)", timestamp);
 				SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+				SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
+				float MeanSampleTime_ms = 1000.0f*(Ts.timesteps)/(Ts.samples);
+				SJC_DebugOutput_printf("\n\r[OS] Sensors Ts: (%.3f ms)", MeanSampleTime_ms);
 			}
 
 			osDelayUntil(tick);

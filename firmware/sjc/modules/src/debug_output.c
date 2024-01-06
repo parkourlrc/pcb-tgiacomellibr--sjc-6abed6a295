@@ -71,6 +71,9 @@ void SJC_DebugOutput_PresentSystemInfo(void)
 			"\r\n                       HW Version: %u.%u                     ",
 			SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
 	SJC_DebugOutput_printf(
+			"\r\n                 O.S. Tick Frequency: %lu kHz                ",
+				configTICK_RATE_HZ/1000);
+	SJC_DebugOutput_printf(
 			"\r\n------------------------------------------------------------\n");
 }
 

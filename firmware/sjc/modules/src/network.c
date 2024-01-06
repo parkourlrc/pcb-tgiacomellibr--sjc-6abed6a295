@@ -96,7 +96,9 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 	// Update Network Registers
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
 	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
-	compose_byte_array_from_ui32(xBaudRate, &usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE]);
+	uint16_t * ui16ptr = (uint16_t *)(&xBaudRate);
+	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE+1] = ui16ptr[0];
 
 	return SJC_RET_OK;
 }

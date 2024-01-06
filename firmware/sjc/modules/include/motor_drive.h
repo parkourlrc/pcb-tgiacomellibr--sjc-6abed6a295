@@ -24,7 +24,6 @@ float SJC_MotorDrive_GetOutputCurrent(xSjcMotorDrive_t * MotorDrive);
 float SJC_MotorDrive_GetOutputVoltage(xSjcMotorDrive_t * MotorDrive);
 float SJC_MotorDrive_SetOutputVoltage(xSjcMotorDrive_t * MotorDrive, const float voltage);
 
-
 float SJC_MotorDrive_GetSpeedLimit(xSjcActuatorLimits_t * Limits);
 float SJC_MotorDrive_SetSpeedLimit(xSjcActuatorLimits_t * Limits, const float value);
 float SJC_MotorDrive_GetVoltageLimit(xSjcActuatorLimits_t * Limits);

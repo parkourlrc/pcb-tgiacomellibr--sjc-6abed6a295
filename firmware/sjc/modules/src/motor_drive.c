@@ -172,6 +172,7 @@ float SJC_MotorDrive_SetSpeedLimit(xSjcActuatorLimits_t * Limits, const float va
 	Limits->Speed.Max = fmin(SJC_ACTUATOR_LIMIT_MAX_SPEED, value);
 	Limits->Speed.Min = -Limits->Speed.Max;
 
+
 	return Limits->Speed.Max;
 }
 // ------------------------------------------------------------------- //

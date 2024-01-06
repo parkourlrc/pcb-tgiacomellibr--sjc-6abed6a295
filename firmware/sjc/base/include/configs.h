@@ -56,9 +56,9 @@
 #define SJC_ACTUATOR_DRIVER_ENABLE_PORT						V_MOTOR_nEN_GPIO_Port
 #define SJC_ACTUATOR_DRIVER_ENABLE_PIN						V_MOTOR_nEN_Pin
 
-#define SJC_ACTUATOR_LIMIT_MAX_SPEED						( (float) 100.0f)
-#define SJC_ACTUATOR_LIMIT_MAX_CURRENT						( (float) 36.0f)
-#define SJC_ACTUATOR_LIMIT_MAX_VOLTAGE						( (float) 100.0f)
+#define SJC_ACTUATOR_LIMIT_MAX_SPEED						( (float) 10000.0f)
+#define SJC_ACTUATOR_LIMIT_MAX_CURRENT						( (float) 50.0f)
+#define SJC_ACTUATOR_LIMIT_MAX_VOLTAGE						( (float) 36.0f)
 
 // Encoder Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -87,13 +87,18 @@
 #define SJC_ADC_INSTANCE 									( ADC1 )
 #define SJC_ADC_DMA_INSTANCE								DMA2
 #define SJC_ADC_DMA_STREAM									LL_DMA_STREAM_0
+#define SJC_ADC_CHECK_INIT									MX_TIM14_Init
+#define SJC_ADC_CHECK_TIMER_INSTANCE						TIM14
+#define SJC_ADC_CHECK_TIMER_RESOLUTION						( (float) 1.0e-6  )
+#define SJC_ADC_CHECK_TIMER_COUNT_PERIOD					( (uint32_t) 1000 )
 #define ADC_CONV_TIMEOUT_MS 								( (uint32_t) 10 )
 #define ADC_CONV_RESOLUTION 								( (uint32_t) 4095 )
 #define ADC_CONV_MAX_VALUE_FLOAT							( (float) (3.3f) )
 #define ADC_CONV_MIN_VALUE_FLOAT							( (float) (0.0f) )
 #define ADC_CONV_TO_FLOAT(X)								( (float) (X*ADC_CONV_MAX_VALUE_FLOAT)/ADC_CONV_RESOLUTION )
-#define ADC_CONV_DISPATCH_TIMER_INSTANCE					TIM4
 
+#define SJC_ADC_MIN_SAMPLES_BEFORE_CONTROL_ACTION			( (uint32_t) 20 )
+#define SJC_ADC_MAX_SAMPLES_BEFORE_CONTROL_ACTION			( (uint32_t) 200 )
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -125,4 +130,15 @@
 
 #define SJC_HEARTBEAT_OUTPUT_PIN							SYS_HEARTBEAT_Pin
 #define SJC_HEARTBEAT_OUTPUT_PORT							SYS_HEARTBEAT_GPIO_Port
+
+// Debug Configs ------------------------------------------------------------------ //
+// -------------------------------------------------------------------------------- //
+#define SJC_DEBUG_USB_PRINTF_ENABLE
+#define SJC_DEBUG_SERIAL_PRINTF_ENABLE
+
+#ifdef SJC_DEBUG_USB_PRINTF_ENABLE
+#define SJC_DEBUG_PRINT_NET_CMDS
+#define SJC_DEBUG_PRINT_NET_REGS
+#endif
+// -------------------------------------------------------------------------------- //
 #endif /* SJC__BASE__CONFIGS_H_ */

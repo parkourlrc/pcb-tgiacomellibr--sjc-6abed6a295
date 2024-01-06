@@ -93,7 +93,7 @@ eSjcReturnType_t SJC_Encoder_Disable(xSjcEncoder_t * Encoder)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Encoder_GetLastCounter(xSjcEncoder_t * Encoder, int32_t * Counter)
+eSjcReturnType_t SJC_Encoder_GetQuadraturePulseCounter(xSjcEncoder_t * Encoder, int32_t * Counter)
 {
 	Encoder->Counts = LL_TIM_GetCounter(Encoder->Instance);
 	*Counter = Encoder->Counts;
@@ -101,10 +101,11 @@ eSjcReturnType_t SJC_Encoder_GetLastCounter(xSjcEncoder_t * Encoder, int32_t * C
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Encoder_GetLastDisplacementRadians(xSjcEncoder_t * Encoder, float * Displacement)
+eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(xSjcEncoder_t * Encoder, float * Displacement)
 {
 	Encoder->Counts = LL_TIM_GetCounter(Encoder->Instance);
-	*Displacement = 2*M_PI*( (float) Encoder->Counts)/( (float) GET_ENCODER_QUADRATURE_RESOLUTION_PPR(Encoder->Resolution_PPR) );
+	*Displacement = 2*M_PI*( 1.0f*Encoder->Counts)/( 1.0f*GET_ENCODER_QUADRATURE_RESOLUTION_PPR(Encoder->Resolution_PPR) );
+//	*Displacement = 2*M_PI*( (float) Encoder->Counts)/( (float) GET_ENCODER_QUADRATURE_RESOLUTION_PPR(Encoder->Resolution_PPR) );
 	return SJC_RET_OK;
 }
 
