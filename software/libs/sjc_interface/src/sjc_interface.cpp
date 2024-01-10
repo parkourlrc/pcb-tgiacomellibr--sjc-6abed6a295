@@ -54,6 +54,22 @@ eSjcReturnType_t SjcInterface::disconnect(void)
     return SJC_DISCONNECTED;
 }
 
+eSjcReturnType_t SjcInterface::setSlaveAddress(const int address)
+{
+    int ret = modbus_set_slave(ctx, address);
+
+    if (ret == -1)
+    {
+        return SJC_SLAVE_ADDRESS_NOT_ASSIGNED;
+    }
+    else
+    {
+        this->address_ = address;
+    }
+
+    return SJC_RET_OK;
+}
+
 eSjcReturnType_t SjcInterface::getDeviceInfo(xSjcDeviceInfo_t *config)
 {
     const int nb = 3;

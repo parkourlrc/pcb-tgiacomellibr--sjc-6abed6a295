@@ -146,9 +146,9 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xControllerParameters.kp_parameter = 1.0;
-            xControllerParameters.ki_parameter = 0.0;
-            xControllerParameters.kd_parameter = 1000.0;
+            xControllerParameters.kp_parameter = 0.0247;
+            xControllerParameters.ki_parameter = 1.1;
+            xControllerParameters.kd_parameter = 0.0;
             xControllerParameters.aux1_parameter = 10000.0;
             xControllerParameters.aux2_parameter = 30000.0;
             xControllerParameters.rate_parameter = 1000.0;
