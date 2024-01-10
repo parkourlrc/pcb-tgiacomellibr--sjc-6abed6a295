@@ -1,5 +1,5 @@
 /*
- * motor.c
+ * motor_drive.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago

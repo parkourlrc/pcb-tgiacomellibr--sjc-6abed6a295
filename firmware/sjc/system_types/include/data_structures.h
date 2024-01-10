@@ -48,10 +48,10 @@ typedef enum {
 
 typedef enum {
 	SJC_CONTROL_DISABLED 	= 0x0000,
-	SJC_OPEN_LOOP_CONTROL 	= 0x0001,
-	SJC_PRBS_EXCITATION 	= 0x00ff,
-	SJC_SPEED_CONTROL 		= 0xff00,
-	SJC_TORQUE_CONTROL 		= 0xffff
+	SJC_OPEN_LOOP_CONTROL,
+	SJC_SPEED_CONTROL,
+	SJC_TORQUE_CONTROL,
+	SJC_PRBS_EXCITATION
 } eSjcControlMode_t;
 
 typedef enum {
@@ -138,16 +138,21 @@ typedef struct {
 	float Aux2;
 } xControllerParameters_t;
 
+static const xControllerParameters_t xControllerParametersEmptyObj = {0};
+
 typedef struct {
 	float Derivative;
-	float Proportional;
 	float Integral;
-	float Error;
+	float ActualError;
+	float PrevError;
 } xControllerErrors_t;
+
+static const xControllerErrors_t xControllerErrorsEmptyObj = {0};
 
 typedef struct {
 	float Rate;
 	float Reference;
+	float ControlAction;
 	eSjcControlMode_t Mode;
 	xControllerErrors_t Errors;
 	xControllerParameters_t Parameters;

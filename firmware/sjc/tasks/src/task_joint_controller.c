@@ -112,8 +112,8 @@ void ControllerTaskApp(void *argument)
 
 		if (osOK == osMutexAcquire(SystemMutexHandle, CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
-//			bMeasurementDone = false;
-//			tick = osKernelGetTickCount();
+			//			bMeasurementDone = false;
+			//			tick = osKernelGetTickCount();
 
 			ControllerFunc();
 			osMutexRelease(SystemMutexHandle);
@@ -128,35 +128,36 @@ void ControllerTaskApp(void *argument)
 void ControllerFunc(void)
 {
 	eSjcControlMode_t ControlMode;
-	float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, ds = 0, dt = 0, vel = 0;
-	static float Displacement;
+	float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, dt = 0,
+			vel = 0, error = 0, ControlAction = 0, ds = 0, rpm = 0;
+	static float Displacement = 0;
 	static uint32_t stmp;
+
+	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ds, Displacement);
+	Displacement += ds;
+
+	dt = -1e-3*stmp;
+	SJC_GetTime(SJC_TIME_MS, &stmp);
+	dt += 1e-3*stmp;
+
+	vel = ds/dt;
+	rpm = vel*(60)/(2*M_PI);
 
 	SJC_GetControlMode(&ControlMode);
 	SJC_GetControlReference(&Ref);
 
 	switch (ControlMode) {
-	//	case SJC_SPEED_CONTROL:
-	//	case SJC_TORQUE_CONTROL:
-	//	case SJC_PRBS_EXCITATION:
+	case SJC_SPEED_CONTROL:
+		error = Ref - vel;
+		SJC_ComputeControlAction(error, dt, &ControlAction);
+		SJC_SetJointActuatorVoltage(ControlAction);
+		break;
+		//	case SJC_TORQUE_CONTROL:
+		//	case SJC_PRBS_EXCITATION:
 
 	case SJC_OPEN_LOOP_CONTROL:
 		SJC_EnableJointActuators();
 		SJC_SetJointActuatorVoltage(Ref);
-		SJC_GetJointActuatorPowerSupplyVoltage(&PsuVoltage);
-		SJC_GetJointActuatorVoltage(&ActuatorVoltage);
-		SJC_GetJointActuatorCurrent(&ActuatorCurrent);
-
-		SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ds, Displacement);
-		Displacement += ds;
-
-		dt = -1e-3*stmp;
-		SJC_GetTime(SJC_TIME_MS, &stmp);
-		dt += 1e-3*stmp;
-
-		vel = ds*60/(2*M_PI*dt);
-		vel /= 7600;
-
 		break;
 
 	default: // SJC_CONTROL_DISABLED
@@ -164,10 +165,14 @@ void ControllerFunc(void)
 		break;
 	}
 
-//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, ds, (vel/7600));
-	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Rpm: \n");
-//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (vel/7600));
-	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f\n", stmp, (PsuVoltage), (ActuatorVoltage), (ActuatorCurrent), (vel));
+	SJC_GetJointActuatorPowerSupplyVoltage(&PsuVoltage);
+	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
+	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
+
+	//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, ds, (vel/7600));
+//	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, Ref, Err \n");
+	//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (vel/7600));
+	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", stmp, (PsuVoltage), (ActuatorVoltage), (ActuatorCurrent), (vel), rpm, Ref, error);
 }
 
 // ------------------------------------------------------------------- //

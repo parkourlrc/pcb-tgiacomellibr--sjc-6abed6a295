@@ -8,7 +8,6 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <motor_drive.h>
 #include "dma.h"
 #include "gpio.h"
 // ------------------------------------------------------------------- //
@@ -29,10 +28,12 @@
 #include "digital_interfaces.h"
 #include "encoder.h"
 #include "helpers.h"
+#include "motor_drive.h"
 #include "network.h"
-#include "pwm.h"
 #include "timeout_timer.h"
 #include "task_common.h"
+#include "pid_controller.h"
+#include "pwm.h"
 // ------------------------------------------------------------------- //
 
 
@@ -190,71 +191,59 @@ eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config)
 
 eSjcReturnType_t SJC_GetControlReference(float * reference)
 {
-	*reference = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference;
+	*reference = SJC_PidController_GetReference();
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_SetControlReference(const float reference)
 {
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Reference = reference;
+	SJC_PidController_SetReference(reference);
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetControlError(float * controller_error)
 {
-	*controller_error = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error;
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_SetControlError(const float controller_error)
-{
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Errors.Error = controller_error;
+	*controller_error = SJC_PidController_GetError();
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config)
 {
-	*config = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate;
+	SJC_PidController_GetControlUpdateRateHz(config);
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config)
 {
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate = SJC_Helpers_RealClamp(config, SJC_CONTROLLER_MIN_UPDATE_RATE_HZ, SJC_CONTROLLER_MAX_UPDATE_RATE_HZ);
+	SJC_PidController_SetControlUpdateRateHz(config);
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config)
 {
-	*config = ((uint32_t) (1000/xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Rate));
+	SJC_PidController_GetControlUpdatePeriodMs(config);
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters)
 {
-	Parameters->Kp = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp;
-	Parameters->Ki = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki;
-	Parameters->Kd = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd;
-	Parameters->Aux1 = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1;
-	Parameters->Aux2 = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2;
-
-	return SJC_RET_OK;
+	return SJC_PidController_GetControlParameters(Parameters);
 }
 
 eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters)
 {
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kp = Parameters.Kp;
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Ki = Parameters.Ki;
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Kd = Parameters.Kd;
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux1 = Parameters.Aux1;
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Parameters.Aux2 = Parameters.Aux2;
+	return SJC_PidController_SetControlParameters(Parameters);
+}
+
+eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float dt, float * ControlAction)
+{
+	*ControlAction = SJC_PidController_Compute(ControlError, dt);
 
 	return SJC_RET_OK;
 }
@@ -442,10 +431,12 @@ void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJ
 	JointObject->Controller.Mode = (Type == SJC_PASSIVE_JOINT) ? SJC_CONTROL_DISABLED : SJC_OPEN_LOOP_CONTROL;
 	JointObject->Controller.Rate = SJC_CONTROLLER_MIN_UPDATE_RATE_HZ;
 	JointObject->Controller.Reference = 0;
-	JointObject->Controller.Errors.Proportional = 0;
-	JointObject->Controller.Errors.Integral = 0;
-	JointObject->Controller.Errors.Derivative = 0;
-	JointObject->Controller.Errors.Error = 0;
+
+	if (Type == SJC_ACTIVE_JOINT)
+	{
+		SJC_PidController_Init(&JointObject->Controller);
+	}
+
 	SJC_Encoder_init(&JointObject->Encoder, Joint);
 	SJC_Encoder_Enable(&JointObject->Encoder);
 

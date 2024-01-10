@@ -1,5 +1,5 @@
 /*
- * digital_interfaces.c
+ * encoder.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago

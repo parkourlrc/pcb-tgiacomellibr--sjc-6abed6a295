@@ -49,7 +49,6 @@ eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const
 eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t * config);
 eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config);
 eSjcReturnType_t SJC_GetControlError(float * controller_error);
-eSjcReturnType_t SJC_SetControlError(const float controller_error);
 eSjcReturnType_t SJC_GetControlReference(float * reference);
 eSjcReturnType_t SJC_SetControlReference(const float reference);
 eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters);
@@ -57,5 +56,6 @@ eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Paramete
 eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config);
 eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config);
 eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config);
+eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float dt, float * ControlAction);
 
 #endif /* SJC__MODULES__SYSTEM_PARAMETERS_H_ */

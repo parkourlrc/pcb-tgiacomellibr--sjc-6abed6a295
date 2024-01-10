@@ -1,5 +1,5 @@
 /*
- * motor.c
+ * pwm.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
