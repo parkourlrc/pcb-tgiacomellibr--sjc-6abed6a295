@@ -20,39 +20,54 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-
-
+#define BINARY_SEMPHR_COUNT_SIZE							((uint32_t) 1U)
+#define BINARY_SEMPHR_INITIAL_COUNT							((uint32_t) 1U)
 // ------------------------------------------------------------------- //
 
 // Common data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
-osMutexId_t SharedDataMutexHandle;
-osMutexId_t SerialDebugMutexHandle;
-osMutexId_t UsbDebugMutexHandle;
+osSemaphoreId_t SharedDataSemaphoreHandle;
+osSemaphoreId_t SerialDebugSemaphoreHandle;
+osSemaphoreId_t UsbDebugSemaphoreHandle;
 
-StaticSemaphore_t SharedDataMutexControlBlock;
-StaticSemaphore_t SerialDebugMutexControlBlock;
-StaticSemaphore_t UsbDebugMutexControlBlock;
+StaticSemaphore_t SharedDataSemaphoreControlBlock;
+StaticSemaphore_t SerialDebugSemaphoreControlBlock;
+StaticSemaphore_t UsbDebugSemaphoreControlBlock;
 
-osThreadId_t SystemTaskHandle;
+osThreadId_t WatchdogTaskHandle;
+osThreadId_t NetworkTaskHandle;
 osThreadId_t LoggerTaskHandle;
 osThreadId_t ControllerTaskHandle;
+osThreadId_t AnalogTaskHandle;
 
-StaticTask_t SystemTaskControlBlock;
+StaticTask_t WatchdogTaskControlBlock;
+StaticTask_t NetworkTaskControlBlock;
 StaticTask_t LoggerTaskControlBlock;
 StaticTask_t ControllerTaskControlBlock;
+StaticTask_t AnalogTaskControlBlock;
 
-uint32_t SystemTaskBuffer[ 256 ];
+uint32_t WatchdogTaskBuffer[ 256 ];
+uint32_t NetworkTaskBuffer[ 256 ];
 uint32_t LoggerTaskBuffer[ 512 ];
 uint32_t ControllerTaskBuffer[ 4096 ];
+uint32_t AnalogTaskBuffer[ 256 ];
 
-const osThreadAttr_t SystemTask_attributes = {
-		.name = "SystemTask",
-		.cb_mem = &SystemTaskControlBlock,
-		.cb_size = sizeof(SystemTaskControlBlock),
-		.stack_mem = &SystemTaskBuffer[0],
-		.stack_size = sizeof(SystemTaskBuffer),
-		.priority = (osPriority_t) osPriorityNormal1,
+const osThreadAttr_t WatchdogTask_attributes = {
+		.name = "WatchdogTask",
+		.cb_mem = &WatchdogTaskControlBlock,
+		.cb_size = sizeof(WatchdogTaskControlBlock),
+		.stack_mem = &WatchdogTaskBuffer[0],
+		.stack_size = sizeof(WatchdogTaskBuffer),
+		.priority = (osPriority_t) osPriorityNormal,
+};
+
+const osThreadAttr_t NetworkTask_attributes = {
+		.name = "NetworkTask",
+		.cb_mem = &NetworkTaskControlBlock,
+		.cb_size = sizeof(NetworkTaskControlBlock),
+		.stack_mem = &NetworkTaskBuffer[0],
+		.stack_size = sizeof(NetworkTaskBuffer),
+		.priority = (osPriority_t) osPriorityNormal,
 };
 
 const osThreadAttr_t ControllerTask_attributes = {
@@ -70,25 +85,25 @@ const osThreadAttr_t LoggerTask_attributes = {
 		.cb_size = sizeof(LoggerTaskControlBlock),
 		.stack_mem = &LoggerTaskBuffer[0],
 		.stack_size = sizeof(LoggerTaskBuffer),
-		.priority = (osPriority_t) osPriorityBelowNormal,
+		.priority = (osPriority_t) osPriorityAboveNormal,
 };
 
-const osMutexAttr_t SharedDataMutex_attributes = {
-		.name = "SharedDataMutex",
-		.cb_mem = &SharedDataMutexControlBlock,
-		.cb_size = sizeof(SharedDataMutexControlBlock),
+const osSemaphoreAttr_t SharedDataSemaphore_attributes = {
+		.name = "SharedDataSemaphore",
+		.cb_mem = &SharedDataSemaphoreControlBlock,
+		.cb_size = sizeof(SharedDataSemaphoreControlBlock),
 };
 
-const osMutexAttr_t SerialDebugMutex_attributes = {
-		.name = "SerialDebugMutex",
-		.cb_mem = &SerialDebugMutexControlBlock,
-		.cb_size = sizeof(SerialDebugMutexControlBlock),
+const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
+		.name = "SerialDebugSemaphore",
+		.cb_mem = &SerialDebugSemaphoreControlBlock,
+		.cb_size = sizeof(SerialDebugSemaphoreControlBlock)
 };
 
-const osMutexAttr_t UsbDebugMutex_attributes = {
-		.name = "UsbDebugMutex",
-		.cb_mem = &UsbDebugMutexControlBlock,
-		.cb_size = sizeof(UsbDebugMutexControlBlock),
+const osSemaphoreAttr_t UsbDebugSemaphore_attributes = {
+		.name = "UsbDebugSemaphore",
+		.cb_mem = &UsbDebugSemaphoreControlBlock,
+		.cb_size = sizeof(UsbDebugSemaphoreControlBlock)
 };
 // ------------------------------------------------------------------- //
 
@@ -99,7 +114,8 @@ const osMutexAttr_t UsbDebugMutex_attributes = {
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-extern void SystemTaskApp(void *argument);
+extern void WatchdogTaskApp(void *argument);
+extern void NetworkTaskApp(void *argument);
 extern void LoggerTaskApp(void *argument);
 extern void ControllerTaskApp(void *argument);
 // ------------------------------------------------------------------- //
@@ -109,150 +125,142 @@ extern void ControllerTaskApp(void *argument);
 eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
 {
 
-	// Mutex creation
-	SharedDataMutexHandle = osMutexNew(&SharedDataMutex_attributes);
-	SerialDebugMutexHandle = osMutexNew(&SerialDebugMutex_attributes);
-	UsbDebugMutexHandle = osMutexNew(&UsbDebugMutex_attributes);
+	// Semaphores creation
+	SharedDataSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SharedDataSemaphore_attributes);
 
-	if (SharedDataMutexHandle == NULL)
+	SerialDebugSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
+
+	UsbDebugSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &UsbDebugSemaphore_attributes);
+
+	if (SharedDataSemaphoreHandle == NULL)
 	{
 		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex not created...");
 		return SJC_RET_NOK;
 	} else
 	{
-		osMutexRelease(SharedDataMutexHandle);
-		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex created!");
+		osSemaphoreRelease(SharedDataSemaphoreHandle);
 	}
 
-	if (SerialDebugMutexHandle == NULL)
+	if (SerialDebugSemaphoreHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS] Serial debug mutex not created...");
+		SJC_DebugOutput_printf("\r\n[OS] Serial debug semaphore not created...");
 		return SJC_RET_NOK;
 	} else
 	{
-		osMutexRelease(SerialDebugMutexHandle);
-		SJC_DebugOutput_printf("\r\n[OS] Serial debug mutex created!");
+		osSemaphoreRelease(SerialDebugSemaphoreHandle);
 	}
 
-	if (UsbDebugMutexHandle == NULL)
+	if (UsbDebugSemaphoreHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS] USB debug mutex not created...");
+		SJC_DebugOutput_printf("\r\n[OS] USB debug semaphore not created...");
 		return SJC_RET_NOK;
 	} else
 	{
-		osMutexRelease(UsbDebugMutexHandle);
-		SJC_DebugOutput_printf("\r\n[OS] USB Debug mutex created!");
+		osSemaphoreRelease(UsbDebugSemaphoreHandle);
 	}
 
 	// Tasks creation
-
-	SystemTaskHandle = osThreadNew(SystemTaskApp, NULL, &SystemTask_attributes);
-	//	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
+	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
+	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
 	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
+	//	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
 
-	if (NULL == SystemTaskHandle)
+	if (NULL == WatchdogTaskHandle)
 	{
-		SJC_DebugOutput_printf("\r\n[OS] System manager task not initiated...");
+		SJC_DebugOutput_printf("\r\n[OS] Watchdog task not initiated...");
 		return SJC_RET_NOK;
 	}
-	else
-	{
-		SJC_DebugOutput_printf("\r\n[OS] System manager task created!");
-	}
 
-	//	if (NULL == LoggerTaskHandle)
-	//	{
-	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task created!");
-	//	}
-	//	else
-	//	{
-	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
-	//		return SJC_RET_NOK;
-	//	}
+	if (NULL == NetworkTaskHandle)
+	{
+		SJC_DebugOutput_printf("\r\n[OS] Network task not initiated...");
+		return SJC_RET_NOK;
+	}
 
 	if (NULL == ControllerTaskHandle)
 	{
 		SJC_DebugOutput_printf("\r\n[OS] Joint controller task not initiated...");
 		return SJC_RET_NOK;
 	}
-	else
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Joint controller task created!");
-	}
 
+	//	if (NULL == LoggerTaskHandle)
+	//	{
+	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
+	//		return SJC_RET_NOK;
+	//	}
 
 	return SJC_RET_OK;
 }
 
-osStatus_t SJC_TaskCommon_SharedDataMutexTake(const uint32_t timeout)
+osStatus_t SJC_TaskCommon_SharedDataSemaphoreTake(const uint32_t timeout)
 {
-	if (SharedDataMutexHandle == NULL)
+	if (SharedDataSemaphoreHandle == NULL)
+		{
+			return osErrorResource;
+		}
+		else
+		{
+			return osSemaphoreAcquire(SharedDataSemaphoreHandle, timeout);
+		}
+}
+
+osStatus_t SJC_TaskCommon_SharedDataSemaphoreGive(void)
+{
+	if (SharedDataSemaphoreHandle == NULL)
+		{
+			return osErrorResource;
+		}
+		else
+		{
+			return osSemaphoreRelease(SharedDataSemaphoreHandle);
+		}
+}
+
+osStatus_t SJC_TaskCommon_SerialDebugSemaphoreTake(const uint32_t timeout)
+{
+	if (SerialDebugSemaphoreHandle == NULL)
 	{
 		return osErrorResource;
 	}
 	else
 	{
-		return osMutexAcquire(SharedDataMutexHandle, timeout);
+		return osSemaphoreAcquire(SerialDebugSemaphoreHandle, timeout);
 	}
 }
 
-osStatus_t SJC_TaskCommon_SharedDataMutexGive(void)
+osStatus_t SJC_TaskCommon_SerialDebugSemaphoreGive(void)
 {
-	if (SharedDataMutexHandle == NULL)
+	if (SerialDebugSemaphoreHandle == NULL)
 	{
 		return osErrorResource;
 	}
 	else
 	{
-		return osMutexRelease(SharedDataMutexHandle);
+		return osSemaphoreRelease(SerialDebugSemaphoreHandle);
 	}
 }
 
-osStatus_t SJC_TaskCommon_SerialDebugMutexTake(const uint32_t timeout)
+osStatus_t SJC_TaskCommon_UsbDebugSemaphoreTake(const uint32_t timeout)
 {
-	if (SerialDebugMutexHandle == NULL)
+	if (UsbDebugSemaphoreHandle == NULL)
 	{
 		return osErrorResource;
 	}
 	else
 	{
-		return osMutexAcquire(SerialDebugMutexHandle, timeout);
+		return osSemaphoreAcquire(UsbDebugSemaphoreHandle, timeout);
 	}
 }
 
-osStatus_t SJC_TaskCommon_SerialDebugMutexGive(void)
+osStatus_t SJC_TaskCommon_UsbDebugSemaphoreGive(void)
 {
-	if (SerialDebugMutexHandle == NULL)
+	if (UsbDebugSemaphoreHandle == NULL)
 	{
 		return osErrorResource;
 	}
 	else
 	{
-		return osMutexRelease(SerialDebugMutexHandle);
-	}
-}
-
-osStatus_t SJC_TaskCommon_UsbDebugMutexTake(const uint32_t timeout)
-{
-	if (UsbDebugMutexHandle == NULL)
-	{
-		return osErrorResource;
-	}
-	else
-	{
-		return osMutexAcquire(UsbDebugMutexHandle, timeout);
-	}
-}
-
-osStatus_t SJC_TaskCommon_UsbDebugMutexGive(void)
-{
-	if (UsbDebugMutexHandle == NULL)
-	{
-		return osErrorResource;
-	}
-	else
-	{
-		return osMutexRelease(UsbDebugMutexHandle);
+		return osSemaphoreRelease(UsbDebugSemaphoreHandle);
 	}
 }
 

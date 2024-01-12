@@ -1,0 +1,94 @@
+/*
+ * network_task.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: tiago
+ */
+
+
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+#include "main.h"
+#include "cmsis_os.h"
+// ------------------------------------------------------------------- //
+
+// NETWORK includes -------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Task includes ----------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#include "task_common.h"
+
+#include "sjc.h"
+#include "configs.h"
+#include "network.h"
+#include "analog_interfaces.h"
+#include "debug_output.h"
+#include "timeout_timer.h"
+#include "network_configs.h"
+
+// ------------------------------------------------------------------- //
+
+
+// Task defines ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS			( (uint32_t ) 2U)
+// ------------------------------------------------------------------- //
+
+// Task data structures ---------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Task variables ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Private function prototypes --------------------------------------- //
+// ------------------------------------------------------------------- //
+void NetworkTaskApp(void *argument);
+// ------------------------------------------------------------------- //
+
+// Public functions -------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Private functions ------------------------------------------------- //
+// ------------------------------------------------------------------- //
+void NetworkTaskApp(void *argument) {
+	/* USER CODE BEGIN NetworkTaskApp */
+
+	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
+	{
+		SJC_SYSTEM_RESET();
+	}
+
+	osDelay(SJC_TASK_INIT_DELAY);
+	SJC_DebugOutput_printf("\r\n[OS] Network task initiated!");
+	SJC_DebugOutput_printf("\r\n[OS] Modbus communication enabled!");
+
+	uint32_t tick = osKernelGetTickCount();
+
+	/* Infinite loop */
+	for (;;) {
+		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
+
+		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		{
+			SJC_Network_Update();
+			SJC_ExecuteNetworkCommands();
+			SJC_UpdateNetworkDataRegisters();
+
+			SJC_TaskCommon_SharedDataSemaphoreGive();
+
+			osDelayUntil(tick);
+		}
+	}
+	/* USER CODE END MainTaskApp */
+}
+
+// ------------------------------------------------------------------- //

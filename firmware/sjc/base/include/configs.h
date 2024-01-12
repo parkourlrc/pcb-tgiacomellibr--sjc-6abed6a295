@@ -41,8 +41,10 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_DATA_LOGGER_UPDATE_PERIOD_MS					( (uint32_t) 1UL)
-#define SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS				( (uint32_t) 5UL)
+#define SJC_TASK_INIT_DELAY										( (uint32_t) 200UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS							( (uint32_t) 500UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS					( (uint32_t) 1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS						( (uint32_t) 5UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -85,11 +87,9 @@
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_ADC_INIT	 									MX_ADC1_Init
 #define SJC_ADC_INSTANCE 									( ADC1 )
 #define SJC_ADC_DMA_INSTANCE								DMA2
 #define SJC_ADC_DMA_STREAM									LL_DMA_STREAM_0
-#define SJC_ADC_CHECK_INIT									MX_TIM14_Init
 #define SJC_ADC_CHECK_TIMER_INSTANCE						TIM14
 #define SJC_ADC_CHECK_TIMER_RESOLUTION						( (float) 1.0e-6  )
 #define SJC_ADC_CHECK_TIMER_COUNT_PERIOD					( (uint32_t) 1000 )

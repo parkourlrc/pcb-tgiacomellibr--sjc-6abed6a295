@@ -12,6 +12,8 @@
 #include "tim.h"
 #include "main.h"
 
+#include "FreeRTOS.h"
+#include "task.h"
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
@@ -38,7 +40,7 @@ typedef enum {
 	VREF_INT_CONV = 2
 } eSjcConversionOrder_t;
 
-
+extern TaskHandle_t xControlTaskHandle;
 // ------------------------------------------------------------------- //
 
 // Module variables -------------------------------------------------- //
@@ -64,8 +66,6 @@ eSjcReturnType_t SJC_AnalogInterfaces_Init(void)
 	/* ADC Peripheral Configuration ---------------------------------- */
 	if (0Ul == xAnalogSensorsInitiated)
 	{
-		SJC_ADC_INIT();
-		SJC_ADC_CHECK_INIT();
 		LL_TIM_EnableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 		xAnalogSensorsInitiated++;
 	}
@@ -184,6 +184,15 @@ void ADC_IRQHandler(void)
 		/* Call interruption treatment function */
 		ComputeSampleTime();
 		ComputeAdcMeasurements();
+
+		if ((xSampleTimeObj.samples % 20) == 0)
+		{
+			BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+			configASSERT( xControlTaskHandle != NULL );
+			vTaskNotifyGiveFromISR( xControlTaskHandle, &xHigherPriorityTaskWoken );
+			portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+		}
+
 	}
 
 	/* Check whether ADC group regular overrun caused the ADC interruption */

@@ -68,11 +68,14 @@ void LoggerTaskApp(void *argument)
 	last_tick = tick;
 	//	xSjcLogData_t xLogData;
 
+	osDelay(SJC_TASK_INIT_DELAY);
+	SJC_DebugOutput_printf("\r\n[OS] Data logger task initiated!");
+
 	/* Infinite loop */
 	for(;;)
 	{
-		tick += pdMS_TO_TICKS(SJC_DATA_LOGGER_UPDATE_PERIOD_MS);
-		if (osOK == SJC_TaskCommon_SharedDataMutexTake(DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		tick += pdMS_TO_TICKS(SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS);
+		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			uint32_t TimeStamp;
 			SJC_GetTime(SJC_TIME_MS, &TimeStamp);
@@ -87,11 +90,10 @@ void LoggerTaskApp(void *argument)
 			//		xLogData.MotorCurrent = SJC_Motor_GetElectricCurrent();
 			//		xLogData.SystemVoltage = SJC_Motor_GetPowerSupplyVoltage();
 
-			SJC_TaskCommon_SharedDataMutexGive();
+			SJC_TaskCommon_SharedDataSemaphoreGive();
 
 			osDelayUntil(tick);
 		}
-
 	}
 	/* USER CODE END MainTaskApp */
 }

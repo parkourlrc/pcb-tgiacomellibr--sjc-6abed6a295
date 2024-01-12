@@ -9,7 +9,6 @@
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "usart.h"
-#include "usb_device.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
 // ------------------------------------------------------------------- //
@@ -19,6 +18,7 @@
 #include "debug_output.h"
 
 #include "configs.h"
+#include "task_common.h"
 // ------------------------------------------------------------------- //
 
 
@@ -27,6 +27,9 @@
 #define DEBUG_IFC_INSTANCE USART3
 #define DEBUG_BUFF_SIZE (512UL)
 #define DEBUG_USB_BUFF_SIZE (512UL)
+
+#define CONTROLLER_USB_DBG_SEMPHR_WAIT_TIME_MS			((uint32_t) 10U)
+#define CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS		((uint32_t) 10U)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -51,8 +54,7 @@ int __io_putchar(int ch);
 // ------------------------------------------------------------------- //
 void SJC_DebugOutput_Init(void)
 {
-	MX_USB_DEVICE_Init();
-	MX_USART3_UART_Init();
+
 }
 
 void SJC_DebugOutput_PresentSystemInfo(void)
@@ -72,12 +74,14 @@ void SJC_DebugOutput_PresentSystemInfo(void)
 			SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
 	SJC_DebugOutput_printf(
 			"\r\n                 O.S. Tick Frequency: %lu kHz                ",
-				configTICK_RATE_HZ/1000);
+			configTICK_RATE_HZ/1000);
 	SJC_DebugOutput_printf(
 			"\r\n------------------------------------------------------------\n");
 }
 
 int SJC_DebugOutput_printf(const char *format, ...)
+{
+	if (osOK == SJC_TaskCommon_SerialDebugSemaphoreTake(CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
 	{
 		va_list ap;
 		int n = 0;
@@ -93,8 +97,15 @@ int SJC_DebugOutput_printf(const char *format, ...)
 			}
 		}
 
+		SJC_TaskCommon_SerialDebugSemaphoreGive();
+
 		return n;
 	}
+	else
+	{
+		return -1;
+	}
+}
 
 int SJC_DebugOutput_UsbPrintf(const char *format, ...)
 {
@@ -109,8 +120,16 @@ int SJC_DebugOutput_UsbPrintf(const char *format, ...)
 		CDC_Transmit_FS(g_usb_debug_buff, n);
 	}
 
-	return n;
+	SJC_TaskCommon_UsbDebugSemaphoreGive();
 
+	return n;
+	//	if (osOK == SJC_TaskCommon_UsbDebugSemaphoreTake(CONTROLLER_USB_DBG_SEMPHR_WAIT_TIME_MS))
+	//	{
+	//	}
+	//	else
+	//	{
+	//		return -1;
+	//	}
 }
 // ------------------------------------------------------------------- //
 

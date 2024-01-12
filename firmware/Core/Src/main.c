@@ -95,14 +95,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   SJC_Init();
 
-  SJC_Delay(SJC_TIME_SEC, 1);
-
-  SJC_PresentSystemInfo();
-
-  SJC_Delay(SJC_TIME_SEC, 1);
-
-  SJC_InitOsKernel();
-
   /* USER CODE END 2 */
 
   /* Init scheduler */

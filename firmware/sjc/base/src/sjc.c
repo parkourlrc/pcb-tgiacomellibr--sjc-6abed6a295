@@ -10,6 +10,7 @@
 // ------------------------------------------------------------------- //
 #include "dma.h"
 #include "gpio.h"
+#include "usb_device.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -57,7 +58,6 @@ static xSjcJoint_t xSjcJoint[SJC_JOINTS_SIZE];
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void InitJointTimers(void);
 void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJoint_t * JointObject);
 
 // Input registers update process ------------------------------------ //
@@ -82,23 +82,51 @@ void Net_ExecuteControllerParametersUpdateCmd(void);
 // ------------------------------------------------------------------- //
 void SJC_Init(void)
 {
-	MX_DMA_Init();
+	SJC_Delay(SJC_TIME_SEC, 2);
 
-	MX_GPIO_Init();
+	// SJC Peripheral initialization
+	SJC_Hardware_Init();
 
-	InitJointTimers();
+	// SJC Modules initialization
+	SJC_SetVersions();
 
 	SJC_Timer_Init();
-
 	SJC_DebugOutput_Init();
-
 	SJC_AnalogInterfaces_Init();
 
 	InitJointObject(SJC_AUX_JOINT_A, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_A]);
 	InitJointObject(SJC_AUX_JOINT_B, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_B]);
 	InitJointObject(SJC_ACTUATOR_JOINT, SJC_ACTIVE_JOINT, &xSjcJoint[SJC_ACTUATOR_JOINT]);
 
-	SJC_SetVersions();
+	if (SJC_RET_NOK == SJC_InitOsKernel())
+	{
+		SJC_DebugOutput_printf("\r\n[OS] Kernel initialization fault! Resetting...!");
+		SJC_SYSTEM_RESET();
+	}
+	SJC_Delay(SJC_TIME_SEC, 1);
+}
+
+void SJC_Hardware_Init(void)
+{
+	// Init all board GPIOs
+	MX_GPIO_Init();
+
+	// Init DMA controller
+	MX_DMA_Init();
+
+	// Init ADC and Sample time check timer
+	MX_ADC1_Init();
+	MX_TIM14_Init();
+
+	// Init Joint PWM and Encoders
+	MX_TIM1_Init();
+	MX_TIM2_Init();
+	MX_TIM3_Init();
+	MX_TIM8_Init();
+
+	// Init USB and Serial debug devices
+	MX_USB_DEVICE_Init();
+	MX_USART3_UART_Init();
 }
 
 eSjcReturnType_t SJC_InitOsKernel(void)
@@ -460,14 +488,6 @@ void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJ
 
 		SJC_MotorDrive_Init(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive, PWM_FREQ_20kHz, 24.0);
 	}
-}
-
-void InitJointTimers(void)
-{
-	MX_TIM1_Init();
-	MX_TIM2_Init();
-	MX_TIM3_Init();
-	MX_TIM8_Init();
 }
 
 // Input registers update process ------------------------------------ //

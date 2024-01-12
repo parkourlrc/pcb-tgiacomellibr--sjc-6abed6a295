@@ -34,7 +34,7 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS	( (uint32_t ) 2U)
+#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS			( (uint32_t ) 10U)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -49,7 +49,7 @@
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void SystemTaskApp(void *argument);
+void WatchdogTaskApp(void *argument);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -59,42 +59,37 @@ void SystemTaskApp(void *argument);
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SystemTaskApp(void *argument) {
-	/* USER CODE BEGIN SystemTaskApp */
+void WatchdogTaskApp(void *argument) {
+	/* USER CODE BEGIN WatchdogTaskApp */
 
-	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
-	{
-		SJC_SYSTEM_RESET();
-	}
+	SJC_PresentSystemInfo();
+
+	osDelay(SJC_TASK_INIT_DELAY);
+	SJC_DebugOutput_printf("\r\n[OS] Watchdog task initiated!");
 
 	uint32_t tick = osKernelGetTickCount();
 
 	uint32_t timestamp;
-	uint32_t cycle = 0;
 
 	xSjcSampleTimeMeasurement_t Ts;
 
 	/* Infinite loop */
 	for (;;) {
-		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
+		tick += pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS);
 
-		if (osOK == SJC_TaskCommon_SharedDataMutexTake(SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
-			SJC_Network_Update();
-			SJC_ExecuteNetworkCommands();
-			SJC_UpdateNetworkDataRegisters();
-
-			SJC_TaskCommon_SharedDataMutexGive();
-
 			SJC_GetTime(SJC_TIME_MS, &timestamp);
 
-			if (++cycle % 200 == 0)
-			{
-				SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
-				float MeanSampleTime_ms = 1000.0f*(Ts.timesteps)/(Ts.samples);
-				SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f ms)", timestamp, MeanSampleTime_ms);
-				SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
-			}
+			SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
+
+			SJC_TaskCommon_SharedDataSemaphoreGive();
+
+			SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+
+			float MeanSampleTime_ms = 1000.0f*(Ts.timesteps)/(Ts.samples);
+
+			SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f ms)", timestamp, MeanSampleTime_ms);
 
 			osDelayUntil(tick);
 		}

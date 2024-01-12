@@ -90,9 +90,6 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 		return SJC_RET_NOK;
 	}
 
-	usRegHoldingBuf[0] = 1;
-	SJC_DebugOutput_printf("\r\n[OS] Modbus network initiated!");
-
 	// Update Network Registers
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
 	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
