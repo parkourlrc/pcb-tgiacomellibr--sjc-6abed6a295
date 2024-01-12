@@ -15,7 +15,7 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "task_joint_controller.h"
+#include "task_common.h"
 
 #include "sjc.h"
 #include "configs.h"
@@ -38,22 +38,7 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-osMutexId_t SystemMutexHandle;
 
-osThreadId_t ControllerTaskHandle;
-StaticTask_t ControllerTaskControlBlock;
-
-uint32_t ControllerTaskBuffer[ 4096 ];
-const osThreadAttr_t ControllerTask_attributes = {
-		.name = "ControllerTask",
-		.cb_mem = &ControllerTaskControlBlock,
-		.cb_size = sizeof(ControllerTaskControlBlock),
-		.stack_mem = &ControllerTaskBuffer[0],
-		.stack_size = sizeof(ControllerTaskBuffer),
-		.priority = (osPriority_t) osPriorityRealtime,
-};
-
-extern volatile bool bMeasurementDone;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -65,32 +50,7 @@ void ControllerTaskApp(void *argument);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_TaskActuatorController_SetSharedDataMutex(osMutexId_t MutexHandle)
-{
-	SystemMutexHandle = MutexHandle;
 
-	if (SystemMutexHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Controller task: Shared data mutex not available...");
-		return SJC_RET_NOK;
-	} else
-	{
-		return SJC_RET_OK;
-	}
-}
-
-eSjcReturnType_t SJC_TaskActuatorController_Init(void){
-	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
-
-	if (ControllerTaskHandle == NULL)
-	{
-		return SJC_RET_NOK;
-	}
-	else
-	{
-		return SJC_RET_OK;
-	}
-}
 
 // ------------------------------------------------------------------- //
 
@@ -110,13 +70,13 @@ void ControllerTaskApp(void *argument)
 		SJC_GetControlUpdatePeriodMs(&ControlPeriod);
 		tick += pdMS_TO_TICKS(ControlPeriod);
 
-		if (osOK == osMutexAcquire(SystemMutexHandle, CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		if (osOK == SJC_TaskCommon_SharedDataMutexTake(CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			//			bMeasurementDone = false;
 			//			tick = osKernelGetTickCount();
 
 			ControllerFunc();
-			osMutexRelease(SystemMutexHandle);
+			SJC_TaskCommon_SharedDataMutexGive();
 
 			osDelayUntil(tick);
 		}

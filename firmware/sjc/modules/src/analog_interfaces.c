@@ -16,6 +16,8 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
+#include "task_common.h"
+
 #include "analog_interfaces.h"
 #include "configs.h"
 #include "debug_output.h"
@@ -45,11 +47,8 @@ typedef enum {
 static float xAnalogSensorsValueBuffer[ADC_CONVERTED_DATA_BUFFER_SIZE];
 static uint16_t xAnalogSensorConvBuffer[ADC_CONVERTED_DATA_BUFFER_SIZE];
 static uint32_t xAnalogSensorsInitiated = 0;
-static uint32_t xMeasurementCounter = 0;
 
 xSjcSampleTimeMeasurement_t xSampleTimeObj = xSjcSampleTimeEmptyObj;
-
-osMutexId_t MeasurementMutexHandle;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -129,20 +128,6 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_SetSharedDataMutex(osMutexId_t MutexHandle)
-{
-	MeasurementMutexHandle = MutexHandle;
-
-	if (MeasurementMutexHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Measurement controller: Shared data mutex not available...");
-		return SJC_RET_NOK;
-	} else
-	{
-		return SJC_RET_OK;
-	}
-}
-
 eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcSampleTimeMeasurement_t * Ts)
 {
 	*Ts = xSampleTimeObj;
@@ -187,15 +172,6 @@ void ComputeAdcMeasurements(void)
 	xAnalogSensorsValueBuffer[MOTOR_CURRENT_CONV] += (__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAnalogSensorConvBuffer[MOTOR_CURRENT_CONV], LL_ADC_RESOLUTION_12B)*CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f);
 	xAnalogSensorsValueBuffer[MOTOR_VOLTAGE_CONV] += (__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAnalogSensorConvBuffer[MOTOR_VOLTAGE_CONV], LL_ADC_RESOLUTION_12B)*VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f);
 	xAnalogSensorsValueBuffer[VREF_INT_CONV] += (__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAnalogSensorConvBuffer[VREF_INT_CONV], LL_ADC_RESOLUTION_12B)*VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f);
-
-	//	if (++xMeasurementCounter >= SJC_ADC_MIN_SAMPLES_BEFORE_CONTROL_ACTION)
-	//	{
-	//		BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-	//
-	//		bMeasurementDone = true;
-	//
-	//		portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-	//	}
 }
 
 void ADC_IRQHandler(void)

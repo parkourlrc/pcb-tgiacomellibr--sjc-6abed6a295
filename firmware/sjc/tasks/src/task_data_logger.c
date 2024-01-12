@@ -8,8 +8,6 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <motor_drive.h>
-#include "task_data_logger.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "usbd_cdc.h"
@@ -19,9 +17,14 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
+#include "task_common.h"
+
 #include "sjc.h"
 #include "configs.h"
+#include "motor_drive.h"
 #include "debug_output.h"
+
+
 // ------------------------------------------------------------------- //
 
 
@@ -38,20 +41,7 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-osMutexId_t DataLoggerMutexHandle;
 
-osThreadId_t LoggerTaskHandle;
-StaticTask_t LoggerTaskControlBlock;
-
-uint32_t LoggerTaskBuffer[ 512 ];
-const osThreadAttr_t LoggerTask_attributes = {
-		.name = "LoggerTask",
-		.cb_mem = &LoggerTaskControlBlock,
-		.cb_size = sizeof(LoggerTaskControlBlock),
-		.stack_mem = &LoggerTaskBuffer[0],
-		.stack_size = sizeof(LoggerTaskBuffer),
-		.priority = (osPriority_t) osPriorityBelowNormal,
-};
 
 char xTxBuff[DATA_LOGGER_TX_BUFF_SIZE];
 int uTxBuffLen;
@@ -64,32 +54,7 @@ void LoggerTaskApp(void *argument);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_TaskDataLogger_SetSharedDataMutex(osMutexId_t MutexHandle)
-{
-	DataLoggerMutexHandle = MutexHandle;
 
-	if (DataLoggerMutexHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Data logger task: Shared data mutex not available...");
-		return SJC_RET_NOK;
-	} else
-	{
-		return SJC_RET_OK;
-	}
-}
-
-eSjcReturnType_t SJC_TaskDataLogger_Init(void){
-	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
-
-	if (LoggerTaskHandle == NULL)
-	{
-		return SJC_RET_NOK;
-	}
-	else
-	{
-		return SJC_RET_OK;
-	}
-}
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
@@ -107,7 +72,7 @@ void LoggerTaskApp(void *argument)
 	for(;;)
 	{
 		tick += pdMS_TO_TICKS(SJC_DATA_LOGGER_UPDATE_PERIOD_MS);
-		if (osOK == osMutexAcquire(DataLoggerMutexHandle, DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+		if (osOK == SJC_TaskCommon_SharedDataMutexTake(DATA_LOGGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			uint32_t TimeStamp;
 			SJC_GetTime(SJC_TIME_MS, &TimeStamp);
@@ -122,7 +87,7 @@ void LoggerTaskApp(void *argument)
 			//		xLogData.MotorCurrent = SJC_Motor_GetElectricCurrent();
 			//		xLogData.SystemVoltage = SJC_Motor_GetPowerSupplyVoltage();
 
-			osMutexRelease(DataLoggerMutexHandle);
+			SJC_TaskCommon_SharedDataMutexGive();
 
 			osDelayUntil(tick);
 		}

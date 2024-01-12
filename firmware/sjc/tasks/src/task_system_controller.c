@@ -8,7 +8,6 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "task_system_controller.h"
 #include "main.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
@@ -20,6 +19,8 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
+#include "task_common.h"
+
 #include "sjc.h"
 #include "configs.h"
 #include "network.h"
@@ -43,20 +44,7 @@
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-osMutexId_t SystemControllerMutexHandle;
 
-osThreadId_t SystemTaskHandle;
-StaticTask_t SystemTaskControlBlock;
-
-uint32_t SystemTaskBuffer[ 256 ];
-const osThreadAttr_t SystemTask_attributes = {
-		.name = "SystemTask",
-		.cb_mem = &SystemTaskControlBlock,
-		.cb_size = sizeof(SystemTaskControlBlock),
-		.stack_mem = &SystemTaskBuffer[0],
-		.stack_size = sizeof(SystemTaskBuffer),
-		.priority = (osPriority_t) osPriorityNormal1,
-};
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -66,39 +54,18 @@ void SystemTaskApp(void *argument);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_TaskSystemController_SetSharedDataMutex(osMutexId_t MutexHandle)
-{
-	SystemControllerMutexHandle = MutexHandle;
 
-	if (SystemControllerMutexHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] System controller task: Shared data mutex not available...");
-		return SJC_RET_NOK;
-	} else
-	{
-		return SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N');
-	}
-}
-
-eSjcReturnType_t SJC_TaskSystemController_Init(void)
-{
-	SystemTaskHandle = osThreadNew(SystemTaskApp, NULL, &SystemTask_attributes);
-
-	if (SystemTaskHandle == NULL)
-	{
-		return SJC_RET_NOK;
-	}
-	else
-	{
-		return SJC_RET_OK;
-	}
-}
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
 void SystemTaskApp(void *argument) {
 	/* USER CODE BEGIN SystemTaskApp */
+
+	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
+	{
+		SJC_SYSTEM_RESET();
+	}
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -110,13 +77,14 @@ void SystemTaskApp(void *argument) {
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_SYSTEM_CONTROLLER_UPDATE_PERIOD_MS);
-		if (osOK == osMutexAcquire(SystemControllerMutexHandle, SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
+
+		if (osOK == SJC_TaskCommon_SharedDataMutexTake(SYSTEM_MANAGER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
 		{
 			SJC_Network_Update();
 			SJC_ExecuteNetworkCommands();
 			SJC_UpdateNetworkDataRegisters();
 
-			osMutexRelease(SystemControllerMutexHandle);
+			SJC_TaskCommon_SharedDataMutexGive();
 
 			SJC_GetTime(SJC_TIME_MS, &timestamp);
 

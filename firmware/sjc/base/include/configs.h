@@ -133,6 +133,11 @@
 #define SJC_HEARTBEAT_OUTPUT_PIN							SYS_HEARTBEAT_Pin
 #define SJC_HEARTBEAT_OUTPUT_PORT							SYS_HEARTBEAT_GPIO_Port
 
+// System Configs ----------------------------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+#define SJC_SYSTEM_RESET									HAL_NVIC_SystemReset
+
+
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
 #define SJC_DEBUG_USB_PRINTF_ENABLE

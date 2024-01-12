@@ -82,10 +82,6 @@ void Error_Handler(void);
 #define JOINT_SW_L_GPIO_Port GPIOC
 #define JOINT_SW_R_Pin LL_GPIO_PIN_3
 #define JOINT_SW_R_GPIO_Port GPIOC
-#define JOINT_ENC_CH1_Pin LL_GPIO_PIN_0
-#define JOINT_ENC_CH1_GPIO_Port GPIOA
-#define JOINT_ENC_CH2_Pin LL_GPIO_PIN_1
-#define JOINT_ENC_CH2_GPIO_Port GPIOA
 #define RS485_TX_Pin LL_GPIO_PIN_2
 #define RS485_TX_GPIO_Port GPIOA
 #define RS485_RX_Pin LL_GPIO_PIN_3

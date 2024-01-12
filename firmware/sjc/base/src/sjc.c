@@ -106,9 +106,11 @@ eSjcReturnType_t SJC_InitOsKernel(void)
 	/* Init scheduler */
 	osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
 
-	/* Init Data structures */
-	SJC_TaskCommon_InitThreads();
-	/* Init Tasks */
+	/* Init Data structures and Tasks */
+	if (SJC_RET_NOK == SJC_TaskCommon_InitThreads())
+	{
+		SJC_SYSTEM_RESET();
+	}
 
 	/* Start scheduler */
 	osKernelStart();
