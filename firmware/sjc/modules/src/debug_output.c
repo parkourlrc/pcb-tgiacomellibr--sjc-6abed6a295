@@ -11,6 +11,8 @@
 #include "usart.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
+
+#include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
@@ -18,7 +20,6 @@
 #include "debug_output.h"
 
 #include "configs.h"
-#include "task_common.h"
 // ------------------------------------------------------------------- //
 
 
@@ -41,6 +42,22 @@
 // ------------------------------------------------------------------- //
 static char g_debug_buff[DEBUG_BUFF_SIZE];
 static char g_usb_debug_buff[DEBUG_USB_BUFF_SIZE];
+
+osSemaphoreId_t xSerialDebugSemprHandle = NULL;
+StaticSemaphore_t SerialDebugSemaphoreControlBlock;
+const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
+		.name = "SerialDebugSemaphore",
+		.cb_mem = &SerialDebugSemaphoreControlBlock,
+		.cb_size = sizeof(SerialDebugSemaphoreControlBlock),
+};
+
+osSemaphoreId_t xUsbDebugSemprHandle = NULL;
+StaticSemaphore_t UsbDebugSemaphoreControlBlock;
+const osSemaphoreAttr_t UsbDebugSemaphore_attributes = {
+		.name = "UsbDebugSemaphore",
+		.cb_mem = &UsbDebugSemaphoreControlBlock,
+		.cb_size = sizeof(UsbDebugSemaphoreControlBlock),
+};
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -54,7 +71,27 @@ int __io_putchar(int ch);
 // ------------------------------------------------------------------- //
 void SJC_DebugOutput_Init(void)
 {
+	xSerialDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
+	xUsbDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &UsbDebugSemaphore_attributes);
 
+	if (xSerialDebugSemprHandle == NULL)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Serial debug semaphore not created...");
+		return SJC_RET_NOK;
+	} else
+	{
+		osSemaphoreRelease(xSerialDebugSemprHandle);
+	}
+
+
+	if (xUsbDebugSemprHandle == NULL)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] USB debug semaphore not created...");
+		return SJC_RET_NOK;
+	} else
+	{
+		osSemaphoreRelease(xUsbDebugSemprHandle);
+	}
 }
 
 void SJC_DebugOutput_PresentSystemInfo(void)
@@ -81,7 +118,9 @@ void SJC_DebugOutput_PresentSystemInfo(void)
 
 int SJC_DebugOutput_printf(const char *format, ...)
 {
-	if (osOK == SJC_TaskCommon_SerialDebugSemaphoreTake(CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
+	configASSERT( xSerialDebugSemprHandle != NULL );
+
+	if (osOK == osSemaphoreAcquire(xSerialDebugSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
 	{
 		va_list ap;
 		int n = 0;
@@ -97,7 +136,7 @@ int SJC_DebugOutput_printf(const char *format, ...)
 			}
 		}
 
-		SJC_TaskCommon_SerialDebugSemaphoreGive();
+		osSemaphoreRelease(xSerialDebugSemprHandle);
 
 		return n;
 	}
@@ -109,27 +148,29 @@ int SJC_DebugOutput_printf(const char *format, ...)
 
 int SJC_DebugOutput_UsbPrintf(const char *format, ...)
 {
-	va_list apx;
-	int n = 0;
-	va_start(apx, format);
-	n = vsnprintf(g_usb_debug_buff, DEBUG_USB_BUFF_SIZE, format, apx);
-	va_end(apx);
+	configASSERT( xUsbDebugSemprHandle != NULL );
 
-	if (n > 0)
+	if (osOK == osSemaphoreAcquire(xUsbDebugSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
 	{
-		CDC_Transmit_FS(g_usb_debug_buff, n);
+		va_list apx;
+		int n = 0;
+		va_start(apx, format);
+		n = vsnprintf(g_usb_debug_buff, DEBUG_USB_BUFF_SIZE, format, apx);
+		va_end(apx);
+
+		if (n > 0)
+		{
+			CDC_Transmit_FS(g_usb_debug_buff, n);
+		}
+
+		osSemaphoreRelease(xUsbDebugSemprHandle);
+
+		return n;
 	}
-
-	SJC_TaskCommon_UsbDebugSemaphoreGive();
-
-	return n;
-	//	if (osOK == SJC_TaskCommon_UsbDebugSemaphoreTake(CONTROLLER_USB_DBG_SEMPHR_WAIT_TIME_MS))
-	//	{
-	//	}
-	//	else
-	//	{
-	//		return -1;
-	//	}
+	else
+	{
+		return -1;
+	}
 }
 // ------------------------------------------------------------------- //
 

@@ -15,8 +15,6 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
-
 #include "sjc.h"
 #include "configs.h"
 #include "debug_output.h"
@@ -33,12 +31,12 @@
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
 TaskHandle_t xControlTaskHandle;
-
+eSjcControlMode_t ControlMode;
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static uint32_t stmp, ulNotificationValue;
+static uint32_t stmp = 0;
 static float Displacement = 0;
 
 float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, dt = 0,
@@ -47,10 +45,9 @@ float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, dt = 0,
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void SpeedControllerFunc(void);
-void ControllerTaskApp(void *argument);
 void DataLogger(void);
 void UpdateVariables(void);
+void TaskEventFromIsr(void);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -63,12 +60,12 @@ void UpdateVariables(void);
 // ------------------------------------------------------------------- //
 void ControllerTaskApp(void *argument)
 {
+	/* USER CODE BEGIN ControllerTaskApp */
+	osDelay(SJC_TASK_INIT_DELAY);
+
 	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 
-	/* USER CODE BEGIN ControllerTaskApp */
 
-	osDelay(SJC_TASK_INIT_DELAY);
-	SJC_AnalogInterfaces_MeasurementEnable();
 	SJC_DebugOutput_printf("\r\n[OS] Controller task initiated!");
 
 	uint32_t tick = osKernelGetTickCount();
@@ -78,30 +75,29 @@ void ControllerTaskApp(void *argument)
 	for(;;)
 	{
 		SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+
 		tick += pdMS_TO_TICKS(ControlPeriod);
 
-		eSjcControlMode_t ControlMode;
+		osDelayUntil(tick);
+
+		DataLogger();
+
+		UpdateVariables();
+
 		SJC_GetControlMode(&ControlMode);
 
 		switch (ControlMode) {
 		case SJC_SPEED_CONTROL:
 			SJC_EnableJointActuators();
 
-			SpeedControllerFunc();
+			error = Ref - vel;
+			SJC_ComputeControlAction(error, dt, &ControlAction);
+			SJC_SetJointActuatorVoltage(ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
-			if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
-			{
-				SJC_EnableJointActuators();
-				UpdateVariables();
-				SJC_SetJointActuatorVoltage(Ref);
-				DataLogger();
-
-				SJC_TaskCommon_SharedDataSemaphoreGive();
-
-				osDelayUntil(tick);
-			}
+			SJC_EnableJointActuators();
+			SJC_SetJointActuatorVoltage(Ref);
 			break;
 
 			//	case SJC_TORQUE_CONTROL:
@@ -111,59 +107,6 @@ void ControllerTaskApp(void *argument)
 			break;
 		}
 
-	}
-}
-
-/*
- * void AnalogTaskApp(void *argument)
-{
-	osDelay(SJC_TASK_INIT_DELAY);
-	SJC_DebugOutput_printf("\r\n[OS] Analog task initiated!");
-
-	xTaskToNotify = xTaskGetCurrentTaskHandle();
-	uint32_t ulNotificationValue;
-
-	for(;;)
-	{
-		ulNotificationValue = ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
-
-		if( ulNotificationValue == 1 )
-		{
-			LL_GPIO_TogglePin(SYS_HEARTBEAT_GPIO_Port, SYS_HEARTBEAT_Pin);
-			ComputeSampleTime();
-			ComputeAdcMeasurements();
-		}
-		else
-		{
-			// The call to ulTaskNotifyTake() timed out.
-}
-
-}
-}
- */
-
-
-void SpeedControllerFunc(void)
-{
-	ulNotificationValue = ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
-
-	if( ulNotificationValue == 1 )
-	{
-		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(CONTROLLER_SHARED_DATA_MUTEX_WAIT_TIME_MS))
-		{
-			UpdateVariables();
-			error = Ref - vel;
-			SJC_ComputeControlAction(error, dt, &ControlAction);
-			SJC_SetJointActuatorVoltage(ControlAction);
-			DataLogger();
-
-			SJC_TaskCommon_SharedDataSemaphoreGive();
-		}
-
-	}
-	else
-	{
-		// The call to ulTaskNotifyTake() timed out.
 	}
 }
 
@@ -192,5 +135,6 @@ void DataLogger(void)
 	//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (vel/7600));
 	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", stmp, (PsuVoltage), (ActuatorVoltage), (ActuatorCurrent), (vel), rpm, Ref, error);
 }
+
 
 // ------------------------------------------------------------------- //

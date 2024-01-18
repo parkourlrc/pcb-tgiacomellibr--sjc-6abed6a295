@@ -19,8 +19,6 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
-
 #include "sjc.h"
 #include "configs.h"
 #include "network.h"
@@ -49,7 +47,7 @@
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void WatchdogTaskApp(void *argument);
+
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -59,10 +57,9 @@ void WatchdogTaskApp(void *argument);
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void WatchdogTaskApp(void *argument) {
+void WatchdogTaskApp(void *argument)
+{
 	/* USER CODE BEGIN WatchdogTaskApp */
-
-	SJC_PresentSystemInfo();
 
 	osDelay(SJC_TASK_INIT_DELAY);
 	SJC_DebugOutput_printf("\r\n[OS] Watchdog task initiated!");
@@ -71,28 +68,25 @@ void WatchdogTaskApp(void *argument) {
 
 	uint32_t timestamp;
 
-	xSjcSampleTimeMeasurement_t Ts;
+	xSjcMeanSampleTimeMeasurement_t Ts;
 
 	/* Infinite loop */
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS);
 
-		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS))
-		{
-			SJC_GetTime(SJC_TIME_MS, &timestamp);
+		SJC_GetTime(SJC_TIME_MS, &timestamp);
 
-			SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
+		SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
 
-			SJC_TaskCommon_SharedDataSemaphoreGive();
+		SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 
-			SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+		float MeanSampleTime_us = (Ts.AccumulatedTimerTicks)/(Ts.Samples);
 
-			float MeanSampleTime_ms = 1000.0f*(Ts.timesteps)/(Ts.samples);
+		SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f us)", timestamp, MeanSampleTime_us);
 
-			SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f ms)", timestamp, MeanSampleTime_ms);
 
-			osDelayUntil(tick);
-		}
+		osDelayUntil(tick);
+
 	}
 	/* USER CODE END MainTaskApp */
 }

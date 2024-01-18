@@ -7,12 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
-
-// ------------------------------------------------------------------- //
-
-// Task includes ----------------------------------------------------- //
-// ------------------------------------------------------------------- //
+#include "configs.h"
 #include "debug_output.h"
 #include "analog_interfaces.h"
 // ------------------------------------------------------------------- //
@@ -20,37 +15,32 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define BINARY_SEMPHR_COUNT_SIZE							((uint32_t) 1U)
-#define BINARY_SEMPHR_INITIAL_COUNT							((uint32_t) 1U)
+#include "task_common.h"
+
 // ------------------------------------------------------------------- //
 
 // Common data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
 osSemaphoreId_t SharedDataSemaphoreHandle;
-osSemaphoreId_t SerialDebugSemaphoreHandle;
-osSemaphoreId_t UsbDebugSemaphoreHandle;
-
 StaticSemaphore_t SharedDataSemaphoreControlBlock;
-StaticSemaphore_t SerialDebugSemaphoreControlBlock;
-StaticSemaphore_t UsbDebugSemaphoreControlBlock;
 
 osThreadId_t WatchdogTaskHandle;
 osThreadId_t NetworkTaskHandle;
 osThreadId_t LoggerTaskHandle;
 osThreadId_t ControllerTaskHandle;
-osThreadId_t AnalogTaskHandle;
+osThreadId_t MeasurementsTaskHandle;
 
 StaticTask_t WatchdogTaskControlBlock;
 StaticTask_t NetworkTaskControlBlock;
 StaticTask_t LoggerTaskControlBlock;
 StaticTask_t ControllerTaskControlBlock;
-StaticTask_t AnalogTaskControlBlock;
+StaticTask_t MeasurementsTaskControlBlock;
 
 uint32_t WatchdogTaskBuffer[ 256 ];
 uint32_t NetworkTaskBuffer[ 256 ];
 uint32_t LoggerTaskBuffer[ 512 ];
 uint32_t ControllerTaskBuffer[ 4096 ];
-uint32_t AnalogTaskBuffer[ 256 ];
+uint32_t MeasurementsTaskBuffer[ 256 ];
 
 const osThreadAttr_t WatchdogTask_attributes = {
 		.name = "WatchdogTask",
@@ -79,6 +69,15 @@ const osThreadAttr_t ControllerTask_attributes = {
 		.priority = (osPriority_t) osPriorityRealtime,
 };
 
+const osThreadAttr_t MeasurementsTask_attributes = {
+		.name = "MeasurementsTask",
+		.cb_mem = &MeasurementsTaskControlBlock,
+		.cb_size = sizeof(MeasurementsTaskControlBlock),
+		.stack_mem = &MeasurementsTaskBuffer[0],
+		.stack_size = sizeof(MeasurementsTaskBuffer),
+		.priority = (osPriority_t) osPriorityRealtime7,
+};
+
 const osThreadAttr_t LoggerTask_attributes = {
 		.name = "LoggerTask",
 		.cb_mem = &LoggerTaskControlBlock,
@@ -93,18 +92,6 @@ const osSemaphoreAttr_t SharedDataSemaphore_attributes = {
 		.cb_mem = &SharedDataSemaphoreControlBlock,
 		.cb_size = sizeof(SharedDataSemaphoreControlBlock),
 };
-
-const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
-		.name = "SerialDebugSemaphore",
-		.cb_mem = &SerialDebugSemaphoreControlBlock,
-		.cb_size = sizeof(SerialDebugSemaphoreControlBlock)
-};
-
-const osSemaphoreAttr_t UsbDebugSemaphore_attributes = {
-		.name = "UsbDebugSemaphore",
-		.cb_mem = &UsbDebugSemaphoreControlBlock,
-		.cb_size = sizeof(UsbDebugSemaphoreControlBlock)
-};
 // ------------------------------------------------------------------- //
 
 // Common variables ---------------------------------------------------- //
@@ -114,153 +101,49 @@ const osSemaphoreAttr_t UsbDebugSemaphore_attributes = {
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
+void CommonTaskApp(void *argument);
 extern void WatchdogTaskApp(void *argument);
 extern void NetworkTaskApp(void *argument);
 extern void LoggerTaskApp(void *argument);
 extern void ControllerTaskApp(void *argument);
+extern void MeasurementsTaskApp(void *argument);
+
+eSjcReturnType_t InitOsThreads(void);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_TaskCommon_InitThreads(void)
+void SJC_TaskCommon_Init(void)
 {
-
-	// Semaphores creation
-	SharedDataSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SharedDataSemaphore_attributes);
-
-	SerialDebugSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
-
-	UsbDebugSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &UsbDebugSemaphore_attributes);
-
-	if (SharedDataSemaphoreHandle == NULL)
+	if (SJC_RET_NOK == InitOsThreads())
 	{
-		SJC_DebugOutput_printf("\r\n[OS] Shared data mutex not created...");
-		return SJC_RET_NOK;
-	} else
-	{
-		osSemaphoreRelease(SharedDataSemaphoreHandle);
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
+		SJC_SYSTEM_RESET();
 	}
-
-	if (SerialDebugSemaphoreHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Serial debug semaphore not created...");
-		return SJC_RET_NOK;
-	} else
-	{
-		osSemaphoreRelease(SerialDebugSemaphoreHandle);
-	}
-
-	if (UsbDebugSemaphoreHandle == NULL)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] USB debug semaphore not created...");
-		return SJC_RET_NOK;
-	} else
-	{
-		osSemaphoreRelease(UsbDebugSemaphoreHandle);
-	}
-
-	// Tasks creation
-	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
-	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
-	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
-	//	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
-
-	if (NULL == WatchdogTaskHandle)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Watchdog task not initiated...");
-		return SJC_RET_NOK;
-	}
-
-	if (NULL == NetworkTaskHandle)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Network task not initiated...");
-		return SJC_RET_NOK;
-	}
-
-	if (NULL == ControllerTaskHandle)
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Joint controller task not initiated...");
-		return SJC_RET_NOK;
-	}
-
-	//	if (NULL == LoggerTaskHandle)
-	//	{
-	//		SJC_DebugOutput_printf("\r\n[OS] Data logger task not initiated...");
-	//		return SJC_RET_NOK;
-	//	}
-
-	return SJC_RET_OK;
 }
+
 
 osStatus_t SJC_TaskCommon_SharedDataSemaphoreTake(const uint32_t timeout)
 {
 	if (SharedDataSemaphoreHandle == NULL)
-		{
-			return osErrorResource;
-		}
-		else
-		{
-			return osSemaphoreAcquire(SharedDataSemaphoreHandle, timeout);
-		}
+	{
+		return osErrorResource;
+	}
+	else
+	{
+		return osSemaphoreAcquire(SharedDataSemaphoreHandle, timeout);
+	}
 }
 
 osStatus_t SJC_TaskCommon_SharedDataSemaphoreGive(void)
 {
 	if (SharedDataSemaphoreHandle == NULL)
-		{
-			return osErrorResource;
-		}
-		else
-		{
-			return osSemaphoreRelease(SharedDataSemaphoreHandle);
-		}
-}
-
-osStatus_t SJC_TaskCommon_SerialDebugSemaphoreTake(const uint32_t timeout)
-{
-	if (SerialDebugSemaphoreHandle == NULL)
 	{
 		return osErrorResource;
 	}
 	else
 	{
-		return osSemaphoreAcquire(SerialDebugSemaphoreHandle, timeout);
-	}
-}
-
-osStatus_t SJC_TaskCommon_SerialDebugSemaphoreGive(void)
-{
-	if (SerialDebugSemaphoreHandle == NULL)
-	{
-		return osErrorResource;
-	}
-	else
-	{
-		return osSemaphoreRelease(SerialDebugSemaphoreHandle);
-	}
-}
-
-osStatus_t SJC_TaskCommon_UsbDebugSemaphoreTake(const uint32_t timeout)
-{
-	if (UsbDebugSemaphoreHandle == NULL)
-	{
-		return osErrorResource;
-	}
-	else
-	{
-		return osSemaphoreAcquire(UsbDebugSemaphoreHandle, timeout);
-	}
-}
-
-osStatus_t SJC_TaskCommon_UsbDebugSemaphoreGive(void)
-{
-	if (UsbDebugSemaphoreHandle == NULL)
-	{
-		return osErrorResource;
-	}
-	else
-	{
-		return osSemaphoreRelease(UsbDebugSemaphoreHandle);
+		return osSemaphoreRelease(SharedDataSemaphoreHandle);
 	}
 }
 
@@ -268,8 +151,59 @@ osStatus_t SJC_TaskCommon_UsbDebugSemaphoreGive(void)
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
+eSjcReturnType_t InitOsThreads(void)
+{
+	// Semaphores creation
+	SharedDataSemaphoreHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SharedDataSemaphore_attributes);
 
+	if (SharedDataSemaphoreHandle == NULL)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Shared data mutex not created...");
+		return SJC_RET_NOK;
+	} else
+	{
+		osSemaphoreRelease(SharedDataSemaphoreHandle);
+	}
 
+	// Tasks creation
+	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
+	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
+	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
+	MeasurementsTaskHandle = osThreadNew(MeasurementsTaskApp, NULL, &MeasurementsTask_attributes);
+	//	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
+
+	if (NULL == WatchdogTaskHandle)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Watchdog task not initiated...");
+		return SJC_RET_NOK;
+	}
+
+	if (NULL == NetworkTaskHandle)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Network task not initiated...");
+		return SJC_RET_NOK;
+	}
+
+	if (NULL == ControllerTaskHandle)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Joint controller task not initiated...");
+		return SJC_RET_NOK;
+	}
+
+	if (NULL == MeasurementsTaskHandle)
+	{
+		SJC_DebugOutput_printf("\r\n[OS FAULT] Analog measurements task not initiated...");
+		return SJC_RET_NOK;
+	}
+
+	//	if (NULL == LoggerTaskHandle)
+	//	{
+	//		SJC_DebugOutput_printf("\r\n[OS FAULT] Data logger task not initiated...");
+	//		return SJC_RET_NOK;
+	//	}
+
+	return SJC_RET_OK;
+}
 // ------------------------------------------------------------------- //
 
 

@@ -11,8 +11,7 @@
 #include "types.h"
 
 void SJC_Init(void);
-void SJC_Hardware_Init(void);
-eSjcReturnType_t SJC_InitOsKernel(void);
+void SJC_InitOsKernel(void);
 void SJC_PresentSystemInfo(void);
 eSjcReturnType_t SJC_SetVersions(void);
 

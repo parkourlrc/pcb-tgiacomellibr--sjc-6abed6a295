@@ -32,9 +32,9 @@
 #include "motor_drive.h"
 #include "network.h"
 #include "timeout_timer.h"
-#include "task_common.h"
 #include "pid_controller.h"
 #include "pwm.h"
+#include "task_common.h"
 // ------------------------------------------------------------------- //
 
 
@@ -82,10 +82,27 @@ void Net_ExecuteControllerParametersUpdateCmd(void);
 // ------------------------------------------------------------------- //
 void SJC_Init(void)
 {
-	SJC_Delay(SJC_TIME_SEC, 2);
-
 	// SJC Peripheral initialization
-	SJC_Hardware_Init();
+	// Init all board GPIOs
+	MX_GPIO_Init();
+
+	// Init DMA controller
+	MX_DMA_Init();
+
+	// Init ADC and Sample time check timer
+	MX_ADC1_Init();
+	MX_TIM4_Init();
+
+	// Init Joint PWM and Encoders
+	MX_TIM1_Init();
+
+	MX_TIM2_Init();
+	MX_TIM3_Init();
+	MX_TIM8_Init();
+
+	// Init USB and Serial debug devices
+	MX_USB_DEVICE_Init();
+	MX_USART3_UART_Init();
 
 	// SJC Modules initialization
 	SJC_SetVersions();
@@ -98,47 +115,18 @@ void SJC_Init(void)
 	InitJointObject(SJC_AUX_JOINT_B, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_B]);
 	InitJointObject(SJC_ACTUATOR_JOINT, SJC_ACTIVE_JOINT, &xSjcJoint[SJC_ACTUATOR_JOINT]);
 
-	if (SJC_RET_NOK == SJC_InitOsKernel())
-	{
-		SJC_DebugOutput_printf("\r\n[OS] Kernel initialization fault! Resetting...!");
-		SJC_SYSTEM_RESET();
-	}
-	SJC_Delay(SJC_TIME_SEC, 1);
+	SJC_PresentSystemInfo();
+
+	SJC_InitOsKernel();
 }
 
-void SJC_Hardware_Init(void)
-{
-	// Init all board GPIOs
-	MX_GPIO_Init();
-
-	// Init DMA controller
-	MX_DMA_Init();
-
-	// Init ADC and Sample time check timer
-	MX_ADC1_Init();
-	MX_TIM14_Init();
-
-	// Init Joint PWM and Encoders
-	MX_TIM1_Init();
-	MX_TIM2_Init();
-	MX_TIM3_Init();
-	MX_TIM8_Init();
-
-	// Init USB and Serial debug devices
-	MX_USB_DEVICE_Init();
-	MX_USART3_UART_Init();
-}
-
-eSjcReturnType_t SJC_InitOsKernel(void)
+void SJC_InitOsKernel(void)
 {
 	/* Init scheduler */
 	osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
 
-	/* Init Data structures and Tasks */
-	if (SJC_RET_NOK == SJC_TaskCommon_InitThreads())
-	{
-		SJC_SYSTEM_RESET();
-	}
+	/* Init Startup Tasks */
+	SJC_TaskCommon_Init();
 
 	/* Start scheduler */
 	osKernelStart();
@@ -147,8 +135,6 @@ eSjcReturnType_t SJC_InitOsKernel(void)
 	{
 
 	}
-
-	return SJC_RET_OK;
 }
 
 void SJC_PresentSystemInfo(void)
@@ -193,18 +179,18 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 {
 	eSjcReturnType_t ret = SJC_RET_OK;
 
-		switch (type) {
-		case SJC_TIME_MS:
-			*value = SJC_Timer_GetTimeMs();
-			break;
-		case SJC_TIME_SEC:
-			*value = SJC_Timer_GetTimeSec();
-			break;
-		default:
-			ret = SJC_RET_NOK;
-			break;
-		}
-		return ret;
+	switch (type) {
+	case SJC_TIME_MS:
+		*value = SJC_Timer_GetTimeMs();
+		break;
+	case SJC_TIME_SEC:
+		*value = SJC_Timer_GetTimeSec();
+		break;
+	default:
+		ret = SJC_RET_NOK;
+		break;
+	}
+	return ret;
 }
 
 eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t *config) {
@@ -810,12 +796,12 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		SJC_SetControlUpdateRateHz(control_rate);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f",   params.Kp);
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f",   params.Ki);
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f",   params.Kd);
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.Aux1);
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.Aux2);
-	SJC_DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f",   params.Kp);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f",   params.Ki);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f",   params.Kd);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.Aux1);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.Aux2);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
 #endif
 	}
 }

@@ -19,8 +19,6 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
-
 #include "sjc.h"
 #include "configs.h"
 #include "network.h"
@@ -49,7 +47,7 @@
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void NetworkTaskApp(void *argument);
+
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -59,15 +57,17 @@ void NetworkTaskApp(void *argument);
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void NetworkTaskApp(void *argument) {
+void NetworkTaskApp(void *argument)
+{
 	/* USER CODE BEGIN NetworkTaskApp */
+
+	osDelay(SJC_TASK_INIT_DELAY);
 
 	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
 	{
 		SJC_SYSTEM_RESET();
 	}
 
-	osDelay(SJC_TASK_INIT_DELAY);
 	SJC_DebugOutput_printf("\r\n[OS] Network task initiated!");
 	SJC_DebugOutput_printf("\r\n[OS] Modbus communication enabled!");
 
@@ -77,16 +77,12 @@ void NetworkTaskApp(void *argument) {
 	for (;;) {
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		if (osOK == SJC_TaskCommon_SharedDataSemaphoreTake(NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS))
-		{
-			SJC_Network_Update();
-			SJC_ExecuteNetworkCommands();
-			SJC_UpdateNetworkDataRegisters();
+		SJC_Network_Update();
+		SJC_ExecuteNetworkCommands();
+		SJC_UpdateNetworkDataRegisters();
 
-			SJC_TaskCommon_SharedDataSemaphoreGive();
+		osDelayUntil(tick);
 
-			osDelayUntil(tick);
-		}
 	}
 	/* USER CODE END MainTaskApp */
 }

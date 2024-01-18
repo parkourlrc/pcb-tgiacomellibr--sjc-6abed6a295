@@ -39,12 +39,15 @@
 #define SJC_PWM_RIGHT_CHANNEL								LL_TIM_CHANNEL_CH3
 #define SJC_PWM_RIGHT_COMPLEMENTARY_CHANNEL					LL_TIM_CHANNEL_CH3N
 
+#define SJC_PWM_DEFAULT_FREQUENCY							( (uint32_t) 20000UL)
+#define SJC_PWM_DEFAULT_PERIOD								( (float) (1.0f/SJC_PWM_DEFAULT_FREQUENCY) )
+
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY										( (uint32_t) 200UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS							( (uint32_t) 500UL)
-#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS					( (uint32_t) 1UL)
-#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS						( (uint32_t) 5UL)
+#define SJC_TASK_INIT_DELAY									( (uint32_t) 2000UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS						( (uint32_t) 500UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS				( (uint32_t) 1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS					( (uint32_t) 5UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -53,6 +56,8 @@
 
 #define SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS					( (uint32_t) 1UL)
 #define SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS					( (uint32_t) 1000UL)
+
+#define SJC_CONTROLLER_TIMER_INSTANCE						TIM4
 
 // Actuator Configs --------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -90,7 +95,7 @@
 #define SJC_ADC_INSTANCE 									( ADC1 )
 #define SJC_ADC_DMA_INSTANCE								DMA2
 #define SJC_ADC_DMA_STREAM									LL_DMA_STREAM_0
-#define SJC_ADC_CHECK_TIMER_INSTANCE						TIM14
+#define SJC_ADC_CHECK_TIMER_INSTANCE						TIM4
 #define SJC_ADC_CHECK_TIMER_RESOLUTION						( (float) 1.0e-6  )
 #define SJC_ADC_CHECK_TIMER_COUNT_PERIOD					( (uint32_t) 1000 )
 #define ADC_CONV_TIMEOUT_MS 								( (uint32_t) 10 )
@@ -98,9 +103,6 @@
 #define ADC_CONV_MAX_VALUE_FLOAT							( (float) (3.3f) )
 #define ADC_CONV_MIN_VALUE_FLOAT							( (float) (0.0f) )
 #define ADC_CONV_TO_FLOAT(X)								( (float) (X*ADC_CONV_MAX_VALUE_FLOAT)/ADC_CONV_RESOLUTION )
-
-#define SJC_ADC_MIN_SAMPLES_BEFORE_CONTROL_ACTION			( (uint32_t) 20 )
-#define SJC_ADC_MAX_SAMPLES_BEFORE_CONTROL_ACTION			( (uint32_t) 200 )
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //

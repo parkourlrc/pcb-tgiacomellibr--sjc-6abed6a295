@@ -102,13 +102,18 @@ typedef struct {
 } xSjcLogData_t;
 
 typedef struct {
-	uint32_t samples;
-	float timesteps;
-	uint32_t actual_tick;
-	uint32_t last_tick;
-} xSjcSampleTimeMeasurement_t;
+	uint32_t AdcConversion;
+	uint32_t TimeStamp;
+} xSjcAdcConversion_t;
 
-static const xSjcSampleTimeMeasurement_t xSjcSampleTimeEmptyObj = {0};
+static const xSjcAdcConversion_t xSjcAdcConversionEmptyObj = {0};
+
+typedef struct {
+	uint32_t Samples;
+	uint32_t AccumulatedTimerTicks;
+} xSjcMeanSampleTimeMeasurement_t;
+
+static const xSjcMeanSampleTimeMeasurement_t xSjcSampleTimeEmptyObj = {0};
 
 
 typedef struct {
