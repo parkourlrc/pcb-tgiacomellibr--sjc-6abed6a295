@@ -1,15 +1,17 @@
-PwmClock = 180e6;
-PwmPscReg = 8;
+clear all;
+close all;
+clc;
+
+PwmTimerBaseClock = 180e6;
+PwmTimerPscReg = 8;
 TimCountPeriod = 999;
 
-PwmFreq = (PwmClock)/( (PwmPscReg+1)*(TimCountPeriod+1) )
+PwmTimerRealClock = (PwmTimerBaseClock)/(1+PwmTimerPscReg);
+PwmTimerRealClockPeriod = 1/PwmTimerRealClock;
+PwmTimerRealClockPeriod_us = 1e6*PwmTimerRealClockPeriod
 
+PwmFreq = (PwmTimerBaseClock)/( (PwmTimerPscReg+1)*(TimCountPeriod+1) )
+PwmPeriod = 1/PwmFreq
 
-PwmFreq = 16e3
-TimCountPeriod = ( ( (PwmClock)/PwmFreq )/(PwmPscReg+1) ) -1
-
-PwmClockPer = 1/PwmClock
-
-Dt = 50e-9
-
-X = Dt/PwmClockPer
+PwmFreq = 20e3
+TimCountPeriod = ( ( (PwmTimerBaseClock)/PwmFreq )/(PwmTimerPscReg+1) ) -1

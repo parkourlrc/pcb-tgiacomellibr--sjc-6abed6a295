@@ -1,10 +1,23 @@
+# TIM4
+
 clear all;
 close all;
 clc;
-AnalogTsCheckBaseClock = 90e6;
-AnalogTsCheckPscReg = 89;
-AnalogTsCheckRealClock = (AnalogTsCheckBaseClock)/(1+AnalogTsCheckPscReg)
-AnalogTsCheckRealClockPeriod_us = 1e6/AnalogTsCheckRealClock
-AnalogTsCheckCountPeriod = 999;
+AdcSampleCheckTimerBaseClock = 90e6;
+AdcSampleCheckTimerPscReg = 89;
+AdcSampleCheckTimerRealClock = (AdcSampleCheckTimerBaseClock)/(1+AdcSampleCheckTimerPscReg)
+AdcSampleCheckTimerRealClockPeriod = 1/AdcSampleCheckTimerRealClock;
+AdcSampleCheckTimerRealClockPeriod_us = 1e6*AdcSampleCheckTimerRealClockPeriod;
 
-AnalogTsCheckClockFreq = (AnalogTsCheckBaseClock)/( (AnalogTsCheckPscReg+1)*(AnalogTsCheckCountPeriod+1) )
+AdcSampleCheck_freq = 100;
+
+AdcSampleCheckEventPeriod = (1/AdcSampleCheck_freq);
+AdcSampleCheckEventPeriod_ms = 1000*AdcSampleCheckEventPeriod
+
+AdcSampleCheckTimerCountPeriod =  (AdcSampleCheckEventPeriod/AdcSampleCheckTimerRealClockPeriod)-1
+
+AdcSampleCheckTimerClockFreq = (AdcSampleCheckTimerBaseClock)/( (AdcSampleCheckTimerPscReg+1)*(AdcSampleCheckTimerCountPeriod+1) )
+AdcSampleCheckTimerClockPeriod = 1/AdcSampleCheckTimerClockFreq
+AdcSampleCheckTimerClockPeriod_us = 1e6/AdcSampleCheckTimerClockFreq
+
+1/100
