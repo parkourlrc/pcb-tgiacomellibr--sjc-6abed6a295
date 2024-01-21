@@ -7,3 +7,4 @@ octave-workspace*
 *.asv
 *.lck
 *.zip
+calcs/*.csv
