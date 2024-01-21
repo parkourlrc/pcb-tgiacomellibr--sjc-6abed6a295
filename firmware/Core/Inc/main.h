@@ -116,8 +116,6 @@ void Error_Handler(void);
 #define DEBUG_USART_RX_GPIO_Port GPIOC
 #define SYS_HEARTBEAT_Pin LL_GPIO_PIN_12
 #define SYS_HEARTBEAT_GPIO_Port GPIOC
-#define USB_OTG_FS_PU_Pin LL_GPIO_PIN_2
-#define USB_OTG_FS_PU_GPIO_Port GPIOD
 #define V_MOTOR_nEN_Pin LL_GPIO_PIN_5
 #define V_MOTOR_nEN_GPIO_Port GPIOB
 

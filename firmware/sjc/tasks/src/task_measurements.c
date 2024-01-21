@@ -32,7 +32,7 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define MEASUREMENTS_SHARED_DATA_MUTEX_WAIT_TIME_MS		( (uint32_t ) 2U)
+#define TASK_NOTIFICATION_MAX_WAIT_TIME_MS				( (uint32_t ) 2U)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -67,24 +67,37 @@ void MeasurementsTaskApp(void *argument)
 
 	SJC_DebugOutput_printf("\r\n[OS] Analog measurements task initiated!");
 
-	uint32_t tick = osKernelGetTickCount();
+	SJC_AnalogInterfaces_MeasurementEnable();
+
 	uint32_t ulNotificationValue = 0;
 
-	SJC_AnalogInterfaces_MeasurementEnable();
+	//	uint32_t tic, toc, dt;
+	//	tic = osKernelGetTickCount();
 
 	/* Infinite loop */
 	for (;;) {
-		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		ulNotificationValue = ulTaskNotifyTake( pdTRUE, 2 );
+		ulNotificationValue = ulTaskNotifyTake( pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS );
 
 		if( ulNotificationValue == 1 )
 		{
 			SJC_AnalogInterfaces_UpdateConversionValues();
+			//toc = osKernelGetTickCount();
+			//
+			//dt = (toc > tic) ? (toc-tic) : (toc-tic+1000);
+			//if (dt > 1)
+			//{
+			//	SJC_DebugOutput_printf("\r\n\nWait: %lu", dt);
+			//}
+			//tic = toc;
 		}
 		else
 		{
-			// The call to ulTaskNotifyTake() timed out.
+			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
+			{
+				SJC_DebugOutput_printf("\n\n\n\r[OS FAULT] ADC Task notification error");
+				for (;;);
+			}
 		}
 
 
@@ -121,7 +134,7 @@ void ADC_IRQHandler(void)
 		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
 
 		/* Call interruption treatment function */
-		SJC_DebugOutput_printf("\r\n[FAULT] ADC Overrun!\n");
+		SJC_DebugOutput_printf("\r\n[HW FAULT] ADC Overrun!\n");
 		Error_Handler();
 	}
 }

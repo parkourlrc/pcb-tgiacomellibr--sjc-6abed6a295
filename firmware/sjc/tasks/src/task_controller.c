@@ -65,11 +65,10 @@ void ControllerTaskApp(void *argument)
 
 	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 
-
 	SJC_DebugOutput_printf("\r\n[OS] Controller task initiated!");
 
-	uint32_t tick = osKernelGetTickCount();
 	uint32_t ControlPeriod;
+	uint32_t tick = osKernelGetTickCount();
 
 	/* Infinite loop */
 	for(;;)
@@ -80,9 +79,9 @@ void ControllerTaskApp(void *argument)
 
 		osDelayUntil(tick);
 
-		DataLogger();
-
 		UpdateVariables();
+
+		DataLogger();
 
 		SJC_GetControlMode(&ControlMode);
 

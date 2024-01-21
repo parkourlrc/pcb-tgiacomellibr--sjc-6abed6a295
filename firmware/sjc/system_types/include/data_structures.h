@@ -13,8 +13,10 @@
 #include "stm32f446xx.h"
 // ------------------------------------------------------------------- //
 
-// Definitions includes ---------------------------------------------- //
+// Definitions and enumerations -------------------------------------- //
 // ------------------------------------------------------------------- //
+#define ZERO_FLOAT										( (float) 0.0f)
+
 typedef enum {
 	SJC_RET_NOK = 0x0000,
 	SJC_RET_OK = 0x00ff,
@@ -66,14 +68,14 @@ typedef enum {
 	SJC_JOINT_SWITCH_B,
 	SJC_ISOLATED_INPUT_A,
 	SJC_ISOLATED_INPUT_B,
-	SJC_INPUTS_SIZE
+	SJC_DIGITAL_INPUTS_SIZE
 } eSjcDigitalInputs_t;
 
 typedef enum {
 	SJC_DIGITAL_OUTPUT_A = 0,
 	SJC_DIGITAL_OUTPUT_B,
 	SJC_HEARTBEAT_OUTPUT,
-	SJC_OUTPUTS_SIZE
+	SJC_DIGITAL_OUTPUTS_SIZE
 } eSjcDigitalOutputs_t;
 
 typedef enum {
@@ -102,31 +104,15 @@ typedef struct {
 } xSjcLogData_t;
 
 typedef struct {
-	uint32_t AdcConversion;
-	uint32_t TimeStamp;
-} xSjcAdcConversion_t;
-
-static const xSjcAdcConversion_t xSjcAdcConversionEmptyObj = {0};
-
-typedef struct {
 	uint32_t Samples;
 	uint32_t AccumulatedTimerTicks;
 } xSjcMeanSampleTimeMeasurement_t;
-
 static const xSjcMeanSampleTimeMeasurement_t xSjcSampleTimeEmptyObj = {0};
-
 
 typedef struct {
 	float Min;
 	float Max;
 } xSjcRange_t;
-
-typedef struct {
-	float Measurement;
-	float Resolution;
-	xSjcRange_t Range;
-	float CompFilterRatio;
-} xSjcAnalogSensor_t;
 
 typedef struct {
 	float Encoder;
@@ -141,33 +127,30 @@ typedef struct {
 	float Kd;
 	float Aux1;
 	float Aux2;
-} xControllerParameters_t;
-
-static const xControllerParameters_t xControllerParametersEmptyObj = {0};
+} xPidControllerParameters_t;
+static const xPidControllerParameters_t xControllerParametersEmptyObj = {0};
 
 typedef struct {
 	float Derivative;
 	float Integral;
 	float ActualError;
 	float PrevError;
-} xControllerErrors_t;
+} xPidControllerErrors_t;
+static const xPidControllerErrors_t xControllerErrorsEmptyObj = {0};
 
-static const xControllerErrors_t xControllerErrorsEmptyObj = {0};
+typedef struct {
+	float Reference;
+	float ControlAction;
+	xPidControllerErrors_t Errors;
+	xPidControllerParameters_t Parameters;
+} xSjcPidController_t;
+static const xSjcPidController_t xPidControllerEmptyObj = {0};
 
 typedef struct {
 	float Rate;
-	float Reference;
-	float ControlAction;
 	eSjcControlMode_t Mode;
-	xControllerErrors_t Errors;
-	xControllerParameters_t Parameters;
-} xSjcController_t;
-
-typedef struct {
-	xSjcRange_t Speed;
-	xSjcRange_t Current;
-	xSjcRange_t Voltage;
-} xSjcActuatorLimits_t;
+} xSjcControlConfigs_t;
+static const xSjcControlConfigs_t xSjcControlConfigsEmptyObj = {0};
 
 typedef struct {
 	TIM_TypeDef *Instance;
@@ -187,7 +170,6 @@ typedef struct {
 } xSjcActuatorPwm_t;
 
 typedef struct {
-	bool State;
 	uint32_t Pin;
 	GPIO_TypeDef *Port;
 	eSjcDigitalPortType_t Type;
@@ -196,24 +178,10 @@ typedef struct {
 typedef struct {
 	bool State;
 	float BaseVoltage;
-	xSjcActuatorPwm_t PWM;
+	float OutputVoltage;
 	xSjcRange_t OutputVoltageRange;
-	xSjcAnalogSensor_t OutputVoltage;
-	xSjcAnalogSensor_t OutputCurrent;
 	xSjcDigitalPort_t DriveEnablePort;
-	xSjcAnalogSensor_t PowerSupplyVoltage;
 } xSjcMotorDrive_t;
-
-typedef struct {
-	float Speed;
-	xSjcEncoder_t Encoder;
-	xSjcAnalogSensor_t Displacement;
-	xSjcMotorDrive_t MotorDrive;
-	xSjcController_t Controller;
-	xSjcActuatorLimits_t Limits;
-	xSjcDigitalPort_t DigitalSensors[SJC_INPUTS_SIZE];
-	xSjcDigitalPort_t DigitalActuators[SJC_OUTPUTS_SIZE];
-} xSjcJoint_t;
 
 typedef struct
 {

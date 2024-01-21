@@ -10,16 +10,14 @@
 
 #include "types.h"
 
-eSjcReturnType_t SJC_PidController_Init(xSjcController_t * Controller);
-float SJC_PidController_Compute(const float ControlError, const float dt);
+void SJC_PidController_Init();
+
+float SJC_PidController_Compute(const float ControllerError, const float dt);
 float SJC_PidController_GetError(void);
 float SJC_PidController_GetReference(void);
 void SJC_PidController_SetReference(const float reference);
 
-eSjcReturnType_t SJC_PidController_GetControlParameters(xControllerParameters_t * Parameters);
-eSjcReturnType_t SJC_PidController_SetControlParameters(const xControllerParameters_t Parameters);
-eSjcReturnType_t SJC_PidController_GetControlUpdateRateHz(float * config);
-eSjcReturnType_t SJC_PidController_SetControlUpdateRateHz(const float config);
-eSjcReturnType_t SJC_PidController_GetControlUpdatePeriodMs(uint32_t * config);
+xPidControllerParameters_t SJC_PidController_GetControlParameters(void);
+void SJC_PidController_SetControlParameters(const xPidControllerParameters_t Parameters);
 
 #endif /* MOTOR_H_ */

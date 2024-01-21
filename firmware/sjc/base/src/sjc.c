@@ -53,12 +53,11 @@
 extern volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
 extern volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
-static xSjcJoint_t xSjcJoint[SJC_JOINTS_SIZE];
+static xSjcControlConfigs_t xSjcControlConfigs = xSjcControlConfigsEmptyObj;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJoint_t * JointObject);
 
 // Input registers update process ------------------------------------ //
 void Net_UpdateRuntimeInfoRegisters(void);
@@ -110,10 +109,19 @@ void SJC_Init(void)
 	SJC_Timer_Init();
 	SJC_DebugOutput_Init();
 	SJC_AnalogInterfaces_Init();
+	SJC_DigitalInterfaces_init();
 
-	InitJointObject(SJC_AUX_JOINT_A, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_A]);
-	InitJointObject(SJC_AUX_JOINT_B, SJC_PASSIVE_JOINT, &xSjcJoint[SJC_AUX_JOINT_B]);
-	InitJointObject(SJC_ACTUATOR_JOINT, SJC_ACTIVE_JOINT, &xSjcJoint[SJC_ACTUATOR_JOINT]);
+	SJC_Encoder_init();
+	SJC_Encoder_Enable(SJC_AUX_JOINT_A);
+	SJC_Encoder_Enable(SJC_AUX_JOINT_B);
+	SJC_Encoder_Enable(SJC_ACTUATOR_JOINT);
+
+	SJC_PidController_Init();
+
+	xSjcControlConfigs.Mode = SJC_CONTROL_DISABLED;
+	xSjcControlConfigs.Rate = SJC_CONTROLLER_MIN_UPDATE_RATE_HZ;
+
+	SJC_MotorDrive_Init(PWM_FREQ_20kHz, 24.0);
 
 	SJC_PresentSystemInfo();
 
@@ -193,16 +201,40 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 	return ret;
 }
 
-eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t *config) {
-	*config = xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode;
+eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t *config)
+{
+	*config = xSjcControlConfigs.Mode;
+
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_SetControlMode(const eSjcControlMode_t config)
 {
-	xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode = config;
+	xSjcControlConfigs.Mode = config;
 
 	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config)
+{
+	*config = xSjcControlConfigs.Mode;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config)
+{
+	xSjcControlConfigs.Rate = SJC_Helpers_RealClamp(config, SJC_CONTROLLER_MIN_UPDATE_RATE_HZ, SJC_CONTROLLER_MAX_UPDATE_RATE_HZ);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config)
+{
+	*config = ((uint32_t) (1000/xSjcControlConfigs.Rate));
+
+	return SJC_RET_OK;
+
 }
 
 eSjcReturnType_t SJC_GetControlReference(float * reference)
@@ -226,35 +258,18 @@ eSjcReturnType_t SJC_GetControlError(float * controller_error)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_GetControlUpdateRateHz(float * config)
+eSjcReturnType_t SJC_GetControlParameters(xPidControllerParameters_t * Parameters)
 {
-	SJC_PidController_GetControlUpdateRateHz(config);
+	*Parameters = SJC_PidController_GetControlParameters();
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_SetControlUpdateRateHz(const float config)
+eSjcReturnType_t SJC_SetControlParameters(const xPidControllerParameters_t Parameters)
 {
-	SJC_PidController_SetControlUpdateRateHz(config);
+	SJC_PidController_SetControlParameters(Parameters);
 
 	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t * config)
-{
-	SJC_PidController_GetControlUpdatePeriodMs(config);
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_GetControlParameters(xControllerParameters_t * Parameters)
-{
-	return SJC_PidController_GetControlParameters(Parameters);
-}
-
-eSjcReturnType_t SJC_SetControlParameters(const xControllerParameters_t Parameters)
-{
-	return SJC_PidController_SetControlParameters(Parameters);
 }
 
 eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float dt, float * ControlAction)
@@ -287,194 +302,130 @@ void SJC_UpdateNetworkDataRegisters(void)
 
 eSjcReturnType_t SJC_EnableAdc(void)
 {
-	return SJC_AnalogInterfaces_MeasurementEnable();
+	SJC_AnalogInterfaces_MeasurementEnable();
+
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_DisableAdc(void)
 {
-	return SJC_AnalogInterfaces_MeasurementDisable();
+	SJC_AnalogInterfaces_MeasurementDisable();
+
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_EnableJointActuators(void)
 {
-	SJC_MotorDrive_Enable(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
+	SJC_MotorDrive_Enable();
+
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_DisableJointActuators(void)
 {
-	SJC_MotorDrive_Disable(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_GetJointActuatorHandle(xSjcJoint_t * joint)
-{
-	joint = &xSjcJoint[SJC_ACTUATOR_JOINT];
+	SJC_MotorDrive_Disable();
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetJointActuatorState(bool * state)
 {
-	*state = SJC_MotorDrive_GetState(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_GetJointActuatorLimits(xSjcActuatorLimits_t * limits)
-{
-	*limits = xSjcJoint[SJC_ACTUATOR_JOINT].Limits;
-
-	return SJC_RET_OK;
+	return SJC_MotorDrive_GetState(state);
 }
 
 eSjcReturnType_t SJC_GetJointActuatorVoltage(float * voltage)
 {
-	*voltage = SJC_MotorDrive_GetOutputVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
-
-	return SJC_RET_OK;
+	return SJC_MotorDrive_GetOutputVoltage(voltage);
 }
 
 eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage)
 {
-	eSjcReturnType_t ret = SJC_MotorDrive_SetOutputVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive, voltage);
+	SJC_MotorDrive_SetOutputVoltage(voltage);
 
-	return ret;
+	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_GetJointAngularDisplacement(eSjcJointType_t joint, float * disp)
+eSjcReturnType_t SJC_GetJointAngularDisplacement(const eSjcJoints_t joint, float * disp)
 {
-	eSjcReturnType_t ret;
+	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	switch (joint) {
-	case SJC_AUX_JOINT_A:
-		ret = SJC_Encoder_GetAngularDisplacement(&xSjcJoint[SJC_AUX_JOINT_A].Encoder, disp);
-		break;
-	case SJC_AUX_JOINT_B:
-		ret = SJC_Encoder_GetAngularDisplacement(&xSjcJoint[SJC_AUX_JOINT_B].Encoder, disp);
-		break;
-	default: // SJC_ACTUATOR_JOINT
-		ret = SJC_Encoder_GetAngularDisplacement(&xSjcJoint[SJC_ACTUATOR_JOINT].Encoder, disp);
-		break;
+	if (joint < SJC_JOINTS_SIZE)
+	{
+		ret = SJC_Encoder_GetAngularDisplacement(joint, disp);
 	}
 
 	return ret;
 }
 
-eSjcReturnType_t SJC_GetJointRelativeAngularDisplacement(eSjcJointType_t joint, float * RelativeDisp, const float PrevDisp)
+eSjcReturnType_t SJC_GetJointRelativeAngularDisplacement(const eSjcJoints_t joint, float * RelativeDisp, const float PrevDisp)
 {
-	eSjcReturnType_t ret = SJC_GetJointAngularDisplacement(joint, RelativeDisp);
-	*RelativeDisp -= PrevDisp;
+	eSjcReturnType_t ret = SJC_RET_NOK;
+
+	if (joint < SJC_JOINTS_SIZE)
+	{
+		ret = SJC_Encoder_GetAngularDisplacement(joint, RelativeDisp);
+		*RelativeDisp -= PrevDisp;
+	}
+
 	return ret;
 }
 
-eSjcReturnType_t SJC_GetJointActuatorFrequency(uint32_t * freq)
+eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t * freq)
 {
-	*freq = xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive.PWM.Frequency;
+	*freq = SJC_PWM_GetFrequency();
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetJointActuatorCurrent(float * value)
 {
-	*value = SJC_MotorDrive_GetOutputCurrent(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
-
-	return SJC_RET_OK;
+	return SJC_MotorDrive_GetOutputCurrent(value);
 }
 
 eSjcReturnType_t SJC_GetJointActuatorPowerSupplyVoltage(float * value)
 {
-	*value = SJC_MotorDrive_GetPowerSupplyVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive);
+	return SJC_MotorDrive_GetPowerSupplyVoltage(value);}
 
-	return SJC_RET_OK;
+eSjcReturnType_t SJC_ReadDigitalInputs(uint32_t * states)
+{
+	return SJC_DigitalInterfaces_ReadInputStates(states);
 }
 
-eSjcReturnType_t SJC_ReadDigitalInputs(uint16_t * states)
+eSjcReturnType_t SJC_ReadDigitalOutputs(uint32_t * states)
 {
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadInputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors, states);
-
-	return ret;
-}
-
-eSjcReturnType_t SJC_ReadDigitalOutputs(uint16_t * states)
-{
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadOutputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators);
-	*states = 0;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[SJC_DIGITAL_OUTPUT_A].State << SJC_DIGITAL_OUTPUT_A;
-	*states |= xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[SJC_DIGITAL_OUTPUT_B].State << SJC_DIGITAL_OUTPUT_B;
-	return ret;
+	return SJC_DigitalInterfaces_ReadOutputStates(states);
 }
 
 eSjcReturnType_t SJC_WriteDigitalOutputs(const uint8_t states)
 {
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_WriteOutputStates(xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators, states);
-	return ret;
-}
-
-eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input, bool * state)
-{
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadInputState(&xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[Input]);
-	*state = xSjcJoint[SJC_ACTUATOR_JOINT].DigitalSensors[Input].State;
-
-	return ret;
-}
-
-eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool *state)
-{
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ReadOutputState(&xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[Output]);
-	*state = xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[Output].State;
-
-	return ret;
-}
-
-eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state)
-{
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_WriteOutputState(&xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[Output], state);
-	return ret;
+	return SJC_DigitalInterfaces_WriteOutputStates(states);
 }
 
 eSjcReturnType_t SJC_ToggleDigitalOutput(const eSjcDigitalOutputs_t Output)
 {
-	eSjcReturnType_t ret = SJC_DigitalInterfaces_ToggleOutputState(&xSjcJoint[SJC_ACTUATOR_JOINT].DigitalActuators[Output]);
-	return ret;
+	return SJC_DigitalInterfaces_ToggleOutputState(Output);
 }
+
+eSjcReturnType_t SJC_ReadDigitalInput(const eSjcDigitalInputs_t Input, bool * state)
+{
+	return SJC_DigitalInterfaces_ReadInputState(Input, state);
+}
+
+eSjcReturnType_t SJC_ReadDigitalOutput(const eSjcDigitalOutputs_t Output, bool *state)
+{
+	return SJC_DigitalInterfaces_ReadOutputState(Output, state);
+}
+
+eSjcReturnType_t SJC_WriteDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state)
+{
+	return SJC_DigitalInterfaces_WriteOutputState(Output, state);
+}
+
+
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void InitJointObject(const eSjcJoints_t Joint, const eSjcJointType_t Type, xSjcJoint_t * JointObject)
-{
-	JointObject->Controller.Mode = (Type == SJC_PASSIVE_JOINT) ? SJC_CONTROL_DISABLED : SJC_OPEN_LOOP_CONTROL;
-	JointObject->Controller.Rate = SJC_CONTROLLER_MIN_UPDATE_RATE_HZ;
-	JointObject->Controller.Reference = 0;
-
-	if (Type == SJC_ACTIVE_JOINT)
-	{
-		SJC_PidController_Init(&JointObject->Controller);
-	}
-
-	SJC_Encoder_init(&JointObject->Encoder, Joint);
-	SJC_Encoder_Enable(&JointObject->Encoder);
-
-	if (Type == SJC_ACTIVE_JOINT)
-	{
-		SJC_DigitalInterfaces_init(JointObject->DigitalSensors, SJC_DIGITAL_INPUT_PORT);
-		SJC_DigitalInterfaces_init(JointObject->DigitalActuators, SJC_DIGITAL_OUTPUT_PORT);
-		SJC_AnalogInterfaces_ConfigureInterface(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.PowerSupplyVoltage);
-		SJC_AnalogInterfaces_ConfigureInterface(&JointObject[SJC_ACTUATOR_JOINT].MotorDrive.OutputCurrent);
-
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Max = SJC_ACTUATOR_LIMIT_MAX_SPEED;
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Speed.Min = -SJC_ACTUATOR_LIMIT_MAX_SPEED;
-
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Current.Max = SJC_ACTUATOR_LIMIT_MAX_CURRENT;
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Current.Min = -SJC_ACTUATOR_LIMIT_MAX_CURRENT;
-
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Voltage.Max = SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
-		JointObject[SJC_ACTUATOR_JOINT].Limits.Voltage.Min = -SJC_ACTUATOR_LIMIT_MAX_VOLTAGE;
-
-		SJC_MotorDrive_Init(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive, PWM_FREQ_20kHz, 24.0);
-	}
-}
 
 // Input registers update process ------------------------------------ //
 void Net_UpdateRuntimeInfoRegisters(void)
@@ -570,24 +521,37 @@ void Net_UpdateNetworkParametersRegisters(void)
 
 void Net_UpdateSensorsParametersRegisters(void)
 {
-	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR;
-	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR;
-	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR;
+	uint16_t aux;
+
+	SJC_Encoder_GetResolution(SJC_ACTUATOR_JOINT, &aux);
+	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = aux;
+
+	SJC_Encoder_GetResolution(SJC_AUX_JOINT_A, &aux);
+	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = aux;
+
+	SJC_Encoder_GetResolution(SJC_AUX_JOINT_B, &aux);
+	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = aux;
 }
 
 void Net_UpdateActuatorParametersRegisters(void)
 {
-	uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max));
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED+1] = ui16ptr[0];
-	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive.BaseVoltage*100.0f;
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Voltage.Max*100.0f;
-	usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_CURRENT] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Current.Max*100.0f;
+	float base_voltage;
+	SJC_MotorDrive_GetBaseVoltage(&base_voltage);
+	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = base_voltage*100.0f;
+
+	/* Reserved for future implementation
+	 *
+	 * uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max));
+	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED] = ui16ptr[1];
+	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED+1] = ui16ptr[0];
+	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Voltage.Max*100.0f;
+	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_CURRENT] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Current.Max*100.0f;
+	 */
 }
 
 void Net_UpdateControllerParametersRegisters(void)
 {
-	xControllerParameters_t Parameters;
+	xPidControllerParameters_t Parameters;
 	SJC_GetControlParameters(&Parameters);
 
 	uint16_t * ui16ptr = (uint16_t *)(&Parameters.Kp);
@@ -687,22 +651,20 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 	if (usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] & ACTUATOR_CONFIGS_UPDATE_MSK)
 	{
 		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
-
-		// Controller reference
 		float base_voltage  = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE]/100.0f);
-		float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
-		float current_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_CURRENT]/100.0f);
-		float speed_limit;
+		SJC_MotorDrive_SetBaseVoltage(base_voltage );
 
-		uint16_t *ptr = (uint16_t*) (&speed_limit);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED];
+		/* Reserved for future implementation
+		 *
+		 * float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+		 * float current_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_CURRENT]/100.0f);
+		 * float speed_limit;
 
-		SJC_MotorDrive_SetBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive, base_voltage );
+		 * uint16_t *ptr = (uint16_t*) (&speed_limit);
+		 * ptr[0] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED + 1];
+		 * ptr[1] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED];
+		 */
 
-		SJC_MotorDrive_SetSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, speed_limit);
-		SJC_MotorDrive_SetCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, current_limit);
-		SJC_MotorDrive_SetVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits, voltage_limit);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
 		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator base voltage: %f V", SJC_MotorDrive_GetBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive));
@@ -746,9 +708,9 @@ void Net_ExecuteSensorsConfigsUpdateCmd(void) {
 		// Encoders parameters
 		usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] &= (~SENSORS_PARAMETERS_UPDATE_MSK);
 
-		xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR];
-		xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR];
-		xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR = usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR];
+		SJC_Encoder_SetResolution(SJC_AUX_JOINT_A, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR]);
+		SJC_Encoder_SetResolution(SJC_AUX_JOINT_B, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR]);
+		SJC_Encoder_SetResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR]);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
 		SJC_DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
@@ -765,7 +727,7 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		// Controller parameters
 		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~CONTROLLER_PARAMETERS_UPDATE_MSK);
 
-		xControllerParameters_t params;
+		xPidControllerParameters_t params;
 		uint16_t *ptr = (uint16_t*) (&params.Kp);
 		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP + 1];
 		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP];

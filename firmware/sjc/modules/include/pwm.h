@@ -10,17 +10,17 @@
 
 #include "types.h"
 
-void SJC_PWM_Init(xSjcActuatorPwm_t * Pwm, const eSjcPwmBaseFreq_t BaseFrequency);
-void SJC_PWM_Enable(xSjcActuatorPwm_t * Pwm);
-void SJC_PWM_Disable(xSjcActuatorPwm_t * Pwm);
+void SJC_PWM_Init(const eSjcPwmBaseFreq_t BaseFrequency);
+void SJC_PWM_Enable(void);
+void SJC_PWM_Disable(void);
 
-float SJC_PWM_GetMinDutyCycle(xSjcActuatorPwm_t * Pwm);
-float SJC_PWM_GetMaxDutyCycle(xSjcActuatorPwm_t * Pwm);
-float SJC_PWM_GetDutyCycle(xSjcActuatorPwm_t * Pwm);
-eSjcReturnType_t SJC_PWM_SetDutyCycle(xSjcActuatorPwm_t * Pwm, const float duty);
+float SJC_PWM_GetMinDutyCycle(void);
+float SJC_PWM_GetMaxDutyCycle(void);
+float SJC_PWM_GetDutyCycle(void);
+eSjcReturnType_t SJC_PWM_SetDutyCycle(const float duty);
 
-uint32_t SJC_PWM_GetFrequency(xSjcActuatorPwm_t * Pwm);
-uint32_t SJC_PWM_SetFrequency(xSjcActuatorPwm_t * Pwm, const eSjcPwmBaseFreq_t BaseFrequency);
+uint32_t SJC_PWM_GetFrequency(void);
+uint32_t SJC_PWM_SetFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
 
 
 #endif /* MOTOR_H_ */

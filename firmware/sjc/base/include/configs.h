@@ -98,6 +98,8 @@
 #define SJC_ADC_CHECK_TIMER_INSTANCE						TIM4
 #define SJC_ADC_CHECK_TIMER_RESOLUTION						( (float) 1.0e-6  )
 #define SJC_ADC_CHECK_TIMER_COUNT_PERIOD					( (uint32_t) 1000 )
+#define SJC_ADC_READING_ERROR								( (float) -1234.5f )
+
 #define ADC_CONV_TIMEOUT_MS 								( (uint32_t) 10 )
 #define ADC_CONV_RESOLUTION 								( (uint32_t) 4095 )
 #define ADC_CONV_MAX_VALUE_FLOAT							( (float) (3.3f) )
@@ -138,7 +140,7 @@
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET									HAL_NVIC_SystemReset
-
+#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS					((uint32_t) 20UL)
 
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //

@@ -70,7 +70,7 @@ void ComputeFilteredMeasurements(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_AnalogInterfaces_Init(void)
+void SJC_AnalogInterfaces_Init(void)
 {
 	/* ADC Peripheral Configuration ---------------------------------- */
 	xAnalogInterfaceSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &AnalogInterfaceSemaphore_attributes);
@@ -78,7 +78,6 @@ eSjcReturnType_t SJC_AnalogInterfaces_Init(void)
 	if (xAnalogInterfaceSemprHandle == NULL)
 	{
 		SJC_DebugOutput_printf("\r\n[OS FAULT] Analog interface semaphore not created...");
-		return SJC_RET_NOK;
 	} else
 	{
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
@@ -88,39 +87,22 @@ eSjcReturnType_t SJC_AnalogInterfaces_Init(void)
 	{
 		LL_TIM_EnableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 	}
-
-	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_ConfigureInterface(xSjcAnalogSensor_t *Sensor)
-{
-
-	Sensor->Measurement = 0.0f;
-	Sensor->Range.Min = ADC_CONV_MIN_VALUE_FLOAT;
-	Sensor->Range.Max = ADC_CONV_MAX_VALUE_FLOAT;
-	Sensor->Resolution = ADC_CONV_RESOLUTION;
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_AnalogInterfaces_MeasurementEnable(void)
+void SJC_AnalogInterfaces_MeasurementEnable(void)
 {
 	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
 
 	LL_ADC_Enable(SJC_ADC_INSTANCE);
-
-	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_MeasurementDisable(void)
+void SJC_AnalogInterfaces_MeasurementDisable(void)
 {
 	LL_ADC_Disable(SJC_ADC_INSTANCE);
 
 	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
-
-	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
@@ -151,8 +133,8 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 
 eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float * value)
 {
-	float conv;
 	eSjcReturnType_t ret = SJC_RET_NOK;
+	*value = ZERO_FLOAT;
 
 	configASSERT( xAnalogInterfaceSemprHandle != NULL );
 
@@ -160,21 +142,20 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	{
 		switch (sensor) {
 		case SJC_CURRENT_SENSOR_STD:
-			conv = xAdcMeasurements[MOTOR_CURRENT_CONV];
-			*value = (conv/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
+			*value = (xAdcMeasurements[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
 			*value /= (AD8418_SHUNT_RESISTANCE*AD8418_GAIN);
 			ret = SJC_RET_OK;
 			break;
 		case SJC_VOLTAGE_SENSOR:
-			conv = xAdcMeasurements[MOTOR_VOLTAGE_CONV];
-			*value = conv*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
+			*value = xAdcMeasurements[MOTOR_VOLTAGE_CONV]*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
 			ret = SJC_RET_OK;
 			break;
 
 		default:
-			ret = SJC_RET_NOK;
+			*value = ZERO_FLOAT;
 			break;
 		}
+
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
 	}
 
@@ -198,6 +179,8 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcMeanSampleTimeMeasur
 		xMeanSampleTimeObj = xSjcSampleTimeEmptyObj;
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
+
+		ret = SJC_RET_OK;
 	}
 
 	return ret;
@@ -233,6 +216,8 @@ void ComputeFilteredMeasurements(void)
 	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV], LL_ADC_RESOLUTION_12B)*VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
 	xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV], LL_ADC_RESOLUTION_12B)*VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
 }
+
+
 //void ComputeSampleTime(void)
 //{
 //

@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2023 STMicroelectronics.
+  * Copyright (c) 2024 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -55,9 +55,6 @@ void MX_GPIO_Init(void)
 
   /**/
   LL_GPIO_ResetOutputPin(GPIOC, GP_OUT_B_Pin|GP_OUT_A_Pin|SYS_HEARTBEAT_Pin);
-
-  /**/
-  LL_GPIO_ResetOutputPin(USB_OTG_FS_PU_GPIO_Port, USB_OTG_FS_PU_Pin);
 
   /**/
   LL_GPIO_ResetOutputPin(V_MOTOR_nEN_GPIO_Port, V_MOTOR_nEN_Pin);
@@ -116,12 +113,10 @@ void MX_GPIO_Init(void)
   LL_GPIO_Init(SYS_HEARTBEAT_GPIO_Port, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = USB_OTG_FS_PU_Pin;
-  GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
-  GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_2;
+  GPIO_InitStruct.Mode = LL_GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = LL_GPIO_PULL_NO;
-  LL_GPIO_Init(USB_OTG_FS_PU_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /**/
   GPIO_InitStruct.Pin = V_MOTOR_nEN_Pin;
