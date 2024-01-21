@@ -38,7 +38,7 @@ eSjcReturnType_t SjcInterface::connect(void)
         }
         else
         {
-            modbus_set_slave(ctx, this->address_);
+            modbus_set_slave(ctx, this->address_);            
             return SJC_CONNECTED;
         }
     }
