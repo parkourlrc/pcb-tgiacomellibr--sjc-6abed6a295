@@ -9,15 +9,14 @@ AdcSampleCheckTimerRealClock = (AdcSampleCheckTimerBaseClock)/(1+AdcSampleCheckT
 AdcSampleCheckTimerRealClockPeriod = 1/AdcSampleCheckTimerRealClock;
 AdcSampleCheckTimerRealClockPeriod_us = 1e6*AdcSampleCheckTimerRealClockPeriod;
 
-AdcSampleCheck_freq = 100;
+AdcSampleCheck_freq = 50;
 
 AdcSampleCheckEventPeriod = (1/AdcSampleCheck_freq);
 AdcSampleCheckEventPeriod_ms = 1000*AdcSampleCheckEventPeriod
 
-AdcSampleCheckTimerCountPeriod =  (AdcSampleCheckEventPeriod/AdcSampleCheckTimerRealClockPeriod)-1
+AdcSampleCheckTimerCountPeriod = (AdcSampleCheckEventPeriod/AdcSampleCheckTimerRealClockPeriod)-1
 
 AdcSampleCheckTimerClockFreq = (AdcSampleCheckTimerBaseClock)/( (AdcSampleCheckTimerPscReg+1)*(AdcSampleCheckTimerCountPeriod+1) )
 AdcSampleCheckTimerClockPeriod = 1/AdcSampleCheckTimerClockFreq
+AdcSampleCheckTimerClockPeriod_ms = 1e3/AdcSampleCheckTimerClockFreq
 AdcSampleCheckTimerClockPeriod_us = 1e6/AdcSampleCheckTimerClockFreq
-
-1/100
