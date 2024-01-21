@@ -36,17 +36,26 @@ eSjcControlMode_t ControlMode;
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static uint32_t stmp = 0;
-static float Displacement = 0;
+static uint32_t Timestamp = 0;
+static uint32_t ControlPeriod;
+static float ControllerReference;
+static float ControllerError = 0;
 
-float Ref, PsuVoltage = 0, ActuatorVoltage = 0, ActuatorCurrent = 0, dt = 0,
-		vel = 0, error = 0, ControlAction = 0, ds = 0, rpm = 0;
+static float Displacement = 0;
+static float SystemVoltage = 0;
+static float ActuatorVoltage = 0;
+static float ActuatorCurrent = 0;
+static float ElapsedTime = 0;
+static float ActuatorAngularSpeed = 0;
+static float ControlAction = 0;
+static float RelativeDisplacement = 0;
+static float ActuatorRpm = 0;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void DataLogger(void);
-void UpdateVariables(void);
+void PublishControllerData(void);
+void ControllerParametersUpdate(void);
 void TaskEventFromIsr(void);
 // ------------------------------------------------------------------- //
 
@@ -67,36 +76,32 @@ void ControllerTaskApp(void *argument)
 
 	SJC_DebugOutput_printf("\r\n[OS] Controller task initiated!");
 
-	uint32_t ControlPeriod;
+
 	uint32_t tick = osKernelGetTickCount();
 
 	/* Infinite loop */
 	for(;;)
 	{
-		SJC_GetControlUpdatePeriodMs(&ControlPeriod);
-
-		tick += pdMS_TO_TICKS(ControlPeriod);
-
 		osDelayUntil(tick);
 
-		UpdateVariables();
+		ControllerParametersUpdate();
 
-		DataLogger();
+		PublishControllerData();
 
-		SJC_GetControlMode(&ControlMode);
+		tick += pdMS_TO_TICKS(ControlPeriod);
 
 		switch (ControlMode) {
 		case SJC_SPEED_CONTROL:
 			SJC_EnableJointActuators();
 
-			error = Ref - vel;
-			SJC_ComputeControlAction(error, dt, &ControlAction);
+			ControllerError = ControllerReference - ActuatorAngularSpeed;
+			SJC_ComputeControlAction(ControllerError, ElapsedTime, &ControlAction);
 			SJC_SetJointActuatorVoltage(ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
 			SJC_EnableJointActuators();
-			SJC_SetJointActuatorVoltage(Ref);
+			SJC_SetJointActuatorVoltage(ControllerReference);
 			break;
 
 			//	case SJC_TORQUE_CONTROL:
@@ -105,34 +110,36 @@ void ControllerTaskApp(void *argument)
 			SJC_DisableJointActuators();
 			break;
 		}
-
 	}
 }
 
-void UpdateVariables(void)
+void ControllerParametersUpdate(void)
 {
-	SJC_GetControlReference(&Ref);
-	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ds, Displacement);
-	Displacement += ds;
 
-	dt = -1e-3*stmp;
-	SJC_GetTime(SJC_TIME_MS, &stmp);
-	dt += 1e-3*stmp;
-
-	vel = ds/dt;
-	rpm = vel*(60)/(2*M_PI);
-}
-
-void DataLogger(void)
-{
 	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
 	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
-	SJC_GetJointActuatorPowerSupplyVoltage(&PsuVoltage);
+	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
+	SJC_GetControlReference(&ControllerReference);
+	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &RelativeDisplacement, Displacement);
+	Displacement += RelativeDisplacement;
 
-	//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, ds, (vel/7600));
-	//	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, Ref, Err \n");
-	//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (vel/7600));
-	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", stmp, (PsuVoltage), (ActuatorVoltage), (ActuatorCurrent), (vel), rpm, Ref, error);
+	ElapsedTime = -1e-3*Timestamp;
+	SJC_GetTime(SJC_TIME_MS, &Timestamp);
+	ElapsedTime += 1e-3*Timestamp;
+
+	ActuatorAngularSpeed = RelativeDisplacement/ElapsedTime;
+	ActuatorRpm = ActuatorAngularSpeed*(60)/(2*M_PI);
+
+	SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+	SJC_GetControlMode(&ControlMode);
+}
+
+void PublishControllerData(void)
+{
+	//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, RelativeDisplacement, (ActuatorAngularSpeed/7600));
+	//	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, ControllerReference, Err \n");
+	//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (SystemVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (ActuatorAngularSpeed/7600));
+	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError);
 }
 
 

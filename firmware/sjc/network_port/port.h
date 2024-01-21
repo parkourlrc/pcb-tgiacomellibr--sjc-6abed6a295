@@ -46,8 +46,8 @@ typedef enum {
 #define PR_BEGIN_EXTERN_C           extern "C" {
 #define	PR_END_EXTERN_C             }
 
-#define ENTER_CRITICAL_SECTION( )   vMBPortEnterCritical()
-#define EXIT_CRITICAL_SECTION( )    vMBPortExitCritical()
+#define ENTER_CRITICAL_SECTION( )   EnterCriticalSection()
+#define EXIT_CRITICAL_SECTION( )    ExitCriticalSection()
 
 typedef uint8_t BOOL;
 
@@ -72,8 +72,8 @@ typedef int32_t LONG;
 //void vMBPortSetWithinException(BOOL bInException);
 //BOOL bMBPortIsWithinException(void);
 //
-void vMBPortEnterCritical(void);
-void vMBPortExitCritical(void);
+void EnterCriticalSection(void);
+void ExitCriticalSection(void);
 
 void prvvMBTimerIRQHandler(void);
 

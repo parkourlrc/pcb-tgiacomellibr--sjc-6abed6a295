@@ -14,7 +14,7 @@ void SJC_AnalogInterfaces_Init(void);
 void SJC_AnalogInterfaces_MeasurementEnable(void);
 void SJC_AnalogInterfaces_MeasurementDisable(void);
 eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void);
-eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcMeanSampleTimeMeasurement_t * Ts);
+eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t * Ts);
 eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float * value);
 
 void SJC_AnalogInterfaces_AdcConversionIsr(void);

@@ -37,12 +37,12 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+static osTimerId_t xHeartbeatTimerId;
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+//volatile unsigned long ulHighFrequencyTimerTicks;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -52,7 +52,7 @@
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+void vHeartbeatTimerCallback(void *argument);
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
@@ -66,9 +66,15 @@ void WatchdogTaskApp(void *argument)
 
 	uint32_t tick = osKernelGetTickCount();
 
+	xHeartbeatTimerId = osTimerNew(vHeartbeatTimerCallback, osTimerPeriodic, (void *)0, NULL);
+	configASSERT(xHeartbeatTimerId != NULL);
+	osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
+
 	uint32_t timestamp;
 
 	xSjcMeanSampleTimeMeasurement_t Ts;
+
+	//	uint32_t counts = 0;
 
 	/* Infinite loop */
 	for (;;) {
@@ -76,14 +82,19 @@ void WatchdogTaskApp(void *argument)
 
 		SJC_GetTime(SJC_TIME_MS, &timestamp);
 
-		SJC_AnalogInterfaces_GetMeanSampleTime(&Ts);
+		SJC_AnalogInterfaces_GetMeanConversionDelay(&Ts);
 
-		SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+//		SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 
-		float MeanSampleTime_us = (Ts.AccumulatedTimerTicks)/(Ts.Samples);
+		float MeanSampleTime_us = (1.0f*Ts.AccumulatedTimerTicks)/(1.0f*Ts.Samples);
 
-		SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog Ts: (%.3f us)", timestamp, MeanSampleTime_us);
+		SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog. Conv. Delay: (%.3f us)", timestamp, MeanSampleTime_us);
 
+//		if (++counts == 10)
+//		{
+//			counts = 0;
+//			SJC_DebugOutput_PresentRuntimeStatistics();
+//		}
 
 		osDelayUntil(tick);
 
@@ -91,4 +102,42 @@ void WatchdogTaskApp(void *argument)
 	/* USER CODE END MainTaskApp */
 }
 
+void vHeartbeatTimerCallback(void *argument)
+{
+	SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+}
+
+//void configureTimerForRunTimeStats(void)
+//{
+//	MX_TIM6_Init();
+//
+//	ulHighFrequencyTimerTicks = 0;
+//
+//	LL_TIM_SetCounter(TIM6, 0);
+//	LL_TIM_EnableIT_UPDATE(TIM6);
+//	LL_TIM_EnableCounter(TIM6);
+//}
+
+//unsigned long getRunTimeCounterValue(void)
+//{
+//	return osKernelGetTickCount();
+//}
+
+//void TIM6_DAC_IRQHandler(void)
+//{
+//	if (LL_TIM_IsActiveFlag_UPDATE(TIM6) & LL_TIM_IsEnabledIT_UPDATE(TIM6))
+//	{
+//		LL_TIM_ClearFlag_UPDATE(TIM6);
+//		ulHighFrequencyTimerTicks++;
+//	}
+//}
+
+//void TIM6_DAC_IRQHandler(void)
+//{
+//	if (LL_TIM_IsActiveFlag_UPDATE(TIM6) & LL_TIM_IsEnabledIT_UPDATE(TIM6))
+//	{
+//		LL_TIM_ClearFlag_UPDATE(TIM6);
+//		ulHighFrequencyTimerTicks++;
+//	}
+//}
 // ------------------------------------------------------------------- //

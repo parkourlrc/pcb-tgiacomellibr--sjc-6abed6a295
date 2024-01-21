@@ -20,6 +20,7 @@
 #include "debug_output.h"
 
 #include "configs.h"
+#include "network_configs.h"
 // ------------------------------------------------------------------- //
 
 
@@ -96,24 +97,49 @@ void SJC_DebugOutput_Init(void)
 
 void SJC_DebugOutput_PresentSystemInfo(void)
 {
-	SJC_DebugOutput_printf(
-			"\f\r\n------------------------------------------------------------");
-	SJC_DebugOutput_printf(
-			"\r\n                        Crane Control                        ");
-	SJC_DebugOutput_printf(
-			"\r\n              Single Joint Control Board (SJC)               ");
-	SJC_DebugOutput_printf(
-			"\r\n               FW Version: %u.%u.%u (%u/%lu)                 ",
-			SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH,
-			SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
-	SJC_DebugOutput_printf(
-			"\r\n                       HW Version: %u.%u                     ",
-			SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
-	SJC_DebugOutput_printf(
-			"\r\n                 O.S. Tick Frequency: %lu kHz                ",
-			configTICK_RATE_HZ/1000);
-	SJC_DebugOutput_printf(
-			"\r\n------------------------------------------------------------\n");
+	SJC_DebugOutput_printf("\f\r\n************************************************************");
+	SJC_DebugOutput_printf("\r\n                      Crane Control");
+	SJC_DebugOutput_printf("\r\n               Single Joint Control Board");
+	SJC_DebugOutput_printf("\r\n                         (SJC)");
+	SJC_DebugOutput_printf("\r\n************************************************************");
+	SJC_DebugOutput_printf("\r\n\n Information: ");
+	SJC_DebugOutput_printf("\r\n - HW Version: %u.%u", SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
+	SJC_DebugOutput_printf("\r\n - FW Version: %u.%u.%u (%u/%lu)", SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH, SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
+	SJC_DebugOutput_printf("\r\n - O.S. Tick Rate: %lu kHz", configTICK_RATE_HZ/1000);
+	SJC_DebugOutput_printf("\r\n - Network address: %lu: ", NETWORK_BASE_ADRESS);
+	SJC_DebugOutput_printf("\r\n - Network baudrate: %lu: bps", NETWORK_BAUD_RATE);
+	SJC_DebugOutput_printf("\r\n************************************************************\n\n");
+}
+
+void SJC_DebugOutput_PresentRuntimeStatistics(void)
+{
+	// Statistics
+	TaskStatus_t *pxTaskStatusArray;
+	volatile UBaseType_t uxArraySize, x;
+	unsigned long ulTotalRunTime;
+	float runtime_percent;
+	uxArraySize = uxTaskGetNumberOfTasks();
+	pxTaskStatusArray = pvPortMalloc(uxArraySize * sizeof(TaskStatus_t)); // a little bit scary!
+
+	if (pxTaskStatusArray != NULL) {
+		uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, &ulTotalRunTime);
+		SJC_DebugOutput_printf("\r\n************************************************************");
+		SJC_DebugOutput_printf("\r\nTask count = %lu", uxArraySize);
+		SJC_DebugOutput_printf("\r\n\nNo\tName\tS Usage\tHW");
+
+		for (x = 0; x < uxArraySize; x++) {
+
+			runtime_percent = (float) (100 * (float) pxTaskStatusArray[x].ulRunTimeCounter / (float) ulTotalRunTime);
+
+			SJC_DebugOutput_printf("\r\nTask %lu: %-16s\t\t\t\t%2d\t%7.3f\t\t%4i", x, pxTaskStatusArray[x].pcTaskName, pxTaskStatusArray[x].eCurrentState, runtime_percent, pxTaskStatusArray[x].usStackHighWaterMark);
+		}
+		SJC_DebugOutput_printf("\r\n************************************************************");
+
+		vPortFree(pxTaskStatusArray);
+
+	} else {
+		SJC_DebugOutput_printf("\r\nUnable to allocate stack space");
+	}
 }
 
 int SJC_DebugOutput_printf(const char *format, ...)

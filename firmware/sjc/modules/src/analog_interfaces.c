@@ -29,6 +29,7 @@
 #define ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS 	((uint32_t) 3UL)
 #define ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS 	((uint32_t) osWaitForever)
 #define CONV_MILLIVOLT_TO_VOLT(X)						(X/1000.0f)
+#define ANALOG_MEASUREMENT_BUFFER_SIZE					((uint32_t) 100UL)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -44,10 +45,10 @@ typedef enum {
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 /* ADC group regular conversion data */
-static uint32_t xAdcConversionBuffer[CONVERSION_ORDER_SIZE];
-static float xAdcMeasurementValueBuffer[CONVERSION_ORDER_SIZE];
 
-static float xAdcMeasurements[CONVERSION_ORDER_SIZE];
+volatile uint32_t xAdcConversionIndex = 0;
+static uint32_t xAdcConversionBuffer[CONVERSION_ORDER_SIZE][ANALOG_MEASUREMENT_BUFFER_SIZE];
+static float xAdcMeasurementValueBuffer[CONVERSION_ORDER_SIZE];
 
 static xSjcMeanSampleTimeMeasurement_t xMeanSampleTimeObj = xSjcSampleTimeEmptyObj;
 
@@ -116,12 +117,11 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 		if (xIsrServiceCounter != 20)
 		{
 			SJC_DebugOutput_printf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
-			for (;;);
+//			for (;;);
 		}
 		xIsrServiceCounter = 0;
-		xAdcMeasurements[MOTOR_CURRENT_CONV] = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV];
-		xAdcMeasurements[MOTOR_VOLTAGE_CONV] = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV];
-		xAdcMeasurements[VREF_INT_CONV] = xAdcMeasurementValueBuffer[VREF_INT_CONV];
+
+		ComputeFilteredMeasurements();
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
 
@@ -142,12 +142,12 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	{
 		switch (sensor) {
 		case SJC_CURRENT_SENSOR_STD:
-			*value = (xAdcMeasurements[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
 			*value /= (AD8418_SHUNT_RESISTANCE*AD8418_GAIN);
 			ret = SJC_RET_OK;
 			break;
 		case SJC_VOLTAGE_SENSOR:
-			*value = xAdcMeasurements[MOTOR_VOLTAGE_CONV]*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
+			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV]*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
 			ret = SJC_RET_OK;
 			break;
 
@@ -162,7 +162,7 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_GetMeanSampleTime(xSjcMeanSampleTimeMeasurement_t * Ts)
+eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t * Ts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -194,12 +194,9 @@ void SJC_AnalogInterfaces_AdcConversionIsr(void)
 	xMeanSampleTimeObj.Samples++;
 	xIsrServiceCounter++;
 
-	xAdcConversionBuffer[MOTOR_CURRENT_CONV] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
-	xAdcConversionBuffer[MOTOR_VOLTAGE_CONV] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
-	xAdcConversionBuffer[VREF_INT_CONV] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3);
-
-	ComputeFilteredMeasurements();
-
+	xAdcConversionBuffer[MOTOR_CURRENT_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
+	xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
+	xAdcConversionBuffer[VREF_INT_CONV][xAdcConversionIndex++] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3);
 }
 
 // ------------------------------------------------------------------- //
@@ -208,13 +205,18 @@ void SJC_AnalogInterfaces_AdcConversionIsr(void)
 // ------------------------------------------------------------------- //
 void ComputeFilteredMeasurements(void)
 {
-	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] *= CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO;
-	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
-	xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
+	for (int i = 0; i < xAdcConversionIndex; i++)
+	{
+		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] *= CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO;
+		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
+		xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
 
-	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV], LL_ADC_RESOLUTION_12B)*CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
-	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV], LL_ADC_RESOLUTION_12B)*VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
-	xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV], LL_ADC_RESOLUTION_12B)*VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
+		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B)*CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
+		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B)*VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
+		xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B)*VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
+	}
+
+	xAdcConversionIndex = 0;
 }
 
 

@@ -92,18 +92,6 @@ typedef enum {
 // Data structures --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 typedef struct {
-	uint32_t Timestamp;
-	float JointDisplacement;
-	float AuxJointDisplacementA;
-	float AuxJointDisplacementB;
-	float SystemVoltage;
-	float MotorCurrent;
-	uint8_t DigitalInputs;
-	uint8_t IsolatedInputs;
-	uint8_t DigitalOutputs;
-} xSjcLogData_t;
-
-typedef struct {
 	uint32_t Samples;
 	uint32_t AccumulatedTimerTicks;
 } xSjcMeanSampleTimeMeasurement_t;

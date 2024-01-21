@@ -60,13 +60,12 @@
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-
-	osDelay(SJC_TASK_INIT_DELAY);
-
 	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
 	{
 		SJC_SYSTEM_RESET();
 	}
+
+	osDelay(SJC_TASK_INIT_DELAY);
 
 	SJC_DebugOutput_printf("\r\n[OS] Network task initiated!");
 	SJC_DebugOutput_printf("\r\n[OS] Modbus communication enabled!");

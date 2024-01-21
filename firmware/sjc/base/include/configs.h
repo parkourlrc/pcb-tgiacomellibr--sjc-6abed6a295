@@ -45,9 +45,10 @@
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_TASK_INIT_DELAY									( (uint32_t) 2000UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS						( (uint32_t) 500UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS						( (uint32_t) 1000UL)
 #define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS				( (uint32_t) 1UL)
 #define SJC_NETWORK_TASK_UPDATE_PERIOD_MS					( (uint32_t) 5UL)
+#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS					( (uint32_t) 250UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //

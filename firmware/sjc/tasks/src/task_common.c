@@ -12,10 +12,15 @@
 #include "analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
+// Task includes ----------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#include "task_common.h"
+
+// ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
+
 
 // ------------------------------------------------------------------- //
 
@@ -26,21 +31,19 @@ StaticSemaphore_t SharedDataSemaphoreControlBlock;
 
 osThreadId_t WatchdogTaskHandle;
 osThreadId_t NetworkTaskHandle;
-osThreadId_t LoggerTaskHandle;
 osThreadId_t ControllerTaskHandle;
 osThreadId_t MeasurementsTaskHandle;
 
 StaticTask_t WatchdogTaskControlBlock;
 StaticTask_t NetworkTaskControlBlock;
-StaticTask_t LoggerTaskControlBlock;
 StaticTask_t ControllerTaskControlBlock;
 StaticTask_t MeasurementsTaskControlBlock;
 
+uint32_t NetworkTaskBuffer[ 512 ];
 uint32_t WatchdogTaskBuffer[ 256 ];
-uint32_t NetworkTaskBuffer[ 256 ];
-uint32_t LoggerTaskBuffer[ 512 ];
-uint32_t ControllerTaskBuffer[ 4096 ];
+uint32_t ControllerTaskBuffer[ 3072 ];
 uint32_t MeasurementsTaskBuffer[ 256 ];
+
 
 const osThreadAttr_t WatchdogTask_attributes = {
 		.name = "WatchdogTask",
@@ -48,7 +51,7 @@ const osThreadAttr_t WatchdogTask_attributes = {
 		.cb_size = sizeof(WatchdogTaskControlBlock),
 		.stack_mem = &WatchdogTaskBuffer[0],
 		.stack_size = sizeof(WatchdogTaskBuffer),
-		.priority = (osPriority_t) osPriorityNormal,
+		.priority = (osPriority_t) osPriorityLow,
 };
 
 const osThreadAttr_t NetworkTask_attributes = {
@@ -70,21 +73,12 @@ const osThreadAttr_t ControllerTask_attributes = {
 };
 
 const osThreadAttr_t MeasurementsTask_attributes = {
-		.name = "MeasurementsTask",
+		.name = "AnalogMeasTask",
 		.cb_mem = &MeasurementsTaskControlBlock,
 		.cb_size = sizeof(MeasurementsTaskControlBlock),
 		.stack_mem = &MeasurementsTaskBuffer[0],
 		.stack_size = sizeof(MeasurementsTaskBuffer),
 		.priority = (osPriority_t) osPriorityRealtime7,
-};
-
-const osThreadAttr_t LoggerTask_attributes = {
-		.name = "LoggerTask",
-		.cb_mem = &LoggerTaskControlBlock,
-		.cb_size = sizeof(LoggerTaskControlBlock),
-		.stack_mem = &LoggerTaskBuffer[0],
-		.stack_size = sizeof(LoggerTaskBuffer),
-		.priority = (osPriority_t) osPriorityAboveNormal,
 };
 
 const osSemaphoreAttr_t SharedDataSemaphore_attributes = {
@@ -101,7 +95,6 @@ const osSemaphoreAttr_t SharedDataSemaphore_attributes = {
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void CommonTaskApp(void *argument);
 extern void WatchdogTaskApp(void *argument);
 extern void NetworkTaskApp(void *argument);
 extern void LoggerTaskApp(void *argument);
@@ -147,6 +140,7 @@ osStatus_t SJC_TaskCommon_SharedDataSemaphoreGive(void)
 	}
 }
 
+
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
@@ -170,7 +164,6 @@ eSjcReturnType_t InitOsThreads(void)
 	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
 	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
 	MeasurementsTaskHandle = osThreadNew(MeasurementsTaskApp, NULL, &MeasurementsTask_attributes);
-	//	LoggerTaskHandle = osThreadNew(LoggerTaskApp, NULL, &LoggerTask_attributes);
 
 	if (NULL == WatchdogTaskHandle)
 	{
@@ -196,11 +189,6 @@ eSjcReturnType_t InitOsThreads(void)
 		return SJC_RET_NOK;
 	}
 
-	//	if (NULL == LoggerTaskHandle)
-	//	{
-	//		SJC_DebugOutput_printf("\r\n[OS FAULT] Data logger task not initiated...");
-	//		return SJC_RET_NOK;
-	//	}
 
 	return SJC_RET_OK;
 }

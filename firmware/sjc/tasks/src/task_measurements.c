@@ -96,7 +96,6 @@ void MeasurementsTaskApp(void *argument)
 			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 			{
 				SJC_DebugOutput_printf("\n\n\n\r[OS FAULT] ADC Task notification error");
-				for (;;);
 			}
 		}
 
