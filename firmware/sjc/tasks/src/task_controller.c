@@ -74,7 +74,7 @@ void ControllerTaskApp(void *argument)
 
 	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 
-	SJC_DebugOutput_printf("\r\n[OS] Controller task initiated!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 
 
 	uint32_t tick = osKernelGetTickCount();
@@ -136,10 +136,10 @@ void ControllerParametersUpdate(void)
 
 void PublishControllerData(void)
 {
-	//	SJC_DebugOutput_UsbPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, RelativeDisplacement, (ActuatorAngularSpeed/7600));
-	//	SJC_DebugOutput_UsbPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, ControllerReference, Err \n");
-	//	SJC_DebugOutput_UsbPrintf("%.2f, %.2f, %.2f, %.4f\n", (SystemVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (ActuatorAngularSpeed/7600));
-	SJC_DebugOutput_UsbPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError);
+	//	SJC_DebugOutput_LoggerPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, RelativeDisplacement, (ActuatorAngularSpeed/7600));
+	//	SJC_DebugOutput_LoggerPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, ControllerReference, Err \n");
+	//	SJC_DebugOutput_LoggerPrintf("%.2f, %.2f, %.2f, %.4f\n", (SystemVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (ActuatorAngularSpeed/7600));
+	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError);
 }
 
 

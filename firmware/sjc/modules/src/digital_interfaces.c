@@ -56,7 +56,7 @@ void SJC_DigitalInterfaces_init(void)
 
 	if (xDigitalInterfacesSemprHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Digital interfaces semaphore not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Digital interfaces semaphore not created...");
 	} else
 	{
 		osSemaphoreRelease(xDigitalInterfacesSemprHandle);

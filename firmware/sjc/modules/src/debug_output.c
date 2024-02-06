@@ -41,10 +41,10 @@
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static char g_debug_buff[DEBUG_BUFF_SIZE];
-static char g_usb_debug_buff[DEBUG_USB_BUFF_SIZE];
+static char xSystemDebugBuff[DEBUG_BUFF_SIZE];
+static char xLoggerDebugBuff[DEBUG_USB_BUFF_SIZE];
 
-osSemaphoreId_t xSerialDebugSemprHandle = NULL;
+osSemaphoreId_t xSystemDebugSemprHandle = NULL;
 StaticSemaphore_t SerialDebugSemaphoreControlBlock;
 const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
 		.name = "SerialDebugSemaphore",
@@ -52,7 +52,7 @@ const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
 		.cb_size = sizeof(SerialDebugSemaphoreControlBlock),
 };
 
-osSemaphoreId_t xUsbDebugSemprHandle = NULL;
+osSemaphoreId_t xDataLoggerSemprHandle = NULL;
 StaticSemaphore_t UsbDebugSemaphoreControlBlock;
 const osSemaphoreAttr_t UsbDebugSemaphore_attributes = {
 		.name = "UsbDebugSemaphore",
@@ -72,43 +72,43 @@ int __io_putchar(int ch);
 // ------------------------------------------------------------------- //
 void SJC_DebugOutput_Init(void)
 {
-	xSerialDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
-	xUsbDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &UsbDebugSemaphore_attributes);
+	xSystemDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
+	xDataLoggerSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &UsbDebugSemaphore_attributes);
 
-	if (xSerialDebugSemprHandle == NULL)
+	if (xSystemDebugSemprHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Serial debug semaphore not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Serial debug semaphore not created...");
 		return SJC_RET_NOK;
 	} else
 	{
-		osSemaphoreRelease(xSerialDebugSemprHandle);
+		osSemaphoreRelease(xSystemDebugSemprHandle);
 	}
 
 
-	if (xUsbDebugSemprHandle == NULL)
+	if (xDataLoggerSemprHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] USB debug semaphore not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] USB debug semaphore not created...");
 		return SJC_RET_NOK;
 	} else
 	{
-		osSemaphoreRelease(xUsbDebugSemprHandle);
+		osSemaphoreRelease(xDataLoggerSemprHandle);
 	}
 }
 
 void SJC_DebugOutput_PresentSystemInfo(void)
 {
-	SJC_DebugOutput_printf("\f\r\n************************************************************");
-	SJC_DebugOutput_printf("\r\n                      Crane Control");
-	SJC_DebugOutput_printf("\r\n               Single Joint Control Board");
-	SJC_DebugOutput_printf("\r\n                         (SJC)");
-	SJC_DebugOutput_printf("\r\n************************************************************");
-	SJC_DebugOutput_printf("\r\n\n Information: ");
-	SJC_DebugOutput_printf("\r\n - HW Version: %u.%u", SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
-	SJC_DebugOutput_printf("\r\n - FW Version: %u.%u.%u (%u/%lu)", SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH, SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
-	SJC_DebugOutput_printf("\r\n - O.S. Tick Rate: %lu kHz", configTICK_RATE_HZ/1000);
-	SJC_DebugOutput_printf("\r\n - Network address: %lu: ", NETWORK_BASE_ADRESS);
-	SJC_DebugOutput_printf("\r\n - Network baudrate: %lu: bps", NETWORK_BAUD_RATE);
-	SJC_DebugOutput_printf("\r\n************************************************************\n\n");
+	SJC_DebugOutput_SystemPrintf("\f\r\n************************************************************");
+	SJC_DebugOutput_SystemPrintf("\r\n                      Crane Control");
+	SJC_DebugOutput_SystemPrintf("\r\n               Single Joint Control Board");
+	SJC_DebugOutput_SystemPrintf("\r\n                         (SJC)");
+	SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
+	SJC_DebugOutput_SystemPrintf("\r\n\n Information: ");
+	SJC_DebugOutput_SystemPrintf("\r\n - HW Version: %u.%u", SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
+	SJC_DebugOutput_SystemPrintf("\r\n - FW Version: %u.%u.%u (%u/%lu)", SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH, SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
+	SJC_DebugOutput_SystemPrintf("\r\n - O.S. Tick Rate: %lu kHz", configTICK_RATE_HZ/1000);
+	SJC_DebugOutput_SystemPrintf("\r\n - Network address: %lu: ", NETWORK_BASE_ADRESS);
+	SJC_DebugOutput_SystemPrintf("\r\n - Network baudrate: %lu: bps", NETWORK_BAUD_RATE);
+	SJC_DebugOutput_SystemPrintf("\r\n************************************************************\n\n");
 }
 
 void SJC_DebugOutput_PresentRuntimeStatistics(void)
@@ -123,46 +123,43 @@ void SJC_DebugOutput_PresentRuntimeStatistics(void)
 
 	if (pxTaskStatusArray != NULL) {
 		uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, &ulTotalRunTime);
-		SJC_DebugOutput_printf("\r\n************************************************************");
-		SJC_DebugOutput_printf("\r\nTask count = %lu", uxArraySize);
-		SJC_DebugOutput_printf("\r\n\nNo\tName\tS Usage\tHW");
+		SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
+		SJC_DebugOutput_SystemPrintf("\r\nTask count = %lu", uxArraySize);
+		SJC_DebugOutput_SystemPrintf("\r\n\nNo\tName\tS Usage\tHW");
 
 		for (x = 0; x < uxArraySize; x++) {
 
 			runtime_percent = (float) (100 * (float) pxTaskStatusArray[x].ulRunTimeCounter / (float) ulTotalRunTime);
 
-			SJC_DebugOutput_printf("\r\nTask %lu: %-16s\t\t\t\t%2d\t%7.3f\t\t%4i", x, pxTaskStatusArray[x].pcTaskName, pxTaskStatusArray[x].eCurrentState, runtime_percent, pxTaskStatusArray[x].usStackHighWaterMark);
+			SJC_DebugOutput_SystemPrintf("\r\nTask %lu: %-16s\t\t\t\t%2d\t%7.3f\t\t%4i", x, pxTaskStatusArray[x].pcTaskName, pxTaskStatusArray[x].eCurrentState, runtime_percent, pxTaskStatusArray[x].usStackHighWaterMark);
 		}
-		SJC_DebugOutput_printf("\r\n************************************************************");
+		SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
 
 		vPortFree(pxTaskStatusArray);
 
 	} else {
-		SJC_DebugOutput_printf("\r\nUnable to allocate stack space");
+		SJC_DebugOutput_SystemPrintf("\r\nUnable to allocate stack space");
 	}
 }
 
-int SJC_DebugOutput_printf(const char *format, ...)
+int SJC_DebugOutput_SystemPrintf(const char *format, ...)
 {
-	configASSERT( xSerialDebugSemprHandle != NULL );
+	configASSERT( xSystemDebugSemprHandle != NULL );
 
-	if (osOK == osSemaphoreAcquire(xSerialDebugSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
+	if (osOK == osSemaphoreAcquire(xSystemDebugSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
 	{
-		va_list ap;
+		va_list apx;
 		int n = 0;
-		va_start(ap, format);
-		n = vsnprintf(g_debug_buff, DEBUG_BUFF_SIZE, format, ap);
-		va_end(ap);
+		va_start(apx, format);
+		n = vsnprintf(xLoggerDebugBuff, DEBUG_USB_BUFF_SIZE, format, apx);
+		va_end(apx);
 
 		if (n > 0)
 		{
-			for (int j = 0; j < n; j++)
-			{
-				__io_putchar(g_debug_buff[j]);
-			}
+			CDC_Transmit_FS(xLoggerDebugBuff, n);
 		}
 
-		osSemaphoreRelease(xSerialDebugSemprHandle);
+		osSemaphoreRelease(xSystemDebugSemprHandle);
 
 		return n;
 	}
@@ -172,24 +169,28 @@ int SJC_DebugOutput_printf(const char *format, ...)
 	}
 }
 
-int SJC_DebugOutput_UsbPrintf(const char *format, ...)
+int SJC_DebugOutput_LoggerPrintf(const char *format, ...)
 {
-	configASSERT( xUsbDebugSemprHandle != NULL );
+	configASSERT( xDataLoggerSemprHandle != NULL );
 
-	if (osOK == osSemaphoreAcquire(xUsbDebugSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
+	if (osOK == osSemaphoreAcquire(xDataLoggerSemprHandle, CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS))
 	{
-		va_list apx;
+		va_list ap;
 		int n = 0;
-		va_start(apx, format);
-		n = vsnprintf(g_usb_debug_buff, DEBUG_USB_BUFF_SIZE, format, apx);
-		va_end(apx);
+		va_start(ap, format);
+		n = vsnprintf(xSystemDebugBuff, DEBUG_BUFF_SIZE, format, ap);
+		va_end(ap);
 
 		if (n > 0)
 		{
-			CDC_Transmit_FS(g_usb_debug_buff, n);
+			for (int j = 0; j < n; j++)
+			{
+				__io_putchar(xSystemDebugBuff[j]);
+			}
 		}
 
-		osSemaphoreRelease(xUsbDebugSemprHandle);
+
+		osSemaphoreRelease(xDataLoggerSemprHandle);
 
 		return n;
 	}

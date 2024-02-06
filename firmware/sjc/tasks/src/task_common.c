@@ -110,7 +110,7 @@ void SJC_TaskCommon_Init(void)
 {
 	if (SJC_RET_NOK == InitOsThreads())
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
 		SJC_SYSTEM_RESET();
 	}
 }
@@ -152,7 +152,7 @@ eSjcReturnType_t InitOsThreads(void)
 
 	if (SharedDataSemaphoreHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Shared data mutex not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Shared data mutex not created...");
 		return SJC_RET_NOK;
 	} else
 	{
@@ -167,25 +167,25 @@ eSjcReturnType_t InitOsThreads(void)
 
 	if (NULL == WatchdogTaskHandle)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Watchdog task not initiated...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Watchdog task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == NetworkTaskHandle)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Network task not initiated...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Network task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == ControllerTaskHandle)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Joint controller task not initiated...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Joint controller task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == MeasurementsTaskHandle)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Analog measurements task not initiated...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog measurements task not initiated...");
 		return SJC_RET_NOK;
 	}
 

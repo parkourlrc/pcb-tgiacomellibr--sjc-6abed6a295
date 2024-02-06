@@ -110,7 +110,8 @@ eSjcReturnType_t SJC_MotorDrive_GetPowerSupplyVoltage(float * voltage)
 
 eSjcReturnType_t SJC_MotorDrive_GetOutputCurrent(float * current)
 {
-	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+//	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
 }
 
 eSjcReturnType_t SJC_MotorDrive_GetOutputVoltage(float * voltage)

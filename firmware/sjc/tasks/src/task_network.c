@@ -67,8 +67,8 @@ void NetworkTaskApp(void *argument)
 
 	osDelay(SJC_TASK_INIT_DELAY);
 
-	SJC_DebugOutput_printf("\r\n[OS] Network task initiated!");
-	SJC_DebugOutput_printf("\r\n[OS] Modbus communication enabled!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Network task initiated!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus communication enabled!");
 
 	uint32_t tick = osKernelGetTickCount();
 

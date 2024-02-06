@@ -109,10 +109,12 @@
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
+#define ANALOG_CURRENT_SENSOR_VREF											( (float) 2.5f		)
+#define ACS712_GAIN											( (float) 0.1f		)
+#define ACS712_ANALOG_FRONTED_GAIN							( (float) 0.6667f	)
 #define AD8418_GAIN											( (float) 20.0f		)
-#define AD8418_VREF											( (float) 2.5f		)
 #define AD8418_SHUNT_RESISTANCE								( (float) 0.008f	)
-#define AD8418_ANALOG_FRONTED_GAIN							( (float) 0.79f		)
+#define AD8418_ANALOG_FRONTED_GAIN							( (float) 0.7907f	)
 #define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO				( (float) 0.8f		)
 #define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO				( 1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO	)
 

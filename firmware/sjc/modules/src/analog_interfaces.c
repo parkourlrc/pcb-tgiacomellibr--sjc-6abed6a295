@@ -78,7 +78,7 @@ void SJC_AnalogInterfaces_Init(void)
 
 	if (xAnalogInterfaceSemprHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Analog interface semaphore not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog interface semaphore not created...");
 	} else
 	{
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
@@ -116,8 +116,8 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 	{
 		if (xIsrServiceCounter != 20)
 		{
-			SJC_DebugOutput_printf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
-//			for (;;);
+			SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
+			//			for (;;);
 		}
 		xIsrServiceCounter = 0;
 
@@ -142,10 +142,16 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	{
 		switch (sensor) {
 		case SJC_CURRENT_SENSOR_STD:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-AD8418_VREF;
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-ANALOG_CURRENT_SENSOR_VREF;
 			*value /= (AD8418_SHUNT_RESISTANCE*AD8418_GAIN);
 			ret = SJC_RET_OK;
 			break;
+		case SJC_CURRENT_SENSOR_AUX:
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/ACS712_ANALOG_FRONTED_GAIN)-ANALOG_CURRENT_SENSOR_VREF;
+			*value /= ACS712_GAIN;
+			ret = SJC_RET_OK;
+			break;
+
 		case SJC_VOLTAGE_SENSOR:
 			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV]*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
 			ret = SJC_RET_OK;

@@ -62,7 +62,7 @@ void WatchdogTaskApp(void *argument)
 	/* USER CODE BEGIN WatchdogTaskApp */
 
 	osDelay(SJC_TASK_INIT_DELAY);
-	SJC_DebugOutput_printf("\r\n[OS] Watchdog task initiated!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Watchdog task initiated!");
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -88,7 +88,7 @@ void WatchdogTaskApp(void *argument)
 
 		float MeanSampleTime_us = (1.0f*Ts.AccumulatedTimerTicks)/(1.0f*Ts.Samples);
 
-		SJC_DebugOutput_printf("\n\r[OS] Runtime (%lu ms) - Analog. Conv. Delay: (%.3f us)", timestamp, MeanSampleTime_us);
+		SJC_DebugOutput_SystemPrintf("\n\r[OS] Runtime (%lu ms) - Analog. Conv. Delay: (%.3f us)", timestamp, MeanSampleTime_us);
 
 //		if (++counts == 10)
 //		{

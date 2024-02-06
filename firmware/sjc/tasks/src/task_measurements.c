@@ -65,7 +65,7 @@ void MeasurementsTaskApp(void *argument)
 
 	xMeasurementsTaskHandle = xTaskGetCurrentTaskHandle();
 
-	SJC_DebugOutput_printf("\r\n[OS] Analog measurements task initiated!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Analog measurements task initiated!");
 
 	SJC_AnalogInterfaces_MeasurementEnable();
 
@@ -87,7 +87,7 @@ void MeasurementsTaskApp(void *argument)
 			//dt = (toc > tic) ? (toc-tic) : (toc-tic+1000);
 			//if (dt > 1)
 			//{
-			//	SJC_DebugOutput_printf("\r\n\nWait: %lu", dt);
+			//	SJC_DebugOutput_SystemPrintf("\r\n\nWait: %lu", dt);
 			//}
 			//tic = toc;
 		}
@@ -95,7 +95,7 @@ void MeasurementsTaskApp(void *argument)
 		{
 			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 			{
-				SJC_DebugOutput_printf("\n\n\n\r[OS FAULT] ADC Task notification error");
+				SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 			}
 		}
 
@@ -133,7 +133,7 @@ void ADC_IRQHandler(void)
 		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
 
 		/* Call interruption treatment function */
-		SJC_DebugOutput_printf("\r\n[HW FAULT] ADC Overrun!\n");
+		SJC_DebugOutput_SystemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
 		Error_Handler();
 	}
 }

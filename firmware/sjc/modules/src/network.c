@@ -64,7 +64,7 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 
 	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xSlaveAddress, 1, NETWORK_BAUD_RATE, MB_PAR_NONE ) ) )
 	{
-		SJC_DebugOutput_printf("\r\n[OS] Modbus network initialization failed...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network initialization failed...");
 		/* Can not initialize. Add error handling code here. */
 		return SJC_RET_NOK;
 	}
@@ -78,14 +78,14 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 
 	//	if( MB_ENOERR != ( eStatus = eMBSetSlaveID( 0x34, TRUE, ucSlaveID, 3 ) ) )
 	//	{
-	//		SJC_DebugOutput_printf("\r\n[OS] Modbus slave address not set...");
+	//		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus slave address not set...");
 	//		/* Can not set slave id. Check arguments */
 	//		return SJC_RET_NOK;
 	//	}
 
 	if( MB_ENOERR != ( eStatus = eMBEnable(  ) ) )
 	{
-		SJC_DebugOutput_printf("\r\n[OS] Modbus network activation failed...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network activation failed...");
 		/* Enable failed. */
 		return SJC_RET_NOK;
 	}

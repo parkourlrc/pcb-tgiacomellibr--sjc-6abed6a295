@@ -54,7 +54,7 @@ void SJC_Encoder_init(void)
 
 	if (xEncoderInterfacesSemprHandle == NULL)
 	{
-		SJC_DebugOutput_printf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
+		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
 	} else
 	{
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);

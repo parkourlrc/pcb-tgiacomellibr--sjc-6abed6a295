@@ -57,10 +57,10 @@ void MX_GPIO_Init(void)
   LL_GPIO_ResetOutputPin(GPIOC, GP_OUT_B_Pin|GP_OUT_A_Pin|SYS_HEARTBEAT_Pin);
 
   /**/
-  LL_GPIO_ResetOutputPin(V_MOTOR_nEN_GPIO_Port, V_MOTOR_nEN_Pin);
+  LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin);
 
   /**/
-  LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin);
+  LL_GPIO_SetOutputPin(V_MOTOR_nEN_GPIO_Port, V_MOTOR_nEN_Pin);
 
   /**/
   GPIO_InitStruct.Pin = LL_GPIO_PIN_13|LL_GPIO_PIN_8|LL_GPIO_PIN_9;
