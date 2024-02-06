@@ -125,7 +125,7 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 180;
+            xSensorsConfig.actuator_sensor_res_ppr = 2048;
             xSensorsConfig.auxA_sensor_res_ppr = 2048;
             xSensorsConfig.auxB_sensor_res_ppr = 2048;
 

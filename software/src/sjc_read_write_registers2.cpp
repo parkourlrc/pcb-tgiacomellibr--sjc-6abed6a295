@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
                 std::cout << "Runtime info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
             }
 
-            if ((RuntimeInfo.uptime - last_control_time) >= 100)
+            if ((RuntimeInfo.uptime - last_control_time) >= 200)
             {
                 last_control_time = RuntimeInfo.uptime;
                 xSjcControllerConfig_t config;
@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
                 case ACTUATOR_MAX_POS:
                     xActuatorState = ACTUATOR_DISABLED;
                     sig *= -1;
-                    config.controller_ref = 24 * sig;
+                    config.controller_ref = 15 * sig;
                     break;
 
                 default: // ACTUATOR_DISABLED
