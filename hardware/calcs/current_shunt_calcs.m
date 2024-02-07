@@ -44,6 +44,7 @@ Av_std = Av_ACS712(2);
 Vout_ACS712_min = Av_input_3v3*(Vref+Av_min*Imeas_ACS712);
 Vout_ACS712_max = Av_input_3v3*(Vref+Av_max*Imeas_ACS712);
 Vout_ACS712_std = Av_input_3v3*(Vref+Av_std*Imeas_ACS712);
+I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std
 
 if (plot_on > 0)
   figure;
