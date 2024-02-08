@@ -1,3 +1,6 @@
+clear all
+close all
+clc
 
 %% AD8418 calcs
 % ---------------------------------------------------------------------------- %
@@ -18,9 +21,9 @@ Rshunt_max = Rshunt*(1+Rshunt_tol);
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 270;
+Rup = 290;
 Rdown = 1.02e3;
-Av_input_3v3 = Rdown/(Rup+Rdown);
+Av_input_3v3 = Rdown/(Rup+Rdown)
 
 Vout_AD814_std = Av_input_3v3*((Av_AD8418.*Imeas_AD8418.*Rshunt_std) + Vref);
 Vout_AD814_min = Av_input_3v3*((Av_AD8418.*Imeas_AD8418.*Rshunt_min) + Vref);

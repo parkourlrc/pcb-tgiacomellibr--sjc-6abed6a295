@@ -33,9 +33,9 @@ a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
 disp(a)
 a = sprintf('\r   - R_{down} (kOhm): %.2f', Rdown*1e-3);
 disp(a)
-a = sprintf('\r   - Av (V/V): %.2f', Av_input_3v3);
+a = sprintf('\r   - Av (V/V): %.4f', Av_input_3v3);
 disp(a)
-a = sprintf('\r   - Ex. For 5V input, the output is %.2fV...', Av_input_3v3*5);
+a = sprintf('\r   - Ex. For 5V input, the output is %.3fV...', Av_input_3v3*5);
 disp(a)
 
 Av_min = min(Av_ACS712);
@@ -44,7 +44,7 @@ Av_std = Av_ACS712(2);
 Vout_ACS712_min = Av_input_3v3*(Vref+Av_min*Imeas_ACS712);
 Vout_ACS712_max = Av_input_3v3*(Vref+Av_max*Imeas_ACS712);
 Vout_ACS712_std = Av_input_3v3*(Vref+Av_std*Imeas_ACS712);
-I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std
+I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std;
 
 if (plot_on > 0)
   figure;
@@ -58,7 +58,7 @@ endif
 
 %% AD8418 calcs
 % ---------------------------------------------------------------------------- %
-a = sprintf('\n\r AC8418 Circuit calcs:');
+a = sprintf('\n\r AD418 Circuit calcs:');
 disp(a)
 
 Av_AD8418 = 20;
@@ -72,7 +72,7 @@ Rshunt_std = Rshunt;
 Rshunt_min = Rshunt*(1-Rshunt_tol);
 Rshunt_max = Rshunt*(1+Rshunt_tol);
 
-a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
+a = sprintf(' - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
 Rup = 270;
 Rdown = 1.02e3;
@@ -87,7 +87,7 @@ a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
 disp(a)
 a = sprintf('\r   - R_{down} (kOhm): %.2f', Rdown*1e-3);
 disp(a)
-a = sprintf('\r   - Av (V/V): %.2f', Av_input_3v3);
+a = sprintf('\r   - Av (V/V): %.4f', Av_input_3v3);
 disp(a)
 a = sprintf('\r   - Ex. For %.3f A (Min input) @ %.2f V, the output is %.2fV...', min(Imeas_AD8418), min(Vout_AD814_std)/Av_input_3v3, min(Vout_AD814_std));
 disp(a)
@@ -111,8 +111,8 @@ endif
 
 %% Frequency filter
 % (2nd order + 1st order) Butterworth filter
-R = 1.5e3;
-C = 100e-9;
+R = 1.02e3;
+C = 39e-9;
 Fc = 1/(2*pi*R*C);
 
 a = sprintf('\n\r Analog frontend calcs:');
