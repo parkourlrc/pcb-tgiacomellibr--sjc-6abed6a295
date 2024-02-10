@@ -434,7 +434,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "hardware.kicad_pro",
+    "filename": "hardware_v0.2.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -520,6 +520,7 @@
       "/Motor/L_HSG": "DRV_HV",
       "/Motor/R_HSG": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
+      "/Power Supply/V_{MOTOR}_Rect": "DRV_HV",
       "Net-(D1-K)": "DRV_HV",
       "Net-(D11-A)": "DRV_LV",
       "Net-(D4-K)": "DRV_HV",
@@ -529,10 +530,12 @@
       "Net-(D7-A)": "DRV_HV",
       "Net-(D7-K)": "DRV_HV",
       "Net-(LD2-K)": "PWR",
+      "Net-(NT6-Pad1)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
       "Net-(Q2-G)": "DRV_HV",
       "Net-(Q3-G)": "DRV_HV",
+      "Net-(Q4-G)": "DRV_HV",
       "Net-(U1-Y)": "DRV_HV",
       "Net-(U11-H_{O})": "DRV_HV",
       "Net-(U11-L_{O})": "DRV_HV",
@@ -710,6 +713,10 @@
     [
       "2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae",
       "Communication"
+    ],
+    [
+      "8c20dcab-7afd-466c-86e4-8c0e3c420d38",
+      "Debug"
     ]
   ],
   "text_variables": {}
