@@ -74,7 +74,7 @@ void WatchdogTaskApp(void *argument)
 
 	xSjcMeanSampleTimeMeasurement_t Ts;
 
-	//	uint32_t counts = 0;
+	// uint32_t counts = 0;
 
 	/* Infinite loop */
 	for (;;) {

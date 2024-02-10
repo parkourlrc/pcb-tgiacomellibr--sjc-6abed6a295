@@ -107,6 +107,7 @@ typedef struct {
 	int32_t Counts;
 	TIM_TypeDef *Instance;
 	uint16_t Resolution_PPR;
+	float radians_per_quadrature_pulse;
 } xSjcEncoder_t;
 
 typedef struct {

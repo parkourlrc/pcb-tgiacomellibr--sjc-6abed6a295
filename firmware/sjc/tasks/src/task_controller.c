@@ -42,6 +42,8 @@ static float ControllerReference;
 static float ControllerError = 0;
 
 static float Displacement = 0;
+static float DisplacementThetaX = 0;
+static float DisplacementThetaY = 0;
 static float SystemVoltage = 0;
 static float ActuatorVoltage = 0;
 static float ActuatorCurrent = 0;
@@ -50,6 +52,7 @@ static float ActuatorAngularSpeed = 0;
 static float ControlAction = 0;
 static float RelativeDisplacement = 0;
 static float ActuatorRpm = 0;
+
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -115,11 +118,12 @@ void ControllerTaskApp(void *argument)
 
 void ControllerParametersUpdate(void)
 {
-
+	// Electric variables update
 	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
 	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
 	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
-	SJC_GetControlReference(&ControllerReference);
+
+	// Actuated joint calcs
 	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &RelativeDisplacement, Displacement);
 	Displacement += RelativeDisplacement;
 
@@ -130,8 +134,17 @@ void ControllerParametersUpdate(void)
 	ActuatorAngularSpeed = RelativeDisplacement/ElapsedTime;
 	ActuatorRpm = ActuatorAngularSpeed*(60)/(2*M_PI);
 
-	SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+	// Passive joints calcs
+	SJC_GetJointRelativeAngularDisplacement(SJC_AUX_JOINT_A, &RelativeDisplacement, DisplacementThetaX);
+	DisplacementThetaX += RelativeDisplacement;
+
+	SJC_GetJointRelativeAngularDisplacement(SJC_AUX_JOINT_B, &RelativeDisplacement, DisplacementThetaY);
+	DisplacementThetaY += RelativeDisplacement;
+
+	// Controller configs update
 	SJC_GetControlMode(&ControlMode);
+	SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+	SJC_GetControlReference(&ControllerReference);
 }
 
 void PublishControllerData(void)
@@ -139,7 +152,7 @@ void PublishControllerData(void)
 	//	SJC_DebugOutput_LoggerPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, RelativeDisplacement, (ActuatorAngularSpeed/7600));
 	//	SJC_DebugOutput_LoggerPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, ControllerReference, Err \n");
 	//	SJC_DebugOutput_LoggerPrintf("%.2f, %.2f, %.2f, %.4f\n", (SystemVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (ActuatorAngularSpeed/7600));
-	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError);
+	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError, Displacement*180/M_PI, DisplacementThetaX*180/M_PI, DisplacementThetaY*180/M_PI);
 }
 
 
