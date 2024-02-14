@@ -46,7 +46,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.6095999999999999
+          "min_clearance": 0.254
         }
       },
       "diff_pair_dimensions": [
@@ -467,7 +467,7 @@
         "microvia_drill": 0.3,
         "name": "DRV_HV",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgb(194, 0, 194)",
+        "schematic_color": "rgb(255, 0, 0)",
         "track_width": 0.508,
         "via_diameter": 0.6,
         "via_drill": 0.3,
@@ -484,11 +484,11 @@
         "microvia_drill": 0.3,
         "name": "DRV_LV",
         "pcb_color": "rgba(0, 0, 0, 0.000)",
-        "schematic_color": "rgb(0, 0, 194)",
+        "schematic_color": "rgb(0, 132, 0)",
         "track_width": 0.2032,
         "via_diameter": 0.6,
         "via_drill": 0.3,
-        "wire_width": 8
+        "wire_width": 10
       },
       {
         "bus_width": 12,
@@ -519,9 +519,8 @@
       "/Communication/+12V_ISO_FLT": "DRV_LV",
       "/Motor/L_HSG": "DRV_HV",
       "/Motor/R_HSG": "DRV_HV",
+      "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
-      "/Power Supply/V_{MOTOR}_Rect": "DRV_HV",
-      "Net-(D1-K)": "DRV_HV",
       "Net-(D11-A)": "DRV_LV",
       "Net-(D4-K)": "DRV_HV",
       "Net-(D5-A)": "DRV_HV",
@@ -535,7 +534,6 @@
       "Net-(Q2-D)": "DRV_HV",
       "Net-(Q2-G)": "DRV_HV",
       "Net-(Q3-G)": "DRV_HV",
-      "Net-(Q4-G)": "DRV_HV",
       "Net-(U1-Y)": "DRV_HV",
       "Net-(U11-H_{O})": "DRV_HV",
       "Net-(U11-L_{O})": "DRV_HV",
@@ -543,7 +541,6 @@
       "Net-(U20-H_{O})": "DRV_HV",
       "Net-(U20-L_{O})": "DRV_HV",
       "Net-(U20-V_{B})": "DRV_HV",
-      "Net-(U3-+V_{IN})": "DRV_HV",
       "Net-(U4-VI)": "DRV_HV",
       "Net-(U5-VI)": "DRV_LV"
     },
