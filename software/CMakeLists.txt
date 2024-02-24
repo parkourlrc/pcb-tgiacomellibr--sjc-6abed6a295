@@ -39,7 +39,7 @@ set(SJC_TYPES_INCS_DIR ${SJC_FW_BASE_DIR}/system_types/include/)
 set(SJC_INTERFACE_SRCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/src)
 set(SJC_INTERFACE_INCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/include)
 
-add_library(sjc_interface   ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp
+add_library(sjc_interface  SHARED ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp
                             ${SJC_TYPES_SRCS_DIR}/
                             ${SJC_TYPES_SRCS_DIR}/helpers.c
 )
