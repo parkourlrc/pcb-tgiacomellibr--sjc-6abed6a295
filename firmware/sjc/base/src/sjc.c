@@ -106,7 +106,6 @@ void SJC_Init(void)
 	// SJC Modules initialization
 	SJC_SetVersions();
 
-	SJC_Timer_Init();
 	SJC_DebugOutput_Init();
 	SJC_AnalogInterfaces_Init();
 	SJC_DigitalInterfaces_init();
@@ -124,7 +123,6 @@ void SJC_Init(void)
 	SJC_MotorDrive_Init(PWM_FREQ_20kHz, 24.0);
 
 	SJC_PresentSystemInfo();
-
 	SJC_InitOsKernel();
 }
 
@@ -432,6 +430,7 @@ void Net_UpdateRuntimeInfoRegisters(void)
 {
 	float fAux;
 	uint16_t ui16Aux;
+	uint32_t ui32Aux;
 	uint32_t uptime = SJC_Timer_GetTimeMs();
 	uint16_t * ui16ptr = ((uint16_t*)(&uptime));
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME] = ui16ptr[1];
@@ -487,12 +486,14 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	SJC_GetJointActuatorState(&state);
 	usRegInputBuf[REG_INPUT_ACTUATOR_STATE] = state;
 
-	ui16Aux = 0;
-	SJC_ReadDigitalInputs(&ui16Aux);
+	ui32Aux = 0;
+	SJC_ReadDigitalInputs(&ui32Aux);
+	ui16Aux = (uint16_t) ui32Aux;
 	usRegInputBuf[REG_INPUT_DIGITAL_INPUTS] = ui16Aux;
 
-	ui16Aux = 0;
-	SJC_ReadDigitalOutputs(&ui16Aux);
+	ui32Aux = 0;
+	SJC_ReadDigitalOutputs(&ui32Aux);
+	ui16Aux = (uint16_t) ui32Aux;
 	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = ui16Aux;
 
 	fAux = 0;

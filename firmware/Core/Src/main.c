@@ -25,7 +25,6 @@
 #include "stdio.h"
 #include "sjc.h"
 #include "task_common.h"
-#include "timeout_timer.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

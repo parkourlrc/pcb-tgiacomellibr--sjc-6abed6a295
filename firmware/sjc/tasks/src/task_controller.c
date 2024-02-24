@@ -79,8 +79,9 @@ void ControllerTaskApp(void *argument)
 
 	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 
-
 	uint32_t tick = osKernelGetTickCount();
+
+	SJC_EnableJointActuators();
 
 	/* Infinite loop */
 	for(;;)
@@ -95,25 +96,24 @@ void ControllerTaskApp(void *argument)
 
 		switch (ControlMode) {
 		case SJC_SPEED_CONTROL:
-			SJC_EnableJointActuators();
-
 			ControllerError = ControllerReference - ActuatorAngularSpeed;
 			SJC_ComputeControlAction(ControllerError, ElapsedTime, &ControlAction);
 			SJC_SetJointActuatorVoltage(ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
-			SJC_EnableJointActuators();
 			SJC_SetJointActuatorVoltage(ControllerReference);
 			break;
 
 			//	case SJC_TORQUE_CONTROL:
 			//	case SJC_PRBS_EXCITATION:
 		default: // SJC_CONTROL_DISABLED
-			SJC_DisableJointActuators();
+			SJC_SetJointActuatorVoltage(ZERO_FLOAT);
 			break;
 		}
 	}
+	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+	SJC_DisableJointActuators();
 }
 
 void ControllerParametersUpdate(void)

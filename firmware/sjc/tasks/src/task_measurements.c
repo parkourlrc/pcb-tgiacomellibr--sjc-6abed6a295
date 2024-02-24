@@ -24,7 +24,6 @@
 #include "network.h"
 #include "analog_interfaces.h"
 #include "debug_output.h"
-#include "timeout_timer.h"
 #include "network_configs.h"
 
 // ------------------------------------------------------------------- //
@@ -37,12 +36,16 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+typedef enum {
+	TASK_MEASUREMENT_STATE_UNINITIALIZED = 0,
+	TASK_MEASUREMENT_STATE_RUNNING
+} eSjcTaskMeasurementState_t;
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 TaskHandle_t xMeasurementsTaskHandle;
+static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -73,6 +76,8 @@ void MeasurementsTaskApp(void *argument)
 
 	//	uint32_t tic, toc, dt;
 	//	tic = osKernelGetTickCount();
+
+	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
 	/* Infinite loop */
 	for (;;) {
@@ -106,23 +111,27 @@ void MeasurementsTaskApp(void *argument)
 
 void ADC_IRQHandler(void)
 {
-	static uint32_t counts = 0;
 	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
 	{
 		/* Clear flag ADC group injected end of sequence conversions */
 		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
 
-		/* Call interruption treatment function */
-		SJC_AnalogInterfaces_AdcConversionIsr();
+		switch (xTaskState) {
+		case TASK_MEASUREMENT_STATE_RUNNING:
+			/* Call interruption treatment function */
+			SJC_AnalogInterfaces_AdcConversionIsr();
 
-		/* Dispatch conversion and filtering */
-		if (++counts == 20)
-		{
-			counts = 0;
-			BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-			configASSERT( xMeasurementsTaskHandle != NULL );
-			vTaskNotifyGiveFromISR( xMeasurementsTaskHandle, &xHigherPriorityTaskWoken );
-			portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+			/* Dispatch conversion and filtering */
+			if (SJC_RET_OK == SJC_AnalogInterfaces_CheckUpdateConversionTime())
+			{
+				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+				configASSERT( xMeasurementsTaskHandle != NULL );
+				vTaskNotifyGiveFromISR( xMeasurementsTaskHandle, &xHigherPriorityTaskWoken );
+				portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
+			}
+			break;
+		default:
+			break;
 		}
 	}
 

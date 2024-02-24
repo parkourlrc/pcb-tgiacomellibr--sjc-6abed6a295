@@ -44,7 +44,7 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY									( (uint32_t) 2000UL)
+#define SJC_TASK_INIT_DELAY									( (uint32_t) 5000UL)
 #define SJC_DEBUG_TASK_UPDATE_PERIOD_MS						( (uint32_t) 1000UL)
 #define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS				( (uint32_t) 1UL)
 #define SJC_NETWORK_TASK_UPDATE_PERIOD_MS					( (uint32_t) 5UL)

@@ -32,6 +32,8 @@
 
 #define CONTROLLER_USB_DBG_SEMPHR_WAIT_TIME_MS			((uint32_t) 10U)
 #define CONTROLLER_SERIAL_DBG_SEMPHR_WAIT_TIME_MS		((uint32_t) 10U)
+
+#define SYSTEM_DEBUG_OUTPUT_USB
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -78,7 +80,7 @@ void SJC_DebugOutput_Init(void)
 	if (xSystemDebugSemprHandle == NULL)
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Serial debug semaphore not created...");
-		return SJC_RET_NOK;
+		SJC_SYSTEM_RESET();
 	} else
 	{
 		osSemaphoreRelease(xSystemDebugSemprHandle);
@@ -88,7 +90,7 @@ void SJC_DebugOutput_Init(void)
 	if (xDataLoggerSemprHandle == NULL)
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] USB debug semaphore not created...");
-		return SJC_RET_NOK;
+		SJC_SYSTEM_RESET();
 	} else
 	{
 		osSemaphoreRelease(xDataLoggerSemprHandle);
@@ -142,7 +144,11 @@ void SJC_DebugOutput_PresentRuntimeStatistics(void)
 	}
 }
 
+#ifdef SYSTEM_DEBUG_OUTPUT_USB
 int SJC_DebugOutput_SystemPrintf(const char *format, ...)
+#else
+int SJC_DebugOutput_LoggerPrintf(const char *format, ...)
+#endif
 {
 	configASSERT( xSystemDebugSemprHandle != NULL );
 
@@ -169,7 +175,11 @@ int SJC_DebugOutput_SystemPrintf(const char *format, ...)
 	}
 }
 
+#ifdef SYSTEM_DEBUG_OUTPUT_USB
 int SJC_DebugOutput_LoggerPrintf(const char *format, ...)
+#else
+int SJC_DebugOutput_SystemPrintf(const char *format, ...)
+#endif
 {
 	configASSERT( xDataLoggerSemprHandle != NULL );
 

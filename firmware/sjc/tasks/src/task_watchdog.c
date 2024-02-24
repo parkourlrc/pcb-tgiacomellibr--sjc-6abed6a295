@@ -24,7 +24,6 @@
 #include "network.h"
 #include "analog_interfaces.h"
 #include "debug_output.h"
-#include "timeout_timer.h"
 #include "network_configs.h"
 
 // ------------------------------------------------------------------- //

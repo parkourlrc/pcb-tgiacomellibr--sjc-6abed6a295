@@ -30,6 +30,10 @@
 #define ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS 	((uint32_t) osWaitForever)
 #define CONV_MILLIVOLT_TO_VOLT(X)						(X/1000.0f)
 #define ANALOG_MEASUREMENT_BUFFER_SIZE					((uint32_t) 100UL)
+
+#define ANALOG_IFACE_ISR_FREQUENCY						(float) 20000.0f
+#define ANALOG_MEASUREMENT_ISR_FREQUENCY				(float) 1000.0f
+#define ANALOG_MEASUREMENT_ISR_TICKS					((uint32_t) (ANALOG_IFACE_ISR_FREQUENCY/ANALOG_MEASUREMENT_ISR_FREQUENCY))
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -67,6 +71,8 @@ const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = {
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 void ComputeFilteredMeasurements(void);
+void IncIsrServiceCounter(void);
+void ResetIsrServiceCounter(void);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -96,6 +102,8 @@ void SJC_AnalogInterfaces_MeasurementEnable(void)
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
 
 	LL_ADC_Enable(SJC_ADC_INSTANCE);
+
+	ResetIsrServiceCounter();
 }
 
 void SJC_AnalogInterfaces_MeasurementDisable(void)
@@ -119,7 +127,7 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 			SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
 			//			for (;;);
 		}
-		xIsrServiceCounter = 0;
+		ResetIsrServiceCounter();
 
 		ComputeFilteredMeasurements();
 
@@ -128,6 +136,12 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 		ret = SJC_RET_OK;
 	}
 
+	return ret;
+}
+
+eSjcReturnType_t SJC_AnalogInterfaces_CheckUpdateConversionTime(void)
+{
+	eSjcReturnType_t ret = (xIsrServiceCounter >= ANALOG_MEASUREMENT_ISR_TICKS) ? SJC_RET_OK : SJC_RET_NOK;
 	return ret;
 }
 
@@ -198,7 +212,7 @@ void SJC_AnalogInterfaces_AdcConversionIsr(void)
 	xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 	LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
 	xMeanSampleTimeObj.Samples++;
-	xIsrServiceCounter++;
+	IncIsrServiceCounter();
 
 	xAdcConversionBuffer[MOTOR_CURRENT_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
 	xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
@@ -209,6 +223,16 @@ void SJC_AnalogInterfaces_AdcConversionIsr(void)
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
+void IncIsrServiceCounter(void)
+{
+	xIsrServiceCounter++;
+}
+
+void ResetIsrServiceCounter(void)
+{
+	xIsrServiceCounter = 0;
+}
+
 void ComputeFilteredMeasurements(void)
 {
 	for (int i = 0; i < xAdcConversionIndex; i++)
