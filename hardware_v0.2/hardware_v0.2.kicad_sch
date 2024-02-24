@@ -69,7 +69,7 @@
     (stroke (width 0) (type default))
     (uuid 3f05c5fa-7833-4979-bd6f-0525f8c08067)
   )
-  (wire (pts (xy 76.2 168.91) (xy 139.7 168.91))
+  (wire (pts (xy 76.2 166.37) (xy 139.7 166.37))
     (stroke (width 0) (type default))
     (uuid 594c2de1-bdff-4545-bb51-3b310b765f37)
   )
@@ -145,6 +145,10 @@
     (stroke (width 0) (type default))
     (uuid d43266eb-63db-4ac1-8019-476b8117de8e)
   )
+  (wire (pts (xy 76.2 170.18) (xy 139.7 170.18))
+    (stroke (width 0) (type default))
+    (uuid dc3f2bec-e774-4d82-8fbd-6d6f7b3b2162)
+  )
   (wire (pts (xy 76.2 34.29) (xy 139.7 34.29))
     (stroke (width 0) (type default))
     (uuid e01cc7de-d560-402d-91c2-beadaa8d6c8b)
@@ -170,7 +174,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 278.13 157.48 270) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid a948f5fb-f19a-4d40-96dd-65d10372d9da)
-    (property "Reference" "H?" (at 280.67 158.115 90)
+    (property "Reference" "H3" (at 280.67 158.115 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MountingHole" (at 276.225 160.02 0)
@@ -184,9 +188,6 @@
     )
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-          (reference "H?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
           (reference "H3") (unit 1)
         )
@@ -197,7 +198,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 273.05 162.56 90) (mirror x) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid d2bbca8b-b550-4a67-9bc7-87f1a4d3fba5)
-    (property "Reference" "H?" (at 270.51 163.195 90)
+    (property "Reference" "H2" (at 270.51 163.195 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MountingHole" (at 274.955 165.1 0)
@@ -211,9 +212,6 @@
     )
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-          (reference "H?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
           (reference "H2") (unit 1)
         )
@@ -224,7 +222,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 278.13 162.56 270) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid f3a49953-1277-4a4d-9458-51efdb683352)
-    (property "Reference" "H?" (at 280.67 163.195 90)
+    (property "Reference" "H4" (at 280.67 163.195 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MountingHole" (at 276.225 165.1 0)
@@ -238,9 +236,6 @@
     )
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-          (reference "H?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
           (reference "H4") (unit 1)
         )
@@ -251,7 +246,7 @@
   (symbol (lib_id "Mechanical:MountingHole") (at 273.05 157.48 90) (mirror x) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid fea881cf-9d7c-43b7-99cc-fda8b18cecb6)
-    (property "Reference" "H?" (at 270.51 158.115 90)
+    (property "Reference" "H1" (at 270.51 158.115 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "MountingHole" (at 274.955 160.02 0)
@@ -265,9 +260,6 @@
     )
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-          (reference "H?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
           (reference "H1") (unit 1)
         )
@@ -404,9 +396,13 @@
     (property "Sheetfile" "power_supply.kicad_sch" (at 139.7 173.3046 0)
       (effects (font (size 1.27 1.27)) (justify left top))
     )
-    (pin "V_{MOTOR}_~{EN}" input (at 139.7 168.91 180)
+    (pin "V_{MOTOR}_~{EN}" input (at 139.7 166.37 180)
       (effects (font (size 1.27 1.27)) (justify left))
       (uuid 5d50e16b-d119-41c6-a9ed-e64c0ce81bab)
+    )
+    (pin "SYS_HEARTBEAT" input (at 139.7 170.18 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid b8a15a06-84a4-4263-9cde-68281f56259d)
     )
     (instances
       (project "hardware_v0.2"
@@ -550,7 +546,7 @@
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid f49bb7b1-0dcf-476b-8b42-ace0947d12f2)
     )
-    (pin "V_{MOTOR}_~{EN}" output (at 76.2 168.91 0)
+    (pin "V_{MOTOR}_~{EN}" output (at 76.2 166.37 0)
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid f9655e46-a6f6-4a04-8454-e946237c6ab9)
     )
@@ -589,6 +585,10 @@
     (pin "DBG_485_TX" output (at 76.2 186.69 0)
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid 49967404-02a9-4a3b-bdf2-ea268e4a6054)
+    )
+    (pin "SYS_HEARTBEAT" output (at 76.2 170.18 0)
+      (effects (font (size 1.27 1.27)) (justify right))
+      (uuid bb1612bd-7df9-41a0-9575-e2cfa6052a22)
     )
     (instances
       (project "hardware_v0.2"

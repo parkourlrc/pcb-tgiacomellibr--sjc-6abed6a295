@@ -46,7 +46,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.254
+          "min_clearance": 0.6095999999999999
         }
       },
       "diff_pair_dimensions": [
@@ -518,23 +518,23 @@
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
       "/Motor/L_HSG": "DRV_HV",
+      "/Motor/L_LSG": "DRV_HV",
+      "/Motor/M+": "PWR",
       "/Motor/R_HSG": "DRV_HV",
+      "/Motor/R_LSG": "DRV_HV",
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "Net-(D11-A)": "DRV_LV",
       "Net-(D4-K)": "DRV_HV",
-      "Net-(D5-A)": "DRV_HV",
       "Net-(D5-K)": "DRV_HV",
       "Net-(D6-K)": "DRV_HV",
-      "Net-(D7-A)": "DRV_HV",
       "Net-(D7-K)": "DRV_HV",
       "Net-(LD2-K)": "PWR",
-      "Net-(NT6-Pad1)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
       "Net-(Q2-G)": "DRV_HV",
       "Net-(Q3-G)": "DRV_HV",
-      "Net-(U1-Y)": "DRV_HV",
+      "Net-(U1-1Y)": "DRV_HV",
       "Net-(U11-H_{O})": "DRV_HV",
       "Net-(U11-L_{O})": "DRV_HV",
       "Net-(U11-V_{B})": "DRV_HV",

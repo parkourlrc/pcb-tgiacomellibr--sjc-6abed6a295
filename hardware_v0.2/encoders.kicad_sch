@@ -1921,7 +1921,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 260.35 138.43 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 006e5589-c3f3-4fda-8bf1-03b0e0804606)
-    (property "Reference" "R?" (at 258.445 138.43 90)
+    (property "Reference" "R121" (at 258.445 138.43 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "1k 1%" (at 262.255 138.43 90)
@@ -1949,12 +1949,6 @@
     (pin "2" (uuid 4cc4aaed-2a78-41b9-ac59-718a6692604b))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R75") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R121") (unit 1)
         )
@@ -1965,7 +1959,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 81.28 148.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 011256fa-24bb-4a3f-9c8e-a86ca5c2f3a8)
-    (property "Reference" "TV?" (at 78.74 147.32 0)
+    (property "Reference" "TV5" (at 78.74 147.32 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 83.82 143.51 0)
@@ -1990,9 +1984,6 @@
     (pin "2" (uuid 7be52776-c03b-44d8-be8e-86f5b7719913))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV5") (unit 1)
         )
@@ -2173,7 +2164,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 264.16 38.1 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 1f686f05-3e0f-48a5-85fd-7c8df6210fd4)
-    (property "Reference" "R?" (at 264.16 35.56 90)
+    (property "Reference" "R67" (at 264.16 35.56 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 264.16 40.64 90)
@@ -2201,12 +2192,6 @@
     (pin "2" (uuid 4685e42c-5c13-4ffe-a00c-a6cb152eb4f8))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R67") (unit 1)
         )
@@ -2217,7 +2202,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 264.16 97.79 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 216bb2f8-7c02-4f96-9b3d-a280bad8827c)
-    (property "Reference" "R?" (at 264.16 95.25 90)
+    (property "Reference" "R70" (at 264.16 95.25 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 264.16 100.33 90)
@@ -2245,12 +2230,6 @@
     (pin "2" (uuid 6780fba0-d856-4864-946f-ddcfd8a6f372))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R70") (unit 1)
         )
@@ -2261,7 +2240,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 264.16 43.18 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 221319ed-1b2e-41e1-ac6b-29d222f8b23d)
-    (property "Reference" "R?" (at 264.16 40.64 90)
+    (property "Reference" "R68" (at 264.16 40.64 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 264.16 45.72 90)
@@ -2289,12 +2268,6 @@
     (pin "2" (uuid a3097761-65eb-4538-a77a-2e8f89a8cf42))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R68") (unit 1)
         )
@@ -2305,7 +2278,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 49.53 129.54 0) (mirror y) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 25c8693b-d31a-4760-be25-83c097d94495)
-    (property "Reference" "SB8" (at 53.34 128.27 0)
+    (property "Reference" "SB15" (at 53.34 128.27 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 49.53 127 0)
@@ -2321,12 +2294,6 @@
     (pin "2" (uuid e7986546-18c9-45e5-a56c-146999c10a90))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB15") (unit 1)
         )
@@ -2362,7 +2329,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 195.58 43.18 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 2a16072a-71f5-451a-b981-fe32911f82c5)
-    (property "Reference" "R?" (at 195.58 40.64 90)
+    (property "Reference" "R64" (at 195.58 40.64 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 195.58 45.72 90)
@@ -2390,12 +2357,6 @@
     (pin "2" (uuid 91a18933-343d-4fae-ba23-5cbbd882a32b))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R64") (unit 1)
         )
@@ -2437,9 +2398,6 @@
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R57") (unit 1)
         )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
       )
     )
   )
@@ -2447,7 +2405,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 73.66 148.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 308830ee-6d9e-4d3e-ba76-05e3bd944447)
-    (property "Reference" "TV?" (at 71.12 147.32 0)
+    (property "Reference" "TV7" (at 71.12 147.32 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 76.2 143.51 0)
@@ -2472,9 +2430,6 @@
     (pin "2" (uuid bc5f07a5-27ab-4dc9-a87e-36fb77bcde08))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV7") (unit 1)
         )
@@ -2510,7 +2465,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 62.23 58.42 0) (mirror y) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 3abb2a39-0302-4cc9-93a2-f676382e8c6a)
-    (property "Reference" "SB8" (at 66.04 57.15 0)
+    (property "Reference" "SB12" (at 66.04 57.15 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 62.23 55.88 0)
@@ -2526,12 +2481,6 @@
     (pin "2" (uuid ad4475ee-e676-429f-8cdf-967e0dc139ad))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB12") (unit 1)
         )
@@ -2542,7 +2491,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 66.04 148.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 3b76d7fd-46a1-4c2b-bb1f-2da0361caad4)
-    (property "Reference" "TV?" (at 63.5 147.32 0)
+    (property "Reference" "TV10" (at 63.5 147.32 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 68.58 143.51 0)
@@ -2567,9 +2516,6 @@
     (pin "2" (uuid 04292e45-9528-471d-a372-cc8fec79384a))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV10") (unit 1)
         )
@@ -2580,7 +2526,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 49.53 135.89 180) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 4272f1d8-1049-4f44-b7f9-ddd76f6d35b8)
-    (property "Reference" "SB8" (at 53.34 134.62 0)
+    (property "Reference" "SB14" (at 53.34 134.62 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 49.53 138.43 0)
@@ -2596,12 +2542,6 @@
     (pin "2" (uuid 20fdfa0e-b718-477a-8a87-ec0c21027034))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB14") (unit 1)
         )
@@ -2705,9 +2645,6 @@
       (project "hardware_v0.2"
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R22") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R16") (unit 1)
         )
       )
     )
@@ -2892,7 +2829,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 195.58 38.1 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 59b8fb78-2c6f-45f3-838f-10f6ef670f56)
-    (property "Reference" "R?" (at 195.58 35.56 90)
+    (property "Reference" "R63" (at 195.58 35.56 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 195.58 40.64 90)
@@ -2920,12 +2857,6 @@
     (pin "2" (uuid b2e5f0ac-de2a-45e9-8774-04977c6708f4))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R63") (unit 1)
         )
@@ -2999,7 +2930,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 49.53 123.19 180) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 5afd8166-1038-46bb-be64-415dd652aa5f)
-    (property "Reference" "SB8" (at 53.34 121.92 0)
+    (property "Reference" "SB16" (at 53.34 121.92 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 49.53 125.73 0)
@@ -3015,12 +2946,6 @@
     (pin "2" (uuid 61189fc7-b560-4b3a-b19f-17837faf5f71))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB16") (unit 1)
         )
@@ -3056,7 +2981,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 191.77 138.43 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 61eb2c55-0750-4668-a81a-6e352c69ac96)
-    (property "Reference" "R?" (at 189.865 138.43 90)
+    (property "Reference" "R105" (at 189.865 138.43 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "1k 1%" (at 193.675 138.43 90)
@@ -3084,12 +3009,6 @@
     (pin "2" (uuid 92d2bd67-0896-4d17-a581-a900bafebaaa))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R75") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R105") (unit 1)
         )
@@ -3194,9 +3113,6 @@
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R58") (unit 1)
         )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
       )
     )
   )
@@ -3242,7 +3158,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 254 146.05 0) (mirror y) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 6a047477-45e3-4180-8566-856b63c99c3f)
-    (property "Reference" "SB8" (at 257.81 144.78 0)
+    (property "Reference" "SB5" (at 257.81 144.78 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 254 143.51 0)
@@ -3258,12 +3174,6 @@
     (pin "2" (uuid df5355e2-f1cd-404e-88ec-f29f9a284cb9))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB5") (unit 1)
         )
@@ -3274,7 +3184,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 195.58 97.79 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6d3718ae-aded-4e09-963e-807ed39bd3ea)
-    (property "Reference" "R?" (at 195.58 95.25 90)
+    (property "Reference" "R66" (at 195.58 95.25 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 195.58 100.33 90)
@@ -3302,12 +3212,6 @@
     (pin "2" (uuid 84b00ac8-a1a9-4840-9dbc-03ad47a8d26c))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R66") (unit 1)
         )
@@ -3349,9 +3253,6 @@
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R118") (unit 1)
         )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R16") (unit 1)
-        )
       )
     )
   )
@@ -3359,7 +3260,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 171.45 138.43 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 707552c6-2857-4b35-aefa-7b28b95d1a5a)
-    (property "Reference" "TV?" (at 168.91 137.16 0)
+    (property "Reference" "TV8" (at 168.91 137.16 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 173.99 133.35 0)
@@ -3384,9 +3285,6 @@
     (pin "2" (uuid a0ec5a66-5be2-4c92-bbe2-e5a03a147d57))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV8") (unit 1)
         )
@@ -3397,7 +3295,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 49.53 142.24 0) (mirror y) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid 70ff5dc3-59a5-4d32-8c06-1e43fbebc0a5)
-    (property "Reference" "SB8" (at 53.34 140.97 0)
+    (property "Reference" "SB13" (at 53.34 140.97 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 49.53 139.7 0)
@@ -3413,12 +3311,6 @@
     (pin "2" (uuid e7b56c2c-cc6a-4125-8453-8d7957f30bf0))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB13") (unit 1)
         )
@@ -3467,7 +3359,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 264.16 92.71 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 747e0187-b6de-430d-95f5-002e8c56f897)
-    (property "Reference" "R?" (at 264.16 90.17 90)
+    (property "Reference" "R69" (at 264.16 90.17 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 264.16 95.25 90)
@@ -3495,12 +3387,6 @@
     (pin "2" (uuid c3aa9e00-2755-48e6-8d15-cb5616daa4e2))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R69") (unit 1)
         )
@@ -3511,7 +3397,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 132.08 138.43 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 79384242-973f-414e-80a4-4c79fc208cd2)
-    (property "Reference" "TV?" (at 129.54 137.16 0)
+    (property "Reference" "TV13" (at 129.54 137.16 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 134.62 133.35 0)
@@ -3536,9 +3422,6 @@
     (pin "2" (uuid b82a9ee7-5fd8-4c65-91fd-e820b09187cf))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV13") (unit 1)
         )
@@ -3590,7 +3473,7 @@
   (symbol (lib_id "Device:C_Small") (at 179.07 138.43 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 847ddff0-3fbd-4311-89b7-a982f2a83b34)
-    (property "Reference" "C?" (at 176.53 138.43 90)
+    (property "Reference" "C52" (at 176.53 138.43 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "22nF 5% 50V" (at 181.61 138.43 90)
@@ -3618,9 +3501,6 @@
     (pin "2" (uuid 7652e81d-e392-40c1-bcff-2c83376bbfe3))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "C?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "C52") (unit 1)
         )
@@ -3712,9 +3592,6 @@
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R120") (unit 1)
         )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R16") (unit 1)
-        )
       )
     )
   )
@@ -3747,7 +3624,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS12VS1UR") (at 71.12 71.12 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 958848bc-bc70-48ca-afc7-ac0627f2e5b3)
-    (property "Reference" "TV?" (at 68.58 69.85 0)
+    (property "Reference" "TV4" (at 68.58 69.85 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS12VS1UR" (at 73.66 66.04 0)
@@ -3772,9 +3649,6 @@
     (pin "2" (uuid cb89fc2d-e67a-4d8f-910a-6c72627e6549))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV4") (unit 1)
         )
@@ -3785,7 +3659,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 240.03 138.43 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 96faf64d-6c97-4fd1-b508-beea6917920c)
-    (property "Reference" "TV?" (at 237.49 137.16 0)
+    (property "Reference" "TV9" (at 237.49 137.16 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 242.57 133.35 0)
@@ -3810,9 +3684,6 @@
     (pin "2" (uuid f6d5574a-2c95-47b8-bb03-3b61f78934c2))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV9") (unit 1)
         )
@@ -3949,7 +3820,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 62.23 64.77 180) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid ab2e326f-c4b4-4da6-b936-a2694f1e7c2d)
-    (property "Reference" "SB8" (at 66.04 63.5 0)
+    (property "Reference" "SB11" (at 66.04 63.5 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 62.23 67.31 0)
@@ -3965,12 +3836,6 @@
     (pin "2" (uuid d27e8861-0cf3-4857-9b45-54deeaaacfef))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB11") (unit 1)
         )
@@ -4031,7 +3896,7 @@
   (symbol (lib_id "Device:C_Small") (at 247.65 138.43 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid b5591ecc-02c9-453c-a3a1-337894f865c3)
-    (property "Reference" "C?" (at 245.11 138.43 90)
+    (property "Reference" "C53" (at 245.11 138.43 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "22nF 5% 50V" (at 250.19 138.43 90)
@@ -4059,9 +3924,6 @@
     (pin "2" (uuid 5d709060-ea90-42ca-8f24-37569acb3806))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "C?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "C53") (unit 1)
         )
@@ -4166,9 +4028,6 @@
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R119") (unit 1)
         )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "R16") (unit 1)
-        )
       )
     )
   )
@@ -4217,7 +4076,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS12VS1UR") (at 132.08 60.96 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c163eb88-56dd-4a10-b29d-916c19c935d9)
-    (property "Reference" "TV?" (at 129.54 59.69 0)
+    (property "Reference" "TV11" (at 129.54 59.69 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS12VS1UR" (at 134.62 55.88 0)
@@ -4242,9 +4101,6 @@
     (pin "2" (uuid a848a5b0-e1f5-4057-928a-3ca543989333))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV11") (unit 1)
         )
@@ -4618,7 +4474,7 @@
   (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 185.42 146.05 0) (mirror y) (unit 1)
     (in_bom no) (on_board yes) (dnp no)
     (uuid e6414bc2-4a24-46a2-933a-bcf5ef0ae089)
-    (property "Reference" "SB8" (at 189.23 144.78 0)
+    (property "Reference" "SB3" (at 189.23 144.78 0)
       (effects (font (size 1 1)))
     )
     (property "Value" "~" (at 185.42 143.51 0)
@@ -4634,12 +4490,6 @@
     (pin "2" (uuid a5ade1d4-247e-42ce-a8fa-9e286fe41109))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "SB8") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "SB5") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "SB3") (unit 1)
         )
@@ -4650,7 +4500,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS5V0S1UR") (at 58.42 148.59 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid ec048275-e849-44bb-9ee9-f4eebbfcd03f)
-    (property "Reference" "TV?" (at 55.88 147.32 0)
+    (property "Reference" "TV12" (at 55.88 147.32 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS5V0S1UR" (at 60.96 143.51 0)
@@ -4675,9 +4525,6 @@
     (pin "2" (uuid 0c6b3393-c404-436c-85ee-e2db710b43e1))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV12") (unit 1)
         )
@@ -4729,7 +4576,7 @@
   (symbol (lib_id "sjc_semiconductors:PTVS12VS1UR") (at 78.74 71.12 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f5f8835f-bc40-416a-8184-124f06ec0885)
-    (property "Reference" "TV?" (at 76.2 69.85 0)
+    (property "Reference" "TV6" (at 76.2 69.85 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "PTVS12VS1UR" (at 81.28 66.04 0)
@@ -4754,9 +4601,6 @@
     (pin "2" (uuid 0e744405-9067-4f6f-bbe0-6bde1ca35b1d))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "TV?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "TV6") (unit 1)
         )
@@ -4767,7 +4611,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 195.58 92.71 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid f8cd74de-dcb5-4ab6-b0c8-47a9f0fa795d)
-    (property "Reference" "R?" (at 195.58 90.17 90)
+    (property "Reference" "R65" (at 195.58 90.17 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "33R 1%" (at 195.58 95.25 90)
@@ -4795,12 +4639,6 @@
     (pin "2" (uuid 6dab15cd-2097-4bf1-97f1-4377cdedef7e))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R?") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
           (reference "R65") (unit 1)
         )

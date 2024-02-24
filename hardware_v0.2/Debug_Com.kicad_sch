@@ -642,17 +642,9 @@
     (uuid c642d00d-4a7b-4dde-a32e-d6f86c24357f)
   )
 
-  (wire (pts (xy 77.47 77.47) (xy 88.9 77.47))
-    (stroke (width 0) (type default))
-    (uuid 042f1414-aa7d-404b-aa05-47a43473a940)
-  )
-  (wire (pts (xy 93.98 86.36) (xy 97.79 86.36))
+  (wire (pts (xy 82.55 86.36) (xy 97.79 86.36))
     (stroke (width 0) (type default))
     (uuid 06abb788-bdfe-4a91-ac91-b500004f29c5)
-  )
-  (wire (pts (xy 77.47 86.36) (xy 88.9 86.36))
-    (stroke (width 0) (type default))
-    (uuid 107a8b9f-d5e1-46b0-83d5-3674c4ff69e2)
   )
   (wire (pts (xy 105.41 82.55) (xy 97.79 82.55))
     (stroke (width 0) (type default))
@@ -759,11 +751,7 @@
     (stroke (width 0) (type default))
     (uuid c7d74f38-066a-4e41-bd95-eaaf52aeb2bd)
   )
-  (wire (pts (xy 77.47 95.25) (xy 88.9 95.25))
-    (stroke (width 0) (type default))
-    (uuid c804c373-2a5b-47d4-b50d-57a437b50d90)
-  )
-  (wire (pts (xy 93.98 77.47) (xy 105.41 77.47))
+  (wire (pts (xy 82.55 77.47) (xy 105.41 77.47))
     (stroke (width 0) (type default))
     (uuid c914d7d0-23fb-4aca-9f87-8553152feec7)
   )
@@ -775,7 +763,7 @@
     (stroke (width 0) (type default))
     (uuid d4e0e683-3bb3-43f5-81a0-508b901e0ca5)
   )
-  (wire (pts (xy 93.98 95.25) (xy 105.41 95.25))
+  (wire (pts (xy 82.55 95.25) (xy 105.41 95.25))
     (stroke (width 0) (type default))
     (uuid e128e723-5445-487a-9e04-a684b8391eba)
   )
@@ -862,15 +850,15 @@
     (uuid e261794b-a457-490b-92d6-e43bca18b442)
   )
 
-  (hierarchical_label "DBG_485_RX" (shape output) (at 77.47 77.47 180) (fields_autoplaced)
+  (hierarchical_label "DBG_485_RX" (shape output) (at 82.55 77.47 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 077785cf-dbd3-4ede-957e-79175c3084c1)
   )
-  (hierarchical_label "DBG_485_~{RE}_DE" (shape input) (at 77.47 86.36 180) (fields_autoplaced)
+  (hierarchical_label "DBG_485_~{RE}_DE" (shape input) (at 82.55 86.36 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 3bd42387-cefa-4312-a608-73e32ebeca23)
   )
-  (hierarchical_label "DBG_485_TX" (shape input) (at 77.47 95.25 180) (fields_autoplaced)
+  (hierarchical_label "DBG_485_TX" (shape input) (at 82.55 95.25 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid 68dce325-868a-4ea9-9434-2495e1f5f1d4)
   )
@@ -906,55 +894,8 @@
     (pin "2" (uuid 5579d791-bfd9-48eb-91bf-27e495f15614))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "JP6") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "JP6") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:R_Small_US") (at 91.44 95.25 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 1ec32a6e-eddd-4c0f-90df-9d87e79ca220)
-    (property "Reference" "R?" (at 91.44 92.71 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Value" "33R 1%" (at 91.44 97.79 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 91.44 95.25 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Datasheet" "~" (at 91.44 95.25 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "MF" "YAGEO" (at 91.44 95.25 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "PN" "RC0603FR-0733RL" (at 91.44 95.25 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603" (at 91.44 95.25 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "JLCPCB Part #" "C108661" (at 91.44 95.25 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 1c525ba1-7d26-49fd-b21d-97a0af787f5e))
-    (pin "2" (uuid e9589296-67ac-45a1-8098-2c7ef92a7bee))
-    (instances
-      (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R98") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-          (reference "R123") (unit 1)
         )
       )
     )
@@ -963,7 +904,7 @@
   (symbol (lib_id "Connector_Generic:Conn_02x02_Top_Bottom") (at 196.85 90.17 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 222f8ed6-d3d7-431c-8019-5575828ca7a7)
-    (property "Reference" "J?" (at 198.12 92.71 0)
+    (property "Reference" "J11" (at 198.12 92.71 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Value" "Debug-485" (at 198.12 85.09 0)
@@ -981,12 +922,6 @@
     (pin "4" (uuid 813427a3-3a68-4aa7-880f-7e3089b15112))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-          (reference "J?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "J7") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "J11") (unit 1)
         )
@@ -997,7 +932,7 @@
   (symbol (lib_id "sjc_power:GND") (at 209.55 95.25 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 2a0d81f1-ee78-4e97-a807-6423ee28f6f5)
-    (property "Reference" "#PWR?" (at 209.55 101.6 0)
+    (property "Reference" "#PWR0183" (at 209.55 101.6 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "GND" (at 209.55 99.06 0)
@@ -1012,12 +947,6 @@
     (pin "1" (uuid 46e0c4b5-0305-4b45-ac09-a7432d8902f4))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0124") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR0183") (unit 1)
         )
@@ -1028,7 +957,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 139.7 90.17 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 2a865fca-9db7-4755-947b-dafd7c54a981)
-    (property "Reference" "R123" (at 141.605 88.9 90)
+    (property "Reference" "R126" (at 141.605 88.9 90)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "10R 1% 1/2W" (at 137.16 92.71 90)
@@ -1056,9 +985,6 @@
     (pin "2" (uuid f065de72-4514-4a99-a57a-fb822d7dbe41))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R123") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "R126") (unit 1)
         )
@@ -1069,7 +995,7 @@
   (symbol (lib_id "sjc_semiconductors:SN65HVD75DR ") (at 115.57 86.36 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 2f414825-9337-4201-8a41-e39e5486ed3a)
-    (property "Reference" "U38" (at 116.84 73.66 0)
+    (property "Reference" "U12" (at 116.84 73.66 0)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "SN65HVD75DR " (at 110.49 86.36 0)
@@ -1100,55 +1026,8 @@
     (pin "8" (uuid 49e1aa0e-6073-4ca7-a31a-d84b453ac2a1))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "U38") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "U12") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:R_Small_US") (at 91.44 77.47 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 319365c0-48fe-4293-b822-6912ae66f266)
-    (property "Reference" "R?" (at 91.44 74.93 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Value" "33R 1%" (at 91.44 80.01 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 91.44 77.47 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Datasheet" "~" (at 91.44 77.47 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "MF" "YAGEO" (at 91.44 77.47 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "PN" "RC0603FR-0733RL" (at 91.44 77.47 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603" (at 91.44 77.47 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "JLCPCB Part #" "C108661" (at 91.44 77.47 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid ecae9d1b-548c-4834-bdae-47b342cfabac))
-    (pin "2" (uuid 03bee4e9-cc33-4b84-af5c-82c079093420))
-    (instances
-      (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R98") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-          (reference "R104") (unit 1)
         )
       )
     )
@@ -1157,7 +1036,7 @@
   (symbol (lib_id "sjc_power:GND") (at 160.02 107.95 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 327ed849-ccf4-4b25-8dca-d86dd1e1430a)
-    (property "Reference" "#PWR?" (at 160.02 114.3 0)
+    (property "Reference" "#PWR068" (at 160.02 114.3 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "GND" (at 160.02 111.76 0)
@@ -1172,12 +1051,6 @@
     (pin "1" (uuid ce38e16b-3478-4e1f-b5e3-7e2b4d4e82b5))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0124") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR068") (unit 1)
         )
@@ -1188,7 +1061,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 139.7 82.55 270) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 4499b29a-c24a-420a-aa50-fc77b46386d1)
-    (property "Reference" "R122" (at 141.605 81.28 90)
+    (property "Reference" "R125" (at 141.605 81.28 90)
       (effects (font (size 1 1)) (justify left))
     )
     (property "Value" "10R 1% 1/2W" (at 137.16 85.09 90)
@@ -1216,9 +1089,6 @@
     (pin "2" (uuid 4bbce7fd-aedb-47ce-83af-e25317667fe9))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R122") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "R125") (unit 1)
         )
@@ -1229,7 +1099,7 @@
   (symbol (lib_id "sjc_power:GND") (at 135.89 69.85 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid 6de6beb9-5416-4b1b-a807-6e9ce0bb5114)
-    (property "Reference" "#PWR?" (at 135.89 76.2 0)
+    (property "Reference" "#PWR060" (at 135.89 76.2 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "GND" (at 135.89 73.66 0)
@@ -1244,12 +1114,6 @@
     (pin "1" (uuid 2a6ed81c-5c42-4331-b2f8-a1651b442a07))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0124") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR060") (unit 1)
         )
@@ -1286,9 +1150,6 @@
     (pin "3" (uuid affd9dcf-6a42-4b14-8ea5-f452be93029e))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "TV21") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "TV21") (unit 1)
         )
@@ -1299,7 +1160,7 @@
   (symbol (lib_id "sjc_power:+3V3") (at 209.55 82.55 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid abdf98b7-7664-44a9-b5a9-f0513ca61eb6)
-    (property "Reference" "#PWR?" (at 209.55 86.36 0)
+    (property "Reference" "#PWR0182" (at 209.55 86.36 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "+3V3" (at 209.55 79.375 0)
@@ -1314,58 +1175,8 @@
     (pin "1" (uuid 3ff58839-6352-42c5-8341-7199675ff8d7))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0123") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR0182") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Device:R_Small_US") (at 91.44 86.36 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid badf07d1-a1c8-4cfe-bfdb-43f398d6a724)
-    (property "Reference" "R?" (at 91.44 83.82 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Value" "33R 1%" (at 91.44 88.9 90)
-      (effects (font (size 1 1)))
-    )
-    (property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 91.44 86.36 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Datasheet" "~" (at 91.44 86.36 0)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "MF" "YAGEO" (at 91.44 86.36 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "PN" "RC0603FR-0733RL" (at 91.44 86.36 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603" (at 91.44 86.36 90)
-      (effects (font (size 1 1)) hide)
-    )
-    (property "JLCPCB Part #" "C108661" (at 91.44 86.36 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid d05872ca-dc39-48b4-8583-0293c4fbfdaa))
-    (pin "2" (uuid 3ad49aec-98dc-4574-80da-661c22443648))
-    (instances
-      (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-          (reference "R?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R98") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-          (reference "R122") (unit 1)
         )
       )
     )
@@ -1374,7 +1185,7 @@
   (symbol (lib_id "Device:C_Small") (at 125.73 67.31 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid bce38376-d17c-4a18-b5dc-223913cd99a7)
-    (property "Reference" "C98" (at 125.73 64.77 90)
+    (property "Reference" "C35" (at 125.73 64.77 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "100nF 5% 50V" (at 125.73 69.85 90)
@@ -1402,9 +1213,6 @@
     (pin "2" (uuid d068afaa-2eb8-4c52-b9e4-6b321a71916b))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "C98") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "C35") (unit 1)
         )
@@ -1415,7 +1223,7 @@
   (symbol (lib_id "sjc_power:GND") (at 115.57 102.87 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid bd353598-3efe-4289-be45-9a0292471257)
-    (property "Reference" "#PWR?" (at 115.57 109.22 0)
+    (property "Reference" "#PWR057" (at 115.57 109.22 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "GND" (at 115.57 106.68 0)
@@ -1430,12 +1238,6 @@
     (pin "1" (uuid 44c862a9-b9ba-442e-9286-ffa1b9dded27))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0124") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR057") (unit 1)
         )
@@ -1446,7 +1248,7 @@
   (symbol (lib_id "Device:R_Small_US") (at 157.48 74.93 0) (mirror x) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid c31155e3-9f89-42d5-a008-fd5237e093ac)
-    (property "Reference" "R124" (at 155.575 73.66 90)
+    (property "Reference" "R127" (at 155.575 73.66 90)
       (effects (font (size 0.9906 0.9906)) (justify left))
     )
     (property "Value" "120R 0.1% 1/8W" (at 160.02 68.58 90)
@@ -1474,9 +1276,6 @@
     (pin "2" (uuid b6763ff0-0d07-4ab2-afd6-db5917c2d835))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "R124") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "R127") (unit 1)
         )
@@ -1487,7 +1286,7 @@
   (symbol (lib_id "sjc_power:+3V3") (at 115.57 57.15 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d6dedc0c-c8e0-4702-a9da-aa7912e247c5)
-    (property "Reference" "#PWR?" (at 115.57 60.96 0)
+    (property "Reference" "#PWR056" (at 115.57 60.96 0)
       (effects (font (size 1 1)) hide)
     )
     (property "Value" "+3V3" (at 115.57 53.975 0)
@@ -1502,12 +1301,6 @@
     (pin "1" (uuid bab6cd7c-b509-479a-a827-db0e60534e54))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-          (reference "#PWR?") (unit 1)
-        )
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "#PWR0123") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "#PWR056") (unit 1)
         )
@@ -1518,7 +1311,7 @@
   (symbol (lib_id "Device:C_Small") (at 125.73 59.69 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no)
     (uuid d7c74a15-f2d8-4308-bc61-51290ccf3812)
-    (property "Reference" "C97" (at 125.73 57.15 90)
+    (property "Reference" "C34" (at 125.73 57.15 90)
       (effects (font (size 1 1)))
     )
     (property "Value" "1uF 10% 50V" (at 125.73 62.23 90)
@@ -1546,9 +1339,6 @@
     (pin "2" (uuid c2018b11-6a1b-441c-8ccf-e75de59a4b27))
     (instances
       (project "hardware_v0.2"
-        (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-          (reference "C97") (unit 1)
-        )
         (path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
           (reference "C34") (unit 1)
         )
