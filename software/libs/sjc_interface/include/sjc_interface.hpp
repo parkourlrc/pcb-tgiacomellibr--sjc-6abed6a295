@@ -15,11 +15,13 @@ class SjcInterface
 {
 
 public:
+    SjcInterface(const std::string port, const int baudrate);
     SjcInterface(const std::string port, const int address, const int baudrate);
     ~SjcInterface(void);
 
     eSjcReturnType_t connect(void);
     eSjcReturnType_t disconnect(void);
+    eSjcReturnType_t getSlaveAddress(int *addr);    
     eSjcReturnType_t setSlaveAddress(const int address);    
 
     eSjcReturnType_t getDeviceInfo(xSjcDeviceInfo_t *config);

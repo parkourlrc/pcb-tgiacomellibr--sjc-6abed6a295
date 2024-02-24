@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
                 case ACTUATOR_MAX_POS:
                     xActuatorState = ACTUATOR_DISABLED;
                     sig *= -1;
-                    config.controller_ref = 15 * sig;
+                    config.controller_ref = 20 * sig;
                     break;
 
                 default: // ACTUATOR_DISABLED

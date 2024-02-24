@@ -125,9 +125,9 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 2048;
-            xSensorsConfig.auxA_sensor_res_ppr = 2048;
-            xSensorsConfig.auxB_sensor_res_ppr = 2048;
+            xSensorsConfig.actuator_sensor_res_ppr = 2048*4;
+            xSensorsConfig.auxA_sensor_res_ppr = 2048*4;
+            xSensorsConfig.auxB_sensor_res_ppr = 2048*4;
 
             std::cout << "Sensors config: " << std::endl;
             std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr ";

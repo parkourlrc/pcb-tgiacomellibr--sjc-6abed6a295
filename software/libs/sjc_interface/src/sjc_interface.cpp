@@ -14,6 +14,13 @@ extern "C"
 #include <iostream>
 #include <endian.h>
 
+SjcInterface::SjcInterface(const std::string port, const int baudrate)
+{
+    this->address_ = 247;
+    this->port_ = port;
+    this->baudrate_ = baudrate;
+}
+
 SjcInterface::SjcInterface(const std::string port, const int address, const int baudrate)
 {
     this->address_ = address;
@@ -38,7 +45,7 @@ eSjcReturnType_t SjcInterface::connect(void)
         }
         else
         {
-            modbus_set_slave(ctx, this->address_);            
+            modbus_set_slave(ctx, this->address_);
             return SJC_CONNECTED;
         }
     }
@@ -52,6 +59,22 @@ eSjcReturnType_t SjcInterface::disconnect(void)
 {
     modbus_close(ctx);
     return SJC_DISCONNECTED;
+}
+
+eSjcReturnType_t SjcInterface::getSlaveAddress(int *addr)
+{
+    int ret = modbus_get_slave(ctx);
+
+    if (ret == -1)
+    {
+        return SJC_SLAVE_ADDRESS_NOT_ASSIGNED;
+    }
+    else
+    {
+        *addr = ret;
+    }
+
+    return SJC_RET_OK;
 }
 
 eSjcReturnType_t SjcInterface::setSlaveAddress(const int address)
@@ -100,12 +123,12 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_SYSTEM_UPTIME, nb, tab_reg))
     {
         compose_ui32_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_UPTIME, RUNTIME_INFO_OFFSET)], &config->uptime);
-        
+
         config->controller_mode = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_MODE, RUNTIME_INFO_OFFSET)];
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_ERROR, RUNTIME_INFO_OFFSET)], &config->controller_error);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_REFERENCE, RUNTIME_INFO_OFFSET)], &config->controller_ref);
 
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->system_voltage);        
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->system_voltage);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_CURRENT, RUNTIME_INFO_OFFSET)], &config->actuator_current);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->actuator_voltage);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->actuator_displacement);
@@ -135,8 +158,8 @@ eSjcReturnType_t SjcInterface::setControllerConfig(xSjcControllerConfig_t config
 {
     const int nb = 3;
     uint16_t tab_reg[nb];
-    
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_UPDATE_OFFSET)] = config.controller_mode_update | CONTROLLER_UPDATE_MSK;    
+
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_UPDATE_OFFSET)] = config.controller_mode_update | CONTROLLER_UPDATE_MSK;
     compose_byte_array_from_float(config.controller_ref, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE, nb, tab_reg))
