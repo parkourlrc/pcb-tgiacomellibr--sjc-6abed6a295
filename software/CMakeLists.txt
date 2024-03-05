@@ -30,23 +30,14 @@ link_directories(modbus ${LIB_MODBUS_SRCS_DIR})
 
 # Project libs
 # ------------------------------------------------------------------------------------------------- #
-get_filename_component(SJC_FW_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../firmware/sjc ABSOLUTE)
-set(SJC_BASE_SRCS_DIR ${SJC_FW_BASE_DIR}/base/src/)
-set(SJC_BASE_INCS_DIR ${SJC_FW_BASE_DIR}/base/include/)
-set(SJC_TYPES_SRCS_DIR ${SJC_FW_BASE_DIR}/system_types/src/)
-set(SJC_TYPES_INCS_DIR ${SJC_FW_BASE_DIR}/system_types/include/)                                                
-
 set(SJC_INTERFACE_SRCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/src)
 set(SJC_INTERFACE_INCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/include)
 
-add_library(sjc_interface  SHARED ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp
-                            ${SJC_TYPES_SRCS_DIR}/
-                            ${SJC_TYPES_SRCS_DIR}/helpers.c
+add_library(sjc_interface  SHARED ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp 
+                                  ${SJC_INTERFACE_SRCS_DIR}/helpers.c
 )
 target_link_libraries(sjc_interface PUBLIC modbus)
-target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR} 
-                                                ${SJC_BASE_INCS_DIR} 
-                                                ${SJC_TYPES_INCS_DIR} 
+target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}                                                 
                                                 ${LIB_MODBUS_SRCS_DIR}                                                   
 )
 # ------------------------------------------------------------------------------------------------- #
