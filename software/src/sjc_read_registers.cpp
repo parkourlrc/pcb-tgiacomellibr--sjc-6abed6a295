@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
                 float ds = RuntimeInfo.actuator_displacement - last_dp;
                 last_dp = RuntimeInfo.actuator_displacement;
                 float vel = ds / dt;
-                float vel_rpm = vel*(180 * 60) / (M_PI * 360);
+                float vel_rpm = vel * (180 * 60) / (M_PI * 360);
                 std::cout << " * Ds: " << std::to_string(ds) << " rad - Dt: " << std::to_string(dt) << " s" << std::endl;
                 std::cout << " * Speed: " << (vel) << " rd/s (" << vel_rpm << " rpm)" << std::endl;
 

@@ -21,13 +21,12 @@ public:
 
     eSjcReturnType_t connect(void);
     eSjcReturnType_t disconnect(void);
-    eSjcReturnType_t getSlaveAddress(int *addr);    
-    eSjcReturnType_t setSlaveAddress(const int address);    
+    eSjcReturnType_t getSlaveAddress(int *addr);
+    eSjcReturnType_t setSlaveAddress(const int address);
 
     eSjcReturnType_t getDeviceInfo(xSjcDeviceInfo_t *config);
     eSjcReturnType_t getRuntimeInfo(xSjcRuntimeInfo_t *config);
     eSjcReturnType_t setControllerConfig(xSjcControllerConfig_t config);
-
 
     eSjcReturnType_t getNetworkParameters(xSjcNetworkConfig_t *config);
     eSjcReturnType_t setNetworkParameters(const xSjcNetworkConfig_t config);

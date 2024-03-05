@@ -23,7 +23,11 @@ typedef enum
     ACTUATOR_STATE_SIZE
 } eActuatorState_t;
 
-void sjc_initial_config(SjcInterface * SjcIface);
+std::string port;
+std::string address;
+std::string baudrate;
+
+void sjc_initial_config(SjcInterface *SjcIface);
 
 static eActuatorState_t xActuatorState = ACTUATOR_DISABLED;
 
@@ -60,9 +64,9 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    std::string port = argv[1];
-    std::string address = argv[2];
-    std::string baudrate = argv[3];
+    port = argv[1];
+    address = argv[2];
+    baudrate = argv[3];
 
     std::cout << "\r\n\nModbus config:" << std::endl;
     std::cout << " - Port: " << port.c_str() << std::endl;
@@ -147,7 +151,7 @@ int main(int argc, char *argv[])
                 std::cout << "Runtime info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
             }
 
-            if ((RuntimeInfo.uptime - last_control_time) >= 200)
+            if ((RuntimeInfo.uptime - last_control_time) >= 100)
             {
                 last_control_time = RuntimeInfo.uptime;
                 xSjcControllerConfig_t config;
@@ -158,7 +162,7 @@ int main(int argc, char *argv[])
                 case ACTUATOR_MAX_POS:
                     xActuatorState = ACTUATOR_DISABLED;
                     sig *= -1;
-                    config.controller_ref = 20 * sig;
+                    config.controller_ref = 15 * sig;
                     break;
 
                 default: // ACTUATOR_DISABLED
@@ -246,7 +250,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void sjc_initial_config(SjcInterface * SjcIface)
+void sjc_initial_config(SjcInterface *SjcIface)
 {
     xSjcNetworkConfig_t xNetworkConfig;
     xSjcSensorsConfig_t xSensorsConfig;
@@ -261,9 +265,9 @@ void sjc_initial_config(SjcInterface * SjcIface)
     xControllerParameters.aux2_parameter = 30000.0;
     xControllerParameters.rate_parameter = 1000.0;
 
-    xNetworkConfig.address = NETWORK_BASE_ADRESS;
+    xNetworkConfig.address = atoi(address.c_str());
     xNetworkConfig.parity = 'N';
-    xNetworkConfig.baudrate = NETWORK_BAUD_RATE;
+    xNetworkConfig.baudrate = atoi(baudrate.c_str());
 
     xActuatorConfig.state = 1;
     xActuatorConfig.base_voltage = 24.0;

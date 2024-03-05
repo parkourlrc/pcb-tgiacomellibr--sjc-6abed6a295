@@ -18,12 +18,13 @@ typedef enum
     SJC_RET_SIZE
 } eSjcReturnType_t;
 
-typedef enum {
-	SJC_CONTROL_DISABLED 	= 0x0000,
-	SJC_OPEN_LOOP_CONTROL,
-	SJC_SPEED_CONTROL,
-	SJC_TORQUE_CONTROL,
-	SJC_PRBS_EXCITATION
+typedef enum
+{
+    SJC_CONTROL_DISABLED = 0x0000,
+    SJC_OPEN_LOOP_CONTROL,
+    SJC_SPEED_CONTROL,
+    SJC_TORQUE_CONTROL,
+    SJC_PRBS_EXCITATION
 } eSjcControlMode_t;
 
 typedef struct

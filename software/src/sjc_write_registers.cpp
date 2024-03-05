@@ -80,9 +80,9 @@ int main(int argc, char *argv[])
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
 
-            xNetworkConfig.address = NETWORK_BASE_ADRESS;
+            xNetworkConfig.address = atoi(address.c_str());
             xNetworkConfig.parity = 'N';
-            xNetworkConfig.baudrate = NETWORK_BAUD_RATE;
+            xNetworkConfig.baudrate = atoi(baudrate.c_str());
 
             std::cout << "Network config: " << std::endl;
             std::cout << " * Address: " << std::to_string(xNetworkConfig.address);
@@ -125,9 +125,9 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 2048*4;
-            xSensorsConfig.auxA_sensor_res_ppr = 2048*4;
-            xSensorsConfig.auxB_sensor_res_ppr = 2048*4;
+            xSensorsConfig.actuator_sensor_res_ppr = 2048 * 4;
+            xSensorsConfig.auxA_sensor_res_ppr = 2048 * 4;
+            xSensorsConfig.auxB_sensor_res_ppr = 2048 * 4;
 
             std::cout << "Sensors config: " << std::endl;
             std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr ";
