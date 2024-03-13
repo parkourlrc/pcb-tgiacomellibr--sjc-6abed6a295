@@ -87,14 +87,6 @@ void MeasurementsTaskApp(void *argument)
 		if( ulNotificationValue == 1 )
 		{
 			SJC_AnalogInterfaces_UpdateConversionValues();
-			//toc = osKernelGetTickCount();
-			//
-			//dt = (toc > tic) ? (toc-tic) : (toc-tic+1000);
-			//if (dt > 1)
-			//{
-			//	SJC_DebugOutput_SystemPrintf("\r\n\nWait: %lu", dt);
-			//}
-			//tic = toc;
 		}
 		else
 		{
