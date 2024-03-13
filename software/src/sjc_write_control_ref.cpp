@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
         // do
         {
             static int cycle;
-            
+
             xSjcControllerConfig_t xControllerConfig;
 
             system("clear");

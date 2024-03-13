@@ -60,8 +60,10 @@ int main(int argc, char *argv[])
 
     eSjcReturnType_t ret = Sjc.connect();
     uint32_t dur = 0;
-    auto start = std::chrono::steady_clock::now();
-    auto end = std::chrono::steady_clock::now();
+    auto start = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::high_resolution_clock::now();
+    // auto tic = std::chrono::high_resolution_clock::now();
+
     uint32_t last_time = 0;
     float last_dp = 0;
 
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
             xSjcSensorsConfig_t SensorsInfo;
             xSjcControllerParameters_t ControllerInfo;
 
-            end = std::chrono::steady_clock::now();
+            end = std::chrono::high_resolution_clock::now();
             dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             start = end;
 
@@ -87,6 +89,7 @@ int main(int argc, char *argv[])
             std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
+            auto tic = std::chrono::high_resolution_clock::now();
             if (SJC_RET_OK == Sjc.getDeviceInfo(&DeviceInfo))
             {
                 std::cout << "Version: " << std::endl
@@ -104,8 +107,9 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Device info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
             if (SJC_RET_OK == Sjc.getNetworkParameters(&NetworkInfo))
@@ -121,8 +125,9 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Network info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
             if (SJC_RET_OK == Sjc.getRuntimeInfo(&RuntimeInfo))
@@ -162,10 +167,13 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Runtime info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
+            auto toc = std::chrono::high_resolution_clock::now();
+            
             if (SJC_RET_OK == Sjc.getActuatorParameters(&ActuatorInfo))
             {
                 std::cout << "----------------------------------" << std::endl;
@@ -187,8 +195,9 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Actuator info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
             if (SJC_RET_OK == Sjc.getSensorsParameters(&SensorsInfo))
@@ -202,8 +211,9 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
             if (SJC_RET_OK == Sjc.getControllerParameters(&ControllerInfo))
@@ -220,16 +230,19 @@ int main(int argc, char *argv[])
             }
             else
             {
-                usleep(10e6);
+                // usleep(10e6);
                 std::cout << "Sensors info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+                exit(-1);
             }
 
             std::cout << "----------------------------------" << std::endl;
+            std::cout << " * System Ts:  " << std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(toc-tic).count()) << " ms." << std::endl;
             std::cout << " * Prev. Cycle duration: " << std::to_string(dur) << " ms." << std::endl;
-            const auto end_cycle = std::chrono::steady_clock::now();
+            const auto end_cycle = std::chrono::high_resolution_clock::now();
             uint32_t dt = std::chrono::duration_cast<std::chrono::milliseconds>(end_cycle - start).count();
-            int delta = (100 - dt) * 1e3;
-            uint32_t wait = (delta < 0) ? 100e3 : delta;
+            int TsTarget = 50;
+            int delta = (TsTarget - dt) * 1e3;
+            uint32_t wait = (delta < 0) ? TsTarget*1e3 : delta;
             std::cout << " * Wait time: " << std::to_string(wait / 1000) << " ms" << std::endl;
             std::cout << "\n----------------------------------------------------------------------------------" << std::endl;
             usleep(wait);
