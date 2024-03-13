@@ -88,6 +88,9 @@ void SJC_Init(void)
 	// Init DMA controller
 	MX_DMA_Init();
 
+	// Init Serial communication device
+	MX_USART2_UART_Init();
+
 	// Init ADC and Sample time check timer
 	MX_ADC1_Init();
 	MX_TIM4_Init();
@@ -339,6 +342,13 @@ eSjcReturnType_t SJC_GetJointActuatorVoltage(float * voltage)
 eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage)
 {
 	SJC_MotorDrive_SetOutputVoltage(voltage);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_ResetJointAngularDisplacement(void)
+{
+	SJC_Encoder_Reset(SJC_ACTUATOR_JOINT);
 
 	return SJC_RET_OK;
 }
