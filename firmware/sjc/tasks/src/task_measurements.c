@@ -74,9 +74,6 @@ void MeasurementsTaskApp(void *argument)
 
 	uint32_t ulNotificationValue = 0;
 
-	//	uint32_t tic, toc, dt;
-	//	tic = osKernelGetTickCount();
-
 	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
 	/* Infinite loop */
