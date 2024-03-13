@@ -69,7 +69,7 @@ void SJC_Timer_DelaySec(uint32_t delayInSec)
 	while( (_GetTick() - start) < compval);  //This comparison tolerates overflow
 }
 
-int32_t SJC_Timer_TimeoutCheckMs(uint32_t delayInMs, uint32_t seed)
+uint32_t SJC_Timer_TimeoutCheckMs(uint32_t delayInMs, uint32_t seed)
 {
 	uint32_t compval = delayInMs;
 	return ( !( (_GetTick() - seed) < compval) ); //This comparison tolerates overflow
