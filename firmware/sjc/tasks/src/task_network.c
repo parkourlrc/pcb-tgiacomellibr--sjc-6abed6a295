@@ -59,7 +59,7 @@
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS, NETWORK_BAUD_RATE, 'N'))
+	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
 	{
 		SJC_SYSTEM_RESET();
 	}
