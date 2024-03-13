@@ -54,15 +54,15 @@ static xSjcNetworkConfig_t xNetworkParameters;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t xBaudRate, const char xParity)
+eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 {
 	eMBErrorCode    eStatus;
 
 	xNetworkParameters.Address = xSlaveAddress;
-	xNetworkParameters.Baudrate = xBaudRate;
-	xNetworkParameters.Parity = xParity;
+	SJC_Network_GetBaudRate(&xNetworkParameters.Baudrate);
+	xNetworkParameters.Parity = MB_PAR_NONE;
 
-	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xSlaveAddress, 1, NETWORK_BAUD_RATE, MB_PAR_NONE ) ) )
+	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity ) ) )
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network initialization failed...");
 		/* Can not initialize. Add error handling code here. */
@@ -92,10 +92,39 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t x
 
 	// Update Network Registers
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
-	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
-	uint16_t * ui16ptr = (uint16_t *)(&xBaudRate);
+	switch (xNetworkParameters.Parity) {
+	case MB_PAR_ODD:
+		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'O';
+		break;
+	case MB_PAR_EVEN:
+		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'E';
+		break;
+	default:
+		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'N';
+		break;
+	}
+	uint16_t *ui16ptr = (uint16_t*) (&xNetworkParameters.Baudrate);
 	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE+1] = ui16ptr[0];
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t * xBaudRate)
+{
+	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE,HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
+
+	if (baudrate > 58000) {
+		*xBaudRate = 115200;
+	} else if (baudrate > 39000) {
+		*xBaudRate = 57600;
+	} else if (baudrate > 20000) {
+		*xBaudRate = 38400;
+	} else if (baudrate > 10000) {
+		*xBaudRate = 19200;
+	} else {
+		*xBaudRate = 9600;
+	}
 
 	return SJC_RET_OK;
 }

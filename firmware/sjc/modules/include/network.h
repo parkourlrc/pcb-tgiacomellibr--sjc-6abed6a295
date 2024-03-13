@@ -10,7 +10,8 @@
 
 #include "types.h"
 
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress, const uint32_t xBaudRate, const char xParity);
+eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress);
+eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t * xBaudRate);
 eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity);
 void SJC_Network_Update(void);
 
