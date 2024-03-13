@@ -176,7 +176,7 @@ typedef struct
 {
     uint16_t Address;
     uint32_t Baudrate;
-    char Parity;
+    uint8_t Parity;
 } xSjcNetworkConfig_t;
 // ------------------------------------------------------------------- //
 
