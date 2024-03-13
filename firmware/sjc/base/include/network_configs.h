@@ -8,7 +8,6 @@
 #ifndef SJC__BASE__NETWORK_CONFIGS_H_
 #define SJC__BASE__NETWORK_CONFIGS_H_
 
-#define NETWORK_BAUD_RATE								( (uint32_t) 115200UL )
 #define NETWORK_BASE_ADRESS								( (uint32_t) 1UL )
 #define MODBUS_USART_INIT_COUNT							( (uint32_t) 50UL )
 
