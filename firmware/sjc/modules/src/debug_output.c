@@ -20,6 +20,7 @@
 #include "debug_output.h"
 
 #include "configs.h"
+#include "network.h"
 #include "network_configs.h"
 // ------------------------------------------------------------------- //
 
@@ -108,8 +109,10 @@ void SJC_DebugOutput_PresentSystemInfo(void)
 	SJC_DebugOutput_SystemPrintf("\r\n - HW Version: %u.%u", SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
 	SJC_DebugOutput_SystemPrintf("\r\n - FW Version: %u.%u.%u (%u/%lu)", SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH, SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
 	SJC_DebugOutput_SystemPrintf("\r\n - O.S. Tick Rate: %lu kHz", configTICK_RATE_HZ/1000);
-	SJC_DebugOutput_SystemPrintf("\r\n - Network address: %lu: ", NETWORK_BASE_ADRESS);
-	SJC_DebugOutput_SystemPrintf("\r\n - Network baudrate: %lu: bps", NETWORK_BAUD_RATE);
+	SJC_DebugOutput_SystemPrintf("\r\n - Network address: %lu", NETWORK_BASE_ADRESS);
+	uint32_t xBaudRate;
+	SJC_Network_GetBaudRate(&xBaudRate);
+	SJC_DebugOutput_SystemPrintf("\r\n - Network baudrate: %lu bps", xBaudRate);
 	SJC_DebugOutput_SystemPrintf("\r\n************************************************************\n\n");
 }
 
