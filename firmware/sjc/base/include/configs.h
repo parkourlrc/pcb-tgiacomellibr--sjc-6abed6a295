@@ -140,6 +140,13 @@
 #define SJC_HEARTBEAT_OUTPUT_PIN							SYS_HEARTBEAT_Pin
 #define SJC_HEARTBEAT_OUTPUT_PORT							SYS_HEARTBEAT_GPIO_Port
 
+// Modbus Communication ----------------------------------------------------------- //
+// -------------------------------------------------------------------------------- //
+#define MODBUS_SERIAL_INSTANCE								USART2
+#define MODBUS_SET_RX_MODE()								LL_GPIO_ResetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
+#define MODBUS_SET_TX_MODE()								LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
+
+
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET									HAL_NVIC_SystemReset
