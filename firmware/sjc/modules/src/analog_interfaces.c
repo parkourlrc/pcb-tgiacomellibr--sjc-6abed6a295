@@ -133,6 +133,11 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
 
+		LL_TIM_DisableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
+		xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
+		LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
+		xMeanSampleTimeObj.Samples++;
+
 		ret = SJC_RET_OK;
 	}
 
@@ -208,10 +213,6 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeM
 
 void SJC_AnalogInterfaces_AdcConversionIsr(void)
 {
-	LL_TIM_DisableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
-	xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
-	LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
-	xMeanSampleTimeObj.Samples++;
 	IncIsrServiceCounter();
 
 	xAdcConversionBuffer[MOTOR_CURRENT_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
