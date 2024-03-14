@@ -18,6 +18,7 @@
 #include "sjc.h"
 #include "configs.h"
 #include "debug_output.h"
+#include "test_signals.h"
 #include "analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
@@ -30,34 +31,46 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-TaskHandle_t xControlTaskHandle;
-eSjcControlMode_t ControlMode;
+typedef enum {
+	SJC_MOVE_BW = 0,
+	SJC_MOVE_FW
+} eSjcMoveDirection_t;
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static uint32_t Timestamp = 0;
-static uint32_t ControlPeriod;
-static float ControllerReference;
-static float ControllerError = 0;
+static TaskHandle_t xControlTaskHandle;
+static eSjcControlMode_t ControlMode;
 
-static float Displacement = 0;
+static float ElapsedTime = 0;
+static uint32_t Timestamp = 0;
+static uint32_t ControlPeriod = 1000;
+
+static float ControlAction = 0;
+static float ControllerError = 0;
+static float ControllerReference = 0;
+
 static float DisplacementThetaX = 0;
 static float DisplacementThetaY = 0;
-static float SystemVoltage = 0;
+
+static float ActuatorDisplacement = 0;
+static float ActuatorRelativeDisplacement = 0;
+static float ActuatorSpeedRpm = 0;
+static float ActuatorSpeed = 0;
 static float ActuatorVoltage = 0;
 static float ActuatorCurrent = 0;
-static float ElapsedTime = 0;
-static float ActuatorAngularSpeed = 0;
-static float ControlAction = 0;
-static float RelativeDisplacement = 0;
-static float ActuatorRpm = 0;
+
+static float SystemVoltage = 0;
+
+float xTestSignalValue;
+eSjcInputSignalState_t xTestSignalState;
 
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void PublishControllerData(void);
+void PublishLogData(void);
+void RunTestSignal(eSjcInputType_t type);
 void ControllerParametersUpdate(void);
 void TaskEventFromIsr(void);
 // ------------------------------------------------------------------- //
@@ -77,6 +90,8 @@ void ControllerTaskApp(void *argument)
 
 	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 
+	SJC_TestSignals_Init();
+
 	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 
 	uint32_t tick = osKernelGetTickCount();
@@ -90,32 +105,77 @@ void ControllerTaskApp(void *argument)
 
 		ControllerParametersUpdate();
 
-		PublishControllerData();
+		PublishLogData();
 
 		tick += pdMS_TO_TICKS(ControlPeriod);
 
 		switch (ControlMode) {
+		case SJC_PULSE_EXCITATION:
+			ControlAction = ZERO_FLOAT;
+			RunTestSignal(INPUT_TYPE_PULSE);
+			break;
+
+		case SJC_TRIANG_EXCITATION:
+			ControlAction = ZERO_FLOAT;
+			RunTestSignal(INPUT_TYPE_TRIANG);
+			break;
+
+		case SJC_PRBS_EXCITATION:
+			ControlAction = ZERO_FLOAT;
+			RunTestSignal(INPUT_TYPE_PRBS);
+			break;
+
+		case SJC_TORQUE_CONTROL:
+			ControlAction = ZERO_FLOAT;
+			break;
+
 		case SJC_SPEED_CONTROL:
-			ControllerError = ControllerReference - ActuatorAngularSpeed;
+			ControllerError = ControllerReference - ActuatorSpeed;
 			SJC_ComputeControlAction(ControllerError, ElapsedTime, &ControlAction);
-			SJC_SetJointActuatorVoltage(ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
-			SJC_SetJointActuatorVoltage(ControllerReference);
+			ControlAction = ControllerReference;
 			break;
 
-			//	case SJC_TORQUE_CONTROL:
-			//	case SJC_PRBS_EXCITATION:
 		default: // SJC_CONTROL_DISABLED
-			SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+			ControlAction = ZERO_FLOAT;
 			break;
 		}
+
+		// End stop ---------------------------------------------------------- //
+		// ------------------------------------------------------------------- //
+		uint32_t states;
+		SJC_ReadDigitalInputs(&states);
+		bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
+		bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
+		bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
+
+		if (true == bEndStopAPressed)
+		{
+			SJC_ResetJointAngularDisplacement();
+		}
+
+		eSjcMoveDirection_t xActualMoveDirection = (ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
+
+		bool bNextMoveAllowed = (false == bEndStopPressed);
+		bNextMoveAllowed |= ( (true == bEndStopAPressed) && (xActualMoveDirection == SJC_MOVE_FW) );
+		bNextMoveAllowed |= ( (true == bEndStopBPressed) && (xActualMoveDirection == SJC_MOVE_BW) );
+
+		if (true == bNextMoveAllowed)
+		{
+			SJC_SetJointActuatorVoltage(ControlAction);
+		}
+		else
+		{
+			SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+		}
+
 	}
+
 	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
 	SJC_DisableJointActuators();
 }
-
 void ControllerParametersUpdate(void)
 {
 	// Electric variables update
@@ -124,22 +184,21 @@ void ControllerParametersUpdate(void)
 	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
 
 	// Actuated joint calcs
-	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &RelativeDisplacement, Displacement);
-	Displacement += RelativeDisplacement;
+	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, ActuatorDisplacement);
+	ActuatorDisplacement += ActuatorRelativeDisplacement;
 
-	ElapsedTime = -1e-3*Timestamp;
+	uint32_t Dt;
+	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
 	SJC_GetTime(SJC_TIME_MS, &Timestamp);
-	ElapsedTime += 1e-3*Timestamp;
 
-	ActuatorAngularSpeed = RelativeDisplacement/ElapsedTime;
-	ActuatorRpm = ActuatorAngularSpeed*(60)/(2*M_PI);
+	ElapsedTime = ((float) ElapsedTime)*1.0e-3; // Convert miliseconds to seconds
+
+	ActuatorSpeed = ActuatorRelativeDisplacement/ElapsedTime;
+	ActuatorSpeedRpm = ActuatorSpeed*(30.0f/M_PI);
 
 	// Passive joints calcs
-	SJC_GetJointRelativeAngularDisplacement(SJC_AUX_JOINT_A, &RelativeDisplacement, DisplacementThetaX);
-	DisplacementThetaX += RelativeDisplacement;
-
-	SJC_GetJointRelativeAngularDisplacement(SJC_AUX_JOINT_B, &RelativeDisplacement, DisplacementThetaY);
-	DisplacementThetaY += RelativeDisplacement;
+	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
+	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
 
 	// Controller configs update
 	SJC_GetControlMode(&ControlMode);
@@ -147,12 +206,32 @@ void ControllerParametersUpdate(void)
 	SJC_GetControlReference(&ControllerReference);
 }
 
-void PublishControllerData(void)
+void PublishLogData(void)
 {
-	//	SJC_DebugOutput_LoggerPrintf("\rStamp: %lu, Vin: %.2f, Vout: %.2f, Iout: %.2f, Dp: %.3f, Rpm: %.2f\n", stmp, (PsuVoltage/24.0f), (ActuatorVoltage/24.0f), ActuatorCurrent, RelativeDisplacement, (ActuatorAngularSpeed/7600));
-	//	SJC_DebugOutput_LoggerPrintf("\rStamp, Vin, Vout, Iout, Vel, Rpm, ControllerReference, Err \n");
-	//	SJC_DebugOutput_LoggerPrintf("%.2f, %.2f, %.2f, %.4f\n", (SystemVoltage/24.0f), (ActuatorVoltage/24.0f), (ActuatorCurrent), (ActuatorAngularSpeed/7600));
-	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f, %.4f\n", Timestamp, (SystemVoltage), (ActuatorVoltage), (ActuatorCurrent), (ActuatorAngularSpeed), ActuatorRpm, ControllerReference, ControllerError, Displacement*180/M_PI, DisplacementThetaX*180/M_PI, DisplacementThetaY*180/M_PI);
+	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4ff\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+}
+
+void RunTestSignal(eSjcInputType_t type)
+{
+	SJC_TestSignals_GetState(&xTestSignalState);
+
+	if (INPUT_SIGNAL_STATE_CONFIG == xTestSignalState)
+	{
+		SJC_TestSignals_SetType(type);
+	}
+	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
+	{
+		SJC_TestSignals_GetValue(&xTestSignalValue);
+		ControlAction = 15*xTestSignalValue;
+	}
+	else if (INPUT_SIGNAL_STATE_FINISHED == xTestSignalState)
+	{
+		SJC_TestSignals_Reset();
+	}
+	else
+	{
+
+	}
 }
 
 
