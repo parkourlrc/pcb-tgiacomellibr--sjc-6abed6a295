@@ -202,6 +202,28 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 	return ret;
 }
 
+eSjcReturnType_t SJC_GetElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value)
+{
+	eSjcReturnType_t ret = SJC_RET_OK;
+	uint32_t now;
+
+	switch (type) {
+	case SJC_TIME_MS:
+		now = SJC_Timer_GetTimeMs();
+		break;
+	case SJC_TIME_SEC:
+		now = SJC_Timer_GetTimeSec();
+		break;
+	default:
+		now = 0;
+		ret = SJC_RET_NOK;
+		break;
+	}
+
+	*value = (now > timepoint) ? (now - timepoint) : (1 + now + (UINT32_MAX - timepoint) );
+	return ret;
+}
+
 eSjcReturnType_t SJC_GetControlMode(eSjcControlMode_t *config)
 {
 	*config = xSjcControlConfigs.Mode;

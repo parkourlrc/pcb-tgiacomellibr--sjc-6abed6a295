@@ -17,6 +17,7 @@ eSjcReturnType_t SJC_SetVersions(void);
 
 eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
+eSjcReturnType_t SJC_GetElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value);
 
 void SJC_ExecuteNetworkCommands(void);
 void SJC_UpdateNetworkDataRegisters(void);
