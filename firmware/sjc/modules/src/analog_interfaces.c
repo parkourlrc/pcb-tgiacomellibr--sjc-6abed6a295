@@ -249,27 +249,4 @@ void ComputeFilteredMeasurements(void)
 
 	xAdcConversionIndex = 0;
 }
-
-
-//void ComputeSampleTime(void)
-//{
-//
-//	uint32_t dt;
-//
-//	if (xSampleTimeObj.ActualTick > xMeanSampleTimeObj.last_tick )
-//	{
-//		dt = xSampleTimeObj.ActualTick - xSampleTimeObj.last_tick;
-//	}
-//	else
-//	{
-//		dt = xSampleTimeObj.ActualTick + SJC_ADC_CHECK_TIMER_COUNT_PERIOD - xSampleTimeObj.last_tick;
-//	}
-//
-//	xSampleTimeObj.abc++;
-//	xSampleTimeObj.tick_counts++;
-//	xSampleTimeObj.last_tick = xSampleTimeObj.ActualTick;
-//	xSampleTimeObj.AccumulatedTimerTicks += ( SJC_ADC_CHECK_TIMER_RESOLUTION*dt);
-//}
-
-
 // ------------------------------------------------------------------- //
