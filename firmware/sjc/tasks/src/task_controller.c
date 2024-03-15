@@ -42,9 +42,10 @@ typedef enum {
 static TaskHandle_t xControlTaskHandle;
 static eSjcControlMode_t ControlMode;
 
-static float ElapsedTime = 0;
+
 static uint32_t Timestamp = 0;
-static uint32_t ControlPeriod = 1000;
+static float ControlTs = 0;
+static uint32_t ControllerPeriorSpec = 1000;
 
 static float ControlAction = 0;
 static float ControllerError = 0;
@@ -107,12 +108,17 @@ void ControllerTaskApp(void *argument)
 
 		PublishLogData();
 
-		tick += pdMS_TO_TICKS(ControlPeriod);
+		tick += pdMS_TO_TICKS(ControllerPeriorSpec);
 
 		switch (ControlMode) {
-		case SJC_PULSE_EXCITATION:
+		case SJC_PULSE_FAST_EXCITATION:
 			ControlAction = ZERO_FLOAT;
-			RunTestSignal(INPUT_TYPE_PULSE);
+			RunTestSignal(INPUT_TYPE_PULSE_FAST);
+			break;
+
+		case SJC_PULSE_SLOW_EXCITATION:
+			ControlAction = ZERO_FLOAT;
+			RunTestSignal(INPUT_TYPE_PULSE_SLOW);
 			break;
 
 		case SJC_TRIANG_EXCITATION:
@@ -131,7 +137,8 @@ void ControllerTaskApp(void *argument)
 
 		case SJC_SPEED_CONTROL:
 			ControllerError = ControllerReference - ActuatorSpeed;
-			SJC_ComputeControlAction(ControllerError, ElapsedTime, &ControlAction);
+			SJC_ComputeControlAction(ControllerError, ControlTs,
+					&ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
@@ -187,13 +194,13 @@ void ControllerParametersUpdate(void)
 	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, ActuatorDisplacement);
 	ActuatorDisplacement += ActuatorRelativeDisplacement;
 
-	uint32_t Dt;
+	uint32_t Dt = 1000;
 	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
 	SJC_GetTime(SJC_TIME_MS, &Timestamp);
 
-	ElapsedTime = ((float) ElapsedTime)*1.0e-3; // Convert miliseconds to seconds
+	ControlTs = ((float) Dt)*1.0e-3; // Convert miliseconds to seconds
 
-	ActuatorSpeed = ActuatorRelativeDisplacement/ElapsedTime;
+	ActuatorSpeed = ActuatorRelativeDisplacement/ControlTs;
 	ActuatorSpeedRpm = ActuatorSpeed*(30.0f/M_PI);
 
 	// Passive joints calcs
@@ -202,35 +209,32 @@ void ControllerParametersUpdate(void)
 
 	// Controller configs update
 	SJC_GetControlMode(&ControlMode);
-	SJC_GetControlUpdatePeriodMs(&ControlPeriod);
+	SJC_GetControlUpdatePeriodMs(&ControllerPeriorSpec);
 	SJC_GetControlReference(&ControllerReference);
 }
 
 void PublishLogData(void)
 {
-	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.2f, %.2f, %.4f, %.4f, %.4ff\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
 }
 
 void RunTestSignal(eSjcInputType_t type)
 {
 	SJC_TestSignals_GetState(&xTestSignalState);
 
-	if (INPUT_SIGNAL_STATE_CONFIG == xTestSignalState)
+	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
 		SJC_TestSignals_SetType(type);
 	}
 	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 	{
 		SJC_TestSignals_GetValue(&xTestSignalValue);
-		ControlAction = 15*xTestSignalValue;
-	}
-	else if (INPUT_SIGNAL_STATE_FINISHED == xTestSignalState)
-	{
-		SJC_TestSignals_Reset();
+		ControlAction = ControllerReference*xTestSignalValue;
 	}
 	else
 	{
-
+		SJC_TestSignals_Reset();
+		SJC_SetControlMode(SJC_CONTROL_DISABLED);
 	}
 }
 
