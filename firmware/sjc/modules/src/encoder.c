@@ -102,16 +102,9 @@ eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t * counts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xEncoderInterfacesSemprHandle != NULL );
-
-	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
-	{
-		Encoder[Joint].Counts = LL_TIM_GetCounter(Encoder[Joint].Instance);
-		*counts = Encoder[Joint].Counts;
-		ret = SJC_RET_OK;
-
-		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
-	}
+	Encoder[Joint].Counts = LL_TIM_GetCounter(Encoder[Joint].Instance);
+	*counts = Encoder[Joint].Counts;
+	ret = SJC_RET_OK;
 
 	return ret;
 }
@@ -124,18 +117,18 @@ eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float * 
 
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		switch (Joint) {
-		case SJC_ACTUATOR_JOINT:
-			Encoder[Joint].Counts = ( (int32_t) LL_TIM_GetCounter(Encoder[Joint].Instance) );
-			break;
-		default:
-			Encoder[Joint].Counts = ( (int16_t) LL_TIM_GetCounter(Encoder[Joint].Instance) );
-			break;
-		}
-		*angular_dp = Encoder[Joint].Counts*Encoder[Joint].radians_per_quadrature_pulse;
 		ret = SJC_RET_OK;
 
+		switch (Joint) {
+		case SJC_ACTUATOR_JOINT:
+			Encoder[Joint].Counts = ((int32_t) LL_TIM_GetCounter(Encoder[Joint].Instance));
+			break;
+		default:
+			Encoder[Joint].Counts = ((int16_t) LL_TIM_GetCounter(Encoder[Joint].Instance));
+			break;
+		}
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		*angular_dp = Encoder[Joint].Counts * Encoder[Joint].radians_per_quadrature_pulse;
 	}
 
 	return ret;
