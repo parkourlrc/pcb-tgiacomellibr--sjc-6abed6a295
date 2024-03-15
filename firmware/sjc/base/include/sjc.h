@@ -37,6 +37,7 @@ eSjcReturnType_t SJC_GetJointActuatorVoltage(float * voltage);
 eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage);
 
 eSjcReturnType_t SJC_ResetJointAngularDisplacement(void);
+eSjcReturnType_t SJC_GetJointRelativeAndAngularDisplacement(const eSjcJoints_t joint, float * disp);
 eSjcReturnType_t SJC_GetJointAngularDisplacement(const eSjcJoints_t joint, float * disp);
 eSjcReturnType_t SJC_GetJointRelativeAngularDisplacement(const eSjcJoints_t joint, float * RelativeDisp, const float PrevDisp);
 
