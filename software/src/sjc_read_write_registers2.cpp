@@ -311,4 +311,4 @@ void sjc_initial_config(SjcInterface *SjcIface)
         usleep(10e6);
         std::cout << " <|> Digital outputs stated not set! \nPlease check the modbuss slave address..." << std::endl;
     }
-}
+} 

@@ -5,7 +5,6 @@ project(SJC_LIB VERSION 0.1.0 LANGUAGES C CXX)
 # Project definitions
 # ------------------------------------------------------------------------------------------------- #
 include(CMakePrintHelpers)
-
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")

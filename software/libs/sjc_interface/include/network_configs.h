@@ -148,3 +148,4 @@ typedef enum
 #define REG_HOLDING_NREGS ((uint16_t)REG_HOLDING_SIZE)
 
 #endif /* SJC__BASE__NETWORK_CONFIGS_H_ */
+

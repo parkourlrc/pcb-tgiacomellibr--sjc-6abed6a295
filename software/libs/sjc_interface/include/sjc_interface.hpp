@@ -43,9 +43,9 @@ public:
     eSjcReturnType_t setDigitalOutputsStates(const xSjcOutputsStates_t config);
 
 private:
-    modbus_t *ctx;
     int address_;
     int baudrate_;
+    modbus_t *ctx;
     std::string port_;
 
     eSjcReturnType_t init(void);
