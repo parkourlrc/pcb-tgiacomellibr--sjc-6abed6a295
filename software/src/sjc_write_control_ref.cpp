@@ -99,6 +99,15 @@ int main(int argc, char *argv[])
             case SJC_TORQUE_CONTROL:
                 std::cout << "Torque control";
                 break;
+            case SJC_TRIANG_EXCITATION:
+                std::cout << "Triangular signal excitation";
+                break;
+            case SJC_PULSE_FAST_EXCITATION:
+                std::cout << "Fast pulse signal excitation";
+                break;
+            case SJC_PULSE_SLOW_EXCITATION:
+                std::cout << "Slow pulse signal excitation";
+                break;
 
             default: // SJC_CONTROL_DISABLED
                 std::cout << "Control disabled";
