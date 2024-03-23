@@ -45,7 +45,7 @@ static eSjcControlMode_t ControlMode;
 
 static uint32_t Timestamp = 0;
 static float ControlTs = 0;
-static uint32_t ControllerPeriorSpec = 1000;
+static uint32_t ControllerPeriodSpec = 1000;
 
 static float ControlAction = 0;
 static float ControllerError = 0;
@@ -100,6 +100,10 @@ void ControllerTaskApp(void *argument)
 
 	SJC_EnableJointActuators();
 
+	osDelay(SJC_CURRENT_OFFSET_DELAY);
+
+	SJC_ComputeJointActuatorBias();
+
 	/* Infinite loop */
 	for(;;)
 	{
@@ -111,7 +115,7 @@ void ControllerTaskApp(void *argument)
 
 		PublishLogData();
 
-		tick += pdMS_TO_TICKS(ControllerPeriorSpec);
+		tick += pdMS_TO_TICKS(ControllerPeriodSpec);
 
 		switch (ControlMode) {
 		case SJC_PULSE_FAST_EXCITATION:
@@ -166,14 +170,15 @@ static void ControllerParametersUpdate(void)
 {
 	// Controller configs update
 	SJC_GetControlMode(&ControlMode);
-	SJC_GetControlUpdatePeriodMs(&ControllerPeriorSpec);
+	SJC_GetControlUpdatePeriodMs(&ControllerPeriodSpec);
 	SJC_GetControlReference(&ControllerReference);
 }
 
 static void MeasurementsUpdate(void) {
 	// Electric variables update
 	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
-	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
+//	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
+	SJC_GetJointUnbiasedActuatorCurrent(&ActuatorCurrent);
 	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
 
 	// Actuated joint calcs
@@ -220,7 +225,7 @@ static void EndstopsCheck(void) {
 
 static void PublishLogData(void)
 {
-	SJC_DataLogger_Transmit("\r%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+	SJC_DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
 }
 
 static void RunTestSignal(eSjcInputType_t type)
@@ -229,7 +234,8 @@ static void RunTestSignal(eSjcInputType_t type)
 
 	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
-		SJC_TestSignals_SetType(type);
+		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
+		SJC_TestSignals_SetConfig(type, time_factor);
 	}
 	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 	{
