@@ -24,8 +24,7 @@
 #define DATA_LOGGER_SERIAL_INSTANCE 						USART3
 #define DATA_LOGGER_DMA_INSTANCE 							DMA1
 #define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_3
-#define DATA_LOGGER_BUFF_SIZE 								(512UL)
-
+#define DATA_LOGGER_BUFF_SIZE 								(320UL)
 #define MIN_TRANSMIT_BURST_SIZE								(256UL)
 // ------------------------------------------------------------------- //
 
@@ -124,7 +123,7 @@ static void TransmitBuffer(void)
 
 	bSerialBusy = true;
 
-	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, uDataBuffSize);
+	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uDataBuffSize+1));
 	uDataBuffSize = 0;
 
 	LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
