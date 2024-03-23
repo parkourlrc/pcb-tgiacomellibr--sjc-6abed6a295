@@ -21,12 +21,12 @@
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define DATA_LOGGER_IFC_INSTANCE 						USART3
-#define DATA_LOGGER_IFC_DMA_INSTANCE 					DMA1
-#define DATA_LOGGER_IFC_DMA_STREAM 						LL_DMA_STREAM_3
-#define DATA_LOGGER_BUFF_SIZE 							(1024UL)
+#define DATA_LOGGER_SERIAL_INSTANCE 						USART3
+#define DATA_LOGGER_DMA_INSTANCE 							DMA1
+#define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_3
+#define DATA_LOGGER_BUFF_SIZE 								(512UL)
 
-#define MIN_TRANSMIT_BURST_SIZE							(256UL)
+#define MIN_TRANSMIT_BURST_SIZE								(256UL)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -60,11 +60,11 @@ static void TransmitBuffer(void);
 // ------------------------------------------------------------------- //
 void SJC_DataLogger_Init(void)
 {
-	  LL_DMA_ConfigAddresses(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_IFC_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	  LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-	  LL_DMA_EnableIT_TC(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM);
+	  LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
-	  LL_USART_EnableDMAReq_TX(DATA_LOGGER_IFC_INSTANCE);
+	  LL_USART_EnableDMAReq_TX(DATA_LOGGER_SERIAL_INSTANCE);
 
 	  bSerialBusy = false;
 }
@@ -107,16 +107,16 @@ int SJC_DataLogger_Transmit(const char *format, ...)
 
 static void TransmitBuffer(void)
 {
-	LL_DMA_DisableStream(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM);
+	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
 	switch (xDataLoggerBank) {
 	case DATA_LOGGER_BANK_1:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM, (uint32_t)&xDataLoggerBuff1, LL_USART_DMA_GetRegAddr(DATA_LOGGER_IFC_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff1, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 		xDataLoggerBank = DATA_LOGGER_BANK_0;
 
 		break;
 	default:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_IFC_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 		xDataLoggerBank = DATA_LOGGER_BANK_1;
 
 		break;
@@ -124,24 +124,22 @@ static void TransmitBuffer(void)
 
 	bSerialBusy = true;
 
-	LL_DMA_SetDataLength(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM, uDataBuffSize);
+	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, uDataBuffSize);
 	uDataBuffSize = 0;
 
-	LL_DMA_ClearFlag_TE3(DATA_LOGGER_IFC_DMA_INSTANCE);
-	LL_DMA_ClearFlag_HT3(DATA_LOGGER_IFC_DMA_INSTANCE);
-	LL_DMA_ClearFlag_TC3(DATA_LOGGER_IFC_DMA_INSTANCE);
-	LL_DMA_ClearFlag_FE3(DATA_LOGGER_IFC_DMA_INSTANCE);
+	LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_HT3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_FE3(DATA_LOGGER_DMA_INSTANCE);
 
-	LL_DMA_EnableStream(DATA_LOGGER_IFC_DMA_INSTANCE, DATA_LOGGER_IFC_DMA_STREAM);
-
-
+	LL_DMA_EnableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 }
 
 void DMA1_Stream3_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
-	if( LL_DMA_IsActiveFlag_TC3(DATA_LOGGER_IFC_DMA_INSTANCE) == 1){
-		LL_DMA_ClearFlag_TC3(DATA_LOGGER_IFC_DMA_INSTANCE);
+	if( LL_DMA_IsActiveFlag_TC3(DATA_LOGGER_DMA_INSTANCE) == 1){
+		LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
 		bSerialBusy = false;
 	}
   /* USER CODE END DMA1_Stream3_IRQn 0 */
