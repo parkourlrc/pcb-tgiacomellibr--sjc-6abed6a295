@@ -24,8 +24,11 @@ BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
 {
 	BOOL bStatus = TRUE;
 
-	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucDMABuffRegister, LL_USART_DMA_GetRegAddr(USART2), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-	//	 LL_DMA_EnableIT_TC(DMA1, LL_DMA_STREAM_6);
+	ucDMABuffRegisterIdx = 0;
+
+	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucDMABuffRegister, LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+
+	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 
 	return bStatus;
 }
@@ -48,21 +51,23 @@ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
 	if (xTxEnable)
 	{
 		/* start serial transmit */
-		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
-		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 		pxMBFrameCBTransmitterEmpty();
+//		LL_DMA_EnableIT_TC(DMA1, LL_DMA_STREAM_6);
+		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 	else
 	{
 		/* stop serial transmit */
+//		LL_DMA_DisableIT_TC(DMA1, LL_DMA_STREAM_6);
+		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 }
 
 void vMBPortClose(void)
 {
-	LL_DMA_DisableIT_TC(DMA1, LL_DMA_STREAM_6);
+//	LL_DMA_DisableIT_TC(DMA1, LL_DMA_STREAM_6);
 	LL_USART_DisableIT_RXNE(MODBUS_SERIAL_INSTANCE);
-	LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
+//	LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 }
 
 BOOL xMBPortSerialPutByte(CHAR ucByte)
@@ -76,22 +81,23 @@ BOOL xMBPortSerialPutByte(CHAR ucByte)
 
 BOOL xMBPortSerialPutBytes(volatile UCHAR *ucByte, USHORT usSize)
 {
+	LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_6);
+
 	for (USHORT i = 0; i < usSize; i++)
 	{
 		ucDMABuffRegister[ucDMABuffRegisterIdx++] = ucByte[i];
 	}
 
-	LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_6);
 	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, ucDMABuffRegisterIdx);
+
+	ucDMABuffRegisterIdx = 0;
 
 	LL_DMA_ClearFlag_TE6(DMA1);
 	LL_DMA_ClearFlag_HT6(DMA1);
 	LL_DMA_ClearFlag_TC6(DMA1);
+	LL_DMA_ClearFlag_FE6(DMA1);
 
-	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 	LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_6);
-
-	ucDMABuffRegisterIdx = 0;
 
 	return TRUE;
 }
@@ -102,23 +108,14 @@ BOOL xMBPortSerialGetByte(CHAR *pucByte)
 	return TRUE;
 }
 
-void DMA1_Stream6_IRQHandler(void)
-{
-	if (LL_DMA_IsActiveFlag_TC6(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TC6(DMA1);
-	}
-
-	if (LL_DMA_IsActiveFlag_HT6(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_HT6(DMA1);
-	}
-
-	if (LL_DMA_IsActiveFlag_TE6(DMA1) == 1)
-	{
-		LL_DMA_ClearFlag_TE6(DMA1);
-	}
-}
+//void DMA1_Stream6_IRQHandler(void)
+//{
+//	if (LL_DMA_IsActiveFlag_TC6(DMA1) == 1)
+//	{
+//		LL_DMA_ClearFlag_TC6(DMA1);
+//		pxMBFrameCBTransmitterEmpty();
+//	}
+//}
 
 void USART2_IRQHandler(void)
 {
@@ -131,17 +128,6 @@ void USART2_IRQHandler(void)
 	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
 	{
 		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
-		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 		pxMBFrameCBTransmitterEmpty();
-		//		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
-
-	//	if (LL_USART_IsActiveFlag_IDLE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_IDLE(MODBUS_SERIAL_INSTANCE)) {
-	//			LL_USART_ClearFlag_IDLE(MODBUS_SERIAL_INSTANCE);
-	//
-	//		}
-
-	//	if (LL_USART_IsActiveFlag_TXE(USART2) & LL_USART_IsEnabledIT_TXE(USART2)) {
-	//		pxMBFrameCBTransmitterEmpty();
-	//	}
 }
