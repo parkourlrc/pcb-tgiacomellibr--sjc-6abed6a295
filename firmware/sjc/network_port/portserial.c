@@ -10,9 +10,6 @@
 
 /* ----------------------- Static variables ---------------------------------*/
 
-#define UART_TX_BUFF_SIZE 256
-static uint8_t ucDMABuffRegister[UART_TX_BUFF_SIZE];
-static uint32_t ucDMABuffRegisterIdx = 0;
 
 /* ----------------------- Defines ------------------------------------------*/
 
@@ -23,10 +20,6 @@ BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
 					   eMBParity eParity)
 {
 	BOOL bStatus = TRUE;
-
-	ucDMABuffRegisterIdx = 0;
-
-	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucDMABuffRegister, LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
 	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 
@@ -52,22 +45,19 @@ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
 	{
 		/* start serial transmit */
 		pxMBFrameCBTransmitterEmpty();
-//		LL_DMA_EnableIT_TC(DMA1, LL_DMA_STREAM_6);
 		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 	else
 	{
 		/* stop serial transmit */
-//		LL_DMA_DisableIT_TC(DMA1, LL_DMA_STREAM_6);
 		LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 }
 
 void vMBPortClose(void)
 {
-//	LL_DMA_DisableIT_TC(DMA1, LL_DMA_STREAM_6);
 	LL_USART_DisableIT_RXNE(MODBUS_SERIAL_INSTANCE);
-//	LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
+	LL_USART_DisableIT_TC(MODBUS_SERIAL_INSTANCE);
 }
 
 BOOL xMBPortSerialPutByte(CHAR ucByte)
@@ -83,14 +73,9 @@ BOOL xMBPortSerialPutBytes(volatile UCHAR *ucByte, USHORT usSize)
 {
 	LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_6);
 
-	for (USHORT i = 0; i < usSize; i++)
-	{
-		ucDMABuffRegister[ucDMABuffRegisterIdx++] = ucByte[i];
-	}
+	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucByte[0], LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, ucDMABuffRegisterIdx);
-
-	ucDMABuffRegisterIdx = 0;
+	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, usSize);
 
 	LL_DMA_ClearFlag_TE6(DMA1);
 	LL_DMA_ClearFlag_HT6(DMA1);

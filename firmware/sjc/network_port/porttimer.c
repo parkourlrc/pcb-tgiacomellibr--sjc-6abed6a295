@@ -47,7 +47,7 @@ void vMBPortTimersDisable()
 
 void vMBPortTimersDelay(USHORT usTimeOutMS)
 {
-	vTaskDelay(pdMS_TO_TICKS(usTimeOutMS));
+//	vTaskDelay(pdMS_TO_TICKS(usTimeOutMS));
 }
 
 void prvvMBTimerIRQHandler(void)
