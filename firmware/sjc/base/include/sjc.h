@@ -32,7 +32,9 @@ eSjcReturnType_t SJC_GetJointActuatorState(bool *state);
 eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t *freq);
 eSjcReturnType_t SJC_GetJointActuatorPowerSupplyVoltage(float *value);
 
+eSjcReturnType_t SJC_ComputeJointActuatorBias(void);
 eSjcReturnType_t SJC_GetJointActuatorCurrent(float *value);
+eSjcReturnType_t SJC_GetJointUnbiasedActuatorCurrent(float *value);
 eSjcReturnType_t SJC_GetJointActuatorVoltage(float *voltage);
 eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage);
 

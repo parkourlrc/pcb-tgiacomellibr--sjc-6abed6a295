@@ -53,6 +53,8 @@ extern volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
 extern volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
 static xSjcControlConfigs_t xSjcControlConfigs = xSjcControlConfigsEmptyObj;
+
+static float fBiasCurrentValue = 0;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -93,6 +95,7 @@ void SJC_Init(void)
 	// Init ADC and Sample time check timer
 	MX_ADC1_Init();
 	MX_TIM4_Init();
+	fBiasCurrentValue = 0;
 
 	// Init Joint PWM and Encoders
 	MX_TIM1_Init();
@@ -407,9 +410,23 @@ eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t *freq)
 	return SJC_RET_OK;
 }
 
+eSjcReturnType_t SJC_ComputeJointActuatorBias(void)
+{
+	SJC_MotorDrive_GetOutputCurrent(&fBiasCurrentValue);
+
+	return SJC_RET_OK;
+}
+
 eSjcReturnType_t SJC_GetJointActuatorCurrent(float *value)
 {
 	return SJC_MotorDrive_GetOutputCurrent(value);
+}
+
+eSjcReturnType_t SJC_GetJointUnbiasedActuatorCurrent(float *value)
+{
+	eSjcReturnType_t ret = SJC_MotorDrive_GetOutputCurrent(value);
+	*value -= fBiasCurrentValue;
+	return ret;
 }
 
 eSjcReturnType_t SJC_GetJointActuatorPowerSupplyVoltage(float *value)
@@ -509,7 +526,8 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE + 1] = ui16ptr[0];
 
 	fAux = 0;
-	SJC_GetJointActuatorCurrent(&fAux);
+//	SJC_GetJointActuatorCurrent(&fAux);
+	SJC_GetJointUnbiasedActuatorCurrent(&fAux);
 	ui16ptr = ((uint16_t *)(&fAux));
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT + 1] = ui16ptr[0];
