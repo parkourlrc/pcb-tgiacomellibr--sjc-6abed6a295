@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "adc.h"
@@ -18,7 +17,6 @@
 #include "configs.h"
 // ------------------------------------------------------------------- //
 
-
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
@@ -29,9 +27,9 @@
 osSemaphoreId_t xEncoderInterfacesSemprHandle = NULL;
 StaticSemaphore_t EncoderInterfacesSemaphoreControlBlock;
 const osSemaphoreAttr_t EncoderInterfacesSemaphore_attributes = {
-		.name = "EncoderInterfacesSemaphore",
-		.cb_mem = &EncoderInterfacesSemaphoreControlBlock,
-		.cb_size = sizeof(EncoderInterfacesSemaphoreControlBlock),
+	.name = "EncoderInterfacesSemaphore",
+	.cb_mem = &EncoderInterfacesSemaphoreControlBlock,
+	.cb_size = sizeof(EncoderInterfacesSemaphoreControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -42,7 +40,6 @@ static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-
 
 // ------------------------------------------------------------------- //
 
@@ -55,7 +52,8 @@ void SJC_Encoder_init(void)
 	if (xEncoderInterfacesSemprHandle == NULL)
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
-	} else
+	}
+	else
 	{
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 	}
@@ -79,7 +77,6 @@ void SJC_Encoder_init(void)
 	SJC_Encoder_Reset(SJC_ACTUATOR_JOINT);
 	SJC_Encoder_Reset(SJC_AUX_JOINT_A);
 	SJC_Encoder_Reset(SJC_AUX_JOINT_B);
-
 }
 
 void SJC_Encoder_Reset(eSjcJoints_t Joint)
@@ -98,7 +95,7 @@ void SJC_Encoder_Disable(eSjcJoints_t Joint)
 	LL_TIM_DisableCounter(Encoder[Joint].Instance);
 }
 
-eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t * counts)
+eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t *counts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -109,22 +106,23 @@ eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t * counts)
 	return ret;
 }
 
-eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float * angular_dp)
+eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xEncoderInterfacesSemprHandle != NULL );
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
 		ret = SJC_RET_OK;
 
-		switch (Joint) {
+		switch (Joint)
+		{
 		case SJC_ACTUATOR_JOINT:
-			Encoder[Joint].Counts = ((int32_t) LL_TIM_GetCounter(Encoder[Joint].Instance));
+			Encoder[Joint].Counts = ((int32_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
 			break;
 		default:
-			Encoder[Joint].Counts = ((int16_t) LL_TIM_GetCounter(Encoder[Joint].Instance));
+			Encoder[Joint].Counts = ((int16_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
 			break;
 		}
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
@@ -134,7 +132,7 @@ eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float * 
 	return ret;
 }
 
-eSjcReturnType_t SJC_Encoder_GetResolution(eSjcJoints_t Joint, uint16_t * resolution)
+eSjcReturnType_t SJC_Encoder_GetResolution(eSjcJoints_t Joint, uint16_t *resolution)
 {
 	*resolution = Encoder[Joint].Resolution_PPR;
 
@@ -144,11 +142,10 @@ eSjcReturnType_t SJC_Encoder_GetResolution(eSjcJoints_t Joint, uint16_t * resolu
 eSjcReturnType_t SJC_Encoder_SetResolution(eSjcJoints_t Joint, const uint16_t resolution)
 {
 	Encoder[Joint].Resolution_PPR = resolution;
-	Encoder[Joint].radians_per_quadrature_pulse = (2.0f*M_PI)/(1.0f*Encoder[Joint].Resolution_PPR);
+	Encoder[Joint].radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * Encoder[Joint].Resolution_PPR);
 
 	return SJC_RET_OK;
 }
-
 
 // ------------------------------------------------------------------- //
 

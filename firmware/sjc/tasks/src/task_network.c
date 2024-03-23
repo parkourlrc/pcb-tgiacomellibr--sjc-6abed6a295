@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "main.h"
@@ -28,10 +27,9 @@
 
 // ------------------------------------------------------------------- //
 
-
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS			( (uint32_t ) 2U)
+#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS ((uint32_t)2U)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -72,7 +70,8 @@ void NetworkTaskApp(void *argument)
 	uint32_t tick = osKernelGetTickCount();
 
 	/* Infinite loop */
-	for (;;) {
+	for (;;)
+	{
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
 		SJC_Network_Update();
@@ -80,7 +79,6 @@ void NetworkTaskApp(void *argument)
 		SJC_UpdateNetworkDataRegisters();
 
 		osDelayUntil(tick);
-
 	}
 	/* USER CODE END MainTaskApp */
 }

@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "main.h"
@@ -19,10 +18,8 @@
 #include "analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
-
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
 
 // ------------------------------------------------------------------- //
 
@@ -58,7 +55,7 @@ void SJC_MotorDrive_Init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage)
 	SJC_MotorDrive_SetOutputVoltage(ZERO_FLOAT);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetBaseVoltage(float * voltage)
+eSjcReturnType_t SJC_MotorDrive_GetBaseVoltage(float *voltage)
 {
 	*voltage = MotorDrive.BaseVoltage;
 
@@ -68,7 +65,7 @@ eSjcReturnType_t SJC_MotorDrive_GetBaseVoltage(float * voltage)
 eSjcReturnType_t SJC_MotorDrive_SetBaseVoltage(float voltage)
 {
 	MotorDrive.BaseVoltage = voltage;
-	MotorDrive.OutputVoltageRange.Max = SJC_PWM_GetMaxDutyCycle()*MotorDrive.BaseVoltage;
+	MotorDrive.OutputVoltageRange.Max = SJC_PWM_GetMaxDutyCycle() * MotorDrive.BaseVoltage;
 	MotorDrive.OutputVoltageRange.Min = -MotorDrive.OutputVoltageRange.Max;
 
 	return SJC_RET_OK;
@@ -96,36 +93,36 @@ void SJC_MotorDrive_Disable(void)
 	MotorDrive.State = false;
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetState(bool * state)
+eSjcReturnType_t SJC_MotorDrive_GetState(bool *state)
 {
 	*state = MotorDrive.State;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetPowerSupplyVoltage(float * voltage)
+eSjcReturnType_t SJC_MotorDrive_GetPowerSupplyVoltage(float *voltage)
 {
 	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_VOLTAGE_SENSOR, voltage);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetOutputCurrent(float * current)
+eSjcReturnType_t SJC_MotorDrive_GetOutputCurrent(float *current)
 {
-//	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+	//	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
 	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetOutputVoltage(float * voltage)
+eSjcReturnType_t SJC_MotorDrive_GetOutputVoltage(float *voltage)
 {
 	*voltage = MotorDrive.OutputVoltage;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t  SJC_MotorDrive_SetOutputVoltage(const float voltage)
+eSjcReturnType_t SJC_MotorDrive_SetOutputVoltage(const float voltage)
 {
 	MotorDrive.OutputVoltage = SJC_Helpers_RealClamp(voltage, MotorDrive.OutputVoltageRange.Min, MotorDrive.OutputVoltageRange.Max);
 
-	float xPwmDuty = ( MotorDrive.OutputVoltage + MotorDrive.BaseVoltage )/( 2.0 * MotorDrive.BaseVoltage );
+	float xPwmDuty = (MotorDrive.OutputVoltage + MotorDrive.BaseVoltage) / (2.0 * MotorDrive.BaseVoltage);
 
 	SJC_PWM_SetDutyCycle(xPwmDuty);
 

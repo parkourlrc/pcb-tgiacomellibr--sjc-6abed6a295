@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "adc.h"
@@ -22,23 +21,23 @@
 #include "debug_output.h"
 // ------------------------------------------------------------------- //
 
-
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define VDDA_APPLI                       				((uint32_t) 3300UL)
-#define ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS 	((uint32_t) 3UL)
-#define ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS 	((uint32_t) osWaitForever)
-#define CONV_MILLIVOLT_TO_VOLT(X)						(X/1000.0f)
-#define ANALOG_MEASUREMENT_BUFFER_SIZE					((uint32_t) 100UL)
+#define VDDA_APPLI ((uint32_t)3300UL)
+#define ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS ((uint32_t)3UL)
+#define ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS ((uint32_t)osWaitForever)
+#define CONV_MILLIVOLT_TO_VOLT(X) (X / 1000.0f)
+#define ANALOG_MEASUREMENT_BUFFER_SIZE ((uint32_t)100UL)
 
-#define ANALOG_IFACE_ISR_FREQUENCY						(float) 20000.0f
-#define ANALOG_MEASUREMENT_ISR_FREQUENCY				(float) 1000.0f
-#define ANALOG_MEASUREMENT_ISR_TICKS					((uint32_t) (ANALOG_IFACE_ISR_FREQUENCY/ANALOG_MEASUREMENT_ISR_FREQUENCY))
+#define ANALOG_IFACE_ISR_FREQUENCY (float)20000.0f
+#define ANALOG_MEASUREMENT_ISR_FREQUENCY (float)1000.0f
+#define ANALOG_MEASUREMENT_ISR_TICKS ((uint32_t)(ANALOG_IFACE_ISR_FREQUENCY / ANALOG_MEASUREMENT_ISR_FREQUENCY))
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
-typedef enum {
+typedef enum
+{
 	MOTOR_CURRENT_CONV = 0,
 	MOTOR_VOLTAGE_CONV,
 	VREF_INT_CONV,
@@ -58,13 +57,12 @@ static xSjcMeanSampleTimeMeasurement_t xMeanSampleTimeObj = xSjcSampleTimeEmptyO
 
 static uint32_t xIsrServiceCounter = 0;
 
-
 osSemaphoreId_t xAnalogInterfaceSemprHandle = NULL;
 StaticSemaphore_t AnalogInterfaceSemaphoreControlBlock;
 const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = {
-		.name = "AnalogInterfaceSemaphore",
-		.cb_mem = &AnalogInterfaceSemaphoreControlBlock,
-		.cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock),
+	.name = "AnalogInterfaceSemaphore",
+	.cb_mem = &AnalogInterfaceSemaphoreControlBlock,
+	.cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -85,7 +83,8 @@ void SJC_AnalogInterfaces_Init(void)
 	if (xAnalogInterfaceSemprHandle == NULL)
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog interface semaphore not created...");
-	} else
+	}
+	else
 	{
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
 	}
@@ -118,7 +117,7 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xAnalogInterfaceSemprHandle != NULL );
+	configASSERT(xAnalogInterfaceSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS))
 	{
@@ -150,29 +149,30 @@ eSjcReturnType_t SJC_AnalogInterfaces_CheckUpdateConversionTime(void)
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float * value)
+eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 	*value = ZERO_FLOAT;
 
-	configASSERT( xAnalogInterfaceSemprHandle != NULL );
+	configASSERT(xAnalogInterfaceSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS))
 	{
-		switch (sensor) {
+		switch (sensor)
+		{
 		case SJC_CURRENT_SENSOR_STD:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/AD8418_ANALOG_FRONTED_GAIN)-ANALOG_CURRENT_SENSOR_VREF;
-			*value /= (AD8418_SHUNT_RESISTANCE*AD8418_GAIN);
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / AD8418_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+			*value /= (AD8418_SHUNT_RESISTANCE * AD8418_GAIN);
 			ret = SJC_RET_OK;
 			break;
 		case SJC_CURRENT_SENSOR_AUX:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]/ACS712_ANALOG_FRONTED_GAIN)-ANALOG_CURRENT_SENSOR_VREF;
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
 			*value /= ACS712_GAIN;
 			ret = SJC_RET_OK;
 			break;
 
 		case SJC_VOLTAGE_SENSOR:
-			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV]*VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
+			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] * VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
 			ret = SJC_RET_OK;
 			break;
 
@@ -187,11 +187,11 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t * Ts)
+eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xAnalogInterfaceSemprHandle != NULL );
+	configASSERT(xAnalogInterfaceSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS))
 	{
@@ -242,9 +242,9 @@ void ComputeFilteredMeasurements(void)
 		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
 		xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
 
-		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B)*CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
-		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B)*VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
-		xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B)*VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO/1000.0f;
+		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B) * CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
+		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B) * VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
+		xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B) * VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
 	}
 
 	xAdcConversionIndex = 0;

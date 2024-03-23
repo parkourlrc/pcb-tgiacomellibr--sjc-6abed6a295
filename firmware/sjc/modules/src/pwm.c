@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 
@@ -18,7 +17,6 @@
 #include "configs.h"
 #include "helpers.h"
 // ------------------------------------------------------------------- //
-
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
@@ -100,7 +98,7 @@ float SJC_PWM_GetMaxDutyCycle(void)
 eSjcReturnType_t SJC_PWM_SetDutyCycle(const float duty)
 {
 	Pwm.DutyCycle = SJC_Helpers_RealClamp(duty, Pwm.DutyRange.Min, Pwm.DutyRange.Max);
-	Pwm.DutyCount = ( (uint32_t) (Pwm.DutyCycle*Pwm.TimerConfig.CountPeriod) );
+	Pwm.DutyCount = ((uint32_t)(Pwm.DutyCycle * Pwm.TimerConfig.CountPeriod));
 
 	LL_TIM_OC_SetCompareCH1(Pwm.TimerConfig.Instance, Pwm.DutyCount);
 	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, (Pwm.TimerConfig.CountPeriod - Pwm.DutyCount));
@@ -115,38 +113,39 @@ uint32_t SJC_PWM_GetFrequency(void)
 
 uint32_t SJC_PWM_SetFrequency(const eSjcPwmBaseFreq_t BaseFrequency)
 {
-	switch (BaseFrequency) {
+	switch (BaseFrequency)
+	{
 	case PWM_FREQ_10kHz:
 		Pwm.Frequency = 10000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*2.0f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 2.0f));
 		break;
 	case PWM_FREQ_12kHz:
 		Pwm.Frequency = 12000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.665f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.665f));
 		break;
 	case PWM_FREQ_14kHz:
 		Pwm.Frequency = 14000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.428f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.428f));
 		break;
 	case PWM_FREQ_15kHz:
 		Pwm.Frequency = 15000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.332f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.332f));
 		break;
 	case PWM_FREQ_16kHz:
 		Pwm.Frequency = 16000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.249f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.249f));
 		break;
 	case PWM_FREQ_18kHz:
 		Pwm.Frequency = 18000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.110f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.110f));
 		break;
 	default: // PWM_FREQ_20kHz:
 		Pwm.Frequency = 20000;
-		Pwm.TimerConfig.CountPeriod = ( (uint32_t)(SJC_PWM_COUNT_PERIOD*1.0f) );
+		Pwm.TimerConfig.CountPeriod = ((uint32_t)(SJC_PWM_COUNT_PERIOD * 1.0f));
 		break;
 	}
 
-	LL_TIM_SetAutoReload(Pwm.TimerConfig.Instance, Pwm.TimerConfig.CountPeriod -1);
+	LL_TIM_SetAutoReload(Pwm.TimerConfig.Instance, Pwm.TimerConfig.CountPeriod - 1);
 
 	return Pwm.Frequency;
 }

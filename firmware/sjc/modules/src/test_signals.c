@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 
@@ -16,7 +15,6 @@
 #include "configs.h"
 #include "test_signals.h"
 // ------------------------------------------------------------------- //
-
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
@@ -62,7 +60,8 @@ eSjcReturnType_t SJC_TestSignals_SetType(const eSjcInputType_t type)
 {
 	xSjcSignalType = type;
 
-	switch (xSjcSignalType) {
+	switch (xSjcSignalType)
+	{
 	case INPUT_TYPE_PRBS:
 		xSjcSignalStep = 0.0f;
 		xSjcSignalValue = 0.0f;
@@ -70,7 +69,7 @@ eSjcReturnType_t SJC_TestSignals_SetType(const eSjcInputType_t type)
 		xSjcSignalRepeatCounter = 0;
 		break;
 	case INPUT_TYPE_TRIANG:
-		xSjcSignalStep = (1/100.0f);
+		xSjcSignalStep = (1 / 100.0f);
 		xSjcSignalValue = 0.0f;
 		xSjcSignalCounter = 0;
 		xSjcSignalRepeatCounter = 0;
@@ -100,14 +99,14 @@ eSjcReturnType_t SJC_TestSignals_SetType(const eSjcInputType_t type)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_TestSignals_GetState(eSjcInputSignalState_t * state)
+eSjcReturnType_t SJC_TestSignals_GetState(eSjcInputSignalState_t *state)
 {
 	*state = xSjcInputSignalState;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_TestSignals_GetValue(float * value)
+eSjcReturnType_t SJC_TestSignals_GetValue(float *value)
 {
 	if (INPUT_SIGNAL_STATE_FINISHED == xSjcInputSignalState)
 	{
@@ -117,43 +116,67 @@ eSjcReturnType_t SJC_TestSignals_GetValue(float * value)
 	{
 		xSjcSignalCounter += (xSjcSignalType == INPUT_TYPE_NONE) ? 0 : 1;
 
-		switch (xSjcSignalType) {
+		switch (xSjcSignalType)
+		{
 
 		case INPUT_TYPE_TRIANG:
-			if (xSjcSignalCounter == 100) {
+			if (xSjcSignalCounter == 100)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 300) {
+			}
+			else if (xSjcSignalCounter == 300)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 500) {
+			}
+			else if (xSjcSignalCounter == 500)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 700) {
+			}
+			else if (xSjcSignalCounter == 700)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 900) {
+			}
+			else if (xSjcSignalCounter == 900)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 1100) {
+			}
+			else if (xSjcSignalCounter == 1100)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 1300) {
+			}
+			else if (xSjcSignalCounter == 1300)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 1500) {
+			}
+			else if (xSjcSignalCounter == 1500)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 1700) {
+			}
+			else if (xSjcSignalCounter == 1700)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 1900) {
+			}
+			else if (xSjcSignalCounter == 1900)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter == 2000) {
+			}
+			else if (xSjcSignalCounter == 2000)
+			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
-			} else if (xSjcSignalCounter > 2000) {
+			}
+			else if (xSjcSignalCounter > 2000)
+			{
 				xSjcSignalStep = ZERO_FLOAT;
 				xSjcSignalValue = ZERO_FLOAT;
 				TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
@@ -162,26 +185,30 @@ eSjcReturnType_t SJC_TestSignals_GetValue(float * value)
 			break;
 
 		case INPUT_TYPE_PULSE_FAST:
-			if (xSjcSignalCounter == 150) {
+			if (xSjcSignalCounter == 150)
+			{
 				xSjcSignalValue *= -1;
 				xSjcSignalCounter = 0;
 				xSjcSignalRepeatCounter++;
 			}
 
-			if (xSjcSignalRepeatCounter == 20) {
+			if (xSjcSignalRepeatCounter == 20)
+			{
 				xSjcSignalValue = ZERO_FLOAT;
 				TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
 			}
 			break;
 
 		case INPUT_TYPE_PULSE_SLOW:
-			if (xSjcSignalCounter == 300) {
+			if (xSjcSignalCounter == 300)
+			{
 				xSjcSignalValue *= -1;
 				xSjcSignalCounter = 0;
 				xSjcSignalRepeatCounter++;
 			}
 
-			if (xSjcSignalRepeatCounter == 20) {
+			if (xSjcSignalRepeatCounter == 20)
+			{
 				xSjcSignalValue = ZERO_FLOAT;
 				TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
 			}
@@ -202,7 +229,6 @@ eSjcReturnType_t SJC_TestSignals_GetValue(float * value)
 
 	return SJC_RET_OK;
 }
-
 
 // ------------------------------------------------------------------- //
 

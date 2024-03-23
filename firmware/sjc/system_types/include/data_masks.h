@@ -16,14 +16,16 @@
 // Definitions includes ---------------------------------------------- //
 // ------------------------------------------------------------------- //
 
-typedef enum {
+typedef enum
+{
     switchA_msk = 0UL,
     switchB_msk,
     iso_inputA_msk,
-    iso_inputB_msk    
+    iso_inputB_msk
 } eSjcDigitalInputMasks;
 
-typedef enum {
+typedef enum
+{
     outputA_msk = 0UL,
     outputB_msk
 } eSjcDigitalOutputMasks;

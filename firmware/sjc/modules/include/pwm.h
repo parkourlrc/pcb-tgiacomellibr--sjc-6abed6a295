@@ -22,5 +22,4 @@ eSjcReturnType_t SJC_PWM_SetDutyCycle(const float duty);
 uint32_t SJC_PWM_GetFrequency(void);
 uint32_t SJC_PWM_SetFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
 
-
 #endif /* MOTOR_H_ */

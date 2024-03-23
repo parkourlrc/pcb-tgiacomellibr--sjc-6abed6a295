@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 
@@ -17,7 +16,6 @@
 
 #include "configs.h"
 // ------------------------------------------------------------------- //
-
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
@@ -56,15 +54,15 @@ float SJC_PidController_Compute(const float ControllerError, const float dt)
 {
 	xPidController.Errors.ActualError = ControllerError;
 
-	xPidController.Errors.Integral = xPidController.Errors.ActualError + (xPidController.Errors.PrevError*dt);
-	xPidController.Errors.Derivative = (xPidController.Errors.ActualError - xPidController.Errors.PrevError)/dt;
-	float limit = SJC_ACTUATOR_LIMIT_MAX_VOLTAGE*xPidController.Parameters.Ki;
+	xPidController.Errors.Integral = xPidController.Errors.ActualError + (xPidController.Errors.PrevError * dt);
+	xPidController.Errors.Derivative = (xPidController.Errors.ActualError - xPidController.Errors.PrevError) / dt;
+	float limit = SJC_ACTUATOR_LIMIT_MAX_VOLTAGE * xPidController.Parameters.Ki;
 	//	xPidController.Errors.Integral = SJC_Helpers_RealClamp(xPidController.Errors.Integral, -limit, limit);
 	xPidController.Errors.PrevError = xPidController.Errors.ActualError;
 
-	xPidController.ControlAction = xPidController.Errors.ActualError*xPidController.Parameters.Kp;
-	xPidController.ControlAction += xPidController.Errors.Integral*xPidController.Parameters.Ki;
-	xPidController.ControlAction += xPidController.Errors.Derivative*xPidController.Parameters.Kd;
+	xPidController.ControlAction = xPidController.Errors.ActualError * xPidController.Parameters.Kp;
+	xPidController.ControlAction += xPidController.Errors.Integral * xPidController.Parameters.Ki;
+	xPidController.ControlAction += xPidController.Errors.Derivative * xPidController.Parameters.Kd;
 
 	return xPidController.ControlAction;
 }

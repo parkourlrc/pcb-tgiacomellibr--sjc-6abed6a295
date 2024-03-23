@@ -9,7 +9,6 @@
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "main.h"
-#include "adc.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
@@ -17,6 +16,7 @@
 // ------------------------------------------------------------------- //
 #include "sjc.h"
 #include "configs.h"
+#include "data_logger.h"
 #include "debug_output.h"
 #include "test_signals.h"
 #include "analog_interfaces.h"
@@ -70,10 +70,11 @@ eSjcInputSignalState_t xTestSignalState;
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-void PublishLogData(void);
-void RunTestSignal(eSjcInputType_t type);
-void ControllerParametersUpdate(void);
-void TaskEventFromIsr(void);
+static void ControllerParametersUpdate(void);
+static void EndstopsCheck(void);
+static void MeasurementsUpdate(void);
+static void PublishLogData(void);
+static void RunTestSignal(eSjcInputType_t type);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -105,6 +106,8 @@ void ControllerTaskApp(void *argument)
 		osDelayUntil(tick);
 
 		ControllerParametersUpdate();
+
+		MeasurementsUpdate();
 
 		PublishLogData();
 
@@ -152,39 +155,22 @@ void ControllerTaskApp(void *argument)
 
 		// End stop ---------------------------------------------------------- //
 		// ------------------------------------------------------------------- //
-		uint32_t states;
-		SJC_ReadDigitalInputs(&states);
-		bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
-		bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
-		bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
-
-		if (true == bEndStopAPressed)
-		{
-			SJC_ResetJointAngularDisplacement();
-		}
-
-		eSjcMoveDirection_t xActualMoveDirection = (ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
-
-		bool bNextMoveAllowed = (false == bEndStopPressed);
-		bNextMoveAllowed |= ( (true == bEndStopAPressed) && (xActualMoveDirection == SJC_MOVE_FW) );
-		bNextMoveAllowed |= ( (true == bEndStopBPressed) && (xActualMoveDirection == SJC_MOVE_BW) );
-
-		if (true == bNextMoveAllowed)
-		{
-			SJC_SetJointActuatorVoltage(ControlAction);
-		}
-		else
-		{
-			SJC_SetJointActuatorVoltage(ZERO_FLOAT);
-		}
-
+		EndstopsCheck();
 	}
 
 	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
 	SJC_DisableJointActuators();
 }
-void ControllerParametersUpdate(void)
+
+static void ControllerParametersUpdate(void)
 {
+	// Controller configs update
+	SJC_GetControlMode(&ControlMode);
+	SJC_GetControlUpdatePeriodMs(&ControllerPeriorSpec);
+	SJC_GetControlReference(&ControllerReference);
+}
+
+static void MeasurementsUpdate(void) {
 	// Electric variables update
 	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
 	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
@@ -198,27 +184,46 @@ void ControllerParametersUpdate(void)
 	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
 	SJC_GetTime(SJC_TIME_MS, &Timestamp);
 
-	ControlTs = ((float) Dt)*1.0e-3; // Convert miliseconds to seconds
+	ControlTs = ((float) Dt) * 1.0e-3; // Convert miliseconds to seconds
 
-	ActuatorSpeed = ActuatorRelativeDisplacement/ControlTs;
-	ActuatorSpeedRpm = ActuatorSpeed*(30.0f/M_PI);
+	ActuatorSpeed = ActuatorRelativeDisplacement / ControlTs;
+	ActuatorSpeedRpm = ActuatorSpeed * (30.0f / M_PI);
 
 	// Passive joints calcs
 	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
 	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
-
-	// Controller configs update
-	SJC_GetControlMode(&ControlMode);
-	SJC_GetControlUpdatePeriodMs(&ControllerPeriorSpec);
-	SJC_GetControlReference(&ControllerReference);
 }
 
-void PublishLogData(void)
+static void EndstopsCheck(void) {
+	uint32_t states;
+	SJC_ReadDigitalInputs(&states);
+	bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
+	bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
+	bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
+
+	if (true == bEndStopAPressed) {
+		SJC_ResetJointAngularDisplacement();
+	}
+
+	eSjcMoveDirection_t xActualMoveDirection = (ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
+
+	bool bNextMoveAllowed = (false == bEndStopPressed);
+	bNextMoveAllowed |= ((true == bEndStopAPressed) && (xActualMoveDirection == SJC_MOVE_FW));
+	bNextMoveAllowed |= ((true == bEndStopBPressed) && (xActualMoveDirection == SJC_MOVE_BW));
+
+	if (true == bNextMoveAllowed) {
+		SJC_SetJointActuatorVoltage(ControlAction);
+	} else {
+		SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+	}
+}
+
+static void PublishLogData(void)
 {
-	SJC_DebugOutput_LoggerPrintf("\r%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+	SJC_DataLogger_Transmit("\r%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f\n", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
 }
 
-void RunTestSignal(eSjcInputType_t type)
+static void RunTestSignal(eSjcInputType_t type)
 {
 	SJC_TestSignals_GetState(&xTestSignalState);
 
@@ -237,6 +242,5 @@ void RunTestSignal(eSjcInputType_t type)
 		SJC_SetControlMode(SJC_CONTROL_DISABLED);
 	}
 }
-
 
 // ------------------------------------------------------------------- //

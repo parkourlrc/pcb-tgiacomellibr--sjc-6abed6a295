@@ -34,7 +34,8 @@
 #include "inttypes.h"
 
 /* ----------------------- Platform structures -------------------------------*/
-typedef enum {
+typedef enum
+{
 	MB_PORT_SERIAL_RX_ISR = 0,
 	MB_PORT_SERIAL_TX_EMPTY_ISR,
 	MB_PORT_SERIAL_TRANSMISSION_COMPLETE_ISR,
@@ -42,12 +43,14 @@ typedef enum {
 
 /* ----------------------- Defines ------------------------------------------*/
 
-#define	INLINE                      inline
-#define PR_BEGIN_EXTERN_C           extern "C" {
-#define	PR_END_EXTERN_C             }
+#define INLINE inline
+#define PR_BEGIN_EXTERN_C \
+	extern "C"            \
+	{
+#define PR_END_EXTERN_C }
 
-#define ENTER_CRITICAL_SECTION( )   EnterCriticalSection()
-#define EXIT_CRITICAL_SECTION( )    ExitCriticalSection()
+#define ENTER_CRITICAL_SECTION() EnterCriticalSection()
+#define EXIT_CRITICAL_SECTION() ExitCriticalSection()
 
 typedef uint8_t BOOL;
 
@@ -61,16 +64,16 @@ typedef uint32_t ULONG;
 typedef int32_t LONG;
 
 #ifndef TRUE
-#define TRUE            1
+#define TRUE 1
 #endif
 
 #ifndef FALSE
-#define FALSE           0
+#define FALSE 0
 #endif
 
 /* ----------------------- Prototypes ---------------------------------------*/
-//void vMBPortSetWithinException(BOOL bInException);
-//BOOL bMBPortIsWithinException(void);
+// void vMBPortSetWithinException(BOOL bInException);
+// BOOL bMBPortIsWithinException(void);
 //
 void EnterCriticalSection(void);
 void ExitCriticalSection(void);

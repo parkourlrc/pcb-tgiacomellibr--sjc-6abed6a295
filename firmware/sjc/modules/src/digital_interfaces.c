@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 
@@ -19,7 +18,6 @@
 #include "debug_output.h"
 // ------------------------------------------------------------------- //
 
-
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
@@ -30,9 +28,9 @@
 osSemaphoreId_t xDigitalInterfacesSemprHandle = NULL;
 StaticSemaphore_t DigitalInterfacesSemaphoreControlBlock;
 const osSemaphoreAttr_t DigitalInterfacesSemaphore_attributes = {
-		.name = "DigitalInterfacesSemaphore",
-		.cb_mem = &DigitalInterfacesSemaphoreControlBlock,
-		.cb_size = sizeof(DigitalInterfacesSemaphoreControlBlock),
+	.name = "DigitalInterfacesSemaphore",
+	.cb_mem = &DigitalInterfacesSemaphoreControlBlock,
+	.cb_size = sizeof(DigitalInterfacesSemaphoreControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -45,7 +43,6 @@ static xSjcDigitalPort_t xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUTS_SIZE];
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 
-
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -57,7 +54,8 @@ void SJC_DigitalInterfaces_init(void)
 	if (xDigitalInterfacesSemprHandle == NULL)
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Digital interfaces semaphore not created...");
-	} else
+	}
+	else
 	{
 		osSemaphoreRelease(xDigitalInterfacesSemprHandle);
 	}
@@ -91,13 +89,13 @@ void SJC_DigitalInterfaces_init(void)
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Port = SJC_HEARTBEAT_OUTPUT_PORT;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(const eSjcDigitalInputs_t input, bool * state)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(const eSjcDigitalInputs_t input, bool *state)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	*state = false;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
@@ -113,13 +111,13 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(const eSjcDigitalInputs_t 
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(const eSjcDigitalOutputs_t output, bool * state)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(const eSjcDigitalOutputs_t output, bool *state)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	*state = false;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
@@ -139,7 +137,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ToggleOutputState(const eSjcDigitalOutput
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
@@ -159,7 +157,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(const eSjcDigitalOutputs
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
@@ -182,21 +180,21 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(const eSjcDigitalOutputs
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t * states)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t *states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	*states = 0;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
 
-		*states |= ( LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_ISOLATED_INPUT_A].Port, xDigitalInputInterfaces[SJC_ISOLATED_INPUT_A].Pin) <<  SJC_ISOLATED_INPUT_A );
-		*states |= ( LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Port, xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Pin) <<  SJC_ISOLATED_INPUT_B );
-		*states |= ( LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Pin) <<  SJC_JOINT_SWITCH_A );
-		*states |= ( LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Pin) <<  SJC_JOINT_SWITCH_B );
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_ISOLATED_INPUT_A].Port, xDigitalInputInterfaces[SJC_ISOLATED_INPUT_A].Pin) << SJC_ISOLATED_INPUT_A);
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Port, xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Pin) << SJC_ISOLATED_INPUT_B);
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Pin) << SJC_JOINT_SWITCH_A);
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Pin) << SJC_JOINT_SWITCH_B);
 		ret = SJC_RET_OK;
 
 		osSemaphoreRelease(xDigitalInterfacesSemprHandle);
@@ -205,18 +203,18 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t * states)
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(uint32_t * states)
+eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(uint32_t *states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	*states = 0;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		*states |= ( LL_GPIO_IsOutputPinSet(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Pin) <<  SJC_DIGITAL_OUTPUT_A );
-		*states |= ( LL_GPIO_IsOutputPinSet(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Pin) <<  SJC_DIGITAL_OUTPUT_B );
+		*states |= (LL_GPIO_IsOutputPinSet(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Pin) << SJC_DIGITAL_OUTPUT_A);
+		*states |= (LL_GPIO_IsOutputPinSet(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Pin) << SJC_DIGITAL_OUTPUT_B);
 		ret = SJC_RET_OK;
 
 		osSemaphoreRelease(xDigitalInterfacesSemprHandle);
@@ -229,13 +227,14 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputStates(const uint32_t states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT( xDigitalInterfacesSemprHandle != NULL );
+	configASSERT(xDigitalInterfacesSemprHandle != NULL);
 
 	if (osOK == osSemaphoreAcquire(xDigitalInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
 		uint8_t states_ = (states & 0b11);
 
-		switch (states_) {
+		switch (states_)
+		{
 		case 0b00:
 			LL_GPIO_ResetOutputPin(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_A].Pin);
 			LL_GPIO_ResetOutputPin(xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Port, xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUT_B].Pin);
@@ -262,9 +261,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputStates(const uint32_t states)
 	}
 
 	return ret;
-
 }
-
 
 // ------------------------------------------------------------------- //
 

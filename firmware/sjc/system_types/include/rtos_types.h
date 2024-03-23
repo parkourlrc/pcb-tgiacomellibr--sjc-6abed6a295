@@ -16,9 +16,8 @@
 
 // Definitions includes ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define BINARY_SEMPHR_COUNT_SIZE							((uint32_t) 1U)
-#define BINARY_SEMPHR_INITIAL_COUNT							((uint32_t) 1U)
+#define BINARY_SEMPHR_COUNT_SIZE ((uint32_t)1U)
+#define BINARY_SEMPHR_INITIAL_COUNT ((uint32_t)1U)
 // ------------------------------------------------------------------- //
-
 
 #endif /* SJC__SYSTEM_TYPES__RTOS_TYPES_H_ */

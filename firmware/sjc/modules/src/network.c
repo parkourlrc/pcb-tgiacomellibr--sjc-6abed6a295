@@ -5,7 +5,6 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "main.h"
@@ -26,7 +25,6 @@
 #include "network_configs.h"
 // ------------------------------------------------------------------- //
 
-
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
@@ -42,8 +40,8 @@
 volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
 volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
-static USHORT   usRegInputStart = REG_INPUT_START;
-static USHORT   usRegHoldingStart = REG_HOLDING_START;
+static USHORT usRegInputStart = REG_INPUT_START;
+static USHORT usRegHoldingStart = REG_HOLDING_START;
 static xSjcNetworkConfig_t xNetworkParameters;
 // ------------------------------------------------------------------- //
 
@@ -56,13 +54,13 @@ static xSjcNetworkConfig_t xNetworkParameters;
 // ------------------------------------------------------------------- //
 eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 {
-	eMBErrorCode    eStatus;
+	eMBErrorCode eStatus;
 
 	xNetworkParameters.Address = xSlaveAddress;
 	SJC_Network_GetBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
-	if( MB_ENOERR != ( eStatus = eMBInit( MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity ) ) )
+	if (MB_ENOERR != (eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity)))
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network initialization failed...");
 		/* Can not initialize. Add error handling code here. */
@@ -83,7 +81,7 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 	//		return SJC_RET_NOK;
 	//	}
 
-	if( MB_ENOERR != ( eStatus = eMBEnable(  ) ) )
+	if (MB_ENOERR != (eStatus = eMBEnable()))
 	{
 		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network activation failed...");
 		/* Enable failed. */
@@ -92,7 +90,8 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 
 	// Update Network Registers
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
-	switch (xNetworkParameters.Parity) {
+	switch (xNetworkParameters.Parity)
+	{
 	case MB_PAR_ODD:
 		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'O';
 		break;
@@ -103,26 +102,35 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'N';
 		break;
 	}
-	uint16_t *ui16ptr = (uint16_t*) (&xNetworkParameters.Baudrate);
+	uint16_t *ui16ptr = (uint16_t *)(&xNetworkParameters.Baudrate);
 	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE+1] = ui16ptr[0];
+	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE + 1] = ui16ptr[0];
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t * xBaudRate)
+eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
 {
-	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE,HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
+	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
 
-	if (baudrate > 58000) {
+	if (baudrate > 58000)
+	{
 		*xBaudRate = 115200;
-	} else if (baudrate > 39000) {
+	}
+	else if (baudrate > 39000)
+	{
 		*xBaudRate = 57600;
-	} else if (baudrate > 20000) {
+	}
+	else if (baudrate > 20000)
+	{
 		*xBaudRate = 38400;
-	} else if (baudrate > 10000) {
+	}
+	else if (baudrate > 10000)
+	{
 		*xBaudRate = 19200;
-	} else {
+	}
+	else
+	{
 		*xBaudRate = 9600;
 	}
 
@@ -131,7 +139,7 @@ eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t * xBaudRate)
 
 void SJC_Network_Update(void)
 {
-	( void )eMBPoll(  );
+	(void)eMBPoll();
 }
 
 eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
@@ -148,79 +156,78 @@ eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xB
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
 eMBErrorCode
-eMBRegInputCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs )
+eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs)
 {
-    eMBErrorCode    eStatus = MB_ENOERR;
-    int             iRegIndex;
-    USHORT usRegAddress = usAddress - 1;
+	eMBErrorCode eStatus = MB_ENOERR;
+	int iRegIndex;
+	USHORT usRegAddress = usAddress - 1;
 
-    if( ( usRegAddress >= REG_INPUT_START ) && ( usRegAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS ) )
-    {
-        iRegIndex = ( int )( usRegAddress - usRegInputStart );
-        while( usNRegs > 0 )
-        {
-            *pucRegBuffer++ = ( unsigned char )( usRegInputBuf[iRegIndex] >> 8 );
-            *pucRegBuffer++ = ( unsigned char )( usRegInputBuf[iRegIndex] & 0xFF );
-            iRegIndex++;
-            usNRegs--;
-        }
-    }
-    else
-    {
-        eStatus = MB_ENOREG;
-    }
+	if ((usRegAddress >= REG_INPUT_START) && (usRegAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS))
+	{
+		iRegIndex = (int)(usRegAddress - usRegInputStart);
+		while (usNRegs > 0)
+		{
+			*pucRegBuffer++ = (unsigned char)(usRegInputBuf[iRegIndex] >> 8);
+			*pucRegBuffer++ = (unsigned char)(usRegInputBuf[iRegIndex] & 0xFF);
+			iRegIndex++;
+			usNRegs--;
+		}
+	}
+	else
+	{
+		eStatus = MB_ENOREG;
+	}
 
-    return eStatus;
+	return eStatus;
 }
 
 eMBErrorCode
-eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode )
+eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode)
 {
-    eMBErrorCode    eStatus = MB_ENOERR;
-    int             iRegIndex;
-    USHORT usRegAddress = usAddress - 1;
+	eMBErrorCode eStatus = MB_ENOERR;
+	int iRegIndex;
+	USHORT usRegAddress = usAddress - 1;
 
-    if( ( usRegAddress >= REG_HOLDING_START ) && ( usRegAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS ) )
-    {
-    	iRegIndex = ( int )( usRegAddress - usRegHoldingStart );
-        switch ( eMode )
-        {
-        case MB_REG_READ:
-            while( usNRegs > 0 )
-            {
-                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] >> 8 );
-                *pucRegBuffer++ = ( unsigned char )( usRegHoldingBuf[iRegIndex] & 0xFF );
-                iRegIndex++;
-                usNRegs--;
-            }
-            break;
+	if ((usRegAddress >= REG_HOLDING_START) && (usRegAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS))
+	{
+		iRegIndex = (int)(usRegAddress - usRegHoldingStart);
+		switch (eMode)
+		{
+		case MB_REG_READ:
+			while (usNRegs > 0)
+			{
+				*pucRegBuffer++ = (unsigned char)(usRegHoldingBuf[iRegIndex] >> 8);
+				*pucRegBuffer++ = (unsigned char)(usRegHoldingBuf[iRegIndex] & 0xFF);
+				iRegIndex++;
+				usNRegs--;
+			}
+			break;
 
-        case MB_REG_WRITE:
-            while( usNRegs > 0 )
-            {
-                usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
-                usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
-                iRegIndex++;
-                usNRegs--;
-            }
-        }
-    }
-    else
-    {
-        eStatus = MB_ENOREG;
-    }
-    return eStatus;
+		case MB_REG_WRITE:
+			while (usNRegs > 0)
+			{
+				usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
+				usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
+				iRegIndex++;
+				usNRegs--;
+			}
+		}
+	}
+	else
+	{
+		eStatus = MB_ENOREG;
+	}
+	return eStatus;
 }
 
-
 eMBErrorCode
-eMBRegCoilsCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode )
+eMBRegCoilsCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode)
 {
 	return MB_ENOREG;
 }
 
 eMBErrorCode
-eMBRegDiscreteCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNDiscrete )
+eMBRegDiscreteCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNDiscrete)
 {
 	return MB_ENOREG;
 }
