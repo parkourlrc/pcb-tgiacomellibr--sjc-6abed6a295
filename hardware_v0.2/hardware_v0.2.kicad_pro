@@ -557,6 +557,7 @@
     "netclass_assignments": {
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
+      "/Motor/INNER": "PWR",
       "/Motor/L_HSG": "DRV_HV",
       "/Motor/L_H_{O}": "DRV_HV",
       "/Motor/L_LSG": "DRV_HV",
@@ -566,6 +567,7 @@
       "/Motor/L_{GT}-": "DRV_HV",
       "/Motor/L_{PWM}+": "DRV_HV",
       "/Motor/L_{PWM}-": "DRV_HV",
+      "/Motor/M+": "PWR",
       "/Motor/R_HSG": "DRV_HV",
       "/Motor/R_H_{O}": "DRV_HV",
       "/Motor/R_LSG": "DRV_HV",

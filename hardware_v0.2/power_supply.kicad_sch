@@ -5997,6 +5997,16 @@
 	)
 	(wire
 		(pts
+			(xy 203.2 82.55) (xy 217.17 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70c5c1f4-2072-4e59-83ee-4ecf436a6c70")
+	)
+	(wire
+		(pts
 			(xy 171.45 50.8) (xy 171.45 60.96)
 		)
 		(stroke
@@ -6513,16 +6523,6 @@
 			(type default)
 		)
 		(uuid "a03716aa-05ff-4abf-a475-689a4067b3f1")
-	)
-	(wire
-		(pts
-			(xy 203.2 82.55) (xy 217.17 82.55)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a44ea5c1-4932-489f-bded-f8ec5d1bbbf6")
 	)
 	(wire
 		(pts
@@ -7702,30 +7702,6 @@
 		(uuid "9c856fa8-ebc8-4ab4-bf91-14befa1b7f07")
 		(property "Netclass" "PWR"
 			(at 270.51 51.3715 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-					(italic yes)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-	)
-	(netclass_flag ""
-		(length 2.54)
-		(shape round)
-		(at 213.36 82.55 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "c4ee9077-9d34-4d6f-8501-4b39787cb597")
-		(property "Netclass" "DRV_HV"
-			(at 214.0585 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)

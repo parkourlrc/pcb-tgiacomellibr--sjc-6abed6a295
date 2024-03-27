@@ -10218,7 +10218,7 @@
 		(uuid "a3a51a1c-eb47-49cf-adb1-8ee3ba264f0a")
 	)
 	(label "INNER"
-		(at 210.82 63.5 0)
+		(at 208.28 63.5 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -10474,6 +10474,30 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
+		(at 226.06 63.5 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3ab7fe2a-79c9-4a17-a954-fe944fe0a6f8")
+		(property "Netclass" "PWR"
+			(at 226.7585 60.96 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(netclass_flag ""
+		(length 2.54)
+		(shape round)
 		(at 156.21 41.91 0)
 		(fields_autoplaced yes)
 		(effects
@@ -10509,6 +10533,30 @@
 		(uuid "5bfed96e-d729-43ad-87ae-3cbc7f65bcdd")
 		(property "Netclass" "DRV_HV"
 			(at 173.4185 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+					(italic yes)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(netclass_flag ""
+		(length 2.54)
+		(shape round)
+		(at 212.09 63.5 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6acbaad8-f42d-4d4a-8055-8b26d6beb1d0")
+		(property "Netclass" "PWR"
+			(at 212.7885 60.96 0)
 			(effects
 				(font
 					(size 1.27 1.27)
