@@ -7633,6 +7633,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:NetTie_2")
+		(at 266.7 147.32 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "18b3bb09-1fbb-45b6-9fbb-535166488174")
+		(property "Reference" "NT1"
+			(at 266.7 146.05 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 266.7 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "sjc:NetTie-2_SMD_Pad1.0mm"
+			(at 266.7 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 266.7 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 266.7 147.32 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6e1b4ce7-de0b-4363-abcf-0a33fe93971a")
+		)
+		(pin "2"
+			(uuid "c992a1cb-6fc6-4836-85ce-99146559a0ff")
+		)
+		(instances
+			(project "hardware_v0.2"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
+					(reference "NT1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:+3V3A")
 		(at 121.92 170.18 0)
 		(unit 1)
@@ -10248,75 +10317,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:NetTie_2")
-		(at 266.7 147.32 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "7c23e2ff-b14d-4454-81d4-e78ca9445b52")
-		(property "Reference" "NT1"
-			(at 266.7 146.05 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "3V3_OSC"
-			(at 266.7 146.05 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
-			(at 266.7 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 266.7 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 266.7 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "28ebc328-704e-4e91-b691-0d597e235021")
-		)
-		(pin "2"
-			(uuid "29d2f1f1-a6af-4497-9963-266aa886591e")
-		)
-		(instances
-			(project "hardware_v0.2"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-					(reference "NT1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Jumper:SolderJumper_3_Bridged12")
 		(at 200.66 81.28 90)
 		(mirror x)
@@ -12237,6 +12237,75 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:NetTie_2")
+		(at 266.7 153.67 0)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "ed62f891-d31f-4a4b-9d9f-fab0b9898f2b")
+		(property "Reference" "NT2"
+			(at 266.7 154.94 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 266.7 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "sjc:NetTie-2_SMD_Pad1.0mm"
+			(at 266.7 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 266.7 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 266.7 153.67 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e189d91-219e-4edf-af27-17ac5e56b325")
+		)
+		(pin "2"
+			(uuid "f3a6312f-eb7d-49be-9511-22b3c205c191")
+		)
+		(instances
+			(project "hardware_v0.2"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
+					(reference "NT2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:GND")
 		(at 59.69 85.09 0)
 		(unit 1)
@@ -12296,75 +12365,6 @@
 			(project "hardware_v0.2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
 					(reference "#PWR06")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:NetTie_2")
-		(at 266.7 153.67 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "efbcde73-47e7-4f68-8a42-bcbfb7e67d0f")
-		(property "Reference" "NT2"
-			(at 266.7 152.4 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "GND_OSC"
-			(at 266.7 152.4 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
-			(at 266.7 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 266.7 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 266.7 153.67 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3e620b9b-1e71-4448-9948-06aacf533c22")
-		)
-		(pin "2"
-			(uuid "edfdf4bc-149d-40a1-9a5b-44a22a0f896b")
-		)
-		(instances
-			(project "hardware_v0.2"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6b8495e1-b9f5-4ecc-abc1-699baba2c005"
-					(reference "NT2")
 					(unit 1)
 				)
 			)
