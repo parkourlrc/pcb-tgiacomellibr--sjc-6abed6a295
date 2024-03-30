@@ -134,6 +134,7 @@ typedef struct
 	float Min;
 	float Max;
 } xSjcRange_t;
+static const xSjcRange_t xSjcRangeEmptyObj = {0};
 
 typedef struct
 {
