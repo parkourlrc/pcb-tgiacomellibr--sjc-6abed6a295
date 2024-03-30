@@ -8692,7 +8692,7 @@
 		(dnp no)
 		(uuid "0cccef7f-36b9-40b3-b886-7c252ed50465")
 		(property "Reference" "J9"
-			(at 88.9 160.655 0)
+			(at 88.9 162.814 0)
 			(effects
 				(font
 					(size 1 1)
@@ -8705,6 +8705,7 @@
 				(font
 					(size 1 1)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" "sjc:AMPHENOL_10118194-0001LF"
