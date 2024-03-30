@@ -59,10 +59,7 @@ static uint32_t xIsrServiceCounter = 0;
 
 osSemaphoreId_t xAnalogInterfaceSemprHandle = NULL;
 StaticSemaphore_t AnalogInterfaceSemaphoreControlBlock;
-const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = {
-	.name = "AnalogInterfaceSemaphore",
-	.cb_mem = &AnalogInterfaceSemaphoreControlBlock,
-	.cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock),
+const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = { .name = "AnalogInterfaceSemaphore", .cb_mem = &AnalogInterfaceSemaphoreControlBlock, .cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -121,6 +118,11 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS))
 	{
+		// LL_TIM_DisableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
+		xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
+		LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
+		xMeanSampleTimeObj.Samples++;
+
 		if (xIsrServiceCounter != 20)
 		{
 			SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
@@ -131,11 +133,6 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 		ComputeFilteredMeasurements();
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
-
-		LL_TIM_DisableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
-		xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
-		LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
-		xMeanSampleTimeObj.Samples++;
 
 		ret = SJC_RET_OK;
 	}
@@ -213,11 +210,10 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeM
 
 void SJC_AnalogInterfaces_AdcConversionIsr(void)
 {
-	IncIsrServiceCounter();
-
 	xAdcConversionBuffer[MOTOR_CURRENT_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
 	xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
 	xAdcConversionBuffer[VREF_INT_CONV][xAdcConversionIndex++] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3);
+	IncIsrServiceCounter();
 }
 
 // ------------------------------------------------------------------- //
