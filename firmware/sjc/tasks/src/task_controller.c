@@ -96,13 +96,13 @@ void ControllerTaskApp(void *argument)
 
 	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 
-	uint32_t tick = osKernelGetTickCount();
-
 	SJC_EnableJointActuators();
 
 	osDelay(SJC_CURRENT_OFFSET_DELAY);
 
 	SJC_ComputeJointActuatorBias();
+
+	uint32_t tick = osKernelGetTickCount();
 
 	/* Infinite loop */
 	for(;;)
@@ -139,13 +139,13 @@ void ControllerTaskApp(void *argument)
 			break;
 
 		case SJC_TORQUE_CONTROL:
-			ControlAction = ZERO_FLOAT;
+			ControllerError = ControllerReference - ActuatorCurrent;
+			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
 			break;
 
 		case SJC_SPEED_CONTROL:
 			ControllerError = ControllerReference - ActuatorSpeed;
-			SJC_ComputeControlAction(ControllerError, ControlTs,
-					&ControlAction);
+			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
