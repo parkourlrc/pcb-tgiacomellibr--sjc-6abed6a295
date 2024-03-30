@@ -17,6 +17,9 @@ float SJC_PidController_GetError(void);
 float SJC_PidController_GetReference(void);
 void SJC_PidController_SetReference(const float reference);
 
+xSjcRange_t SJC_PidController_GetActuatorEffortLimits(void);
+void SJC_PidController_SetActuatorEffortLimits(const xSjcRange_t limits);
+
 xPidControllerParameters_t SJC_PidController_GetControlParameters(void);
 void SJC_PidController_SetControlParameters(const xPidControllerParameters_t Parameters);
 
