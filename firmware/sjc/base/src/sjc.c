@@ -705,12 +705,16 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 	{
 		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
 		float base_voltage = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE] / 100.0f);
+		float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+
 		SJC_MotorDrive_SetBaseVoltage(base_voltage);
+		xSjcRange_t EffortLimits = {.Min = -voltage_limit, .Max = voltage_limit};
+		SJC_PidController_SetActuatorEffortLimits(EffortLimits);
 
 		/* Reserved for future implementation
 		 *
-		 * float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
 		 * float current_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_CURRENT]/100.0f);
+		 * float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
 		 * float speed_limit;
 
 		 * uint16_t *ptr = (uint16_t*) (&speed_limit);
