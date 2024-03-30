@@ -24,8 +24,9 @@
 #define DATA_LOGGER_SERIAL_INSTANCE 						USART3
 #define DATA_LOGGER_DMA_INSTANCE 							DMA1
 #define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_3
-#define DATA_LOGGER_BUFF_SIZE 								(320UL)
-#define MIN_TRANSMIT_BURST_SIZE								(256UL)
+#define DATA_LOGGER_BUFF_SIZE 								(2048UL)
+#define DATA_LOGGER_MID_BANK_INDEX 							(DATA_LOGGER_BUFF_SIZE/2)
+#define MIN_TRANSMIT_BURST_SIZE								(768UL)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -39,8 +40,7 @@ typedef enum {
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static char xDataLoggerBuff0[DATA_LOGGER_BUFF_SIZE];
-static char xDataLoggerBuff1[DATA_LOGGER_BUFF_SIZE];
+static char xDataLoggerBuff[DATA_LOGGER_BUFF_SIZE];
 
 static uint32_t uDataBuffSize = 0;
 
@@ -59,7 +59,7 @@ static void TransmitBuffer(void);
 // ------------------------------------------------------------------- //
 void SJC_DataLogger_Init(void)
 {
-	  LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	  LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
 	  LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
@@ -74,16 +74,10 @@ int SJC_DataLogger_Transmit(const char *format, ...)
 	int n = 0;
 	va_start(apx, format);
 
-	uint32_t initial_index = (uDataBuffSize > 0) ? uDataBuffSize+1 : 0;
+	uint32_t initial_index = (uDataBuffSize > 0) ? uDataBuffSize : 0;
+	initial_index += (DATA_LOGGER_BANK_1 == xDataLoggerBank) ? DATA_LOGGER_MID_BANK_INDEX : 0;
 
-	switch (xDataLoggerBank) {
-		case DATA_LOGGER_BANK_1:
-			n = vsnprintf(&xDataLoggerBuff1[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
-			break;
-		default:
-			n = vsnprintf(&xDataLoggerBuff0[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
-			break;
-	}
+	n = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
 
 	va_end(apx);
 
@@ -110,12 +104,12 @@ static void TransmitBuffer(void)
 
 	switch (xDataLoggerBank) {
 	case DATA_LOGGER_BANK_1:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff1, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 		xDataLoggerBank = DATA_LOGGER_BANK_0;
 
 		break;
 	default:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff0, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[0], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 		xDataLoggerBank = DATA_LOGGER_BANK_1;
 
 		break;
@@ -123,7 +117,7 @@ static void TransmitBuffer(void)
 
 	bSerialBusy = true;
 
-	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uDataBuffSize+1));
+	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uDataBuffSize));
 	uDataBuffSize = 0;
 
 	LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
