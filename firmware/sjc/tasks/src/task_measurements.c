@@ -76,8 +76,14 @@ void MeasurementsTaskApp(void *argument)
 
 	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
+//	uint32_t tick = osKernelGetTickCount();
+
 	/* Infinite loop */
 	for (;;) {
+
+//		osDelayUntil(tick);
+
+//		SJC_AnalogInterfaces_UpdateConversionValues();
 
 		ulNotificationValue = ulTaskNotifyTake( pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS );
 
@@ -92,9 +98,9 @@ void MeasurementsTaskApp(void *argument)
 				SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 			}
 		}
-
-
 	}
+
+	SJC_AnalogInterfaces_MeasurementDisable();
 	/* USER CODE END MainTaskApp */
 }
 
