@@ -8,3 +8,4 @@ octave-workspace*
 *.lck
 *.zip
 calcs/*.csv
+software/libs/modbus
