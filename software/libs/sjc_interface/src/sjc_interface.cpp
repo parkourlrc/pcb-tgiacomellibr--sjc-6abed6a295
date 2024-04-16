@@ -46,7 +46,7 @@ eSjcReturnType_t SjcInterface::connect(void)
         else
         {
             modbus_set_slave(ctx, this->address_);
-            modbus_set_response_timeout(ctx, 0, 15000);
+            modbus_set_response_timeout(ctx, 0, 5000);
             return SJC_CONNECTED;
         }
     }
