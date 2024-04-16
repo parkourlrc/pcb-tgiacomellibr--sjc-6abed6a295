@@ -19,11 +19,9 @@
 BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
 					   eMBParity eParity)
 {
-	BOOL bStatus = TRUE;
-
 	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 
-	return bStatus;
+	return TRUE;
 }
 
 void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
@@ -92,15 +90,6 @@ BOOL xMBPortSerialGetByte(CHAR *pucByte)
 	*pucByte = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
 	return TRUE;
 }
-
-//void DMA1_Stream6_IRQHandler(void)
-//{
-//	if (LL_DMA_IsActiveFlag_TC6(DMA1) == 1)
-//	{
-//		LL_DMA_ClearFlag_TC6(DMA1);
-//		pxMBFrameCBTransmitterEmpty();
-//	}
-//}
 
 void USART2_IRQHandler(void)
 {
