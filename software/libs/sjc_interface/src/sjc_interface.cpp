@@ -14,11 +14,18 @@ extern "C"
 #include <iostream>
 #include <endian.h>
 
+#define STD_WAIT_TIME_US 2U
+
 SjcInterface::SjcInterface(const std::string port, const int baudrate)
 {
     this->address_ = 247;
     this->port_ = port;
     this->baudrate_ = baudrate;
+
+    std::cout << "[SJC] Network config: " << std::endl;
+    std::cout << "[SJC] - port: " << port_.c_str() << std::endl;
+    std::cout << "[SJC] - baudrate: " << baudrate_ << std::endl;
+    std::cout << "[SJC] - address: " << address_ << std::endl;
 }
 
 SjcInterface::SjcInterface(const std::string port, const int address, const int baudrate)
@@ -46,7 +53,7 @@ eSjcReturnType_t SjcInterface::connect(void)
         else
         {
             modbus_set_slave(ctx, this->address_);
-            modbus_set_response_timeout(ctx, 0, 5000);
+            modbus_set_response_timeout(ctx, 0, 10000);
             return SJC_CONNECTED;
         }
     }
@@ -413,6 +420,7 @@ eSjcReturnType_t SjcInterface::getInputRegisters(const int initial_reg, const in
     {
         return SJC_REGISTER_READING_PASS;
     }
+    waitTime_us(STD_WAIT_TIME_US);
 }
 
 eSjcReturnType_t SjcInterface::setHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table)
@@ -440,4 +448,11 @@ eSjcReturnType_t SjcInterface::setHoldingRegisters(const int initial_reg, const 
     {
         return SJC_REGISTER_WRITING_PASS;
     }
+
+    waitTime_us(STD_WAIT_TIME_US);
+}
+
+eSjcReturnType_t SjcInterface::waitTime_us(const unsigned int wait_time_us)
+{
+    usleep(wait_time_us);
 }
