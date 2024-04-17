@@ -100,7 +100,7 @@ void ControllerTaskApp(void *argument)
 
 	osDelay(SJC_CURRENT_OFFSET_DELAY);
 
-	SJC_ComputeJointActuatorBias();
+	SJC_UpdateJointActuatorBias();
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -178,7 +178,7 @@ static void MeasurementsUpdate(void) {
 	// Electric variables update
 	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
 //	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
-	SJC_GetJointUnbiasedActuatorCurrent(&ActuatorCurrent);
+	SJC_GetJointActuatorCurrentUnbiased(&ActuatorCurrent);
 	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
 
 	// Actuated joint calcs

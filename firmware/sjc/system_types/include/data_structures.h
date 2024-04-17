@@ -221,6 +221,7 @@ typedef struct
 	uint32_t Baudrate;
 	uint8_t Parity;
 } xSjcNetworkConfig_t;
+
 // ------------------------------------------------------------------- //
 
 #endif /* SJC__SYSTEM_TYPES__DATA_STRUCTURES_H_ */

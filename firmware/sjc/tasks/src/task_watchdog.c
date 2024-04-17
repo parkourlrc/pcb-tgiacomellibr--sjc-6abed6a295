@@ -82,17 +82,9 @@ void WatchdogTaskApp(void *argument)
 
 		SJC_AnalogInterfaces_GetMeanConversionDelay(&Ts);
 
-		//		SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
-
 		float MeanSampleTime_us = (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples);
 
 		SJC_DebugOutput_SystemPrintf("\n\r[OS] Runtime (%lu ms) - Analog. Conv. Delay: (%.3f us)", timestamp, MeanSampleTime_us);
-
-		//		if (++counts == 10)
-		//		{
-		//			counts = 0;
-		//			SJC_DebugOutput_PresentRuntimeStatistics();
-		//		}
 
 		osDelayUntil(tick);
 	}

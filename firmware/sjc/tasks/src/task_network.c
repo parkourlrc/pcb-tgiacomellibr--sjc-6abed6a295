@@ -74,7 +74,7 @@ void NetworkTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		SJC_Network_Update();
+		SJC_UpdateNetworkDaemon();
 		SJC_ExecuteNetworkCommands();
 		SJC_UpdateNetworkDataRegisters();
 

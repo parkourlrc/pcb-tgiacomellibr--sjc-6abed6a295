@@ -306,8 +306,7 @@ eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float 
 	return SJC_RET_OK;
 }
 
-void SJC_ExecuteNetworkCommands(void)
-{
+void SJC_ExecuteNetworkCommands(void) {
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
 	Net_ExecuteNetworkConfigsUpdateCmd();
@@ -317,13 +316,16 @@ void SJC_ExecuteNetworkCommands(void)
 	Net_ExecuteControllerParametersUpdateCmd();
 }
 
-void SJC_UpdateNetworkDataRegisters(void)
-{
+void SJC_UpdateNetworkDataRegisters(void) {
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
 	Net_UpdateSensorsParametersRegisters();
 	Net_UpdateActuatorParametersRegisters();
 	Net_UpdateControllerParametersRegisters();
+}
+
+void SJC_UpdateNetworkDaemon(void) {
+	SJC_Network_Update();
 }
 
 eSjcReturnType_t SJC_EnableAdc(void)
@@ -410,7 +412,7 @@ eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t *freq)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_ComputeJointActuatorBias(void)
+eSjcReturnType_t SJC_UpdateJointActuatorBias(void)
 {
 	SJC_MotorDrive_GetOutputCurrent(&fBiasCurrentValue);
 
@@ -422,7 +424,7 @@ eSjcReturnType_t SJC_GetJointActuatorCurrent(float *value)
 	return SJC_MotorDrive_GetOutputCurrent(value);
 }
 
-eSjcReturnType_t SJC_GetJointUnbiasedActuatorCurrent(float *value)
+eSjcReturnType_t SJC_GetJointActuatorCurrentUnbiased(float *value)
 {
 	eSjcReturnType_t ret = SJC_MotorDrive_GetOutputCurrent(value);
 	*value -= fBiasCurrentValue;
@@ -527,7 +529,7 @@ void Net_UpdateRuntimeInfoRegisters(void)
 
 	fAux = 0;
 //	SJC_GetJointActuatorCurrent(&fAux);
-	SJC_GetJointUnbiasedActuatorCurrent(&fAux);
+	SJC_GetJointActuatorCurrentUnbiased(&fAux);
 	ui16ptr = ((uint16_t *)(&fAux));
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT + 1] = ui16ptr[0];
