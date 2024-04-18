@@ -14,7 +14,7 @@ extern "C"
 #include <iostream>
 #include <endian.h>
 
-#define STD_WAIT_TIME_US 2U
+#define STD_WAIT_TIME_US 5UL
 
 SjcInterface::SjcInterface(const std::string port, const int baudrate)
 {
