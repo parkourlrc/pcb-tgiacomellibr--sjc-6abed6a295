@@ -43,12 +43,12 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY ((uint32_t)5000UL)
-#define SJC_CURRENT_OFFSET_DELAY ((uint32_t)1500UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t)1000UL)
-#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
-#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t)3UL)
-#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t)250UL)
+#define SJC_TASK_INIT_DELAY ((uint32_t) 5000UL)
+#define SJC_CURRENT_OFFSET_DELAY ((uint32_t) 1500UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 1000UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t) 1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t) 3UL)
+#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t) 250UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -148,7 +148,7 @@
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET HAL_NVIC_SystemReset
-#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t)20UL)
+#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t) 2UL)
 
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //

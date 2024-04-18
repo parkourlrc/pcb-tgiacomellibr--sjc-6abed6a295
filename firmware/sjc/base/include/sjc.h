@@ -19,6 +19,7 @@ eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value);
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value);
 eSjcReturnType_t SJC_GetElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value);
 
+void SJC_UpdateNetworkDaemon(void);
 void SJC_ExecuteNetworkCommands(void);
 void SJC_UpdateNetworkDataRegisters(void);
 
@@ -32,9 +33,9 @@ eSjcReturnType_t SJC_GetJointActuatorState(bool *state);
 eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t *freq);
 eSjcReturnType_t SJC_GetJointActuatorPowerSupplyVoltage(float *value);
 
-eSjcReturnType_t SJC_ComputeJointActuatorBias(void);
+eSjcReturnType_t SJC_UpdateJointActuatorBias(void);
 eSjcReturnType_t SJC_GetJointActuatorCurrent(float *value);
-eSjcReturnType_t SJC_GetJointUnbiasedActuatorCurrent(float *value);
+eSjcReturnType_t SJC_GetJointActuatorCurrentUnbiased(float *value);
 eSjcReturnType_t SJC_GetJointActuatorVoltage(float *voltage);
 eSjcReturnType_t SJC_SetJointActuatorVoltage(const float voltage);
 
