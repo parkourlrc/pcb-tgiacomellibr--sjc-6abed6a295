@@ -24,6 +24,7 @@
 #include "analog_interfaces.h"
 #include "debug_output.h"
 #include "network_configs.h"
+#include "task_common.h"
 
 // ------------------------------------------------------------------- //
 
@@ -34,12 +35,12 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+QueueHandle_t NetworkRxDmaQueue_handle;
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+static uint32_t TaskTic, TaskToc;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -57,6 +58,10 @@
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
+	NetworkRxDmaQueue_handle = xQueueCreate(10, sizeof(uint32_t));
+
+	uint32_t NetworkRxDmaQueueEvt;
+
 	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
 	{
 		SJC_SYSTEM_RESET();
@@ -74,9 +79,21 @@ void NetworkTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		SJC_UpdateNetworkDaemon();
-		SJC_ExecuteNetworkCommands();
-		SJC_UpdateNetworkDataRegisters();
+		//if (xQueueReceive(NetworkRxDmaQueue_handle, &NetworkRxDmaQueueEvt, pdMS_TO_TICKS(portMAX_DELAY)) == true)
+		//{
+		//}
+		SJC_GetTime(SJC_TIME_MS, &TaskTic);
+
+		//SJC_ProcessNetworkData();
+		SJC_ExecuteNetworkDaemon();
+		SJC_UpdateInputRegisters();
+		SJC_UpdateHoldingRegisters();
+
+		SJC_GetTime(SJC_TIME_MS, &TaskToc);
+
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc-TaskTic));
+
+
 
 		osDelayUntil(tick);
 	}

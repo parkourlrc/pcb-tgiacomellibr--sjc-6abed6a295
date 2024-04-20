@@ -9,6 +9,13 @@
 #define SJC__SYSTEM_TYPES__HELPERS_H_
 
 #include "stdint.h"
+#include "math.h"
+
+// Defines
+#define RAD_TO_DEG	(180 / M_PI)
+#define DEG_TO_RAD	(M_PI / 180)
+#define DEF_RAD_PER_SEC_TO_RPM	(30.0f / M_PI)
+#define DEF_RPM_TO_RAD_PER_SEC	(M_PI / 30.0f)
 
 // Clamp functions
 float SJC_Helpers_RealClamp(const float var, const float LimitMin, const float LimitMax);
