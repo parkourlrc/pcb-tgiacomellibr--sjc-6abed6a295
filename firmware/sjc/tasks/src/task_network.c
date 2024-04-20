@@ -30,12 +30,12 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS ((uint32_t)2U)
+
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-QueueHandle_t NetworkRxDmaQueue_handle;
+
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
@@ -58,10 +58,6 @@ static uint32_t TaskTic, TaskToc;
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	NetworkRxDmaQueue_handle = xQueueCreate(10, sizeof(uint32_t));
-
-	uint32_t NetworkRxDmaQueueEvt;
-
 	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
 	{
 		SJC_SYSTEM_RESET();
