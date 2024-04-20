@@ -30,7 +30,7 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS ((uint32_t)10U)
+
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -79,7 +79,8 @@ void WatchdogTaskApp(void *argument)
 
 		float MeanSampleTime_us = (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f;
 
-		SJC_DebugOutput_SystemPrintf("\033[2J\n\r[OS] Runtime Stats.:"
+//		SJC_DebugOutput_SystemPrintf("\033[2J\n\r[OS] Runtime Stats.:"
+		SJC_DebugOutput_SystemPrintf("\n\r[OS] Runtime Stats.:"
 									 "\n\r - Uptime: %lu ms"
 									 "\n\r - Analog. Conv. Delay: %.2f us"
 									 "\n\r - Controller Runtime: %.2f ms"
