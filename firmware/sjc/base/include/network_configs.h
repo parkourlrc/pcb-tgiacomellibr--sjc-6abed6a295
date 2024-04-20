@@ -8,7 +8,7 @@
 #ifndef SJC__BASE__NETWORK_CONFIGS_H_
 #define SJC__BASE__NETWORK_CONFIGS_H_
 
-#define NETWORK_BASE_ADRESS								( (uint32_t) 1UL )
+#define NETWORK_BASE_ADRESS								( (uint32_t) 2UL )
 #define MODBUS_USART_INIT_COUNT							( (uint32_t) 50UL )
 
 #define REG_INPUT_START                 				( (uint16_t) 1001 )

@@ -62,7 +62,8 @@ typedef enum
 	SJC_PRBS_EXCITATION,
 	SJC_TRIANG_EXCITATION,
 	SJC_PULSE_FAST_EXCITATION,
-	SJC_PULSE_SLOW_EXCITATION
+	SJC_PULSE_SLOW_EXCITATION,
+	SJC_CURRENT_CALIBRATION,
 } eSjcControlMode_t;
 
 typedef enum
@@ -221,6 +222,21 @@ typedef struct
 	uint32_t Baudrate;
 	uint8_t Parity;
 } xSjcNetworkConfig_t;
+
+typedef struct {
+	uint32_t Timestamp;
+	float SystemVoltage;
+
+	float ControlAction;
+	float ControllerError;
+	float ControllerReference;
+
+	float ActuatorDisplacement;
+	float ActuatorSpeedRpm;
+	float ActuatorVoltage;
+	float ActuatorCurrent;
+} xSjcJointControllerMeasurements_t;
+static const xSjcJointControllerMeasurements_t xSjcJointControllerMeasurementsEmptyObj = {0};
 
 // ------------------------------------------------------------------- //
 

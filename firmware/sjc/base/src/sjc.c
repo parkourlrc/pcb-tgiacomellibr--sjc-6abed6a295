@@ -123,8 +123,8 @@ void SJC_Init(void)
 
 	SJC_PidController_Init();
 
-	xSjcControlConfigs.Mode = SJC_CONTROL_DISABLED;
-	xSjcControlConfigs.Rate = SJC_CONTROLLER_MIN_UPDATE_RATE_HZ;
+	xSjcControlConfigs.Mode = SJC_CURRENT_CALIBRATION;
+	xSjcControlConfigs.Rate = SJC_CONTROLLER_MAX_UPDATE_RATE_HZ;
 
 	SJC_MotorDrive_Init(PWM_FREQ_20kHz, 24.0);
 
@@ -203,7 +203,7 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 		ret = SJC_RET_NOK;
 		break;
 	}
-	return ret;
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_GetElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value)
@@ -264,6 +264,13 @@ eSjcReturnType_t SJC_GetControlUpdatePeriodMs(uint32_t *config)
 	return SJC_RET_OK;
 }
 
+eSjcReturnType_t SJC_SetControlUpdatePeriodMs(const uint32_t config)
+{
+	xSjcControlConfigs.Rate = ( (uint32_t) (1000/SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)) );
+
+	return SJC_RET_OK;
+}
+
 eSjcReturnType_t SJC_GetControlReference(float *reference)
 {
 	*reference = SJC_PidController_GetReference();
@@ -306,7 +313,7 @@ eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float 
 	return SJC_RET_OK;
 }
 
-void SJC_ExecuteNetworkCommands(void) {
+void SJC_UpdateHoldingRegisters(void) {
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
 	Net_ExecuteNetworkConfigsUpdateCmd();
@@ -316,7 +323,7 @@ void SJC_ExecuteNetworkCommands(void) {
 	Net_ExecuteControllerParametersUpdateCmd();
 }
 
-void SJC_UpdateNetworkDataRegisters(void) {
+void SJC_UpdateInputRegisters(void) {
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
 	Net_UpdateSensorsParametersRegisters();
@@ -324,8 +331,14 @@ void SJC_UpdateNetworkDataRegisters(void) {
 	Net_UpdateControllerParametersRegisters();
 }
 
-void SJC_UpdateNetworkDaemon(void) {
+void SJC_ExecuteNetworkDaemon(void)
+{
 	SJC_Network_Update();
+}
+
+void SJC_ProcessNetworkData(void)
+{
+	SJC_Network_ProcessReceivedData();
 }
 
 eSjcReturnType_t SJC_EnableAdc(void)
@@ -412,9 +425,9 @@ eSjcReturnType_t SJC_GetJointActuatorPwmFrequency(uint32_t *freq)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_UpdateJointActuatorBias(void)
+eSjcReturnType_t SJC_SetJointActuatorCurrentBias(const float bias)
 {
-	SJC_MotorDrive_GetOutputCurrent(&fBiasCurrentValue);
+	fBiasCurrentValue = bias;
 
 	return SJC_RET_OK;
 }

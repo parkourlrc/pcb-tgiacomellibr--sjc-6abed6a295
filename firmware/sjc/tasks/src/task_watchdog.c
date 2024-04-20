@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------- //
 #include "main.h"
 #include "cmsis_os.h"
+#include "task.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -24,7 +25,7 @@
 #include "analog_interfaces.h"
 #include "debug_output.h"
 #include "network_configs.h"
-
+#include "task_common.h"
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
@@ -34,12 +35,12 @@
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-static osTimerId_t xHeartbeatTimerId;
+
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-// volatile unsigned long ulHighFrequencyTimerTicks;
+static uint32_t TaskTic, TaskToc;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -49,7 +50,7 @@ static osTimerId_t xHeartbeatTimerId;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void vHeartbeatTimerCallback(void *argument);
+
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
@@ -63,12 +64,6 @@ void WatchdogTaskApp(void *argument)
 
 	uint32_t tick = osKernelGetTickCount();
 
-	xHeartbeatTimerId = osTimerNew(vHeartbeatTimerCallback, osTimerPeriodic, (void *)0, NULL);
-	configASSERT(xHeartbeatTimerId != NULL);
-	osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
-
-	uint32_t timestamp;
-
 	xSjcMeanSampleTimeMeasurement_t Ts;
 
 	// uint32_t counts = 0;
@@ -78,22 +73,46 @@ void WatchdogTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS);
 
-		SJC_GetTime(SJC_TIME_MS, &timestamp);
+		SJC_GetTime(SJC_TIME_MS, &TaskTic);
 
 		SJC_AnalogInterfaces_GetMeanConversionDelay(&Ts);
 
-		float MeanSampleTime_us = (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples);
+		float MeanSampleTime_us = (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f;
 
-		SJC_DebugOutput_SystemPrintf("\n\r[OS] Runtime (%lu ms) - Analog. Conv. Delay: (%.3f us)", timestamp, MeanSampleTime_us);
+		SJC_DebugOutput_SystemPrintf("\033[2J\n\r[OS] Runtime Stats.:"
+									 "\n\r - Uptime: %lu ms"
+									 "\n\r - Analog. Conv. Delay: %.2f us"
+									 "\n\r - Controller Runtime: %.2f ms"
+									 "\n\r - Controller Ts: %.3f ms"
+									 "\n\r - Measurement Task Runtime: %.2f ms"
+									 "\n\r - Network Task: %.2f ms"
+									 "\n\r - Watchdog Task: %.2f ms"
+									 "\n\r - Data Logger Task: %.2f ms\n"
+									 "\n\r[OS] HighWaterMark:"
+									 "\n\r - Watchdog Task: %lu B"
+									 "\n\r - Data Logger Task: %.lu B"
+									 "\n\r - Network Task: %lu B"
+									 "\n\r - ControlMeas Task: %lu B",
+				TaskTic,
+				MeanSampleTime_us,
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME),
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME),
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME),
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME),
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME),
+				SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_RUNTIME),
+				SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_WATCHDOG_TASK),
+				SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK),
+				SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_NETWORK_TASK),
+				SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK));
+
+		SJC_TaskCommon_UpdateHighWaterMarkInfo();
+		SJC_GetTime(SJC_TIME_MS, &TaskToc);
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc-TaskTic));
 
 		osDelayUntil(tick);
 	}
 	/* USER CODE END MainTaskApp */
-}
-
-void vHeartbeatTimerCallback(void *argument)
-{
-	SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 }
 
 // void configureTimerForRunTimeStats(void)

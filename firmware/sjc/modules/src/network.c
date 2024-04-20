@@ -113,7 +113,27 @@ eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
 {
 	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
 
-	if (baudrate > 58000)
+	if (baudrate > 577000)
+	{
+		*xBaudRate = 921600;
+	}
+	else if (baudrate > 501000)
+	{
+		*xBaudRate = 576000;
+	}
+	else if (baudrate > 461000)
+	{
+		*xBaudRate = 500000;
+	}
+	else if (baudrate > 231000)
+	{
+		*xBaudRate = 460800;
+	}
+	else if (baudrate > 116000)
+	{
+		*xBaudRate = 230400;
+	}
+	else if (baudrate > 58000)
 	{
 		*xBaudRate = 115200;
 	}
@@ -140,6 +160,11 @@ eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
 void SJC_Network_Update(void)
 {
 	(void)eMBPoll();
+}
+
+void SJC_Network_ProcessReceivedData(void)
+{
+
 }
 
 eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
