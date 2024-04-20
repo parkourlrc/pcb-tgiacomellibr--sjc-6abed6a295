@@ -50,11 +50,11 @@ StaticTask_t NetworkTaskControlBlock;
 StaticTask_t ControllerAndMeasurementsTaskControlBlock;
 
 uint32_t WatchdogTaskBuffer[ 256 ];
-uint32_t DataLoggerTaskBuffer[ 2048 ];
-uint32_t NetworkTaskBuffer[ 512 ];
+uint32_t DataLoggerTaskBuffer[ 4096 ];
+uint32_t NetworkTaskBuffer[ 4096 ];
 //uint32_t ControllerTaskBuffer[ 3072 ];
 //uint32_t MeasurementsTaskBuffer[ 256 ];
-uint32_t ControllerAndMeasurementsTaskBuffer[ 3600 ];
+uint32_t ControllerAndMeasurementsTaskBuffer[ 8192 ];
 
 static TaskTimeMeasurement_t xTimeMeasurements[TIME_LOG_FUNCTIONS_NAME_SIZE];
 static uint32_t xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_LIST_SIZE];
