@@ -223,6 +223,7 @@ static void RunControlLoop(void)
 				SJC_SetControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
 				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
+				SJC_DataLogger_Transmit("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
 			}
 			break;
 		}
