@@ -151,7 +151,7 @@ __weak void MainTaskApp(void *argument)
   /* Infinite loop */
 	for(;;)
 	{
-		osDelay(1);
+		osDelay(100);
 	}
 	return;
   /* USER CODE END MainTaskApp */
