@@ -60,6 +60,7 @@ static osTimerId_t xHeartbeatTimerId;
 TaskHandle_t xControlAndMeasurementsTaskHandle;
 static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 
+static xSjcServoPidParameters_t JointControllerParameters = xSjcServoPidParametersEmptyObj;
 static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointControllerMeasurementsEmptyObj;
 
 static eSjcControlMode_t ControlMode;
@@ -80,6 +81,14 @@ static uint32_t ControllerCycleCounter;
 static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
+
+//static float ui, ud, up, uitemp;
+//static float k = 0.6063;//0.99; //0.9969;
+//static float p1 = 1.0;
+//static float p2 = 0;
+//static float z1 = 0.2582;
+//static float z2 = 0;
+
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -196,6 +205,20 @@ static void RunControlLoop(void)
 		case SJC_TORQUE_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
 			SJC_ComputeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+//
+//			up = k*JointMeasurements.ControllerError;
+//			ud *= p2;
+//			ud += z2*JointMeasurements.ControllerError;
+//			uitemp = ui + (z1*JointMeasurements.ControllerError);
+//
+//			ud = 0;
+//
+//			if (fabs(up + ud + uitemp) < 23.52)
+//			{
+//				ui = uitemp;
+//			}
+//
+//			JointMeasurements.ControlAction = up + ui + ud;
 			break;
 
 		case SJC_SPEED_CONTROL:
@@ -294,6 +317,7 @@ static void ControllerParametersUpdate(void)
 	// Controller configs update
 	SJC_GetControlMode(&ControlMode);
 	SJC_GetControlUpdatePeriodMs(&ControllerPeriodSpec);
+	SJC_GetControlParameters(&JointControllerParameters);
 	SJC_GetControlReference(&JointMeasurements.ControllerReference);
 }
 
