@@ -151,16 +151,16 @@ int main(int argc, char *argv[])
             xControllerParameters.kp_parameter = 0.0113;
             xControllerParameters.ki_parameter = 0.5;
             xControllerParameters.kd_parameter = 0.0;
-            xControllerParameters.aux1_parameter = 10000.0;
-            xControllerParameters.aux2_parameter = 30000.0;
+            xControllerParameters.KT = 10000.0;
+            xControllerParameters.KA = 30000.0;
             xControllerParameters.rate_parameter = 1000.0;
 
             std::cout << "Controller parameters: " << std::endl;
             std::cout << " * Kp: " << xControllerParameters.kp_parameter;
             std::cout << " - Ki: " << xControllerParameters.ki_parameter;
             std::cout << " - Kd: " << xControllerParameters.kd_parameter;
-            std::cout << " - Aux1: " << xControllerParameters.aux1_parameter;
-            std::cout << " - Aux2: " << xControllerParameters.aux2_parameter;
+            std::cout << " - Aux1: " << xControllerParameters.KT;
+            std::cout << " - Aux2: " << xControllerParameters.KA;
             std::cout << " - Rate: " << xControllerParameters.rate_parameter << std::endl;
 
             if (SJC_RET_OK == Sjc.setControllerParameters(xControllerParameters))
