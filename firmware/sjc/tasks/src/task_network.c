@@ -30,12 +30,12 @@
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define NETWORK_SHARED_DATA_MUTEX_WAIT_TIME_MS ((uint32_t)2U)
+
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-QueueHandle_t NetworkRxDmaQueue_handle;
+
 // ------------------------------------------------------------------- //
 
 // Task variables ---------------------------------------------------- //
@@ -58,19 +58,13 @@ static uint32_t TaskTic, TaskToc;
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	NetworkRxDmaQueue_handle = xQueueCreate(10, sizeof(uint32_t));
-
-	uint32_t NetworkRxDmaQueueEvt;
-
 	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
 	{
 		SJC_SYSTEM_RESET();
 	}
 
-	osDelay(SJC_TASK_INIT_DELAY);
-
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Network task initiated!");
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus communication enabled!");
+	SJC_DebugOutput_SystemPrintf("\r\n[OS] Network task initiated!"
+								 "\r\n[OS] Modbus communication enabled!");
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -79,9 +73,6 @@ void NetworkTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		//if (xQueueReceive(NetworkRxDmaQueue_handle, &NetworkRxDmaQueueEvt, pdMS_TO_TICKS(portMAX_DELAY)) == true)
-		//{
-		//}
 		SJC_GetTime(SJC_TIME_MS, &TaskTic);
 
 		//SJC_ProcessNetworkData();

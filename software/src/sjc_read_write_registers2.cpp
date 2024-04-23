@@ -221,8 +221,8 @@ int main(int argc, char *argv[])
                 std::cout << " * Kp: " << std::to_string(ControllerInfo.kp_parameter);
                 std::cout << " - Ki: " << std::to_string(ControllerInfo.ki_parameter);
                 std::cout << " - Kd: " << std::to_string(ControllerInfo.kd_parameter);
-                std::cout << " - Aux1: " << std::to_string(ControllerInfo.aux1_parameter);
-                std::cout << " - Aux2: " << std::to_string(ControllerInfo.aux2_parameter);
+                std::cout << " - Aux1: " << std::to_string(ControllerInfo.KT);
+                std::cout << " - Aux2: " << std::to_string(ControllerInfo.KA);
                 std::cout << " - Rate: " << std::to_string(ControllerInfo.rate_parameter) << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
@@ -261,8 +261,8 @@ void sjc_initial_config(SjcInterface *SjcIface)
     xControllerParameters.kp_parameter = 1.0;
     xControllerParameters.ki_parameter = 0.0;
     xControllerParameters.kd_parameter = 1000.0;
-    xControllerParameters.aux1_parameter = 10000.0;
-    xControllerParameters.aux2_parameter = 30000.0;
+    xControllerParameters.KT = 10000.0;
+    xControllerParameters.KA = 30000.0;
     xControllerParameters.rate_parameter = 1000.0;
 
     xNetworkConfig.address = atoi(address.c_str());

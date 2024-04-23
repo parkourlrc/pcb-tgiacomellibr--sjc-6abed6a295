@@ -2,7 +2,7 @@ clear all
 close all
 clc
 
-plot_on = 0
+plot_on = 1
 
 %% ACS 712 calcs
 % ---------------------------------------------------------------------------- %
@@ -66,7 +66,7 @@ Vin = 5;
 Vref = Vin/2;
 Rshunt = 8e-3;
 Rshunt_tol = 0.1/100; % 0.1%
-Imax = 10;
+Imax = 20;
 Imeas_AD8418 = linspace(-Imax,Imax,100);
 Rshunt_std = Rshunt;
 Rshunt_min = Rshunt*(1-Rshunt_tol);
@@ -123,24 +123,6 @@ a = sprintf('\r - Low-pass filter capacitor (nF): %.2f', C*1e9);
 disp(a)
 a = sprintf('\r - Low-pass filter cutoff frequency (kHz): %.2f', Fc*1e-3);
 disp(a)
-
-
-% Theoretical cals
-I = 5.305
-duty = [30 70]
-
-duty_pos = (duty./100);
-duty_neg = 1-duty_pos;
-I_pos = (I*duty_pos);
-I_neg = (-I*duty_neg);
-
-V_adc_pos = Av_input_3v3.*((I_pos.*Av_AD8418.*Rshunt_std)+Vref).*duty_pos;
-V_adc_neg = Av_input_3v3.*((I_neg.*Av_AD8418.*Rshunt_std)+Vref).*duty_neg;
-
-I_avg = I_pos + I_neg
-V_adc_avg = V_adc_pos + V_adc_neg
-
-I_adc_meas = ((V_adc_avg./Av_input_3v3)-Vref)./(Rshunt_std*Av_AD8418)
 
 
 

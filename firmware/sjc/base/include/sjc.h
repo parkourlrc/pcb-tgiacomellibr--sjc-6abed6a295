@@ -63,8 +63,8 @@ eSjcReturnType_t SJC_SetControlUpdatePeriodMs(const uint32_t config);
 eSjcReturnType_t SJC_GetControlError(float *controller_error);
 eSjcReturnType_t SJC_GetControlReference(float *reference);
 eSjcReturnType_t SJC_SetControlReference(const float reference);
-eSjcReturnType_t SJC_GetControlParameters(xPidControllerParameters_t *Parameters);
-eSjcReturnType_t SJC_SetControlParameters(const xPidControllerParameters_t Parameters);
+eSjcReturnType_t SJC_GetControlParameters(xSjcServoPidParameters_t *Parameters);
+eSjcReturnType_t SJC_SetControlParameters(const xSjcServoPidParameters_t Parameters);
 eSjcReturnType_t SJC_ComputeControlAction(const float ControlError, const float dt, float *ControlAction);
 
 #endif /* SJC__MODULES__SYSTEM_PARAMETERS_H_ */

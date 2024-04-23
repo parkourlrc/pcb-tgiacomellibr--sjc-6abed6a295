@@ -25,7 +25,7 @@
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define SYSTEM_DEBUG_BUFF_SIZE (512UL)
+#define SYSTEM_DEBUG_BUFF_SIZE (1024UL)
 #define SYSTEM_DEBUG_SEMPHR_WAIT_TIME_MS ((uint32_t)10U)
 // ------------------------------------------------------------------- //
 
@@ -50,8 +50,6 @@ const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 int _write(int fd, char *ptr, int len);
-// int __io_putchar(int ch);
-
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -91,36 +89,7 @@ void SJC_DebugOutput_PresentSystemInfo(void)
 
 void SJC_DebugOutput_PresentRuntimeStatistics(void)
 {
-	// Statistics
-	TaskStatus_t *pxTaskStatusArray;
-	volatile UBaseType_t uxArraySize, x;
-	unsigned long ulTotalRunTime;
-	float runtime_percent;
-	uxArraySize = uxTaskGetNumberOfTasks();
-	pxTaskStatusArray = pvPortMalloc(uxArraySize * sizeof(TaskStatus_t)); // a little bit scary!
 
-	if (pxTaskStatusArray != NULL)
-	{
-		uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, &ulTotalRunTime);
-		SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
-		SJC_DebugOutput_SystemPrintf("\r\nTask count = %lu", uxArraySize);
-		SJC_DebugOutput_SystemPrintf("\r\n\nNo\tName\tS Usage\tHW");
-
-		for (x = 0; x < uxArraySize; x++)
-		{
-
-			runtime_percent = (float)(100 * (float)pxTaskStatusArray[x].ulRunTimeCounter / (float)ulTotalRunTime);
-
-			SJC_DebugOutput_SystemPrintf("\r\nTask %lu: %-16s\t\t\t\t%2d\t%7.3f\t\t%4i", x, pxTaskStatusArray[x].pcTaskName, pxTaskStatusArray[x].eCurrentState, runtime_percent, pxTaskStatusArray[x].usStackHighWaterMark);
-		}
-		SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
-
-		vPortFree(pxTaskStatusArray);
-	}
-	else
-	{
-		SJC_DebugOutput_SystemPrintf("\r\nUnable to allocate stack space");
-	}
 }
 
 int SJC_DebugOutput_SystemPrintf(const char *format, ...)
@@ -166,31 +135,9 @@ int _write(int fd, char *ptr, int len) {
 	}
 }
 
-//int __io_putchar(int ch)
-//{
-//	while (!LL_USART_IsActiveFlag_TXE(DEBUG_IFC_INSTANCE))
-//		;
-//	LL_USART_TransmitData8(DEBUG_IFC_INSTANCE, *((uint8_t *)(&ch)));
-//	return (ch);
-//}
-
-// int _write(int fd, char *ptr, int len) {
-//	int BytesToSend = len;
-//	int Idx = 0;
-//	do {
-//		//waiting until the Transmit Empty flag is set
-//		while (!LL_USART_IsActiveFlag_TXE(DEBUG_IFC_INSTANCE)) {
-//		};
-//		//send data byte by byte
-//		LL_USART_TransmitData8(DEBUG_IFC_INSTANCE, ptr[Idx++]);
-//
-//	} while (BytesToSend--);
-//
-//	//Wait until the transmit complete Flag to be raised
-//	while (!LL_USART_IsActiveFlag_TC(USART2)) {
-//	};
-//
-//	return len;
-// }
-
+int __io_putchar(int ch)
+{
+	SJC_DebugOutput_SystemPrintf("c", ch);
+	return (ch);
+}
 // ------------------------------------------------------------------- //

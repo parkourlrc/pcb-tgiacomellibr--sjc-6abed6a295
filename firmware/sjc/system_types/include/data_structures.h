@@ -151,10 +151,10 @@ typedef struct
 	float Kp;
 	float Ki;
 	float Kd;
-	float Aux1;
-	float Aux2;
-} xPidControllerParameters_t;
-static const xPidControllerParameters_t xControllerParametersEmptyObj = {0};
+	float KT;
+	float KA;
+} xSjcServoPidParameters_t;
+static const xSjcServoPidParameters_t xSjcServoPidParametersEmptyObj = {0};
 
 typedef struct
 {
@@ -170,7 +170,7 @@ typedef struct
 	float Reference;
 	float ControlAction;
 	xPidControllerErrors_t Errors;
-	xPidControllerParameters_t Parameters;
+	xSjcServoPidParameters_t Parameters;
 } xSjcPidController_t;
 static const xSjcPidController_t xPidControllerEmptyObj = {0};
 

@@ -26,7 +26,7 @@
 #define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_3
 #define DATA_LOGGER_BUFF_SIZE 								(2048UL)
 #define DATA_LOGGER_MID_BANK_INDEX 							(DATA_LOGGER_BUFF_SIZE/2)
-#define MIN_TRANSMIT_BURST_SIZE								(768UL)
+#define MIN_TRANSMIT_BURST_SIZE								(DATA_LOGGER_MID_BANK_INDEX/2)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -46,7 +46,7 @@ static uint32_t uDataBuffSize = 0;
 
 static eSjcDataLoggerOutputBank_t xDataLoggerBank = DATA_LOGGER_BANK_0;
 
-static bool bSerialBusy = false;
+volatile bool bSerialBusy = false;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //

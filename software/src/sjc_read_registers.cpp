@@ -223,8 +223,8 @@ int main(int argc, char *argv[])
                 std::cout << " * Kp: " << std::to_string(ControllerInfo.kp_parameter);
                 std::cout << " - Ki: " << std::to_string(ControllerInfo.ki_parameter);
                 std::cout << " - Kd: " << std::to_string(ControllerInfo.kd_parameter);
-                std::cout << " - Aux1: " << std::to_string(ControllerInfo.aux1_parameter);
-                std::cout << " - Aux2: " << std::to_string(ControllerInfo.aux2_parameter);
+                std::cout << " - Aux1: " << std::to_string(ControllerInfo.KT);
+                std::cout << " - Aux2: " << std::to_string(ControllerInfo.KA);
                 std::cout << " - Rate: " << std::to_string(ControllerInfo.rate_parameter) << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }

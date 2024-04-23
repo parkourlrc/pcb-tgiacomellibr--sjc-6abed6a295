@@ -95,11 +95,11 @@ typedef struct
     float kp_parameter;
     float ki_parameter;
     float kd_parameter;
-    float aux1_parameter;
-    float aux2_parameter;
+    float KT; // [N.m / A]
+    float KA; // [V / (rd/s)]
     float rate_parameter;
 } xSjcControllerParameters_t;
-
+	
 typedef struct
 {
     uint16_t actuator_sensor_res_ppr;
