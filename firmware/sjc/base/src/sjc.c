@@ -89,13 +89,12 @@ void SJC_Init(void)
 	// Init DMA controller
 	MX_DMA_Init();
 
+	// Init USB and Serial debug devices
+	MX_USB_DEVICE_Init();
+	MX_USART3_UART_Init();
+
 	// Init Serial communication device
 	MX_USART2_UART_Init();
-
-	// Init ADC and Sample time check timer
-	MX_ADC1_Init();
-	MX_TIM4_Init();
-	fBiasCurrentValue = 0;
 
 	// Init Joint PWM and Encoders
 	MX_TIM1_Init();
@@ -104,9 +103,10 @@ void SJC_Init(void)
 	MX_TIM3_Init();
 	MX_TIM8_Init();
 
-	// Init USB and Serial debug devices
-	MX_USB_DEVICE_Init();
-	MX_USART3_UART_Init();
+	// Init ADC and Sample time check timer
+	MX_ADC1_Init();
+	MX_TIM4_Init();
+	fBiasCurrentValue = 0;
 
 	// SJC Modules initialization
 	SJC_SetVersions();
@@ -128,7 +128,6 @@ void SJC_Init(void)
 
 	SJC_MotorDrive_Init(PWM_FREQ_20kHz, 24.0);
 
-	SJC_PresentSystemInfo();
 	SJC_InitOsKernel();
 }
 
@@ -136,6 +135,8 @@ void SJC_InitOsKernel(void)
 {
 	/* Init scheduler */
 	osKernelInitialize(); /* Call init function for freertos objects (in freertos.c) */
+
+	osDelay(3000);
 
 	/* Init Startup Tasks */
 	SJC_TaskCommon_Init();
@@ -292,14 +293,14 @@ eSjcReturnType_t SJC_GetControlError(float *controller_error)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_GetControlParameters(xPidControllerParameters_t *Parameters)
+eSjcReturnType_t SJC_GetControlParameters(xSjcServoPidParameters_t *Parameters)
 {
 	*Parameters = SJC_PidController_GetControlParameters();
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_SetControlParameters(const xPidControllerParameters_t Parameters)
+eSjcReturnType_t SJC_SetControlParameters(const xSjcServoPidParameters_t Parameters)
 {
 	SJC_PidController_SetControlParameters(Parameters);
 
@@ -616,7 +617,7 @@ void Net_UpdateActuatorParametersRegisters(void)
 
 void Net_UpdateControllerParametersRegisters(void)
 {
-	xPidControllerParameters_t Parameters;
+	xSjcServoPidParameters_t Parameters;
 	SJC_GetControlParameters(&Parameters);
 
 	uint16_t *ui16ptr = (uint16_t *)(&Parameters.Kp);
@@ -631,13 +632,13 @@ void Net_UpdateControllerParametersRegisters(void)
 	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD + 1] = ui16ptr[0];
 
-	ui16ptr = (uint16_t *)(&Parameters.Aux1);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX1 + 1] = ui16ptr[0];
+	ui16ptr = (uint16_t *)(&Parameters.KT);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KT] = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KT + 1] = ui16ptr[0];
 
-	ui16ptr = (uint16_t *)(&Parameters.Aux2);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_AUX2 + 1] = ui16ptr[0];
+	ui16ptr = (uint16_t *)(&Parameters.KA);
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KA] = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KA + 1] = ui16ptr[0];
 
 	float rate = 0;
 	SJC_GetControlUpdateRateHz(&rate);
@@ -802,7 +803,7 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		// Controller parameters
 		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~CONTROLLER_PARAMETERS_UPDATE_MSK);
 
-		xPidControllerParameters_t params;
+		xSjcServoPidParameters_t params;
 		uint16_t *ptr = (uint16_t *)(&params.Kp);
 		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP + 1];
 		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP];
@@ -815,13 +816,13 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD + 1];
 		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD];
 
-		ptr = (uint16_t *)(&params.Aux1);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX1 + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX1];
+		ptr = (uint16_t *)(&params.KT);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KT + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KT];
 
-		ptr = (uint16_t *)(&params.Aux2);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX2 + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_AUX2];
+		ptr = (uint16_t *)(&params.KA);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KA + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KA];
 
 		SJC_SetControlParameters(params);
 
@@ -836,8 +837,8 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f", params.Kp);
 		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f", params.Ki);
 		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f", params.Kd);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.Aux1);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.Aux2);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.KT);
+		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.KA);
 		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
 #endif
 	}
