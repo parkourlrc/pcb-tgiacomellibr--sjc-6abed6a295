@@ -55,7 +55,6 @@ void TransmitLogData(const xSjcJointControllerMeasurements_t data);
 void DataLoggerTaskApp(void *argument)
 {
 	/* USER CODE BEGIN WatchdogTaskApp */
-	osDelay(SJC_TASK_INIT_DELAY);
 
 	xSjcJointControllerMeasurements_t xQueueMsg = xSjcJointControllerMeasurementsEmptyObj;
 
