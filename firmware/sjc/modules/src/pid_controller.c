@@ -104,12 +104,12 @@ void SJC_PidController_SetActuatorEffortLimits(const xSjcRange_t limits)
 	xPidControllerEffortLimits.Max = limits.Max;
 }
 
-xPidControllerParameters_t SJC_PidController_GetControlParameters(void)
+xSjcServoPidParameters_t SJC_PidController_GetControlParameters(void)
 {
 	return xPidController.Parameters;
 }
 
-void SJC_PidController_SetControlParameters(const xPidControllerParameters_t Parameters)
+void SJC_PidController_SetControlParameters(const xSjcServoPidParameters_t Parameters)
 {
 	xPidController.Parameters = Parameters;
 }
@@ -124,7 +124,7 @@ void reset_errors(void)
 
 void reset_parameters(void)
 {
-	xPidController.Parameters = xControllerParametersEmptyObj;
+	xPidController.Parameters = xSjcServoPidParametersEmptyObj;
 }
 
 // ------------------------------------------------------------------- //
