@@ -141,7 +141,7 @@
 //			RunTestSignal(INPUT_TYPE_PRBS);
 //			break;
 //
-//		case SJC_TORQUE_CONTROL:
+//		case SJC_CURRENT_CONTROL:
 //			ControllerError = ControllerReference - ActuatorCurrent;
 //			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
 //			break;

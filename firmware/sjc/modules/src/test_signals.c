@@ -36,6 +36,24 @@ static float xSjcSignalStep = 0.0f;
 static float xSjcSignalValue = 0.0f;
 static uint32_t xSjcSignalCounter = 0;
 static uint32_t xSjcSignalRepeatCounter = 0;
+static uint32_t xSjcSeqCounter = 0;
+static int8_t xPrbsSeq[] = {-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1, 1,-1,-1,-1,
+		-1, 1,-1,-1,-1, 1, 1, 1, 1,-1, 1,-1,-1, 1, 1,-1,
+		-1, 1,-1,-1, 1,-1,-1,-1,-1, 1,-1, 1, 1, 1, 1,-1,
+		-1,-1, 1, 1,-1,-1, 1, 1, 1, 1,-1, 1, 1,-1, 1, 1,
+		 1,-1, 1,-1, 1,-1,-1,-1, 1,-1, 1,-1,-1,-1,-1, 1,
+		 1,-1, 1, 1,-1, 1,-1,-1,-1, 1, 1,-1,-1,-1, 1, 1,
+		 1, 1, 1, 1,-1,-1,-1, 1,-1,-1,-1, 1,-1, 1, 1,-1,
+		-1,-1,-1, 1,-1, 1,-1, 1, 1,-1, 1,-1, 1, 1, 1, 1,
+		 1, 1,-1, 1,-1, 1,-1, 1,-1, 1,-1,-1,-1,-1,-1, 1,
+		-1, 1,-1,-1, 1,-1, 1, 1, 1, 1, 1,-1,-1, 1,-1,-1,
+		-1, 1,-1,-1, 1,-1,-1, 1,-1, 1,-1,-1, 1, 1, 1, 1,
+		 1,-1, 1,-1,-1,-1, 1,-1,-1,-1,-1,-1, 1, 1, 1,-1,
+		-1,-1,-1, 1, 1,-1,-1, 1,-1, 1, 1,-1,-1, 1,-1, 1,
+		-1,-1,-1, 1, 1, 1,-1,-1, 1,-1, 1, 1, 1,-1, 1,-1,
+		-1,-1,-1,-1,-1,-1, 1,-1, 1, 1,-1, 1,-1,-1, 1, 1,
+		 1,-1, 1,-1, 1, 1,-1,-1, 1, 1, 1,-1,-1, 1, 1, 1};
+const static int xPrbsSeqLen = sizeof(xPrbsSeq) / sizeof(xPrbsSeq[0]);
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
@@ -68,6 +86,7 @@ eSjcReturnType_t SJC_TestSignals_SetConfig(const eSjcInputType_t type, const flo
 	case INPUT_TYPE_PRBS:
 		xSjcSignalStep = 0.0f;
 		xSjcSignalValue = 0.0f;
+		xSjcSeqCounter = 0;
 		xSjcSignalCounter = 0;
 		xSjcSignalRepeatCounter = 0;
 		break;
@@ -217,9 +236,25 @@ eSjcReturnType_t SJC_TestSignals_GetValue(float *value)
 			}
 			break;
 
-			//		case INPUT_TYPE_PRBS:
-			//			xSjcSignalValue = ZERO_FLOAT;
-			//			break;
+		case INPUT_TYPE_PRBS:
+
+			if (50 == ++xSjcSignalRepeatCounter)
+			{
+				xSjcSeqCounter++;
+				xSjcSignalRepeatCounter = 0;
+			}
+			xSjcSignalValue = xPrbsSeq[xSjcSeqCounter];
+
+			if (xPrbsSeqLen == xSjcSeqCounter)
+			{
+				xSjcSeqCounter = 0;
+				xSjcSignalCounter = 0;
+				xSjcSignalRepeatCounter = 0;
+				xSjcSignalValue = ZERO_FLOAT;
+				TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
+			}
+
+			break;
 
 		default:
 			xSjcSignalValue = ZERO_FLOAT;

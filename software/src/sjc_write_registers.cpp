@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
             case SJC_SPEED_CONTROL:
                 std::cout << "Speed control";
                 break;
-            case SJC_TORQUE_CONTROL:
+            case SJC_CURRENT_CONTROL:
                 std::cout << "Torque control";
                 break;
 

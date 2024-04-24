@@ -703,7 +703,7 @@ void Net_ExecuteControllerConfigsUpdateCmd(void)
 		case SJC_SPEED_CONTROL:
 			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Speed control");
 			break;
-		case SJC_TORQUE_CONTROL:
+		case SJC_CURRENT_CONTROL:
 			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
 			break;
 

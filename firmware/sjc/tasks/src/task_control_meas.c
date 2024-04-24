@@ -82,12 +82,12 @@ static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
-//static float ui, ud, up, uitemp;
-//static float k = 0.6063;//0.99; //0.9969;
-//static float p1 = 1.0;
-//static float p2 = 0;
-//static float z1 = 0.2582;
-//static float z2 = 0;
+static float ui, ud, up, uitemp;
+static float k = 0.0;//0.99; //0.9969;
+static float p1 = 1.0;
+static float p2 = 0.9920;
+static float z1 = 0.099;
+static float z2 = -0.0895;
 
 // ------------------------------------------------------------------- //
 
@@ -202,23 +202,24 @@ static void RunControlLoop(void)
 			RunTestSignal(INPUT_TYPE_PRBS);
 			break;
 
-		case SJC_TORQUE_CONTROL:
+		case SJC_CURRENT_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
-			SJC_ComputeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+//			SJC_ComputeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
 //
-//			up = k*JointMeasurements.ControllerError;
-//			ud *= p2;
-//			ud += z2*JointMeasurements.ControllerError;
-//			uitemp = ui + (z1*JointMeasurements.ControllerError);
-//
+			up = k*JointMeasurements.ControllerError;
+			ud *= p2;
+			ud += z2*JointMeasurements.ControllerError;
+			uitemp = p1*ui + (z1*JointMeasurements.ControllerError);
+
+
 //			ud = 0;
-//
-//			if (fabs(up + ud + uitemp) < 23.52)
-//			{
-//				ui = uitemp;
-//			}
-//
-//			JointMeasurements.ControlAction = up + ui + ud;
+
+			if (fabs(up + ud + uitemp) < 23.52)
+			{
+				ui = uitemp;
+			}
+
+			JointMeasurements.ControlAction = up + ui + ud;
 			break;
 
 		case SJC_SPEED_CONTROL:
