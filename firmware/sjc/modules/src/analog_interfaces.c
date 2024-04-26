@@ -232,16 +232,22 @@ void ResetIsrServiceCounter(void)
 
 void ComputeFilteredMeasurements(void)
 {
-	for (int i = 0; i < xAdcConversionIndex; i++)
-	{
-		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] *= CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO;
-		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
-		xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
+	float xAdcMeasurementValueBufferAux[3] = {0.0f, 0.0f, 0.0f};
+	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] *= CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO;
+	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
+	xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
 
-		xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B) * CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
-		xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B) * VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
-		xAdcMeasurementValueBuffer[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B) * VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO / 1000.0f;
+
+	for (uint32_t i = 0; i < xAdcConversionIndex; i++)
+	{
+		xAdcMeasurementValueBufferAux[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
+		xAdcMeasurementValueBufferAux[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
+		xAdcMeasurementValueBufferAux[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
 	}
+
+	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += xAdcMeasurementValueBufferAux[MOTOR_CURRENT_CONV] * CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO;
+	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += xAdcMeasurementValueBufferAux[MOTOR_VOLTAGE_CONV] * VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO;
+	xAdcMeasurementValueBuffer[VREF_INT_CONV] += xAdcMeasurementValueBuffer[VREF_INT_CONV] * VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO;
 
 	xAdcConversionIndex = 0;
 }
