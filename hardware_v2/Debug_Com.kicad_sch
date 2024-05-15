@@ -2093,12 +2093,12 @@
 		(lib_id "Connector_Generic:Conn_01x02")
 		(at 168.91 67.31 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "094c6036-e64d-40de-9f53-29d48288fa04")
-		(property "Reference" "JP4"
+		(property "Reference" "JP1"
 			(at 168.91 65.405 0)
 			(effects
 				(font
@@ -2178,7 +2178,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "JP4")
+					(reference "JP1")
 					(unit 1)
 				)
 			)
@@ -2189,12 +2189,12 @@
 		(at 196.85 90.17 0)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "222f8ed6-d3d7-431c-8019-5575828ca7a7")
-		(property "Reference" "J11"
+		(property "Reference" "J1"
 			(at 198.12 92.71 0)
 			(effects
 				(font
@@ -2253,7 +2253,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "J11")
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -2263,7 +2263,7 @@
 		(lib_id "sjc_power:GND")
 		(at 209.55 95.25 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -2329,12 +2329,12 @@
 		(at 139.7 90.17 270)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "2a865fca-9db7-4755-947b-dafd7c54a981")
-		(property "Reference" "R129"
+		(property "Reference" "R3"
 			(at 141.605 88.9 90)
 			(effects
 				(font
@@ -2416,7 +2416,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "R129")
+					(reference "R3")
 					(unit 1)
 				)
 			)
@@ -2426,12 +2426,12 @@
 		(lib_id "sjc_semiconductors:SN65HVD75DR ")
 		(at 115.57 86.36 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "2f414825-9337-4201-8a41-e39e5486ed3a")
-		(property "Reference" "U37"
+		(property "Reference" "U1"
 			(at 116.84 73.66 0)
 			(effects
 				(font
@@ -2530,7 +2530,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "U37")
+					(reference "U1")
 					(unit 1)
 				)
 			)
@@ -2540,7 +2540,7 @@
 		(lib_id "sjc_power:GND")
 		(at 160.02 107.95 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -2606,12 +2606,12 @@
 		(at 139.7 82.55 270)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "4499b29a-c24a-420a-aa50-fc77b46386d1")
-		(property "Reference" "R128"
+		(property "Reference" "R1"
 			(at 141.605 81.28 90)
 			(effects
 				(font
@@ -2693,7 +2693,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "R128")
+					(reference "R1")
 					(unit 1)
 				)
 			)
@@ -2703,7 +2703,7 @@
 		(lib_id "sjc_power:GND")
 		(at 135.89 69.85 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -2768,12 +2768,12 @@
 		(lib_id "sjc_semiconductors:SM712")
 		(at 160.02 97.79 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "8cd14ac9-36c6-4366-9265-a30fff6118ef")
-		(property "Reference" "TV22"
+		(property "Reference" "TV1"
 			(at 165.1 99.695 90)
 			(effects
 				(font
@@ -2857,7 +2857,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "TV22")
+					(reference "TV1")
 					(unit 1)
 				)
 			)
@@ -2868,7 +2868,7 @@
 		(at 209.55 82.55 0)
 		(mirror y)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -2933,12 +2933,12 @@
 		(lib_id "Device:C_Small")
 		(at 125.73 67.31 90)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "bce38376-d17c-4a18-b5dc-223913cd99a7")
-		(property "Reference" "C95"
+		(property "Reference" "C1"
 			(at 125.73 64.77 90)
 			(effects
 				(font
@@ -3017,7 +3017,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "C95")
+					(reference "C1")
 					(unit 1)
 				)
 			)
@@ -3027,7 +3027,7 @@
 		(lib_id "sjc_power:GND")
 		(at 115.57 102.87 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3093,12 +3093,12 @@
 		(at 157.48 74.93 0)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "c31155e3-9f89-42d5-a008-fd5237e093ac")
-		(property "Reference" "R130"
+		(property "Reference" "R2"
 			(at 155.575 73.66 90)
 			(effects
 				(font
@@ -3179,7 +3179,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "R130")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -3189,7 +3189,7 @@
 		(lib_id "sjc_power:+3V3")
 		(at 115.57 57.15 0)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3254,12 +3254,12 @@
 		(lib_id "Device:C_Small")
 		(at 125.73 59.69 90)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "d7c74a15-f2d8-4308-bc61-51290ccf3812")
-		(property "Reference" "C94"
+		(property "Reference" "C11"
 			(at 125.73 57.15 90)
 			(effects
 				(font
@@ -3338,7 +3338,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "C94")
+					(reference "C11")
 					(unit 1)
 				)
 			)

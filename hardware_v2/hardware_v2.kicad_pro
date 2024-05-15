@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.254
+          "min_clearance": 0.762
         }
       },
       "diff_pair_dimensions": [
@@ -577,26 +577,44 @@
       "/Motor/R_{GT}-": "DRV_HV",
       "/Motor/R_{PWM}+": "DRV_HV",
       "/Motor/R_{PWM}-": "DRV_HV",
+      "/Motor/SHUNT_FUSE": "PWR",
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
+      "Net-(C27-Pad2)": "PWR",
+      "Net-(C28-Pad2)": "PWR",
+      "Net-(D10-K)": "DRV_HV",
       "Net-(D11-A)": "DRV_LV",
+      "Net-(D11-K)": "DRV_HV",
       "Net-(D4-K)": "DRV_HV",
       "Net-(D5-K)": "DRV_HV",
       "Net-(D6-K)": "DRV_HV",
       "Net-(D7-K)": "DRV_HV",
+      "Net-(D8-A)": "DRV_LV",
+      "Net-(D9-K)": "DRV_HV",
+      "Net-(F3-Pad1)": "PWR",
       "Net-(LD2-K)": "PWR",
+      "Net-(LD3-K)": "PWR",
+      "Net-(LD4-K)": "PWR",
       "Net-(LD6-K)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
       "Net-(Q2-G)": "DRV_HV",
       "Net-(Q3-D)": "DRV_HV",
       "Net-(Q3-G)": "DRV_HV",
+      "Net-(Q4-D)": "DRV_HV",
       "Net-(Q4-G)": "DRV_HV",
+      "Net-(Q5-G)": "DRV_HV",
+      "Net-(Q6-D)": "DRV_HV",
+      "Net-(Q6-G)": "DRV_HV",
+      "Net-(Q7-G)": "DRV_HV",
       "Net-(U1-1Y)": "DRV_HV",
+      "Net-(U2-VI)": "DRV_HV",
       "Net-(U4-VI)": "DRV_HV",
       "Net-(U5-VI)": "DRV_HV",
       "Net-(U6-VI)": "DRV_LV",
-      "Net-(U7-1Y)": "DRV_HV"
+      "Net-(U7-1Y)": "DRV_HV",
+      "V_{BPS}+": "DRV_HV",
+      "V_{PWR}_Rect+": "DRV_HV"
     },
     "netclass_patterns": [
       {

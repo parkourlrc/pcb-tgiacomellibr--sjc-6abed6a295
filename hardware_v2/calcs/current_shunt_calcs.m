@@ -10,7 +10,7 @@ a = sprintf('\n\r ACS 712 Circuit calcs:');
 disp(a)
 
 Rfint = 1.7e3;
-Cfilt = 22e-9;
+Cfilt = 68e-9;
 Fc = 1/(2*pi*Rfint*Cfilt);
 Av_ACS712 = [96 100 104]*1e-3;
 Vcc_ACS712 = 5;
@@ -22,18 +22,19 @@ disp(a)
 a = sprintf('\r - Low-pass filter cutoff frequency (kHz): %.2f', Fc*1e-3);
 disp(a)
 
-Imeas_ACS712 = linspace(-20,20,100);
+Imeas = 25;
+Imeas_ACS712 = linspace(-Imeas, Imeas, 100);
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 510;
-Rdown = 1.02e3;
+Rup = 5.1e3;
+Rdown = 10e3;
 Av_input_3v3 = Rdown/(Rup+Rdown);
 a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
 disp(a)
 a = sprintf('\r   - R_{down} (kOhm): %.2f', Rdown*1e-3);
 disp(a)
-a = sprintf('\r   - Av (V/V): %.2f', Av_input_3v3);
+a = sprintf('\r   - Av (V/V): %.4f', Av_input_3v3);
 disp(a)
 a = sprintf('\r   - Ex. For 5V input, the output is %.2fV...', Av_input_3v3*5);
 disp(a)
@@ -44,7 +45,12 @@ Av_std = Av_ACS712(2);
 Vout_ACS712_min = Av_input_3v3*(Vref+Av_min*Imeas_ACS712);
 Vout_ACS712_max = Av_input_3v3*(Vref+Av_max*Imeas_ACS712);
 Vout_ACS712_std = Av_input_3v3*(Vref+Av_std*Imeas_ACS712);
-I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std
+I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std;
+
+a = sprintf('\r   - Ex. For %.3f A (Min input) @ %.2f V, the output is %.2fV...', min(Imeas_ACS712), min(Vout_ACS712_std)/Av_input_3v3, min(Vout_ACS712_std));
+disp(a)
+a = sprintf('\r   - Ex. For %.3f A (Max input) @ %.2f V, the output is %.2fV...', max(Imeas_ACS712), max(Vout_ACS712_std)/Av_input_3v3, max(Vout_ACS712_std));
+disp(a)
 
 if (plot_on > 0)
   figure;
@@ -74,9 +80,8 @@ Rshunt_max = Rshunt*(1+Rshunt_tol);
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 270;
-Rdown = 1.02e3;
-Av_input_3v3 = Rdown/(Rup+Rdown);
+Rup = 4.9e3;
+Rdown = 10e3;
 
 Av_input_3v3 = Rdown/(Rup+Rdown);
 Vout_AD814_std = Av_input_3v3*((Av_AD8418.*Imeas_AD8418.*Rshunt_std) + Vref);
@@ -87,7 +92,7 @@ a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
 disp(a)
 a = sprintf('\r   - R_{down} (kOhm): %.2f', Rdown*1e-3);
 disp(a)
-a = sprintf('\r   - Av (V/V): %.2f', Av_input_3v3);
+a = sprintf('\r   - Av (V/V): %.4f', Av_input_3v3);
 disp(a)
 a = sprintf('\r   - Ex. For %.3f A (Min input) @ %.2f V, the output is %.2fV...', min(Imeas_AD8418), min(Vout_AD814_std)/Av_input_3v3, min(Vout_AD814_std));
 disp(a)
@@ -111,7 +116,7 @@ endif
 
 %% Frequency filter
 % (2nd order + 1st order) Butterworth filter
-R = 1.5e3;
+R = 1.0e3;
 C = 100e-9;
 Fc = 1/(2*pi*R*C);
 
@@ -124,23 +129,70 @@ disp(a)
 a = sprintf('\r - Low-pass filter cutoff frequency (kHz): %.2f', Fc*1e-3);
 disp(a)
 
+%% INA240 calcs
+% ---------------------------------------------------------------------------- %
+a = sprintf('\n\r INA240 Circuit calcs:');
+disp(a)
 
-% Theoretical cals
-I = 5.305
-duty = [30 70]
+Av_INA240 = 50;
+Vin = 5;
+Vref = Vin/2;
+Rshunt = 2e-3;
+Rshunt_tol = 0.1/100; % 0.1%
+Imax = 25;
+Imeas_INA240 = linspace(-Imax,Imax,100);
+RshuntValues = Rshunt*[(1-Rshunt_tol) 1 (1+Rshunt_tol)];
 
-duty_pos = (duty./100);
-duty_neg = 1-duty_pos;
-I_pos = (I*duty_pos);
-I_neg = (-I*duty_neg);
+a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
+disp(a)
+Rup = 4.9e3;
+Rdown = 10e3;
 
-V_adc_pos = Av_input_3v3.*((I_pos.*Av_AD8418.*Rshunt_std)+Vref).*duty_pos;
-V_adc_neg = Av_input_3v3.*((I_neg.*Av_AD8418.*Rshunt_std)+Vref).*duty_neg;
+Av_input_3v3 = Rdown/(Rup+Rdown);
+Vout_INA240(1,:) = Av_input_3v3.*((Av_INA240.*Imeas_INA240.*RshuntValues(1)) + Vref);
+Vout_INA240(2,:) = Av_input_3v3.*((Av_INA240.*Imeas_INA240.*RshuntValues(2)) + Vref);
+Vout_INA240(3,:) = Av_input_3v3.*((Av_INA240.*Imeas_INA240.*RshuntValues(3)) + Vref);
 
-I_avg = I_pos + I_neg
-V_adc_avg = V_adc_pos + V_adc_neg
+a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
+disp(a)
+a = sprintf('\r   - R_{down} (kOhm): %.2f', Rdown*1e-3);
+disp(a)
+a = sprintf('\r   - Av (V/V): %.4f', Av_input_3v3);
+disp(a)
+a = sprintf('\r   - Ex. For %.3f A (Min input) @ %.2f V, the output is %.2fV...', min(Imeas_INA240), min(Vout_INA240(2,:))/Av_input_3v3, min(Vout_INA240(2,:)));
+disp(a)
+a = sprintf('\r   - Ex. For %.3f A (Max input) @ %.2f V, the output is %.2fV...', max(Imeas_INA240), max(Vout_INA240(2,:))/Av_input_3v3, max(Vout_INA240(2,:)));
+disp(a)
 
-I_adc_meas = ((V_adc_avg./Av_input_3v3)-Vref)./(Rshunt_std*Av_AD8418)
+Vadc = Vout_INA240(2);
+I_adc_meas = (([min(Vadc) max(Vadc)]./Av_input_3v3)-Vref)/(RshuntValues(2)*Av_INA240); % Equation to recover current from adc measurement
 
+Pshunt_mW = (max(Imeas_INA240)^2)*RshuntValues(3)*1000;
+a = sprintf('\n\r - Rshunt power rating (mW): %.2f', Pshunt_mW);
+disp(a)
+
+if (plot_on > 0)
+  figure;
+  plot(Imeas_INA240, Vout_INA240(2,:), '-k', Imeas_INA240, Vout_INA240(1,:), '--g', Imeas_INA240, Vout_INA240(3,:), '-.r');
+  legend('Std. curve', 'Min. shunt tol.', 'Max. shunt tol.')
+  title('INA240 current transfer function')
+  xlabel('I (A)');
+  ylabel('Viout (V)');
+endif
+
+%% Frequency filter
+% (2nd order + 1st order) Butterworth filter
+R = 1.0e3;
+C = 100e-9;
+Fc = 1/(2*pi*R*C);
+
+a = sprintf('\n\r Analog frontend calcs:');
+disp(a)
+a = sprintf('\r - Low-pass filter resistor (kOhm): %.2f', R*1e-3);
+disp(a)
+a = sprintf('\r - Low-pass filter capacitor (nF): %.2f', C*1e9);
+disp(a)
+a = sprintf('\r - Low-pass filter cutoff frequency (kHz): %.2f', Fc*1e-3);
+disp(a)
 
 

@@ -257,16 +257,6 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 149.86) (xy 139.7 149.86)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7f172f41-61d8-4985-8ff9-0d11bb1d8631")
-	)
-	(wire
-		(pts
 			(xy 76.2 115.57) (xy 139.7 115.57)
 		)
 		(stroke
@@ -412,12 +402,12 @@
 		(lib_id "Mechanical:MountingHole")
 		(at 278.13 157.48 270)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "a948f5fb-f19a-4d40-96dd-65d10372d9da")
-		(property "Reference" "H3"
+		(property "Reference" "H2"
 			(at 280.67 158.115 90)
 			(effects
 				(font
@@ -466,7 +456,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(reference "H3")
+					(reference "H2")
 					(unit 1)
 				)
 			)
@@ -477,12 +467,12 @@
 		(at 273.05 162.56 90)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "d2bbca8b-b550-4a67-9bc7-87f1a4d3fba5")
-		(property "Reference" "H2"
+		(property "Reference" "H4"
 			(at 270.51 163.195 90)
 			(effects
 				(font
@@ -531,7 +521,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(reference "H2")
+					(reference "H4")
 					(unit 1)
 				)
 			)
@@ -541,12 +531,12 @@
 		(lib_id "Mechanical:MountingHole")
 		(at 278.13 162.56 270)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
 		(uuid "f3a49953-1277-4a4d-9458-51efdb683352")
-		(property "Reference" "H4"
+		(property "Reference" "H3"
 			(at 280.67 163.195 90)
 			(effects
 				(font
@@ -595,7 +585,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(reference "H4")
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -606,7 +596,7 @@
 		(at 273.05 157.48 90)
 		(mirror x)
 		(unit 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom no)
 		(on_board yes)
 		(dnp no)
@@ -834,16 +824,6 @@
 			)
 			(uuid "8e20ce38-2499-4749-bbc1-204207c126c2")
 		)
-		(pin "COM_USB_PU" input
-			(at 139.7 149.86 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "fcba4cbc-9ee0-4a66-b3b6-7257c45d572e")
-		)
 		(pin "COM_USB_D+" bidirectional
 			(at 139.7 144.78 180)
 			(effects
@@ -980,7 +960,7 @@
 				(justify left top)
 			)
 		)
-		(pin "V_{MOTOR}_~{EN}" input
+		(pin "MotorPSU_SHDN" input
 			(at 139.7 166.37 180)
 			(effects
 				(font
@@ -988,9 +968,9 @@
 				)
 				(justify left)
 			)
-			(uuid "5d50e16b-d119-41c6-a9ed-e64c0ce81bab")
+			(uuid "4d806c96-104f-44e7-a082-c1b848608adf")
 		)
-		(pin "SYS_HEARTBEAT" input
+		(pin "MotorDriver_SHDN" input
 			(at 139.7 170.18 180)
 			(effects
 				(font
@@ -998,7 +978,7 @@
 				)
 				(justify left)
 			)
-			(uuid "b8a15a06-84a4-4263-9cde-68281f56259d")
+			(uuid "3772e5cb-aedb-4854-8c2e-0298ecddd22a")
 		)
 		(instances
 			(project "hardware_v2"
@@ -1276,16 +1256,6 @@
 			)
 			(uuid "f36cd0d3-da30-4357-b681-8a9bd3c1661a")
 		)
-		(pin "COM_USB_PU" output
-			(at 76.2 149.86 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "91e9e82d-e6a6-44e2-a91a-d7fd51401e21")
-		)
 		(pin "JOINT_ENC_CH2" input
 			(at 76.2 71.12 0)
 			(effects
@@ -1345,16 +1315,6 @@
 				(justify right)
 			)
 			(uuid "f49bb7b1-0dcf-476b-8b42-ace0947d12f2")
-		)
-		(pin "V_{MOTOR}_~{EN}" output
-			(at 76.2 166.37 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "f9655e46-a6f6-4a04-8454-e946237c6ab9")
 		)
 		(pin "L_MOT_HI_{PWM}" output
 			(at 76.2 41.91 0)
@@ -1446,7 +1406,7 @@
 			)
 			(uuid "49967404-02a9-4a3b-bdf2-ea268e4a6054")
 		)
-		(pin "SYS_HEARTBEAT" output
+		(pin "MotorDriver_SHDN" output
 			(at 76.2 170.18 0)
 			(effects
 				(font
@@ -1454,7 +1414,17 @@
 				)
 				(justify right)
 			)
-			(uuid "bb1612bd-7df9-41a0-9575-e2cfa6052a22")
+			(uuid "e286be3c-dc76-4f43-aed5-3f7a49e7fe3e")
+		)
+		(pin "MotorPSU_SHDN" output
+			(at 76.2 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid "33a2de7c-7091-4ac9-9cc2-7f755b6a0778")
 		)
 		(instances
 			(project "hardware_v2"
