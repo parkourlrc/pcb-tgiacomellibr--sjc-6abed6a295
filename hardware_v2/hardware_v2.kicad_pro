@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.762
+          "min_clearance": 0.2794
         }
       },
       "diff_pair_dimensions": [
@@ -59,7 +59,9 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "footprint_type_mismatch|102246286|31308000|416fd79d-efa4-44cb-b654-5a4c3aaa329b|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "version": 2
       },
@@ -582,14 +584,18 @@
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "Net-(C27-Pad2)": "PWR",
       "Net-(C28-Pad2)": "PWR",
+      "Net-(C74-Pad2)": "PWR",
+      "Net-(C96-Pad2)": "PWR",
       "Net-(D10-K)": "DRV_HV",
       "Net-(D11-A)": "DRV_LV",
       "Net-(D11-K)": "DRV_HV",
+      "Net-(D3-A)": "DRV_LV",
       "Net-(D4-K)": "DRV_HV",
       "Net-(D5-K)": "DRV_HV",
       "Net-(D6-K)": "DRV_HV",
       "Net-(D7-K)": "DRV_HV",
       "Net-(D8-A)": "DRV_LV",
+      "Net-(D8-K)": "DRV_HV",
       "Net-(D9-K)": "DRV_HV",
       "Net-(F3-Pad1)": "PWR",
       "Net-(LD2-K)": "PWR",
@@ -607,7 +613,10 @@
       "Net-(Q6-D)": "DRV_HV",
       "Net-(Q6-G)": "DRV_HV",
       "Net-(Q7-G)": "DRV_HV",
+      "Net-(Q8-G)": "DRV_HV",
       "Net-(U1-1Y)": "DRV_HV",
+      "Net-(U18-VI)": "DRV_HV",
+      "Net-(U19-VI)": "DRV_LV",
       "Net-(U2-VI)": "DRV_HV",
       "Net-(U4-VI)": "DRV_HV",
       "Net-(U5-VI)": "DRV_HV",

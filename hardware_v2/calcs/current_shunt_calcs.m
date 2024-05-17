@@ -27,8 +27,8 @@ Imeas_ACS712 = linspace(-Imeas, Imeas, 100);
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 5.1e3;
-Rdown = 10e3;
+Rup = 560;
+Rdown = 1.1e3;
 Av_input_3v3 = Rdown/(Rup+Rdown);
 a = sprintf('\r   - R_{up} (kOhm): %.2f', Rup*1e-3);
 disp(a)
@@ -64,15 +64,15 @@ endif
 
 %% AD8418 calcs
 % ---------------------------------------------------------------------------- %
-a = sprintf('\n\r AC8418 Circuit calcs:');
+a = sprintf('\n\r AD8418 Circuit calcs:');
 disp(a)
 
 Av_AD8418 = 20;
 Vin = 5;
 Vref = Vin/2;
-Rshunt = 8e-3;
+Rshunt = 4.5e-3;
 Rshunt_tol = 0.1/100; % 0.1%
-Imax = 10;
+Imax = 26;
 Imeas_AD8418 = linspace(-Imax,Imax,100);
 Rshunt_std = Rshunt;
 Rshunt_min = Rshunt*(1-Rshunt_tol);
@@ -80,8 +80,8 @@ Rshunt_max = Rshunt*(1+Rshunt_tol);
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 4.9e3;
-Rdown = 10e3;
+Rup = 560;
+Rdown = 1.1e3;
 
 Av_input_3v3 = Rdown/(Rup+Rdown);
 Vout_AD814_std = Av_input_3v3*((Av_AD8418.*Imeas_AD8418.*Rshunt_std) + Vref);
@@ -145,8 +145,8 @@ RshuntValues = Rshunt*[(1-Rshunt_tol) 1 (1+Rshunt_tol)];
 
 a = sprintf('\n\r - Input to 3.3V range resistive conditioner calcs:');
 disp(a)
-Rup = 4.9e3;
-Rdown = 10e3;
+Rup = 560;
+Rdown = 1.1e3;
 
 Av_input_3v3 = Rdown/(Rup+Rdown);
 Vout_INA240(1,:) = Av_input_3v3.*((Av_INA240.*Imeas_INA240.*RshuntValues(1)) + Vref);
