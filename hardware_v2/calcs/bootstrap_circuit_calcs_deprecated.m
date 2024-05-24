@@ -32,8 +32,10 @@ C_in = 2000e-12;
 C_out = 840e-12;
 
 % Auxiliar bootstrap diode
-Vf_bd = 0.6;
-ILK_bd = 0.65e-6;
+##Vf_bd = 0.6;
+##ILK_bd = 0.65e-6;
+Vf_bd = 0.65;
+ILK_bd = 1.8e-6;
 
 % Capacitor
 ILKCAP = 0; %Ceramic Capacitor

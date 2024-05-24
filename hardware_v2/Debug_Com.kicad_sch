@@ -5,8 +5,11 @@
 	(uuid "6cd85da9-8708-4fcf-ae76-a1b526219667")
 	(paper "A4")
 	(title_block
+		(title "Data Logger Debug Output")
 		(date "2024-05-06")
 		(rev "2.0")
+		(comment 1 "Designed by Alves, T. G.")
+		(comment 2 "Single Joint Controller Board")
 	)
 	(lib_symbols
 		(symbol "Connector_Generic:Conn_01x02"
@@ -2090,101 +2093,6 @@
 		(uuid "68dce325-868a-4ea9-9434-2495e1f5f1d4")
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_01x02")
-		(at 168.91 67.31 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "094c6036-e64d-40de-9f53-29d48288fa04")
-		(property "Reference" "JP1"
-			(at 168.91 65.405 0)
-			(effects
-				(font
-					(size 0.9906 0.9906)
-				)
-			)
-		)
-		(property "Value" "RS-485 TERM"
-			(at 163.83 72.39 0)
-			(effects
-				(font
-					(size 0.9906 0.9906)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
-			(at 168.91 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 168.91 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "2 Pos. Pin Header, 2.54 mm Pitch"
-			(at 168.91 67.31 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "MOLEX"
-			(at 168.91 67.31 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "22284020"
-			(at 168.91 67.31 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C234182"
-			(at 168.91 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "640c328f-015b-4268-aa68-302ab402bcc3")
-		)
-		(pin "2"
-			(uuid "5579d791-bfd9-48eb-91bf-27e495f15614")
-		)
-		(instances
-			(project "hardware_v2"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "JP1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector_Generic:Conn_02x02_Top_Bottom")
 		(at 196.85 90.17 0)
 		(mirror x)
@@ -2230,6 +2138,33 @@
 			)
 		)
 		(property "Description" ""
+			(at 196.85 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "CJT(Changjiang Connectors) "
+			(at 196.85 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "A2541WV-2x2P"
+			(at 196.85 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C225517"
 			(at 196.85 90.17 0)
 			(effects
 				(font
@@ -2334,7 +2269,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2a865fca-9db7-4755-947b-dafd7c54a981")
-		(property "Reference" "R4"
+		(property "Reference" "R2"
 			(at 141.605 88.9 90)
 			(effects
 				(font
@@ -2343,7 +2278,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10R 1% 1/2W"
+		(property "Value" "10R 5% 1/2W"
 			(at 137.16 92.71 90)
 			(effects
 				(font
@@ -2371,7 +2306,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Pulse-Proof/Anti-Surge Resistor, 10 Ohms, ±1%, 1/2W, SMD 0805"
+		(property "Description" "Pulse-Proof/Anti-Surge Resistor, 10 Ohms, ±5%, 1/2W, SMD 0805"
 			(at 139.7 90.17 0)
 			(effects
 				(font
@@ -2380,7 +2315,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "PANASONIC"
+		(property "MF" "UNI-ROYAL(Uniroyal Elec)"
 			(at 139.7 90.17 0)
 			(effects
 				(font
@@ -2389,7 +2324,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "ERJP06F10R0V"
+		(property "PN" "AS05W2J0100T5E"
 			(at 139.7 90.17 0)
 			(effects
 				(font
@@ -2398,7 +2333,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C441969"
+		(property "JLCPCB Part #" "C966152"
 			(at 139.7 90.17 90)
 			(effects
 				(font
@@ -2416,7 +2351,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "R4")
+					(reference "R2")
 					(unit 1)
 				)
 			)
@@ -2611,7 +2546,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4499b29a-c24a-420a-aa50-fc77b46386d1")
-		(property "Reference" "R2"
+		(property "Reference" "R4"
 			(at 141.605 81.28 90)
 			(effects
 				(font
@@ -2620,7 +2555,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10R 1% 1/2W"
+		(property "Value" "10R 5% 1/2W"
 			(at 137.16 85.09 90)
 			(effects
 				(font
@@ -2648,7 +2583,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Pulse-Proof/Anti-Surge Resistor, 10 Ohms, ±1%, 1/2W, SMD 0805"
+		(property "Description" "Pulse-Proof/Anti-Surge Resistor, 10 Ohms, ±5%, 1/2W, SMD 0805"
 			(at 139.7 82.55 0)
 			(effects
 				(font
@@ -2657,7 +2592,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "PANASONIC"
+		(property "MF" "UNI-ROYAL(Uniroyal Elec)"
 			(at 139.7 82.55 0)
 			(effects
 				(font
@@ -2666,7 +2601,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "ERJP06F10R0V"
+		(property "PN" "AS05W2J0100T5E"
 			(at 139.7 82.55 0)
 			(effects
 				(font
@@ -2675,7 +2610,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C441969"
+		(property "JLCPCB Part #" "C966152"
 			(at 139.7 82.55 90)
 			(effects
 				(font
@@ -2693,7 +2628,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "R2")
+					(reference "R4")
 					(unit 1)
 				)
 			)
@@ -2864,6 +2799,102 @@
 		)
 	)
 	(symbol
+		(lib_id "Connector_Generic:Conn_01x02")
+		(at 168.91 67.31 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9b0a31bd-61ac-4725-b072-dfcca1f59efb")
+		(property "Reference" "JP1"
+			(at 171.196 68.326 90)
+			(effects
+				(font
+					(size 0.9906 0.9906)
+				)
+			)
+		)
+		(property "Value" "DBG RS-485 TERM"
+			(at 170.053 65.4304 90)
+			(effects
+				(font
+					(size 0.9906 0.9906)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+			(at 168.91 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 168.91 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "2 Pos. Pin Header, 2.54 mm Pitch"
+			(at 168.91 67.31 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "CJT(Changjiang Connectors)"
+			(at 168.91 67.31 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "A2541WV-2P"
+			(at 168.91 67.31 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C225477"
+			(at 168.91 67.31 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "bf845cab-b467-427a-bd58-be04f9a1e486")
+		)
+		(pin "2"
+			(uuid "53b65582-14f4-4bf4-a5d3-4674fed348c0")
+		)
+		(instances
+			(project "hardware_v2"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
+					(reference "JP1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:+3V3")
 		(at 209.55 82.55 0)
 		(mirror y)
@@ -2938,7 +2969,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bce38376-d17c-4a18-b5dc-223913cd99a7")
-		(property "Reference" "C3"
+		(property "Reference" "C20"
 			(at 125.73 64.77 90)
 			(effects
 				(font
@@ -3017,7 +3048,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "C3")
+					(reference "C20")
 					(unit 1)
 				)
 			)
@@ -3259,7 +3290,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d7c74a15-f2d8-4308-bc61-51290ccf3812")
-		(property "Reference" "C4"
+		(property "Reference" "C23"
 			(at 125.73 57.15 90)
 			(effects
 				(font
@@ -3338,7 +3369,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/8c20dcab-7afd-466c-86e4-8c0e3c420d38"
-					(reference "C4")
+					(reference "C23")
 					(unit 1)
 				)
 			)

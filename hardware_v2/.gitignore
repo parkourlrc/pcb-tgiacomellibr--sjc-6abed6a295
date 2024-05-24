@@ -34,3 +34,8 @@ fp-info-cache
 
 # KiCad Autosave
 \#auto_saved_files\#
+
+# Production Files
+outputs/cpl
+outputs/bom
+outputs/doc/hardware_v2.step

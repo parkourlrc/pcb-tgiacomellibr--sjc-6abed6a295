@@ -9222,7 +9222,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "09ae830f-8043-4d2c-9075-04830d25190a")
-		(property "Reference" "R86"
+		(property "Reference" "R83"
 			(at 257.81 58.42 90)
 			(effects
 				(font
@@ -9301,7 +9301,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R86")
+					(reference "R83")
 					(unit 1)
 				)
 			)
@@ -9317,7 +9317,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0bc8764e-efae-41e3-8506-1ceea416fa80")
-		(property "Reference" "R87"
+		(property "Reference" "R88"
 			(at 259.08 137.16 90)
 			(effects
 				(font
@@ -9396,7 +9396,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R87")
+					(reference "R88")
 					(unit 1)
 				)
 			)
@@ -9411,7 +9411,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0e42b87d-4f47-4030-a5a8-e8a1e723cdf6")
-		(property "Reference" "U29"
+		(property "Reference" "U28"
 			(at 80.01 139.7 0)
 			(effects
 				(font
@@ -9504,7 +9504,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "U29")
+					(reference "U28")
 					(unit 1)
 				)
 			)
@@ -9519,7 +9519,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0f1c210d-a1f0-4817-8eb0-680ffeb8ed86")
-		(property "Reference" "Q7"
+		(property "Reference" "Q6"
 			(at 124.46 175.895 0)
 			(effects
 				(font
@@ -9606,7 +9606,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "Q7")
+					(reference "Q6")
 					(unit 1)
 				)
 			)
@@ -9888,7 +9888,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "20222cd2-da76-405b-b563-d86548b4461f")
-		(property "Reference" "R88"
+		(property "Reference" "R85"
 			(at 114.935 111.76 90)
 			(effects
 				(font
@@ -9967,7 +9967,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R88")
+					(reference "R85")
 					(unit 1)
 				)
 			)
@@ -9982,7 +9982,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "260429fe-1418-4bf1-baab-ef9e00d9bfd8")
-		(property "Reference" "C38"
+		(property "Reference" "C39"
 			(at 227.33 132.08 90)
 			(effects
 				(font
@@ -10061,7 +10061,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C38")
+					(reference "C39")
 					(unit 1)
 				)
 			)
@@ -10171,7 +10171,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "29b65220-9b3d-4ac5-abc0-44b3442c968b")
-		(property "Reference" "C89"
+		(property "Reference" "C91"
 			(at 104.14 106.68 90)
 			(effects
 				(font
@@ -10250,7 +10250,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C89")
+					(reference "C91")
 					(unit 1)
 				)
 			)
@@ -10492,7 +10492,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3006582a-7b73-4efb-b087-9a33631c10c3")
-		(property "Reference" "C77"
+		(property "Reference" "C78"
 			(at 36.83 107.95 90)
 			(effects
 				(font
@@ -10574,7 +10574,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C77")
+					(reference "C78")
 					(unit 1)
 				)
 			)
@@ -10721,7 +10721,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3511493a-41c3-4d6d-93d6-8ceb62c0dc7d")
-		(property "Reference" "Q6"
+		(property "Reference" "Q5"
 			(at 92.71 60.96 0)
 			(effects
 				(font
@@ -10812,7 +10812,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "Q6")
+					(reference "Q5")
 					(unit 1)
 				)
 			)
@@ -10881,6 +10881,100 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
 					(reference "#FLG011")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Screw_Terminal_01x02")
+		(at 24.13 45.72 180)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3bb5df5d-e453-457e-b6a3-0cc659070c05")
+		(property "Reference" "J12"
+			(at 24.13 40.64 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "V_{POWER}"
+			(at 21.59 44.45 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "sjc:AMASS_XT60PW-F_1x02_P7.20mm_Horizontal"
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "AMASS"
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "XT60PW-F"
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C428722"
+			(at 24.13 45.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ee798a2b-b910-4ad4-be28-87d0ebc98957")
+		)
+		(pin "2"
+			(uuid "34b84698-e1e3-4f1b-a20c-4dce846b6902")
+		)
+		(instances
+			(project "hardware_v2"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "J12")
 					(unit 1)
 				)
 			)
@@ -11025,7 +11119,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3d47c719-a849-450a-8c4e-ce663fb94468")
-		(property "Reference" "C75"
+		(property "Reference" "C77"
 			(at 44.45 157.48 90)
 			(effects
 				(font
@@ -11104,7 +11198,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C75")
+					(reference "C77")
 					(unit 1)
 				)
 			)
@@ -11120,7 +11214,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3d946bcf-9172-479d-a202-569db6d4495e")
-		(property "Reference" "R107"
+		(property "Reference" "R89"
 			(at 106.68 174.625 90)
 			(effects
 				(font
@@ -11199,7 +11293,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R107")
+					(reference "R89")
 					(unit 1)
 				)
 			)
@@ -11639,7 +11733,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "48f8d2b8-5276-4b14-81ef-9e0fed5a312a")
-		(property "Reference" "C88"
+		(property "Reference" "C85"
 			(at 93.98 106.68 90)
 			(effects
 				(font
@@ -11682,7 +11776,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Walsin Tech Corp"
+		(property "MF" "YAGEO"
 			(at 96.52 106.68 90)
 			(effects
 				(font
@@ -11691,7 +11785,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "1206X226K250CT"
+		(property "PN" "CC1206KKX5R8BB226"
 			(at 96.52 106.68 90)
 			(effects
 				(font
@@ -11700,7 +11794,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C105213"
+		(property "JLCPCB Part #" "C2178233"
 			(at 96.52 106.68 90)
 			(effects
 				(font
@@ -11718,7 +11812,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C88")
+					(reference "C85")
 					(unit 1)
 				)
 			)
@@ -11959,7 +12053,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4e437a65-eea0-4638-9edc-4a8cfe94121b")
-		(property "Reference" "FB10"
+		(property "Reference" "FB8"
 			(at 177.8 118.11 90)
 			(effects
 				(font
@@ -12038,7 +12132,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "FB10")
+					(reference "FB8")
 					(unit 1)
 				)
 			)
@@ -12186,7 +12280,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "520a292b-fde8-478c-be5c-f9179459cdf9")
-		(property "Reference" "C85"
+		(property "Reference" "C90"
 			(at 58.42 106.68 90)
 			(effects
 				(font
@@ -12265,7 +12359,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C85")
+					(reference "C90")
 					(unit 1)
 				)
 			)
@@ -12333,7 +12427,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "NCP1117DT33T5G"
+		(property "PN" "NCP1117DT33RKG"
 			(at 227.33 137.16 0)
 			(effects
 				(font
@@ -12342,7 +12436,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C152529"
+		(property "JLCPCB Part #" "C88234"
 			(at 222.25 139.7 0)
 			(effects
 				(font
@@ -12475,7 +12569,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "564f64ca-cc3f-4ead-a7f6-ad5a26081c91")
-		(property "Reference" "C70"
+		(property "Reference" "C69"
 			(at 237.49 53.34 90)
 			(effects
 				(font
@@ -12518,7 +12612,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Walsin Tech Corp"
+		(property "MF" "YAGEO"
 			(at 240.03 53.34 90)
 			(effects
 				(font
@@ -12527,7 +12621,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "1206X226K250CT"
+		(property "PN" "CC1206KKX5R8BB226"
 			(at 240.03 53.34 90)
 			(effects
 				(font
@@ -12536,7 +12630,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C105213"
+		(property "JLCPCB Part #" "C2178233"
 			(at 240.03 53.34 90)
 			(effects
 				(font
@@ -12554,7 +12648,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C70")
+					(reference "C69")
 					(unit 1)
 				)
 			)
@@ -13115,7 +13209,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "70b50a8a-8153-447e-9bae-30d458e06ff3")
-		(property "Reference" "C72"
+		(property "Reference" "C71"
 			(at 166.37 132.08 90)
 			(effects
 				(font
@@ -13194,7 +13288,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C72")
+					(reference "C71")
 					(unit 1)
 				)
 			)
@@ -13595,7 +13689,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9184aa91-cd00-4612-af8c-e0893c0a8f33")
-		(property "Reference" "C40"
+		(property "Reference" "C41"
 			(at 194.31 132.08 90)
 			(effects
 				(font
@@ -13674,7 +13768,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C40")
+					(reference "C41")
 					(unit 1)
 				)
 			)
@@ -13689,7 +13783,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9601bf0f-1d15-48c8-8dd4-e87261aa6316")
-		(property "Reference" "C71"
+		(property "Reference" "C72"
 			(at 193.04 53.34 90)
 			(effects
 				(font
@@ -13732,7 +13826,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Walsin Tech Corp"
+		(property "MF" "YAGEO"
 			(at 195.58 53.34 90)
 			(effects
 				(font
@@ -13741,7 +13835,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "1206X226K250CT"
+		(property "PN" "CC1206KKX5R8BB226"
 			(at 195.58 53.34 90)
 			(effects
 				(font
@@ -13750,7 +13844,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C105213"
+		(property "JLCPCB Part #" "C2178233"
 			(at 195.58 53.34 90)
 			(effects
 				(font
@@ -13768,7 +13862,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C71")
+					(reference "C72")
 					(unit 1)
 				)
 			)
@@ -13851,7 +13945,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9903b571-792d-4573-8861-0bc4b1a12456")
-		(property "Reference" "C39"
+		(property "Reference" "C42"
 			(at 184.15 132.08 90)
 			(effects
 				(font
@@ -13930,7 +14024,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C39")
+					(reference "C42")
 					(unit 1)
 				)
 			)
@@ -14010,7 +14104,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9a51391b-4c27-4587-8007-137166c91f4d")
-		(property "Reference" "R104"
+		(property "Reference" "R102"
 			(at 45.085 139.7 90)
 			(effects
 				(font
@@ -14089,7 +14183,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R104")
+					(reference "R102")
 					(unit 1)
 				)
 			)
@@ -14105,7 +14199,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9fd8a7f9-3fc3-4379-8c17-75e30f2b992c")
-		(property "Reference" "LD5"
+		(property "Reference" "LD4"
 			(at 259.08 129.54 0)
 			(effects
 				(font
@@ -14187,7 +14281,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "LD5")
+					(reference "LD4")
 					(unit 1)
 				)
 			)
@@ -14203,7 +14297,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a2a10f6f-a73e-46ac-8e22-364db143c8a3")
-		(property "Reference" "R91"
+		(property "Reference" "R82"
 			(at 259.08 97.79 90)
 			(effects
 				(font
@@ -14246,7 +14340,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "YAGEO"
+		(property "MF" "UNI-ROYAL(Uniroyal Elec) "
 			(at 261.62 97.79 90)
 			(effects
 				(font
@@ -14255,7 +14349,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "AF0603FR-07680RL"
+		(property "PN" "CQ03WAF6800T5E"
 			(at 261.62 97.79 90)
 			(effects
 				(font
@@ -14264,7 +14358,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C2097840"
+		(property "JLCPCB Part #" "C966615"
 			(at 261.62 97.79 90)
 			(effects
 				(font
@@ -14282,7 +14376,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R91")
+					(reference "R82")
 					(unit 1)
 				)
 			)
@@ -14650,7 +14744,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a90daba6-2c42-4e49-86e3-2f954dc1277b")
-		(property "Reference" "C36"
+		(property "Reference" "C35"
 			(at 227.33 92.71 90)
 			(effects
 				(font
@@ -14729,7 +14823,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C36")
+					(reference "C35")
 					(unit 1)
 				)
 			)
@@ -15064,101 +15158,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 24.13 43.18 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(uuid "b10b4f3a-957d-4343-8b20-6e60cd07566c")
-		(property "Reference" "J10"
-			(at 24.13 48.26 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "V_{POWER}"
-			(at 21.59 44.45 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "sjc:AMASS_XT60PW-M_1x02_P7.20mm_Horizontal"
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "Changzhou Amass Elec"
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "XT60PW-M"
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C98732"
-			(at 24.13 43.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "cfe3dbbf-d77d-4fb0-93ba-5bd8e313d943")
-		)
-		(pin "2"
-			(uuid "43d957eb-d31f-4108-8990-b1c411f43222")
-		)
-		(instances
-			(project "hardware_v2"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "J10")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 78.74 82.55 180)
 		(unit 1)
@@ -15167,7 +15166,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b174c0f5-21fb-4f04-88e1-59468d3549f5")
-		(property "Reference" "R96"
+		(property "Reference" "R91"
 			(at 76.2 82.55 90)
 			(effects
 				(font
@@ -15246,7 +15245,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R96")
+					(reference "R91")
 					(unit 1)
 				)
 			)
@@ -15262,7 +15261,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b4c4e8e9-1c5e-4769-be64-2775bf26d85e")
-		(property "Reference" "LD7"
+		(property "Reference" "LD6"
 			(at 257.81 50.8 0)
 			(effects
 				(font
@@ -15344,7 +15343,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "LD7")
+					(reference "LD6")
 					(unit 1)
 				)
 			)
@@ -15359,7 +15358,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b7e29752-910f-4dd6-a19b-5e6c5913bcaa")
-		(property "Reference" "C69"
+		(property "Reference" "C70"
 			(at 247.65 53.34 90)
 			(effects
 				(font
@@ -15438,7 +15437,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C69")
+					(reference "C70")
 					(unit 1)
 				)
 			)
@@ -15453,7 +15452,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ba6d93aa-8b47-4bde-9662-456fd2af424c")
-		(property "Reference" "C44"
+		(property "Reference" "C46"
 			(at 87.63 132.08 90)
 			(effects
 				(font
@@ -15532,7 +15531,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C44")
+					(reference "C46")
 					(unit 1)
 				)
 			)
@@ -15655,7 +15654,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bb565549-8a8a-4079-8bd8-2a1672dedb9a")
-		(property "Reference" "R89"
+		(property "Reference" "R87"
 			(at 119.38 49.53 90)
 			(effects
 				(font
@@ -15734,7 +15733,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R89")
+					(reference "R87")
 					(unit 1)
 				)
 			)
@@ -15749,7 +15748,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "be2c2b4c-bb62-49ad-aadd-8969f4a3b53a")
-		(property "Reference" "C35"
+		(property "Reference" "C36"
 			(at 194.31 92.71 90)
 			(effects
 				(font
@@ -15828,7 +15827,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C35")
+					(reference "C36")
 					(unit 1)
 				)
 			)
@@ -15843,7 +15842,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c19d389b-940e-446f-82e2-dd7ac3f34591")
-		(property "Reference" "Q5"
+		(property "Reference" "Q7"
 			(at 124.46 145.415 0)
 			(effects
 				(font
@@ -15930,7 +15929,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "Q5")
+					(reference "Q7")
 					(unit 1)
 				)
 			)
@@ -16247,7 +16246,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ce802a36-ab15-4b52-8605-2199dc81263d")
-		(property "Reference" "C41"
+		(property "Reference" "C40"
 			(at 237.49 92.71 90)
 			(effects
 				(font
@@ -16326,7 +16325,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C41")
+					(reference "C40")
 					(unit 1)
 				)
 			)
@@ -16472,7 +16471,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d0a15797-8629-4de6-99bf-06ea45353a7b")
-		(property "Reference" "C42"
+		(property "Reference" "C38"
 			(at 237.49 132.08 90)
 			(effects
 				(font
@@ -16551,7 +16550,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C42")
+					(reference "C38")
 					(unit 1)
 				)
 			)
@@ -16566,7 +16565,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d264ef97-a8b2-4a33-897a-35a57ff2b8bc")
-		(property "Reference" "R123"
+		(property "Reference" "R121"
 			(at 81.28 39.37 90)
 			(effects
 				(font
@@ -16645,7 +16644,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R123")
+					(reference "R121")
 					(unit 1)
 				)
 			)
@@ -17528,7 +17527,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ee92c8f2-7b95-4519-94c9-b2f691b5da91")
-		(property "Reference" "R93"
+		(property "Reference" "R95"
 			(at 52.705 139.7 90)
 			(effects
 				(font
@@ -17607,7 +17606,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R93")
+					(reference "R95")
 					(unit 1)
 				)
 			)
@@ -17622,7 +17621,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ef390eed-6d0c-4eb3-845e-a45400d00830")
-		(property "Reference" "FB8"
+		(property "Reference" "FB10"
 			(at 177.8 140.97 90)
 			(effects
 				(font
@@ -17701,7 +17700,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "FB8")
+					(reference "FB10")
 					(unit 1)
 				)
 			)
@@ -17716,7 +17715,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f3a05d3a-24ae-4366-bed7-84485aaecaee")
-		(property "Reference" "Q3"
+		(property "Reference" "Q4"
 			(at 64.77 60.96 0)
 			(effects
 				(font
@@ -17807,7 +17806,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "Q3")
+					(reference "Q4")
 					(unit 1)
 				)
 			)
@@ -17822,7 +17821,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f675aba7-7d60-4c8a-b772-e57f0d55355c")
-		(property "Reference" "C79"
+		(property "Reference" "C76"
 			(at 52.07 157.48 90)
 			(effects
 				(font
@@ -17901,7 +17900,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C79")
+					(reference "C76")
 					(unit 1)
 				)
 			)
@@ -17916,7 +17915,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f83af742-4417-465b-8fe4-de38b5c3a87f")
-		(property "Reference" "R92"
+		(property "Reference" "R84"
 			(at 81.28 72.39 90)
 			(effects
 				(font
@@ -17995,7 +17994,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R92")
+					(reference "R84")
 					(unit 1)
 				)
 			)
@@ -18010,7 +18009,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f92862b2-914c-4b0a-bd2e-3b334d593e0b")
-		(property "Reference" "R105"
+		(property "Reference" "R99"
 			(at 109.855 151.13 90)
 			(effects
 				(font
@@ -18089,7 +18088,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R105")
+					(reference "R99")
 					(unit 1)
 				)
 			)
@@ -18104,7 +18103,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fa9b2b0d-bd5b-4cdb-b386-cffbeb243079")
-		(property "Reference" "C90"
+		(property "Reference" "C89"
 			(at 48.26 106.68 90)
 			(effects
 				(font
@@ -18147,7 +18146,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Walsin Tech Corp"
+		(property "MF" "YAGEO"
 			(at 50.8 106.68 90)
 			(effects
 				(font
@@ -18156,7 +18155,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "1206X226K250CT"
+		(property "PN" "CC1206KKX5R8BB226"
 			(at 50.8 106.68 90)
 			(effects
 				(font
@@ -18165,7 +18164,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C105213"
+		(property "JLCPCB Part #" "C2178233"
 			(at 50.8 106.68 90)
 			(effects
 				(font
@@ -18183,7 +18182,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C90")
+					(reference "C89")
 					(unit 1)
 				)
 			)
@@ -18199,7 +18198,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "facc2117-701b-4d03-af13-9221b5e87d1d")
-		(property "Reference" "LD4"
+		(property "Reference" "LD8"
 			(at 119.38 41.91 0)
 			(effects
 				(font
@@ -18281,7 +18280,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "LD4")
+					(reference "LD8")
 					(unit 1)
 				)
 			)
@@ -18365,7 +18364,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fb384558-64d7-436d-a611-959ee1c3c3d9")
-		(property "Reference" "R97"
+		(property "Reference" "R90"
 			(at 109.855 181.61 90)
 			(effects
 				(font
@@ -18444,7 +18443,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R97")
+					(reference "R90")
 					(unit 1)
 				)
 			)
@@ -18526,7 +18525,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ff3f4e4f-3107-4f96-abe8-f898a2fa87d1")
-		(property "Reference" "LD8"
+		(property "Reference" "LD5"
 			(at 114.3 104.14 0)
 			(effects
 				(font
@@ -18608,7 +18607,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "LD8")
+					(reference "LD5")
 					(unit 1)
 				)
 			)

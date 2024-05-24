@@ -3875,7 +3875,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "067c4af2-9dd7-4af8-885b-2c9c45664761")
-		(property "Reference" "R8"
+		(property "Reference" "R5"
 			(at 150.495 72.39 90)
 			(effects
 				(font
@@ -3954,7 +3954,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R8")
+					(reference "R5")
 					(unit 1)
 				)
 			)
@@ -3969,7 +3969,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0982f78c-e8cd-4766-8e83-70fa615715a3")
-		(property "Reference" "J3"
+		(property "Reference" "J4"
 			(at 212.09 142.24 0)
 			(effects
 				(font
@@ -4027,7 +4027,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "J3")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -4043,7 +4043,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "116de25a-1381-4cf6-97b1-0fbfd2087435")
-		(property "Reference" "R17"
+		(property "Reference" "R16"
 			(at 102.87 65.405 90)
 			(effects
 				(font
@@ -4122,7 +4122,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R17")
+					(reference "R16")
 					(unit 1)
 				)
 			)
@@ -4480,7 +4480,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "31f6b123-d24e-40c3-9bbe-7a9f960d5a1b")
-		(property "Reference" "R46"
+		(property "Reference" "R45"
 			(at 113.03 128.27 90)
 			(effects
 				(font
@@ -4559,7 +4559,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R46")
+					(reference "R45")
 					(unit 1)
 				)
 			)
@@ -4771,7 +4771,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "57fd8010-0164-48d1-b466-d4a9704cac21")
-		(property "Reference" "C27"
+		(property "Reference" "C25"
 			(at 118.11 172.72 90)
 			(effects
 				(font
@@ -4850,7 +4850,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "C27")
+					(reference "C25")
 					(unit 1)
 				)
 			)
@@ -4969,7 +4969,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "68d4095a-3763-40d4-ac8b-e628f3cffa0b")
-		(property "Reference" "R41"
+		(property "Reference" "R47"
 			(at 65.278 71.628 90)
 			(effects
 				(font
@@ -5048,7 +5048,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R41")
+					(reference "R47")
 					(unit 1)
 				)
 			)
@@ -5063,7 +5063,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "708084b0-7aa6-4b35-92be-1a9ebc9a72a8")
-		(property "Reference" "R13"
+		(property "Reference" "R18"
 			(at 160.02 54.61 90)
 			(effects
 				(font
@@ -5142,7 +5142,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R13")
+					(reference "R18")
 					(unit 1)
 				)
 			)
@@ -5254,7 +5254,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "767d08d4-bce9-4b97-9ffc-251e08f3e500")
-		(property "Reference" "R5"
+		(property "Reference" "R7"
 			(at 147.32 65.405 90)
 			(effects
 				(font
@@ -5333,7 +5333,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R5")
+					(reference "R7")
 					(unit 1)
 				)
 			)
@@ -5614,7 +5614,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8febb66a-a0fd-4de1-bd5c-a1407f0ebbb0")
-		(property "Reference" "J4"
+		(property "Reference" "J3"
 			(at 241.3 49.53 0)
 			(effects
 				(font
@@ -5672,7 +5672,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "J4")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -5817,7 +5817,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "98dc876b-ac9a-4466-bf2e-77926bcfc8c8")
-		(property "Reference" "C7"
+		(property "Reference" "C5"
 			(at 87.63 53.34 90)
 			(effects
 				(font
@@ -5896,7 +5896,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "C7")
+					(reference "C5")
 					(unit 1)
 				)
 			)
@@ -5912,7 +5912,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9baaa45d-1584-4418-862a-d88df3cadd50")
-		(property "Reference" "R45"
+		(property "Reference" "R46"
 			(at 65.278 66.548 90)
 			(effects
 				(font
@@ -5991,7 +5991,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R45")
+					(reference "R46")
 					(unit 1)
 				)
 			)
@@ -6015,7 +6015,7 @@
 				)
 			)
 		)
-		(property "Value" "PMEG60T10ELR"
+		(property "Value" "PMEG60T30ELR"
 			(at 120.65 44.45 0)
 			(effects
 				(font
@@ -6059,7 +6059,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "PMEG60T10ELRX"
+		(property "PN" "PMEG60T30ELRX"
 			(at 111.76 44.45 0)
 			(effects
 				(font
@@ -6068,7 +6068,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C552945"
+		(property "JLCPCB Part #" "C2938304"
 			(at 110.49 44.45 0)
 			(effects
 				(font
@@ -6167,7 +6167,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b0cc54a9-e229-44f0-92af-f8269d8466f4")
-		(property "Reference" "R18"
+		(property "Reference" "R14"
 			(at 85.09 129.54 90)
 			(effects
 				(font
@@ -6246,7 +6246,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R18")
+					(reference "R14")
 					(unit 1)
 				)
 			)
@@ -6392,7 +6392,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c1427cd9-924a-4b46-bed0-cf43cfa57467")
-		(property "Reference" "R15"
+		(property "Reference" "R17"
 			(at 115.57 54.61 90)
 			(effects
 				(font
@@ -6471,7 +6471,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R15")
+					(reference "R17")
 					(unit 1)
 				)
 			)
@@ -6486,7 +6486,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c60dd788-7117-4171-adf9-01dca70b31fb")
-		(property "Reference" "R14"
+		(property "Reference" "R13"
 			(at 106.045 72.39 90)
 			(effects
 				(font
@@ -6565,7 +6565,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R14")
+					(reference "R13")
 					(unit 1)
 				)
 			)
@@ -6580,7 +6580,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c9429453-c926-4930-a076-56c93d9a43f1")
-		(property "Reference" "TV12"
+		(property "Reference" "TV10"
 			(at 88.9 137.16 0)
 			(effects
 				(font
@@ -6661,7 +6661,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "TV12")
+					(reference "TV10")
 					(unit 1)
 				)
 			)
@@ -6779,7 +6779,7 @@
 				)
 			)
 		)
-		(property "Value" "PMEG60T10ELR"
+		(property "Value" "PMEG60T30ELR"
 			(at 165.1 44.45 0)
 			(effects
 				(font
@@ -6823,7 +6823,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "PMEG60T10ELRX"
+		(property "PN" "PMEG60T30ELRX"
 			(at 156.21 44.45 0)
 			(effects
 				(font
@@ -6832,7 +6832,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C552945"
+		(property "JLCPCB Part #" "C2938304"
 			(at 154.94 44.45 0)
 			(effects
 				(font
@@ -6865,7 +6865,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e4b7158c-a5ea-4a1f-b383-bdeedf470026")
-		(property "Reference" "R48"
+		(property "Reference" "R43"
 			(at 113.03 162.56 90)
 			(effects
 				(font
@@ -6944,7 +6944,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R48")
+					(reference "R43")
 					(unit 1)
 				)
 			)
@@ -7064,7 +7064,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fbf0a880-ee69-4aa1-88fa-da44926144c6")
-		(property "Reference" "R16"
+		(property "Reference" "R15"
 			(at 85.09 163.83 90)
 			(effects
 				(font
@@ -7143,7 +7143,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R16")
+					(reference "R15")
 					(unit 1)
 				)
 			)
@@ -7158,7 +7158,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fed8ffec-4f5b-4a63-ac01-3b8ca0b9a48d")
-		(property "Reference" "TV13"
+		(property "Reference" "TV11"
 			(at 88.9 171.45 0)
 			(effects
 				(font
@@ -7239,7 +7239,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "TV13")
+					(reference "TV11")
 					(unit 1)
 				)
 			)

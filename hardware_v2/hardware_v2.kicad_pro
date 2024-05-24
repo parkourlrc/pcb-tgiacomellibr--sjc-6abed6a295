@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.2794
+          "min_clearance": 0.3556
         }
       },
       "diff_pair_dimensions": [
@@ -60,7 +60,19 @@
         }
       ],
       "drc_exclusions": [
-        "footprint_type_mismatch|102246286|31308000|416fd79d-efa4-44cb-b654-5a4c3aaa329b|00000000-0000-0000-0000-000000000000"
+        "footprint_type_mismatch|102246286|31308000|416fd79d-efa4-44cb-b654-5a4c3aaa329b|00000000-0000-0000-0000-000000000000",
+        "silk_edge_clearance|191237000|29591000|524c2308-7da1-411f-9c63-aa178dbfd93f|9a4c74a4-198c-4d71-ac59-c1c07531a36e",
+        "silk_edge_clearance|205257000|29591000|524c2308-7da1-411f-9c63-aa178dbfd93f|31049a1d-44d5-4038-894f-b46e74731753",
+        "silk_edge_clearance|216565800|127652500|fd724ff0-1319-4be9-a57d-d274deefc0a0|804b6caf-437e-452e-96cb-8bd343a54efd",
+        "silk_edge_clearance|216565800|143372500|fd724ff0-1319-4be9-a57d-d274deefc0a0|05c51672-d01e-417a-bf73-ebaa0253cbc7",
+        "silk_edge_clearance|216629000|127652500|fd724ff0-1319-4be9-a57d-d274deefc0a0|cf8896c6-b982-4d72-a185-62741a5793b1",
+        "silk_edge_clearance|216629000|128502500|fd724ff0-1319-4be9-a57d-d274deefc0a0|d94a5ad5-6940-45ee-b932-48de634c2610",
+        "silk_edge_clearance|216629000|142522500|fd724ff0-1319-4be9-a57d-d274deefc0a0|249e3e3d-58ba-4dc4-a85a-a1668426ae1c",
+        "silk_edge_clearance|216629000|142522500|fd724ff0-1319-4be9-a57d-d274deefc0a0|cb7c4d23-c7b8-4b64-a119-880943d7ffa7",
+        "silk_overlap|0|0|198ec444-44cb-4b1c-a6c5-75b2dfd87f7e|529bcf9f-63e3-40f4-8b42-b81fbfb1ba2c",
+        "silk_overlap|107827729|55545786|725f789e-6714-4782-b7fc-52431d11ab66|3665c7cf-e737-40a6-8c6b-a5e5657fc4df",
+        "silk_overlap|144038919|43070995|7486a70e-bfa2-48cd-9b57-6397c268b1da|198ec444-44cb-4b1c-a6c5-75b2dfd87f7e",
+        "silk_overlap|94954626|55545786|c72fc098-166a-48ed-ab9e-a6fe8357148a|725f789e-6714-4782-b7fc-52431d11ab66"
       ],
       "meta": {
         "version": 2
@@ -584,6 +596,8 @@
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "Net-(C27-Pad2)": "PWR",
       "Net-(C28-Pad2)": "PWR",
+      "Net-(C71-Pad2)": "PWR",
+      "Net-(C73-Pad2)": "PWR",
       "Net-(C74-Pad2)": "PWR",
       "Net-(C96-Pad2)": "PWR",
       "Net-(D10-K)": "DRV_HV",
@@ -602,6 +616,8 @@
       "Net-(LD3-K)": "PWR",
       "Net-(LD4-K)": "PWR",
       "Net-(LD6-K)": "PWR",
+      "Net-(LD8-K)": "PWR",
+      "Net-(LD9-K)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
       "Net-(Q2-G)": "DRV_HV",
@@ -713,10 +729,10 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "plot": "",
-      "pos_files": "",
+      "plot": "outputs/gerbers/",
+      "pos_files": "outputs/cpl/",
       "specctra_dsn": "",
-      "step": "",
+      "step": "outputs/doc/hardware_v2.step",
       "svg": "",
       "vrml": ""
     },
@@ -754,7 +770,7 @@
           "group_by": false,
           "label": "Datasheet",
           "name": "Datasheet",
-          "show": true
+          "show": false
         },
         {
           "group_by": false,
@@ -784,31 +800,25 @@
           "group_by": false,
           "label": "JLCPCB Part #",
           "name": "JLCPCB Part #",
-          "show": false
-        },
-        {
-          "group_by": false,
-          "label": "JLCPCB Part # ",
-          "name": "JLCPCB Part # ",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
           "label": "MF",
           "name": "MF",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
           "label": "Mouser #",
           "name": "Mouser #",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
           "label": "PN",
           "name": "PN",
-          "show": false
+          "show": true
         },
         {
           "group_by": false,
