@@ -1,0 +1,155 @@
+/*
+ * encoder.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: tiago
+ */
+
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+#include "adc.h"
+// ------------------------------------------------------------------- //
+
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#include "encoder.h"
+
+#include "debug_output.h"
+// ------------------------------------------------------------------- //
+
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
+osSemaphoreId_t xEncoderInterfacesSemprHandle = NULL;
+StaticSemaphore_t EncoderInterfacesSemaphoreControlBlock;
+const osSemaphoreAttr_t EncoderInterfacesSemaphore_attributes = {
+	.name = "EncoderInterfacesSemaphore",
+	.cb_mem = &EncoderInterfacesSemaphoreControlBlock,
+	.cb_size = sizeof(EncoderInterfacesSemaphoreControlBlock),
+};
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
+// ------------------------------------------------------------------- //
+static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
+// ------------------------------------------------------------------- //
+
+// Private function prototypes ---------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Public functions -------------------------------------------------- //
+// ------------------------------------------------------------------- //
+void Encoder_init(void)
+{
+	xEncoderInterfacesSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &EncoderInterfacesSemaphore_attributes);
+
+	if (xEncoderInterfacesSemprHandle == NULL)
+	{
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
+	}
+	else
+	{
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+	}
+
+	Encoder[SJC_ACTUATOR_JOINT].Instance = SJC_ACTUATOR_JOINT_TIMER_INSTANCE;
+	Encoder[SJC_AUX_JOINT_A].Instance = SJC_AUX_JOINT_A_TIMER_INSTANCE;
+	Encoder[SJC_AUX_JOINT_B].Instance = SJC_AUX_JOINT_B_TIMER_INSTANCE;
+
+	Encoder[SJC_ACTUATOR_JOINT].Counts = 0;
+	Encoder[SJC_AUX_JOINT_A].Counts = 0;
+	Encoder[SJC_AUX_JOINT_B].Counts = 0;
+
+	Encoder[SJC_ACTUATOR_JOINT].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
+	Encoder[SJC_AUX_JOINT_A].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
+	Encoder[SJC_AUX_JOINT_B].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
+
+	Encoder[SJC_ACTUATOR_JOINT].radians_per_quadrature_pulse = 1.0f;
+	Encoder[SJC_AUX_JOINT_A].radians_per_quadrature_pulse = 1.0f;
+	Encoder[SJC_AUX_JOINT_B].radians_per_quadrature_pulse = 1.0f;
+
+	Encoder_reset(SJC_ACTUATOR_JOINT);
+	Encoder_reset(SJC_AUX_JOINT_A);
+	Encoder_reset(SJC_AUX_JOINT_B);
+}
+
+void Encoder_reset(eSjcJoints_t Joint)
+{
+	LL_TIM_SetCounter(Encoder[Joint].Instance, 0);
+	Encoder[Joint].Counts = 0;
+}
+
+void Encoder_enable(eSjcJoints_t Joint)
+{
+	LL_TIM_EnableCounter(Encoder[Joint].Instance);
+}
+
+void Encoder_disable(eSjcJoints_t Joint)
+{
+	LL_TIM_DisableCounter(Encoder[Joint].Instance);
+}
+
+eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
+{
+	eSjcReturnType_t ret = SJC_RET_NOK;
+
+	Encoder[Joint].Counts = LL_TIM_GetCounter(Encoder[Joint].Instance);
+	*counts = Encoder[Joint].Counts;
+	ret = SJC_RET_OK;
+
+	return ret;
+}
+
+eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
+{
+	eSjcReturnType_t ret = SJC_RET_NOK;
+
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
+
+	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	{
+		ret = SJC_RET_OK;
+
+		switch (Joint)
+		{
+		case SJC_ACTUATOR_JOINT:
+			Encoder[Joint].Counts = ((int32_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
+			break;
+		default:
+			Encoder[Joint].Counts = ((int16_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
+			break;
+		}
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		*angular_dp = Encoder[Joint].Counts * Encoder[Joint].radians_per_quadrature_pulse;
+	}
+
+	return ret;
+}
+
+eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
+{
+	*resolution = Encoder[Joint].Resolution_PPR;
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution)
+{
+	Encoder[Joint].Resolution_PPR = resolution;
+	Encoder[Joint].radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * Encoder[Joint].Resolution_PPR);
+
+	return SJC_RET_OK;
+}
+
+// ------------------------------------------------------------------- //
+
+// Private functions ------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
