@@ -135,7 +135,9 @@ int main(int argc, char *argv[])
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "System info: " << std::endl
                           << " * Uptime: " << RuntimeInfo.uptime;
-                std::cout << " ms. - Input Voltage: " << std::to_string(RuntimeInfo.system_voltage) << " V - Error flags: " << RuntimeInfo.error_flags << std::endl;
+                std::cout << " ms. - Input Voltage: " << std::to_string(RuntimeInfo.system_voltage)
+                        //   << " V - Error flags: " << RuntimeInfo.error_flags 
+                          << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Controller:" << std::endl
                           << " * Mode: " << RuntimeInfo.controller_mode << " - Ref.: " << RuntimeInfo.controller_ref << " - Error: " << RuntimeInfo.controller_error << std::endl;

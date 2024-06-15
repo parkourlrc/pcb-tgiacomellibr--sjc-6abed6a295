@@ -92,7 +92,9 @@ int main(int argc, char *argv[])
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "System info: " << std::endl
                           << " * Uptime: " << RuntimeInfo.uptime;
-                std::cout << " ms. - Input Voltage: " << std::to_string(RuntimeInfo.system_voltage) << " V - Error flags: " << RuntimeInfo.error_flags << std::endl;
+                std::cout << " ms. - Input Voltage: " << std::to_string(RuntimeInfo.system_voltage) 
+                        //   << " V - Error flags: " 
+                          << RuntimeInfo.error_flags << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Controller:" << std::endl
                           << " * Mode: " << RuntimeInfo.controller_mode << " - Ref.: " << RuntimeInfo.controller_ref << " - Error: " << RuntimeInfo.controller_error << std::endl;
@@ -128,30 +130,30 @@ int main(int argc, char *argv[])
                 exit(-1);
             }            
             
-            if (SJC_RET_OK == Sjc.getActuatorParameters(&ActuatorInfo))
-            {
-                std::cout << "----------------------------------" << std::endl;
-                std::cout << "Actuator parameters: " << std::endl;
-                std::cout << " * State: ";
-                if (ActuatorInfo.state > 0)
-                {
-                    std::cout << "Enabled!";
-                }
-                else
-                {
-                    std::cout << "Disabled!";
-                }
-                std::cout << " - Base voltage: " << ActuatorInfo.base_voltage << " V";
-                std::cout << " - Current limit: " << ActuatorInfo.current_limit << " A";
-                std::cout << " - Voltage limit: " << ActuatorInfo.voltage_limit << " V";
-                std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rpm" << std::endl;
-                std::cout << "----------------------------------" << std::endl;
-            }
-            else
-            {                
-                std::cout << "Actuator info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
-                exit(-1);
-            }
+            // if (SJC_RET_OK == Sjc.getActuatorParameters(&ActuatorInfo))
+            // {
+            //     std::cout << "----------------------------------" << std::endl;
+            //     std::cout << "Actuator parameters: " << std::endl;
+            //     std::cout << " * State: ";
+            //     if (ActuatorInfo.state > 0)
+            //     {
+            //         std::cout << "Enabled!";
+            //     }
+            //     else
+            //     {
+            //         std::cout << "Disabled!";
+            //     }
+            //     std::cout << " - Base voltage: " << ActuatorInfo.base_voltage << " V";
+            //     std::cout << " - Current limit: " << ActuatorInfo.current_limit << " A";
+            //     std::cout << " - Voltage limit: " << ActuatorInfo.voltage_limit << " V";
+            //     std::cout << " - Speed limit: " << ActuatorInfo.speed_limit << " rpm" << std::endl;
+            //     std::cout << "----------------------------------" << std::endl;
+            // }
+            // else
+            // {                
+            //     std::cout << "Actuator info aquisition failed! \nPlease check the modbuss slave address..." << std::endl;
+            //     exit(-1);
+            // }
 
             auto toc = std::chrono::high_resolution_clock::now();            
 
