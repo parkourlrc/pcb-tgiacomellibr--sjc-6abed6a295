@@ -2,7 +2,7 @@ clear all;
 close all; clc
 
 MBTimerDiv = 1;
-MBTimerClock = 90e6
+MBTimerClock = 180e6
 MBTimerPer = 1/MBTimerClock
 MBDesiredPer = 50e-6;
 MBTimerPscReg = (MBDesiredPer/MBTimerPer)-1
