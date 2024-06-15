@@ -44,7 +44,7 @@ Av_max = max(Av_ACS712);
 Av_std = Av_ACS712(2);
 Vout_ACS712_min = Av_input_3v3*(Vref+Av_min*Imeas_ACS712);
 Vout_ACS712_max = Av_input_3v3*(Vref+Av_max*Imeas_ACS712);
-Vout_ACS712_std = Av_input_3v3*(Vref+Av_std*Imeas_ACS712);
+
 I=((Vout_ACS712_std/Av_input_3v3)-Vref)/Av_std;
 
 a = sprintf('\r   - Ex. For %.3f A (Min input) @ %.3f V, the output is %.3fV...', min(Imeas_ACS712), min(Vout_ACS712_std)/Av_input_3v3, min(Vout_ACS712_std));
