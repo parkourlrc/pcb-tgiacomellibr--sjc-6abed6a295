@@ -106,6 +106,10 @@ void Error_Handler(void);
 #define CURRENT_SIGNAL_FILT_GPIO_Port GPIOB
 #define R_MOT_LO_Pin LL_GPIO_PIN_1
 #define R_MOT_LO_GPIO_Port GPIOB
+#define NET_ADDR_C_Pin LL_GPIO_PIN_2
+#define NET_ADDR_C_GPIO_Port GPIOB
+#define NET_ADDR_B_Pin LL_GPIO_PIN_10
+#define NET_ADDR_B_GPIO_Port GPIOB
 #define L_MOT_LO_Pin LL_GPIO_PIN_13
 #define L_MOT_LO_GPIO_Port GPIOB
 #define SYS_HEARTBEAT_Pin LL_GPIO_PIN_15
@@ -114,6 +118,8 @@ void Error_Handler(void);
 #define AUX2_ENC_CH1_GPIO_Port GPIOC
 #define AUX2_ENC_CH2_Pin LL_GPIO_PIN_7
 #define AUX2_ENC_CH2_GPIO_Port GPIOC
+#define NET_ADDR_A_Pin LL_GPIO_PIN_8
+#define NET_ADDR_A_GPIO_Port GPIOC
 #define V_MOTOR_nEN_Pin LL_GPIO_PIN_9
 #define V_MOTOR_nEN_GPIO_Port GPIOC
 #define L_MOT_HI_Pin LL_GPIO_PIN_8

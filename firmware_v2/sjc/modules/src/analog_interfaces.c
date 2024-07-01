@@ -158,14 +158,16 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType
 		{
 
 		case SJC_INTERNAL_CURRENT_SENSOR_16A:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
-			*value /= (INA240_16A_GAIN * INA240_16A_SHUNT_RESISTANCE);
-			*value *= -1.0f;
+			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV];
+//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+//			*value /= (INA240_16A_GAIN * INA240_16A_SHUNT_RESISTANCE);
+//			*value *= -1.0f;
 			break;
 		case SJC_INTERNAL_CURRENT_SENSOR_25A:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
-			*value /= (INA240_25A_GAIN * INA240_25A_SHUNT_RESISTANCE);
-			*value *= -1.0f;
+			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV];
+//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+//			*value /= (INA240_25A_GAIN * INA240_25A_SHUNT_RESISTANCE);
+//			*value *= -1.0f;
 			break;
 		case SJC_EXTERNAL_CURRENT_SENSOR:
 			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;

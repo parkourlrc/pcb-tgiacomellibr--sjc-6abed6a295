@@ -13,6 +13,5 @@
 void DebugOutput_init(void);
 void DebugOutput_presentSystemInfo(void);
 int DebugOutput_systemPrintf(const char *format, ...);
-int DebugOutput_loggerPrintf(const char *format, ...);
 
 #endif /* SJC__MODULES__DEBUG_OUTPUT_H_ */

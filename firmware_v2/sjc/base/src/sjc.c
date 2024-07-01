@@ -113,7 +113,7 @@ void SJC_init(void)
 	MX_ADC1_Init();
 	MX_TIM4_Init();
 
-	HAL_Delay(5000);
+	HAL_Delay(1000);
 
 	// SJC O.S. initialization
 	osKernelInitialize(); /* Call init function for freertos objects (in freertos.c) */
@@ -124,22 +124,22 @@ void SJC_init(void)
 	fBiasCurrentValue = 0;
 	SJC_setVersions();
 
-	MotorOutput_init();
 	DataLogger_init();
 	DebugOutput_init();
 	AnalogInterfaces_init();
-	SJC_DigitalInterfaces_init();
+	DigitalInterfaces_init();
 
 	Encoder_init();
 	Encoder_enable(SJC_AUX_JOINT_A);
 	Encoder_enable(SJC_AUX_JOINT_B);
 	Encoder_enable(SJC_ACTUATOR_JOINT);
 
-	SJC_PidController_Init();
+	PidController_Init();
 
 	xSjcControlConfigs.Mode = SJC_CURRENT_CALIBRATION;
 	xSjcControlConfigs.Rate = SJC_CONTROLLER_MAX_UPDATE_RATE_HZ;
 
+	MotorOutput_init();
 	MotorDrive_init(PWM_FREQ_20kHz, 24.0);
 
 	SJC_presentSystemInfo();
@@ -193,10 +193,10 @@ eSjcReturnType_t SJC_delay(const eSjcTimeType_t type, const uint32_t value)
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		SJC_Timer_DelayMs(value);
+		Timer_delayMs(value);
 		break;
 	case SJC_TIME_SEC:
-		SJC_Timer_DelaySec(value);
+		Timer_delaySec(value);
 		break;
 	default:
 		ret = SJC_RET_NOK;
@@ -212,10 +212,10 @@ eSjcReturnType_t SJC_getTime(const eSjcTimeType_t type, uint32_t *value)
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		*value = SJC_Timer_GetTimeMs();
+		*value = Timer_getTimeMs();
 		break;
 	case SJC_TIME_SEC:
-		*value = SJC_Timer_GetTimeSec();
+		*value = Timer_getTimeSec();
 		break;
 	default:
 		ret = SJC_RET_NOK;
@@ -232,10 +232,10 @@ eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t ti
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		now = SJC_Timer_GetTimeMs();
+		now = Timer_getTimeMs();
 		break;
 	case SJC_TIME_SEC:
-		now = SJC_Timer_GetTimeSec();
+		now = Timer_getTimeSec();
 		break;
 	default:
 		now = 0;
@@ -351,12 +351,12 @@ void SJC_updateInputRegisters(void) {
 
 void SJC_executeNetworkDaemon(void)
 {
-	SJC_Network_Update();
+	Network_update();
 }
 
 void SJC_processNetworkData(void)
 {
-	SJC_Network_ProcessReceivedData();
+	Network_processReceivedData();
 }
 
 eSjcReturnType_t SJC_enableAdc(void)
@@ -457,7 +457,7 @@ eSjcReturnType_t SJC_getJointRelativeAngularDisplacement(const eSjcJoints_t join
 
 eSjcReturnType_t SJC_getJointActuatorPwmFrequency(uint32_t *freq)
 {
-	*freq = SJC_PWM_GetFrequency();
+	*freq = PWM_getFrequency();
 
 	return SJC_RET_OK;
 }
@@ -488,37 +488,37 @@ eSjcReturnType_t SJC_getJointActuatorPowerSupplyVoltage(float *value)
 
 eSjcReturnType_t SJC_readDigitalInputs(uint32_t *states)
 {
-	return SJC_DigitalInterfaces_ReadInputStates(states);
+	return DigitalInterfaces_readInputStates(states);
 }
 
 eSjcReturnType_t SJC_readDigitalOutputs(uint32_t *states)
 {
-	return SJC_DigitalInterfaces_ReadOutputStates(states);
+	return DigitalInterfaces_readOutputStates(states);
 }
 
 eSjcReturnType_t SJC_writeDigitalOutputs(const uint8_t states)
 {
-	return SJC_DigitalInterfaces_WriteOutputStates(states);
+	return DigitalInterfaces_writeOutputStates(states);
 }
 
 eSjcReturnType_t SJC_toggleDigitalOutput(const eSjcDigitalOutputs_t Output)
 {
-	return SJC_DigitalInterfaces_ToggleOutputState(Output);
+	return DigitalInterfaces_toggleOutputState(Output);
 }
 
 eSjcReturnType_t SJC_readDigitalInput(const eSjcDigitalInputs_t Input, bool *state)
 {
-	return SJC_DigitalInterfaces_ReadInputState(Input, state);
+	return DigitalInterfaces_readInputState(Input, state);
 }
 
 eSjcReturnType_t SJC_readDigitalOutput(const eSjcDigitalOutputs_t Output, bool *state)
 {
-	return SJC_DigitalInterfaces_ReadOutputState(Output, state);
+	return DigitalInterfaces_readOutputState(Output, state);
 }
 
 eSjcReturnType_t SJC_writeDigitalOutput(const eSjcDigitalOutputs_t Output, const bool state)
 {
-	return SJC_DigitalInterfaces_WriteOutputState(Output, state);
+	return DigitalInterfaces_writeOutputState(Output, state);
 }
 
 // ------------------------------------------------------------------- //
@@ -532,7 +532,7 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	float fAux;
 	uint16_t ui16Aux;
 	uint32_t ui32Aux;
-	uint32_t uptime = SJC_Timer_GetTimeMs();
+	uint32_t uptime = Timer_getTimeMs();
 	uint16_t *ui16ptr = ((uint16_t *)(&uptime));
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME + 1] = ui16ptr[0];
@@ -612,7 +612,7 @@ void Net_UpdateNetworkParametersRegisters(void)
 	uint16_t xSlaveAddress;
 	uint32_t xBaudRate;
 	char xParity;
-	SJC_Network_GetParameters(&xSlaveAddress, &xBaudRate, &xParity);
+	Network_getParameters(&xSlaveAddress, &xBaudRate, &xParity);
 
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
 	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;

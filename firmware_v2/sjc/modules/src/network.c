@@ -22,6 +22,7 @@
 
 #include "debug_output.h"
 #include "network_configs.h"
+#include "digital_interfaces.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -51,12 +52,12 @@ static xSjcNetworkConfig_t xNetworkParameters;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
+eSjcReturnType_t Network_init(const uint32_t xSlaveAddress)
 {
 	eMBErrorCode eStatus;
 
 	xNetworkParameters.Address = xSlaveAddress;
-	SJC_Network_GetBaudRate(&xNetworkParameters.Baudrate);
+	Network_getBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
 	if (MB_ENOERR != (eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity)))
@@ -108,7 +109,27 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
+eSjcReturnType_t Network_getAddress(uint32_t *xAddress)
+{
+#if SJC_HW_VERSION_MAJOR > 1
+	bool addr_a, addr_b, addr_c;
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_A_INPUT, &addr_a);
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_B_INPUT, &addr_b);
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_C_INPUT, &addr_c);
+
+	*xAddress = (addr_c << 2) | (addr_b << 1) | addr_a;
+	if (*xAddress == 0)
+	{
+		*xAddress = 247;
+	}
+#else
+	*xAddress = NETWORK_BASE_ADRESS;
+#endif
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t Network_getBaudRate(uint32_t *xBaudRate)
 {
 	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
 
@@ -156,17 +177,17 @@ eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
 	return SJC_RET_OK;
 }
 
-void SJC_Network_Update(void)
+void Network_update(void)
 {
 	(void)eMBPoll();
 }
 
-void SJC_Network_ProcessReceivedData(void)
+void Network_processReceivedData(void)
 {
 
 }
 
-eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
+eSjcReturnType_t Network_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
 {
 	*xSlaveAddress = xNetworkParameters.Address;
 	*xBaudRate = xNetworkParameters.Baudrate;

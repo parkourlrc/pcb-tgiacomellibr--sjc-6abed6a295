@@ -95,7 +95,7 @@
 //
 //	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 //
-//	SJC_TestSignals_Init();
+//	TestSignals_init();
 //
 //	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 //
@@ -239,21 +239,21 @@
 //
 //static void RunTestSignal(eSjcInputType_t type)
 //{
-//	SJC_TestSignals_GetState(&xTestSignalState);
+//	TestSignals_getState(&xTestSignalState);
 //
 //	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 //	{
 //		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
-//		SJC_TestSignals_SetConfig(type, time_factor);
+//		TestSignals_setConfig(type, time_factor);
 //	}
 //	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 //	{
-//		SJC_TestSignals_GetValue(&xTestSignalValue);
+//		TestSignals_getValue(&xTestSignalValue);
 //		ControlAction = ControllerReference*xTestSignalValue;
 //	}
 //	else
 //	{
-//		SJC_TestSignals_Reset();
+//		TestSignals_reset();
 //		SJC_setControlMode(SJC_CONTROL_DISABLED);
 //	}
 //}

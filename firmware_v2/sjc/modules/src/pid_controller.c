@@ -41,7 +41,7 @@ void reset_parameters(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_PidController_Init(void)
+void PidController_Init(void)
 {
 
 	xPidController.Reference = 0;

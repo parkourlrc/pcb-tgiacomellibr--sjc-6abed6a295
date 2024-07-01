@@ -10,7 +10,7 @@
 
 #include "types.h"
 
-void SJC_PidController_Init();
+void PidController_Init();
 
 float PidController_compute(const float ControllerError, const float dt);
 float PidController_getError(void);

@@ -151,11 +151,11 @@ void SJC_TaskCommon_initThreads(void)
 void SJC_TaskCommon_initCommonObjects(void)
 {
 	/* Init Startup Tasks */
-		if (SJC_RET_NOK == InitOsObjects())
-		{
-			DebugOutput_systemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
-			SJC_SYSTEM_RESET();
-		}
+	if (SJC_RET_NOK == InitOsObjects())
+	{
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
+		SJC_SYSTEM_RESET();
+	}
 }
 
 
@@ -203,9 +203,9 @@ eSjcReturnType_t InitOsObjects(void)
 	// Shared queues creation
 
 	xDataLoggerQueueHandle = xQueueCreateStatic( DATA_LOGGER_QUEUE_LENGTH,
-	    							 DATA_LOGGER_ITEM_SIZE,
-									 ucDataLoggerQueueStorageArea,
-	                                 &xDataLoggerStaticQueue );
+			DATA_LOGGER_ITEM_SIZE,
+			ucDataLoggerQueueStorageArea,
+			&xDataLoggerStaticQueue );
 
 	configASSERT( xDataLoggerQueueHandle );
 
@@ -215,34 +215,28 @@ eSjcReturnType_t InitOsObjects(void)
 eSjcReturnType_t InitOsThreads(void)
 {
 	// Tasks creation
-	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
-	DataLoggerTaskHandle = osThreadNew(DataLoggerTaskApp, NULL, &DataLoggerTask_attributes);
 	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
-	ControllerAndMeasurementsTaskHandle = osThreadNew(ControllerMeasTaskApp, NULL, &ControllerAndMeasurementsTask_attributes);
-
-	/* -- Deprecated --
-	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
-	MeasurementsTaskHandle = osThreadNew(MeasurementsTaskApp, NULL, &MeasurementsTask_attributes);
-	 */
-
 	if (NULL == NetworkTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Network task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	DataLoggerTaskHandle = osThreadNew(DataLoggerTaskApp, NULL, &DataLoggerTask_attributes);
 	if (NULL == DataLoggerTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Data logger task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
 	if (NULL == WatchdogTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Watchdog task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	ControllerAndMeasurementsTaskHandle = osThreadNew(ControllerMeasTaskApp, NULL, &ControllerAndMeasurementsTask_attributes);
 	if (NULL == ControllerAndMeasurementsTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Controller and measurements task not initiated...");
@@ -250,12 +244,14 @@ eSjcReturnType_t InitOsThreads(void)
 	}
 
 	/* -- Deprecated --
+	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
 		if (NULL == ControllerTaskHandle)
 		{
 			DebugOutput_systemPrintf("\r\n[OS FAULT] Joint controller task not initiated...");
 			return SJC_RET_NOK;
 		}
 
+	MeasurementsTaskHandle = osThreadNew(MeasurementsTaskApp, NULL, &MeasurementsTask_attributes);
 		if (NULL == MeasurementsTaskHandle)
 		{
 			DebugOutput_systemPrintf("\r\n[OS FAULT] Analog measurements task not initiated...");

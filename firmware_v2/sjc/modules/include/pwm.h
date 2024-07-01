@@ -10,16 +10,16 @@
 
 #include "types.h"
 
-void SJC_PWM_Init(const eSjcPwmBaseFreq_t BaseFrequency);
-void SJC_PWM_Enable(void);
-void SJC_PWM_Disable(void);
+void PWM_init(const eSjcPwmBaseFreq_t BaseFrequency);
+void PWM_enable(void);
+void PWM_disable(void);
 
-float SJC_PWM_GetMinDutyCycle(void);
-float SJC_PWM_GetMaxDutyCycle(void);
-float SJC_PWM_GetDutyCycle(void);
-eSjcReturnType_t SJC_PWM_SetDutyCycle(const float duty);
+float PWM_getMinDutyCycle(void);
+float PWM_getMaxDutyCycle(void);
+float PWM_getDutyCycle(void);
+eSjcReturnType_t PWM_setDutyCycle(const float duty);
 
-uint32_t SJC_PWM_GetFrequency(void);
-uint32_t SJC_PWM_SetFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
+uint32_t PWM_getFrequency(void);
+uint32_t PWM_setFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
 
 #endif /* MOTOR_H_ */

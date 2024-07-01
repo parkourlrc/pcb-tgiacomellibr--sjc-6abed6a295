@@ -82,12 +82,12 @@ static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
-static float ui, ud, up, uitemp;
-static float k = 0.0;//0.99; //0.9969;
-static float p1 = 1.0;
-static float p2 = 0.9920;
-static float z1 = 0.099;
-static float z2 = -0.0895;
+//static float ui, ud, up, uitemp;
+//static float k = 0.0;//0.99; //0.9969;
+//static float p1 = 1.0;
+//static float p2 = 0.9920;
+//static float z1 = 0.099;
+//static float z2 = -0.0895;
 
 // ------------------------------------------------------------------- //
 
@@ -119,7 +119,7 @@ void ControllerMeasTaskApp(void *argument)
 
 	xControlAndMeasurementsTaskHandle = xTaskGetCurrentTaskHandle();
 
-	SJC_TestSignals_Init();
+	TestSignals_init();
 
 	SJC_enableJointActuatorDriver();
 
@@ -135,7 +135,7 @@ void ControllerMeasTaskApp(void *argument)
 
 	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
-	SJC_enableJointActuatorOutput();
+//	SJC_enableJointActuatorOutput();
 
 	/* Infinite loop */
 	for (;;) {
@@ -229,7 +229,7 @@ static void RunControlLoop(void)
 			{
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
 				CurrentBias /= CurrentBiasMeasurementIdx;
-				SJC_setJointActuatorCurrentBias(CurrentBias);
+//				SJC_setJointActuatorCurrentBias(CurrentBias);
 				DebugOutput_systemPrintf("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
 				SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
@@ -360,21 +360,21 @@ static void EndstopsCheck(void) {
 
 static void RunTestSignal(eSjcInputType_t type)
 {
-	SJC_TestSignals_GetState(&xTestSignalState);
+	TestSignals_getState(&xTestSignalState);
 
 	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
 		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
-		SJC_TestSignals_SetConfig(type, time_factor);
+		TestSignals_setConfig(type, time_factor);
 	}
 	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 	{
-		SJC_TestSignals_GetValue(&xTestSignalValue);
+		TestSignals_getValue(&xTestSignalValue);
 		JointMeasurements.ControlAction = JointMeasurements.ControllerReference*xTestSignalValue;
 	}
 	else
 	{
-		SJC_TestSignals_Reset();
+		TestSignals_reset();
 		SJC_setControlMode(SJC_CONTROL_DISABLED);
 	}
 }

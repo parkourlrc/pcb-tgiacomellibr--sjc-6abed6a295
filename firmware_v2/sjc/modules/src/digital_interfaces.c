@@ -27,9 +27,9 @@
 osSemaphoreId_t xDigitalInterfacesSemprHandle = NULL;
 StaticSemaphore_t DigitalInterfacesSemaphoreControlBlock;
 const osSemaphoreAttr_t DigitalInterfacesSemaphore_attributes = {
-	.name = "DigitalInterfacesSemaphore",
-	.cb_mem = &DigitalInterfacesSemaphoreControlBlock,
-	.cb_size = sizeof(DigitalInterfacesSemaphoreControlBlock),
+		.name = "DigitalInterfacesSemaphore",
+		.cb_mem = &DigitalInterfacesSemaphoreControlBlock,
+		.cb_size = sizeof(DigitalInterfacesSemaphoreControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -46,7 +46,7 @@ static xSjcDigitalPort_t xDigitalOutputInterfaces[SJC_DIGITAL_OUTPUTS_SIZE];
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_DigitalInterfaces_init(void)
+void DigitalInterfaces_init(void)
 {
 	xDigitalInterfacesSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &DigitalInterfacesSemaphore_attributes);
 
@@ -86,9 +86,23 @@ void SJC_DigitalInterfaces_init(void)
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Type = SJC_DIGITAL_OUTPUT_PORT;
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Pin = SJC_HEARTBEAT_OUTPUT_PIN;
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Port = SJC_HEARTBEAT_OUTPUT_PORT;
+
+#if SJC_HW_VERSION_MAJOR > 1
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Pin = SJC_NET_ADDR_A_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Port = SJC_NET_ADDR_A_INPUT_PORT;
+
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Pin = SJC_NET_ADDR_B_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Port = SJC_NET_ADDR_B_INPUT_PORT;
+
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Pin = SJC_NET_ADDR_C_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Port = SJC_NET_ADDR_C_INPUT_PORT;
+#endif
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(const eSjcDigitalInputs_t input, bool *state)
+eSjcReturnType_t DigitalInterfaces_readInputState(const eSjcDigitalInputs_t input, bool *state)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -110,7 +124,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadInputState(const eSjcDigitalInputs_t 
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(const eSjcDigitalOutputs_t output, bool *state)
+eSjcReturnType_t DigitalInterfaces_readOutputState(const eSjcDigitalOutputs_t output, bool *state)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -132,7 +146,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputState(const eSjcDigitalOutputs_
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ToggleOutputState(const eSjcDigitalOutputs_t output)
+eSjcReturnType_t DigitalInterfaces_toggleOutputState(const eSjcDigitalOutputs_t output)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -152,7 +166,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ToggleOutputState(const eSjcDigitalOutput
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(const eSjcDigitalOutputs_t output, const bool state)
+eSjcReturnType_t DigitalInterfaces_writeOutputState(const eSjcDigitalOutputs_t output, const bool state)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -179,7 +193,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputState(const eSjcDigitalOutputs
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t *states)
+eSjcReturnType_t DigitalInterfaces_readInputStates(uint32_t *states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -194,6 +208,13 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t *states)
 		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Port, xDigitalInputInterfaces[SJC_ISOLATED_INPUT_B].Pin) << SJC_ISOLATED_INPUT_B);
 		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_A].Pin) << SJC_JOINT_SWITCH_A);
 		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Port, xDigitalInputInterfaces[SJC_JOINT_SWITCH_B].Pin) << SJC_JOINT_SWITCH_B);
+
+#if SJC_HW_VERSION_MAJOR > 1
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Port, xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Pin) << SJC_NET_ADDR_A_INPUT);
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Port, xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Pin) << SJC_NET_ADDR_B_INPUT);
+		*states |= (LL_GPIO_IsInputPinSet(xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Port, xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Pin) << SJC_NET_ADDR_C_INPUT);
+#endif
+
 		ret = SJC_RET_OK;
 
 		osSemaphoreRelease(xDigitalInterfacesSemprHandle);
@@ -202,7 +223,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadInputStates(uint32_t *states)
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(uint32_t *states)
+eSjcReturnType_t DigitalInterfaces_readOutputStates(uint32_t *states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -222,7 +243,7 @@ eSjcReturnType_t SJC_DigitalInterfaces_ReadOutputStates(uint32_t *states)
 	return ret;
 }
 
-eSjcReturnType_t SJC_DigitalInterfaces_WriteOutputStates(const uint32_t states)
+eSjcReturnType_t DigitalInterfaces_writeOutputStates(const uint32_t states)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 

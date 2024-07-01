@@ -114,49 +114,49 @@ void WatchdogTaskApp(void *argument)
 								"\r                                     "
 								 "                ", TaskTic/1000, psu, volt, amp);
 
-//		switch (xWatchdogState) {
-//		case WD_STATE_STATISTICS:
-//			AnalogInterfaces_getMeanConversionDelay(&Ts);
-//			MeanSampleTime_us = (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f;
-//
-//			DebugOutput_systemPrintf("\n\r[OS] Runtime Stats.:"
-//					"\n\r - Uptime: %lu s"
-//					"\n\r - Analog. Conv. Delay: %.2f us"
-//					"\n\r - Controller Ts: %.3f ms"
-//					"\n\r - Controller Runtime: %.2f ms"
-//					"\n\r - Measurement Task Runtime: %.2f ms"
-//					"\n\r - Network Task: %.2f ms"
-//					"\n\r - Watchdog Task: %.2f ms"
-//					"\n\r - Data Logger Task: %.2f ms\n",
-//					TaskTic/1000,
-//					MeanSampleTime_us,
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME),
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME),
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME),
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME),
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME),
-//					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_RUNTIME));
-//			xWatchdogState = WD_STATE_MEMORY;
-//			break;
-//		case WD_STATE_MEMORY:
-//			SJC_TaskCommon_UpdateHighWaterMarkInfo();
-//			DebugOutput_systemPrintf("\n\r[OS] HighWaterMark:"
-//					"\n\r - Watchdog Task: %lu B"
-//					"\n\r - Data Logger Task: %.lu B"
-//					"\n\r - Network Task: %lu B"
-//					"\n\r - ControlMeas Task: %lu B\n",
-//					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_WATCHDOG_TASK),
-//					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK),
-//					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_NETWORK_TASK),
-//					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK));
-//			xWatchdogState = WD_STATE_RTOS_REPORT;
-//			break;
-//
-//		default: // WD_STATE_RTOS_REPORT
-//			presentRunTimeStats();
-//			xWatchdogState = WD_STATE_STATISTICS;
-//			break;
-//		}
+		switch (xWatchdogState) {
+		case WD_STATE_STATISTICS:
+			AnalogInterfaces_getMeanConversionDelay(&Ts);
+			MeanSampleTime_us = (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f;
+
+			DebugOutput_systemPrintf("\n\r[OS] Runtime Stats.:"
+					"\n\r - Uptime: %lu s"
+					"\n\r - Analog. Conv. Delay: %.2f us"
+					"\n\r - Controller Ts: %.3f ms"
+					"\n\r - Controller Runtime: %.2f ms"
+					"\n\r - Measurement Task Runtime: %.2f ms"
+					"\n\r - Network Task: %.2f ms"
+					"\n\r - Watchdog Task: %.2f ms"
+					"\n\r - Data Logger Task: %.2f ms\n",
+					TaskTic/1000,
+					MeanSampleTime_us,
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME),
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME),
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME),
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME),
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME),
+					SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_RUNTIME));
+			xWatchdogState = WD_STATE_MEMORY;
+			break;
+		case WD_STATE_MEMORY:
+			SJC_TaskCommon_UpdateHighWaterMarkInfo();
+			DebugOutput_systemPrintf("\n\r[OS] HighWaterMark:"
+					"\n\r - Watchdog Task: %lu B"
+					"\n\r - Data Logger Task: %.lu B"
+					"\n\r - Network Task: %lu B"
+					"\n\r - ControlMeas Task: %lu B\n",
+					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_WATCHDOG_TASK),
+					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK),
+					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_NETWORK_TASK),
+					SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK));
+			xWatchdogState = WD_STATE_RTOS_REPORT;
+			break;
+
+		default: // WD_STATE_RTOS_REPORT
+			presentRunTimeStats();
+			xWatchdogState = WD_STATE_STATISTICS;
+			break;
+		}
 
 		SJC_getTime(SJC_TIME_MS, &TaskToc);
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc-TaskTic));

@@ -58,7 +58,11 @@ static uint32_t TaskTic, TaskToc;
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
+
+	uint32_t xNetworkAdress = 0;
+	Network_getAddress(&xNetworkAdress);
+
+	if (SJC_RET_NOK == Network_init(xNetworkAdress))
 	{
 		SJC_SYSTEM_RESET();
 	}

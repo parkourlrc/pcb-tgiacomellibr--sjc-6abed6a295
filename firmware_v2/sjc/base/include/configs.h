@@ -52,7 +52,7 @@
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_TASK_INIT_DELAY ((uint32_t) 2000UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 2000UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 1000UL)
 #define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t) 1UL)
 #define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t) 3UL)
 #define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t) 250UL)
@@ -102,6 +102,16 @@
 #define SJC_JOINT_SWITCH_B_PORT JOINT_SW_R_GPIO_Port
 #define SJC_ISOLATED_INPUT_A_PORT GP_ISO_IN_A_GPIO_Port
 #define SJC_ISOLATED_INPUT_B_PORT GP_ISO_IN_B_GPIO_Port
+
+#if SJC_HW_VERSION_MAJOR > 1
+#define SJC_NET_ADDR_A_INPUT_PIN NET_ADDR_A_Pin
+#define SJC_NET_ADDR_B_INPUT_PIN NET_ADDR_B_Pin
+#define SJC_NET_ADDR_C_INPUT_PIN NET_ADDR_C_Pin
+
+#define SJC_NET_ADDR_A_INPUT_PORT NET_ADDR_A_GPIO_Port
+#define SJC_NET_ADDR_B_INPUT_PORT NET_ADDR_B_GPIO_Port
+#define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
+#endif
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -166,6 +176,8 @@
 // Modbus Communication ----------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define MODBUS_SERIAL_INSTANCE USART2
+#define MODBUS_SERIAL_DMA_INSTANCE DMA1
+#define MODBUS_SERIAL_DMA_STREAM LL_DMA_STREAM_6
 #define MODBUS_SET_RX_MODE() LL_GPIO_ResetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 #define MODBUS_SET_TX_MODE() LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 

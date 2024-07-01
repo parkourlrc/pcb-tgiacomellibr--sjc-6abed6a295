@@ -22,9 +22,9 @@
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-//#define DATA_LOGGER_SERIAL_INSTANCE 						USART3
-//#define DATA_LOGGER_DMA_INSTANCE 							DMA1
-//#define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_3
+#define DATA_LOGGER_SERIAL_INSTANCE 						UART5
+#define DATA_LOGGER_DMA_INSTANCE 							DMA1
+#define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_7
 #define DATA_LOGGER_BUFF_SIZE 								(2048UL)
 #define DATA_LOGGER_MID_BANK_INDEX 							(DATA_LOGGER_BUFF_SIZE/2)
 #define MIN_TRANSMIT_BURST_SIZE								(DATA_LOGGER_MID_BANK_INDEX/2)
@@ -136,6 +136,37 @@ static void TransmitBuffer(void)
 ////	LL_DMA_ClearFlag_FE3(DATA_LOGGER_DMA_INSTANCE);
 ////
 ////	LL_DMA_EnableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
+//}
+
+//void UART5_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN UART5_IRQn 0 */
+//	if (LL_USART_IsActiveFlag_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE))
+//	{
+//		LL_USART_ClearFlag_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE);
+//		bDebugOutputSerialBusy = false;
+//	}
+//
+//	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
+//	{
+//		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
+//		bDebugOutputSerialBusy = false;
+//	}
+//  /* USER CODE END UART5_IRQn 0 */
+//  /* USER CODE BEGIN UART5_IRQn 1 */
+//
+//  /* USER CODE END UART5_IRQn 1 */
+//}
+//
+//void DMA1_Stream7_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN DMA1_Stream7_IRQn 0 */
+//
+//  /* USER CODE END DMA1_Stream7_IRQn 0 */
+//
+//  /* USER CODE BEGIN DMA1_Stream7_IRQn 1 */
+//
+//  /* USER CODE END DMA1_Stream7_IRQn 1 */
 //}
 
 //void DMA1_Stream3_IRQHandler(void)
