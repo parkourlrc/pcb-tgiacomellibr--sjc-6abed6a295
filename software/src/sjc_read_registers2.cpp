@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
             auto tic = std::chrono::high_resolution_clock::now();            
-            
+                        
             if (SJC_RET_OK == Sjc.getRuntimeInfo(&RuntimeInfo))
             {
                 std::cout << "----------------------------------" << std::endl;
@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
             const auto end_cycle = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double, std::nano> dt = (end_cycle - start);
             
-            int TsTarget = 20;
+            int TsTarget = 100;
             int delta = ((TsTarget*1.0e6) - (dt.count())) * 1.0e-3;
             uint32_t wait = (delta < 0) ? TsTarget*1e3 : delta;
             std::cout << " * Wait time: " << std::to_string(wait / 1000) << " ms" << std::endl;
