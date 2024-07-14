@@ -35,7 +35,7 @@
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #define TASK_NOTIFICATION_MAX_WAIT_TIME_MS				( (uint32_t ) 2U)
-#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT			( (uint32_t ) 3000UL)
+#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT			( (uint32_t ) 5000UL)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -122,8 +122,9 @@ void ControllerMeasTaskApp(void *argument)
 	TestSignals_init();
 
 	SJC_enableJointActuatorDriver();
+	SJC_enableJointActuatorOutput();
 
-	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
+	osDelay(SJC_TASK_INIT_DELAY);
 
 	xHeartbeatTimerId = osTimerNew(vHeartbeatTimerCallback, osTimerPeriodic, (void *)0, NULL);
 	configASSERT(xHeartbeatTimerId != NULL);
@@ -135,7 +136,8 @@ void ControllerMeasTaskApp(void *argument)
 
 	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
-//	SJC_enableJointActuatorOutput();
+	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
+
 
 	/* Infinite loop */
 	for (;;) {
@@ -229,7 +231,7 @@ static void RunControlLoop(void)
 			{
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
 				CurrentBias /= CurrentBiasMeasurementIdx;
-//				SJC_setJointActuatorCurrentBias(CurrentBias);
+				SJC_setJointActuatorCurrentBias(CurrentBias);
 				DebugOutput_systemPrintf("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
 				SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
