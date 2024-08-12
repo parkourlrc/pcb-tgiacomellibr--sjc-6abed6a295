@@ -556,6 +556,7 @@
       "PGND": "rgb(0, 255, 0)"
     },
     "netclass_assignments": {
+      "+V_{BAT}": "PWR",
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
       "/Motor/INNER": "PWR",
