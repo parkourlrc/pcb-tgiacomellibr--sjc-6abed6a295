@@ -532,7 +532,10 @@
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
+      "/Power Supply/DRIVER_~{EN": "DRV_HV",
+      "/Power Supply/DRIVER_~{EN}": "DRV_HV",
       "/Power Supply/MOTOR_{SHDN}": "DRV_HV",
+      "/Power Supply/MOTOR_~{EN}": "DRV_HV",
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
       "Net-(C180-Pad2)": "PWR",
@@ -650,7 +653,7 @@
         "pattern": "V_{DC}+"
       },
       {
-        "netclass": "PWR",
+        "netclass": "Default",
         "pattern": "PGND"
       },
       {
@@ -861,7 +864,7 @@
   "sheets": [
     [
       "9538e4ed-27e6-4c37-b989-9859dc0d49e8",
-      "Root"
+      "Raiz"
     ],
     [
       "6b8495e1-b9f5-4ecc-abc1-699baba2c005",

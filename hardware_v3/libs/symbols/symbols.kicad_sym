@@ -2404,7 +2404,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "U"
-			(at 2.54 -11.43 0)
+			(at 1.524 -8.89 0)
 			(effects
 				(font
 					(size 0.9906 0.9906)
@@ -2412,7 +2412,7 @@
 			)
 		)
 		(property "Value" "74LVC2G17GW,125"
-			(at 8.89 -12.7 0)
+			(at 8.128 -10.668 0)
 			(effects
 				(font
 					(size 0.9906 0.9906)
@@ -2457,8 +2457,8 @@
 		)
 		(symbol "74LVC2G17GW,125_0_1"
 			(rectangle
-				(start -6.35 10.16)
-				(end 6.35 -10.16)
+				(start -6.35 8.89)
+				(end 6.35 -7.62)
 				(stroke
 					(width 0)
 					(type solid)
@@ -2469,7 +2469,7 @@
 			)
 			(polyline
 				(pts
-					(xy -3.81 -3.81) (xy -2.54 -3.81)
+					(xy -3.81 -2.54) (xy -2.54 -2.54)
 				)
 				(stroke
 					(width 0)
@@ -2528,7 +2528,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -12.7 90)
+				(at 0 -10.16 90)
 				(length 2.54)
 				(name "GND"
 					(effects
@@ -2546,7 +2546,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 12.7 270)
+				(at 0 11.43 270)
 				(length 2.54)
 				(name "VCC"
 					(effects
@@ -2567,7 +2567,7 @@
 		(symbol "74LVC2G17GW,125_1_1"
 			(polyline
 				(pts
-					(xy -0.635 -3.175) (xy 0 -3.175) (xy 0 -4.445)
+					(xy -0.635 -1.905) (xy 0 -1.905) (xy 0 -3.175)
 				)
 				(stroke
 					(width 0)
@@ -2579,7 +2579,7 @@
 			)
 			(polyline
 				(pts
-					(xy -2.54 -1.27) (xy -2.54 -6.35) (xy 3.81 -3.81) (xy -2.54 -1.27)
+					(xy -2.54 0) (xy -2.54 -5.08) (xy 3.81 -2.54) (xy -2.54 0)
 				)
 				(stroke
 					(width 0.254)
@@ -2591,7 +2591,7 @@
 			)
 			(polyline
 				(pts
-					(xy -1.27 -3.175) (xy -0.635 -3.175) (xy -0.635 -4.445) (xy 0.635 -4.445)
+					(xy -1.27 -1.905) (xy -0.635 -1.905) (xy -0.635 -3.175) (xy 0.635 -3.175)
 				)
 				(stroke
 					(width 0)
@@ -2620,7 +2620,7 @@
 				)
 			)
 			(pin input line
-				(at -7.62 -3.81 0)
+				(at -7.62 -2.54 0)
 				(length 3.81)
 				(name "2A"
 					(effects
@@ -2638,7 +2638,7 @@
 				)
 			)
 			(pin output line
-				(at 7.62 -3.81 180)
+				(at 7.62 -2.54 180)
 				(length 3.81)
 				(name "2Y"
 					(effects

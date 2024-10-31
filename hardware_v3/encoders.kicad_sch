@@ -1300,6 +1300,175 @@
 				)
 			)
 		)
+		(symbol "Device:LED"
+			(pin_numbers hide)
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Light emitting diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "LED diode"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LED_0_1"
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Device:R_Small_US"
 			(pin_numbers hide)
 			(pin_names
@@ -2923,6 +3092,12 @@
 		(uuid "da698578-5d22-487f-9706-2a3c2795222e")
 	)
 	(junction
+		(at 274.32 91.44)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ed4f9b63-801e-42d2-b098-795d612828e4")
+	)
+	(junction
 		(at 245.11 119.38)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3043,6 +3218,16 @@
 	)
 	(wire
 		(pts
+			(xy 250.19 91.44) (xy 255.27 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "05b8b163-5bfd-4b67-933b-fd9aca833c99")
+	)
+	(wire
+		(pts
 			(xy 19.05 123.19) (xy 19.05 125.73)
 		)
 		(stroke
@@ -3142,6 +3327,16 @@
 			(type dash)
 		)
 		(uuid "0dee5a1b-32f8-4962-b9b7-120b79ebd178")
+	)
+	(wire
+		(pts
+			(xy 274.32 91.44) (xy 274.32 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1434902a-8b99-42bb-9c0a-bc972b46dc32")
 	)
 	(wire
 		(pts
@@ -3363,6 +3558,16 @@
 			(type default)
 		)
 		(uuid "2927ee37-8e4c-4937-ab4e-321c1d3313c1")
+	)
+	(wire
+		(pts
+			(xy 265.43 82.55) (xy 262.89 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29e1730d-e3f7-4269-8d80-1dd6d7f922b7")
 	)
 	(wire
 		(pts
@@ -4096,6 +4301,16 @@
 	)
 	(wire
 		(pts
+			(xy 250.19 82.55) (xy 255.27 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7dc5d367-194a-4981-9402-950abd68c9de")
+	)
+	(wire
+		(pts
 			(xy 64.77 128.27) (xy 82.55 128.27)
 		)
 		(stroke
@@ -4143,6 +4358,16 @@
 			(type default)
 		)
 		(uuid "812ae010-ad14-4cc3-9ffd-1211eb6f3a39")
+	)
+	(wire
+		(pts
+			(xy 274.32 82.55) (xy 274.32 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "81438bfa-8d21-4e19-a64a-3d6fef0d1d2b")
 	)
 	(wire
 		(pts
@@ -4233,6 +4458,16 @@
 			(type default)
 		)
 		(uuid "887afc2b-ed03-475e-aa64-cac021af0508")
+	)
+	(wire
+		(pts
+			(xy 270.51 91.44) (xy 274.32 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89379a54-fe27-443f-9450-6e17ee060c51")
 	)
 	(wire
 		(pts
@@ -4779,6 +5014,16 @@
 	)
 	(wire
 		(pts
+			(xy 270.51 82.55) (xy 274.32 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d51dc4de-3d45-4ddd-8e5e-dea5092cdcac")
+	)
+	(wire
+		(pts
 			(xy 31.75 130.81) (xy 36.83 130.81)
 		)
 		(stroke
@@ -5037,6 +5282,16 @@
 			(type default)
 		)
 		(uuid "ef9f3066-beba-41d8-a0f3-e9ba279348d9")
+	)
+	(wire
+		(pts
+			(xy 265.43 91.44) (xy 262.89 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efd3ec68-ce43-4b13-8f4d-10f6e9f0fa55")
 	)
 	(wire
 		(pts
@@ -5490,6 +5745,30 @@
 			(justify left)
 		)
 		(uuid "2b2639d6-db79-4dd2-9825-81ef719bead1")
+	)
+	(hierarchical_label "JOINT_SW_A"
+		(shape output)
+		(at 250.19 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "310b1a94-1ff2-415e-a284-c6cf82601345")
+	)
+	(hierarchical_label "JOINT_SW_B"
+		(shape output)
+		(at 250.19 91.44 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right)
+		)
+		(uuid "4cf50cc1-f4ec-4ee0-8313-f0a936fceab8")
 	)
 	(hierarchical_label "JOINT_SW_A"
 		(shape output)
@@ -5966,6 +6245,104 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "#PWR0250")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 259.08 91.44 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "08ebf688-cecc-48da-ac20-d94f5b8edab0")
+		(property "Reference" "LD114"
+			(at 260.35 93.98 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.8V @ 5mA"
+			(at 265.43 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "BrtLed (Bright LED Elec)"
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "BL-HGE36G-AV-TRB"
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C165982"
+			(at 259.08 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "05975d9f-1865-4456-b2ee-51ef41a41a5f")
+		)
+		(pin "2"
+			(uuid "52750ef5-c09f-43f7-8237-4eea6cad8460")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
+					(reference "LD114")
 					(unit 1)
 				)
 			)
@@ -6897,6 +7274,104 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV115")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 259.08 82.55 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3112817e-1dda-431c-889b-af0ae90f1e1c")
+		(property "Reference" "LD113"
+			(at 260.35 85.09 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "1.8V @ 5mA"
+			(at 265.43 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "BrtLed (Bright LED Elec)"
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "BL-HGE36G-AV-TRB"
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C165982"
+			(at 259.08 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fd40ceee-d49f-4ae2-91d7-1fce515f5b4b")
+		)
+		(pin "2"
+			(uuid "5fdae93c-1a51-4349-895b-f2c19881596f")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
+					(reference "LD113")
 					(unit 1)
 				)
 			)
@@ -10297,6 +10772,101 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 267.97 82.55 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a0af5c48-3c08-4380-b486-d112e11d1b1c")
+		(property "Reference" "R193"
+			(at 267.97 85.09 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "330R 1%"
+			(at 267.97 80.01 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 267.97 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 267.97 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
+			(at 267.97 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 267.97 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "AF0603FR-07330RL"
+			(at 267.97 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C144102"
+			(at 267.97 82.55 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e3735b55-5f51-493b-bcc9-fce4cb507f49")
+		)
+		(pin "2"
+			(uuid "7c654061-3d0c-46f1-b899-ee7f81abb350")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
+					(reference "R193")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:+3V3")
 		(at 176.53 116.84 0)
 		(mirror y)
@@ -11499,6 +12069,166 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "R198")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 267.97 91.44 90)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c94d9b63-9393-4087-873b-470126e8d87b")
+		(property "Reference" "R194"
+			(at 267.97 93.98 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "330R 1%"
+			(at 267.97 88.9 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 267.97 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 267.97 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
+			(at 267.97 91.44 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 267.97 91.44 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "AF0603FR-07330RL"
+			(at 267.97 91.44 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C144102"
+			(at 267.97 91.44 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d5d58de1-3b5b-49c0-bad0-807b13220b4c")
+		)
+		(pin "2"
+			(uuid "72de7627-c519-4821-85da-813469622d67")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
+					(reference "R194")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 274.32 96.52 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "cae4912d-3458-47ea-b2d8-0dbadf787e80")
+		(property "Reference" "#PWR0227"
+			(at 274.32 102.87 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 274.32 100.33 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 274.32 96.52 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 274.32 96.52 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 274.32 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9cd04d76-b939-4654-92af-8e52fb0126eb")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
+					(reference "#PWR0227")
 					(unit 1)
 				)
 			)
