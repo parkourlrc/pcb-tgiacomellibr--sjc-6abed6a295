@@ -342,7 +342,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 128.27) (xy 139.7 128.27)
+			(xy 76.2 134.62) (xy 139.7 134.62)
 		)
 		(stroke
 			(width 0)
@@ -392,7 +392,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 130.81) (xy 139.7 130.81)
+			(xy 76.2 137.16) (xy 139.7 137.16)
 		)
 		(stroke
 			(width 0)
@@ -432,7 +432,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 133.35) (xy 139.7 133.35)
+			(xy 76.2 139.7) (xy 139.7 139.7)
 		)
 		(stroke
 			(width 0)
@@ -869,7 +869,7 @@
 			(at 139.7 31.75 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -879,7 +879,7 @@
 			(at 139.7 34.29 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -889,7 +889,7 @@
 			(at 139.7 39.37 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -899,7 +899,7 @@
 			(at 139.7 41.91 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -909,7 +909,7 @@
 			(at 139.7 44.45 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
@@ -919,33 +919,33 @@
 			(at 139.7 46.99 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
 			(uuid "30d8c945-24b3-4248-b510-2f977304873a")
 		)
-		(pin "MotorDriver_SHDN" input
+		(pin "MotorDriver_~{EN}" input
 			(at 139.7 50.8 180)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "7e250148-ee4a-42aa-90cb-75a1c1876908")
+			(uuid "b3297543-2502-4aef-8d3e-cb3dc395b8b9")
 		)
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "3")
+					(page "5")
 				)
 			)
 		)
 	)
 	(sheet
 		(at 139.7 115.57)
-		(size 29.21 20.32)
+		(size 29.21 10.16)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -965,7 +965,7 @@
 			)
 		)
 		(property "Sheetfile" "communication_RS-485.kicad_sch"
-			(at 139.7 136.4746 0)
+			(at 139.7 126.3146 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1003,40 +1003,10 @@
 			)
 			(uuid "e62cd2cf-7971-4802-803f-d8f946ae3238")
 		)
-		(pin "AUX_485_RX" output
-			(at 139.7 128.27 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "d6a0fc23-771f-4d61-9fc3-7918036195f9")
-		)
-		(pin "AUX_485_TX" input
-			(at 139.7 130.81 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "4fc99fa9-fdf8-4085-a316-bc298fb46158")
-		)
-		(pin "AUX_485_~{RE}_DE" input
-			(at 139.7 133.35 180)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-			(uuid "f6bfba63-2f89-477d-9749-9d6016086c3e")
-		)
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "4")
+					(page "6")
 				)
 			)
 		)
@@ -1114,7 +1084,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "6")
+					(page "8")
 				)
 			)
 		)
@@ -1172,7 +1142,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "7")
+					(page "2")
 				)
 			)
 		)
@@ -1290,7 +1260,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "5")
+					(page "4")
 				)
 			)
 		)
@@ -1555,26 +1525,6 @@
 			)
 			(uuid "30d7b4a7-d9b3-4dcf-8b00-96a7948a6d5b")
 		)
-		(pin "DL_485_RX" input
-			(at 76.2 128.27 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "17554b3e-00f7-4af6-8de0-fa847fb855a0")
-		)
-		(pin "DL_485_~{RE}_DE" output
-			(at 76.2 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "87aaf800-e295-4bf7-a2ac-1add9d4ad47e")
-		)
 		(pin "COM_485_TX" output
 			(at 76.2 120.65 0)
 			(effects
@@ -1584,16 +1534,6 @@
 				(justify right)
 			)
 			(uuid "f064f14f-b03c-4cf4-9468-41bcea2f2a79")
-		)
-		(pin "DL_485_TX" input
-			(at 76.2 130.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-			(uuid "d3f9dc42-e519-416a-a221-a4dad1c63cdd")
 		)
 		(pin "COM_485_RX" input
 			(at 76.2 118.11 0)
@@ -1628,7 +1568,75 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "2")
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 139.7 132.08)
+		(size 29.21 10.16)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "e105c053-9cba-4ac9-97c9-b5b752474278")
+		(property "Sheetname" "CAN"
+			(at 139.7 131.3684 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "communication_CAN.kicad_sch"
+			(at 139.7 142.8246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "RS485_~{RE}_DE" input
+			(at 139.7 139.7 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "07b0562a-7820-40ce-aec5-68762003396d")
+		)
+		(pin "RS485_TX" input
+			(at 139.7 137.16 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "ecd73a0a-92ca-44b8-8e00-429da989033c")
+		)
+		(pin "RS485_RX" output
+			(at 139.7 134.62 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid "77ca447e-2111-4fe2-85ef-e0b205d3b0a6")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
+					(page "7")
 				)
 			)
 		)

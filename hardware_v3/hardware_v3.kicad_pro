@@ -506,6 +506,8 @@
     },
     "netclass_assignments": {
       "+V_{BAT}": "PWR",
+      "/CAN/+12V_ISO_DC": "DRV_LV",
+      "/CAN/+12V_ISO_FLT": "DRV_LV",
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
       "/Motor/INNER": "PWR",
@@ -538,6 +540,8 @@
       "/Power Supply/MOTOR_~{EN}": "DRV_HV",
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
+      "Net-(C101-Pad2)": "PWR",
+      "Net-(C110-Pad2)": "PWR",
       "Net-(C180-Pad2)": "PWR",
       "Net-(C188-Pad2)": "PWR",
       "Net-(C27-Pad2)": "PWR",
@@ -548,7 +552,9 @@
       "Net-(C96-Pad2)": "PWR",
       "Net-(D10-K)": "DRV_HV",
       "Net-(D103-K)": "DRV_HV",
+      "Net-(D104-A)": "DRV_LV",
       "Net-(D104-K)": "DRV_HV",
+      "Net-(D105-A)": "DRV_LV",
       "Net-(D105-K)": "DRV_HV",
       "Net-(D106-K)": "DRV_HV",
       "Net-(D108-A)": "DRV_LV",
@@ -565,6 +571,7 @@
       "Net-(D8-K)": "DRV_HV",
       "Net-(D9-K)": "DRV_HV",
       "Net-(F3-Pad1)": "PWR",
+      "Net-(LD101-K)": "PWR",
       "Net-(LD105-K)": "PWR",
       "Net-(LD2-K)": "PWR",
       "Net-(LD3-K)": "PWR",
@@ -573,8 +580,11 @@
       "Net-(LD8-K)": "PWR",
       "Net-(LD9-K)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
+      "Net-(Q101-G)": "DRV_HV",
       "Net-(Q103-G)": "DRV_HV",
       "Net-(Q104-G)": "DRV_HV",
+      "Net-(Q105-G)": "DRV_HV",
+      "Net-(Q106-G)": "DRV_HV",
       "Net-(Q107-G)": "DRV_HV",
       "Net-(Q109-G)": "DRV_HV",
       "Net-(Q111-G)": "DRV_HV",
@@ -591,6 +601,8 @@
       "Net-(Q7-G)": "DRV_HV",
       "Net-(Q8-G)": "DRV_HV",
       "Net-(U1-1Y)": "DRV_HV",
+      "Net-(U101-VI)": "DRV_HV",
+      "Net-(U102-VI)": "DRV_LV",
       "Net-(U107-H_{O})": "DRV_HV",
       "Net-(U107-L_{O})": "DRV_HV",
       "Net-(U107-V_{B})": "DRV_HV",
@@ -600,6 +612,8 @@
       "Net-(U11-H_{O})": "DRV_HV",
       "Net-(U11-L_{O})": "DRV_HV",
       "Net-(U11-V_{B})": "DRV_HV",
+      "Net-(U115-VB)": "DRV_HV",
+      "Net-(U126-VB)": "DRV_HV",
       "Net-(U135-VI)": "DRV_HV",
       "Net-(U136-VI)": "DRV_LV",
       "Net-(U18-VI)": "DRV_HV",
@@ -613,6 +627,7 @@
       "Net-(U6-VI)": "DRV_LV",
       "Net-(U7-1Y)": "DRV_HV",
       "V_{BPS}+": "DRV_HV",
+      "V_{PWR}_Fuse+": "PWR",
       "V_{PWR}_Rect+": "DRV_HV"
     },
     "netclass_patterns": [
@@ -804,13 +819,19 @@
           "label": "Description",
           "name": "Description",
           "show": false
+        },
+        {
+          "group_by": false,
+          "label": "JLCPCB Part # ",
+          "name": "JLCPCB Part # ",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
       "name": "",
       "sort_asc": true,
-      "sort_field": "Reference"
+      "sort_field": "Value"
     },
     "connection_grid_size": 50.0,
     "drawing": {
@@ -864,11 +885,19 @@
   "sheets": [
     [
       "9538e4ed-27e6-4c37-b989-9859dc0d49e8",
-      "Raiz"
+      "Root"
+    ],
+    [
+      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
+      "Power Supply"
     ],
     [
       "6b8495e1-b9f5-4ecc-abc1-699baba2c005",
       "Control"
+    ],
+    [
+      "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
+      "Encoders"
     ],
     [
       "11908ee1-6c84-411c-a6d8-f57e318c637e",
@@ -879,16 +908,12 @@
       "RS-485"
     ],
     [
-      "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
-      "Encoders"
+      "e105c053-9cba-4ac9-97c9-b5b752474278",
+      "CAN"
     ],
     [
       "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
       "GPIOs"
-    ],
-    [
-      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
-      "Power Supply"
     ]
   ],
   "text_variables": {}
