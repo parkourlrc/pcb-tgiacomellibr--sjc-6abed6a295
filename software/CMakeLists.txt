@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(SJC_LIB VERSION 0.1.0 LANGUAGES C CXX)
+project(sjc_interface VERSION 0.1.0 LANGUAGES C CXX)
 
 
 # Project definitions
@@ -19,25 +19,21 @@ message("CXX Standard: ${CMAKE_CXX_STANDARD}")
 
 # 3rd party libs
 # ------------------------------------------------------------------------------------------------- #
-set(PROJECT_DEPS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs)
-
-set(LIB_MODBUS_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libs/modbus)
-set(LIB_MODBUS_SRCS_DIR ${LIB_MODBUS_BASE_DIR}/src)
-link_directories(modbus ${LIB_MODBUS_SRCS_DIR})
-
+find_library(MODBUS_LIBRARY NAMES modbus REQUIRED)
 # ------------------------------------------------------------------------------------------------- #
 
 # Project libs
 # ------------------------------------------------------------------------------------------------- #
-set(SJC_INTERFACE_SRCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/src)
-set(SJC_INTERFACE_INCS_DIR  ${PROJECT_DEPS_DIR}/sjc_interface/include)
+set(SJC_INTERFACE_LIB_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(SJC_INTERFACE_SRCS_DIR      ${SJC_INTERFACE_LIB_DIR}/src)
+set(SJC_INTERFACE_INCS_DIR      ${SJC_INTERFACE_LIB_DIR}/include)
 
 add_library(sjc_interface  SHARED ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp 
                                   ${SJC_INTERFACE_SRCS_DIR}/helpers.c
 )
 target_link_libraries(sjc_interface PUBLIC modbus)
 target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}                                                 
-                                                ${LIB_MODBUS_SRCS_DIR}                                                   
+                                                # ${LIB_MODBUS_SRCS_DIR}                                                   
 )
 # ------------------------------------------------------------------------------------------------- #
 

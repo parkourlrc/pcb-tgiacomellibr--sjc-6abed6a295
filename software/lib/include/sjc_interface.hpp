@@ -4,7 +4,7 @@
 #ifdef __cplusplus
 extern "C"
 {
-#include "modbus.h"
+#include "modbus/modbus.h"
 #include "data_structures.h"
 }
 #endif
