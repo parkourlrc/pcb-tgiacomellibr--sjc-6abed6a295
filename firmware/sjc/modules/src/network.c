@@ -18,11 +18,10 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "network.h"
-
-#include "configs.h"
-#include "debug_output.h"
-#include "network_configs.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "modules/include/network.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

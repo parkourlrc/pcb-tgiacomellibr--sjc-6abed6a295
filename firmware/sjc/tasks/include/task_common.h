@@ -8,7 +8,7 @@
 #ifndef SJC__TASKS__COMMON_H_
 #define SJC__TASKS__COMMON_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 typedef enum {
 	TIME_LOG_CONTROLLER_RUNTIME = 0,

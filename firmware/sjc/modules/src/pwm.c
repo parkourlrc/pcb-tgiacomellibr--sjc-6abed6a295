@@ -12,10 +12,10 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "pwm.h"
+#include "base/include/configs.h"
+#include "system_types/include/helpers.h"
+#include "modules/include/pwm.h"
 
-#include "configs.h"
-#include "helpers.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

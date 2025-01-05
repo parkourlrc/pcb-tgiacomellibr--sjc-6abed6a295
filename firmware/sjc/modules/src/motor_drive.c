@@ -12,10 +12,10 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "motor_drive.h"
-#include "pwm.h"
-#include "configs.h"
-#include "analog_interfaces.h"
+#include "base/include/configs.h"
+#include "modules/include/motor_drive.h"
+#include "modules/include/pwm.h"
+#include "modules/include/analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

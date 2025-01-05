@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__PID_CONTROLLER_H_
 #define SJC__MODULES__PID_CONTROLLER_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_PidController_Init();
 

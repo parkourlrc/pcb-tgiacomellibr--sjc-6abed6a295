@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__PWM_H_
 #define SJC__MODULES__PWM_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_PWM_Init(const eSjcPwmBaseFreq_t BaseFrequency);
 void SJC_PWM_Enable(void);

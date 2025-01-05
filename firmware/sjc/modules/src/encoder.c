@@ -12,10 +12,9 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "encoder.h"
-
-#include "configs.h"
-#include "debug_output.h"
+#include "base/include/configs.h"
+#include "modules/include/encoder.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

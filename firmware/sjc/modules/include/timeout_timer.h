@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__TIMEOUT_TIMER_H_
 #define SJC__MODULES__TIMEOUT_TIMER_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_Timer_Init(void);
 uint32_t SJC_Timer_GetTimeMs(void);

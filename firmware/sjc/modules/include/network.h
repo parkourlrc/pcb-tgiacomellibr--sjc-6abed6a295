@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__NETWORK_H_
 #define SJC__MODULES__NETWORK_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress);
 eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate);

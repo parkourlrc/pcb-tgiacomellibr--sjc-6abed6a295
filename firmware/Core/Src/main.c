@@ -23,8 +23,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
-#include "sjc.h"
-#include "task_common.h"
+#include "base/include/sjc.h"
+#include "tasks/include/task_common.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

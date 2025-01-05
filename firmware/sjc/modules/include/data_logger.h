@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__DATA_LOGGER_H_
 #define SJC__MODULES__DATA_LOGGER_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_DataLogger_Init(void);
 int SJC_DataLogger_Transmit(const char *format, ...);

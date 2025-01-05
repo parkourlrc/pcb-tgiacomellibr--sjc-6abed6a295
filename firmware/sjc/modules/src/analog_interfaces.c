@@ -16,9 +16,9 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "analog_interfaces.h"
-#include "configs.h"
-#include "debug_output.h"
+#include "base/include/configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__ANALOG_INTERFACES_H_
 #define SJC__MODULES__ANALOG_INTERFACES_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_AnalogInterfaces_Init(void);
 void SJC_AnalogInterfaces_MeasurementEnable(void);

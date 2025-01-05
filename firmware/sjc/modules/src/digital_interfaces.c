@@ -12,10 +12,9 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "digital_interfaces.h"
-
-#include "configs.h"
-#include "debug_output.h"
+#include "base/include/configs.h"
+#include "modules/include/digital_interfaces.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

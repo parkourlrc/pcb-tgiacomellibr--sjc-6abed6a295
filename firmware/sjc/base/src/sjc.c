@@ -20,21 +20,21 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
+#include "base/include/sjc.h"
+#include "system_types/include/helpers.h"
 
-#include "configs.h"
-#include "analog_interfaces.h"
-#include "data_logger.h"
-#include "debug_output.h"
-#include "digital_interfaces.h"
-#include "encoder.h"
-#include "helpers.h"
-#include "motor_drive.h"
-#include "network.h"
-#include "timeout_timer.h"
-#include "pid_controller.h"
-#include "pwm.h"
-#include "task_common.h"
+#include "base/include/configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/digital_interfaces.h"
+#include "modules/include/encoder.h"
+#include "modules/include/motor_drive.h"
+#include "modules/include/network.h"
+#include "modules/include/timeout_timer.h"
+#include "modules/include/pid_controller.h"
+#include "modules/include/pwm.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

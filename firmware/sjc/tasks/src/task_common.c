@@ -7,16 +7,19 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "configs.h"
-#include "debug_output.h"
-#include "analog_interfaces.h"
-#include "types.h"
 // ------------------------------------------------------------------- //
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "task_common.h"
-#include "sjc.h"
+#include "base/include/sjc.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/network.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/test_signals.h"
+#include "tasks/include/task_common.h"
 
 // ------------------------------------------------------------------- //
 

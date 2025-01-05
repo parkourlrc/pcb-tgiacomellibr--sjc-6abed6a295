@@ -23,7 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "port.h"
-#include "configs.h"
+#include "base/include/configs.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

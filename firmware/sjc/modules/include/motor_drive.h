@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__DC_MOTOR_DRIVE_H_
 #define SJC__MODULES__DC_MOTOR_DRIVE_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_MotorDrive_Init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage);
 void SJC_MotorDrive_Enable(void);

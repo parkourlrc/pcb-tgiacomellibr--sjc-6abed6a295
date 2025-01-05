@@ -18,14 +18,13 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
-#include "configs.h"
-#include "network.h"
-#include "analog_interfaces.h"
-#include "debug_output.h"
-#include "network_configs.h"
-#include "task_common.h"
-
+#include "base/include/sjc.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "modules/include/network.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/debug_output.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //

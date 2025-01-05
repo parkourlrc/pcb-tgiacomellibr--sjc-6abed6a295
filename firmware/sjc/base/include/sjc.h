@@ -8,7 +8,7 @@
 #ifndef SJC__BASE__SJC_H_
 #define SJC__BASE__SJC_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void SJC_Init(void);
 void SJC_InitOsKernel(void);

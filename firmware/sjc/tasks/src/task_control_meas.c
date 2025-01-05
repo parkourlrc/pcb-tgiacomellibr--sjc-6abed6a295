@@ -19,16 +19,15 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
-#include "configs.h"
-#include "network.h"
-#include "data_logger.h"
-#include "task_common.h"
-#include "test_signals.h"
-#include "debug_output.h"
-#include "network_configs.h"
-#include "analog_interfaces.h"
-
+#include "base/include/sjc.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/network.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/test_signals.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 
