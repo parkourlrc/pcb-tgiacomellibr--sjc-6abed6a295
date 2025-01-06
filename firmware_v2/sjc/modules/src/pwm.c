@@ -149,8 +149,9 @@ uint32_t PWM_setFrequency(const eSjcPwmBaseFreq_t BaseFrequency) {
 				((uint32_t) (SJC_PWM_COUNT_PERIOD * 1.0f));
 		break;
 	}
-	LL_TIM_SetAutoReload(Pwm.TimerConfig.Instance,
-			Pwm.TimerConfig.CountPeriod - 1);
+	
+	LL_TIM_SetAutoReload(Pwm.TimerConfig.Instance, Pwm.TimerConfig.CountPeriod - 1);
+
 	return Pwm.Frequency;
 }
 // ------------------------------------------------------------------- //

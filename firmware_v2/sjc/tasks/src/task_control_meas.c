@@ -28,7 +28,6 @@
 #include "debug_output.h"
 #include "network_configs.h"
 #include "analog_interfaces.h"
-
 // ------------------------------------------------------------------- //
 
 
@@ -82,13 +81,6 @@ static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
-//static float ui, ud, up, uitemp;
-//static float k = 0.0;//0.99; //0.9969;
-//static float p1 = 1.0;
-//static float p2 = 0.9920;
-//static float z1 = 0.099;
-//static float z2 = -0.0895;
-
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -137,7 +129,6 @@ void ControllerMeasTaskApp(void *argument)
 	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
-
 
 	/* Infinite loop */
 	for (;;) {
@@ -208,7 +199,6 @@ static void RunControlLoop(void)
 		case SJC_CURRENT_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
 			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
-
 			break;
 
 		case SJC_SPEED_CONTROL:
@@ -223,6 +213,7 @@ static void RunControlLoop(void)
 		case SJC_CONTROL_DISABLED:
 			JointMeasurements.ControlAction = ZERO_FLOAT;
 			break;
+			
 		default: // SJC_CURRENT_CALIBRATION
 			SJC_getJointActuatorCurrent(&CurrentMeasurementAux);
 			CurrentBias += CurrentMeasurementAux;

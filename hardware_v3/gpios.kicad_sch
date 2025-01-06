@@ -132,283 +132,6 @@
 				)
 			)
 		)
-		(symbol "74LVC2G17GW,125_1"
-			(pin_names hide)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 1.524 -8.89 0)
-				(effects
-					(font
-						(size 0.9906 0.9906)
-					)
-				)
-			)
-			(property "Value" "74LVC2G17GW,125"
-				(at 8.128 -10.668 0)
-				(effects
-					(font
-						(size 0.9906 0.9906)
-					)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-				(at -3.81 -21.59 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 1.27 3.81 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "SG-* SOT*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "74LVC2G17GW,125_1_0_1"
-				(rectangle
-					(start -6.35 8.89)
-					(end 6.35 -7.62)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(polyline
-					(pts
-						(xy -3.81 -2.54) (xy -2.54 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -3.81 3.81) (xy -2.54 3.81)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -0.635 4.445) (xy 0 4.445) (xy 0 3.175)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 6.35) (xy -2.54 1.27) (xy 3.81 3.81) (xy -2.54 6.35)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 4.445) (xy -0.635 4.445) (xy -0.635 3.175) (xy 0.635 3.175)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin power_in line
-					(at 0 -10.16 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 11.43 270)
-					(length 2.54)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-			)
-			(symbol "74LVC2G17GW,125_1_1_1"
-				(polyline
-					(pts
-						(xy -0.635 -1.905) (xy 0 -1.905) (xy 0 -3.175)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 0) (xy -2.54 -5.08) (xy 3.81 -2.54) (xy -2.54 0)
-					)
-					(stroke
-						(width 0.254)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.27 -1.905) (xy -0.635 -1.905) (xy -0.635 -3.175) (xy 0.635 -3.175)
-					)
-					(stroke
-						(width 0)
-						(type solid)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin input line
-					(at -7.62 3.81 0)
-					(length 3.81)
-					(name "1A"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -7.62 -2.54 0)
-					(length 3.81)
-					(name "2A"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 7.62 -2.54 180)
-					(length 3.81)
-					(name "2Y"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 7.62 3.81 180)
-					(length 3.81)
-					(name "1Y"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.016 1.016)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "Connector_Generic:Conn_02x02_Top_Bottom"
 			(pin_names
 				(offset 1.016) hide)
@@ -2878,12 +2601,6 @@
 		(color 0 0 0 0)
 		(uuid "ee0356da-109f-45b5-a2cf-751f1eb13fda")
 	)
-	(junction
-		(at -19.05 52.07)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "fd59ecd6-bd14-4734-b56c-27c924a9e4a3")
-	)
 	(wire
 		(pts
 			(xy 55.88 167.64) (xy 50.8 167.64)
@@ -2903,16 +2620,6 @@
 			(type default)
 		)
 		(uuid "090c77b4-fdd3-4217-a483-6fbd087e35b0")
-	)
-	(wire
-		(pts
-			(xy -7.62 52.07) (xy -1.27 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0944f711-36ce-4e11-b05c-453c6e4f98da")
 	)
 	(wire
 		(pts
@@ -2943,16 +2650,6 @@
 			(type default)
 		)
 		(uuid "123b073c-3394-40a0-87a3-084204a898b6")
-	)
-	(wire
-		(pts
-			(xy -19.05 77.47) (xy -19.05 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "13884006-594a-4365-abf3-a5e4ba626807")
 	)
 	(polyline
 		(pts
@@ -3003,16 +2700,6 @@
 			(type default)
 		)
 		(uuid "1c9f8fa7-5ab1-4dbd-9ca0-f4dd03689716")
-	)
-	(wire
-		(pts
-			(xy -19.05 52.07) (xy -19.05 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2059a5a1-5de0-40ac-8744-cd3bde552c44")
 	)
 	(wire
 		(pts
@@ -3113,16 +2800,6 @@
 			(type default)
 		)
 		(uuid "2ef18802-9274-42d3-98c0-a34709393a56")
-	)
-	(wire
-		(pts
-			(xy -31.75 69.85) (xy -26.67 69.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2ef92a8b-b1b6-45a8-81ab-b8abc6583020")
 	)
 	(wire
 		(pts
@@ -3486,16 +3163,6 @@
 	)
 	(wire
 		(pts
-			(xy -11.43 63.5) (xy -6.35 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6d71f970-f507-4249-aacb-2780e821fa61")
-	)
-	(wire
-		(pts
 			(xy 66.04 68.58) (xy 71.12 68.58)
 		)
 		(stroke
@@ -3536,16 +3203,6 @@
 	)
 	(wire
 		(pts
-			(xy -1.27 52.07) (xy -1.27 54.61)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7465d7f7-3533-451c-b2e3-fb8c854f8c50")
-	)
-	(wire
-		(pts
 			(xy 162.56 158.75) (xy 162.56 163.83)
 		)
 		(stroke
@@ -3573,16 +3230,6 @@
 			(type default)
 		)
 		(uuid "7a261f11-53b4-4259-a4a8-be69c1c250a0")
-	)
-	(wire
-		(pts
-			(xy -11.43 69.85) (xy -6.35 69.85)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7c8e3e1e-70fa-4501-a728-318fdf8ced54")
 	)
 	(wire
 		(pts
@@ -3663,16 +3310,6 @@
 			(type default)
 		)
 		(uuid "8b5f10cb-985f-440f-a168-62de503da9a3")
-	)
-	(wire
-		(pts
-			(xy -19.05 49.53) (xy -19.05 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8c0e232b-b566-4e4b-a419-a31cc616f4a8")
 	)
 	(wire
 		(pts
@@ -4003,16 +3640,6 @@
 			(type default)
 		)
 		(uuid "cdcd5522-1914-4700-a632-94d9915f777e")
-	)
-	(wire
-		(pts
-			(xy -19.05 52.07) (xy -12.7 52.07)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cf389712-f5c1-4bd3-8a58-22b1eab6df2d")
 	)
 	(wire
 		(pts
@@ -4426,16 +4053,6 @@
 	)
 	(wire
 		(pts
-			(xy -31.75 63.5) (xy -26.67 63.5)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ff0c1a95-fcb0-429a-9d7e-dc714e7f12a1")
-	)
-	(wire
-		(pts
 			(xy 76.2 142.24) (xy 76.2 144.78)
 		)
 		(stroke
@@ -4471,35 +4088,35 @@
 		(uuid "a5843d86-7847-44f5-b166-777cd1d66dad")
 	)
 	(label "ISO_IN_A"
-		(at 38.1 134.62 180)
+		(at 31.75 134.62 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "3a8e11ce-726f-4d55-9cf6-b6b25759a9b9")
 	)
 	(label "ISO_IN_B"
-		(at 38.1 167.64 180)
+		(at 31.75 167.64 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "516c03d0-2b58-4384-a53b-816a0eaaaac5")
 	)
 	(label "ISO_IN_B_{COM}"
-		(at 38.1 180.34 180)
+		(at 31.75 180.34 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "564a8860-ea78-4490-9ee5-161bca99969b")
 	)
@@ -4548,13 +4165,13 @@
 		(uuid "b8f5b9d6-229d-4fee-908d-8014b36aa537")
 	)
 	(label "ISO_IN_A_{COM}"
-		(at 38.1 147.32 180)
+		(at 31.75 147.32 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "b8f79f4c-6b70-4061-ab38-505e862b9d39")
 	)
@@ -5678,72 +5295,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:GND")
-		(at -19.05 80.01 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "28dfb401-99c5-4b18-8757-61376ffbea2b")
-		(property "Reference" "#PWR0318"
-			(at -19.05 86.36 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at -19.05 83.82 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at -19.05 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -19.05 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -19.05 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5e7da283-bc86-482d-8fa8-3f18a1d940d5")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "#PWR0318")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 204.47 78.74 180)
 		(unit 1)
@@ -6853,72 +6404,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:GND")
-		(at -1.27 54.61 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "6f8af839-fc78-4b19-ab7f-8f74205aea20")
-		(property "Reference" "#PWR0315"
-			(at -1.27 60.96 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at -1.27 58.42 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at -1.27 54.61 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -1.27 54.61 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -1.27 54.61 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8ead50a9-fe21-44e0-8cdb-eafecade9e5a")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "#PWR0315")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 162.56 55.88 180)
 		(unit 1)
@@ -7768,100 +7253,6 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at -10.16 52.07 90)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "96ba2141-830c-44c1-b544-31924de77116")
-		(property "Reference" "C208"
-			(at -10.16 49.53 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "100nF 5% 50V"
-			(at -10.16 54.61 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at -10.16 52.07 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -10.16 52.07 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0603"
-			(at -10.16 52.07 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at -10.16 52.07 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CC0603JRX7R9BB104"
-			(at -10.16 52.07 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C91183"
-			(at -10.16 52.07 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "282b08bb-ca51-4f21-b2b4-97ffd307fef9")
-		)
-		(pin "2"
-			(uuid "d134a800-ce1c-474c-9a39-299c14ed6c69")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "C208")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
 		(at 90.17 55.88 90)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -8234,101 +7625,6 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
 					(reference "D106")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small_US")
-		(at -3.81 63.5 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "a8597c69-5360-4d56-ae6e-34aca506e4ad")
-		(property "Reference" "R232"
-			(at -3.81 61.722 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "33R 1%"
-			(at -3.81 65.532 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at -3.81 63.5 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at -3.81 63.5 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at -3.81 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at -3.81 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "RC0603FR-0733RL"
-			(at -3.81 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C108661"
-			(at -3.81 63.5 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "d5f384fe-d9cb-46c3-a209-cc78900a7110")
-		)
-		(pin "2"
-			(uuid "1311254c-8e75-4b10-8851-a58b419df532")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R232")
 					(unit 1)
 				)
 			)
@@ -8819,167 +8115,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Small_US")
-		(at -3.81 69.85 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "b86538ea-f9a4-4127-953c-7b91662cdfcb")
-		(property "Reference" "R238"
-			(at -3.81 68.072 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "33R 1%"
-			(at -3.81 71.882 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at -3.81 69.85 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at -3.81 69.85 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at -3.81 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at -3.81 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "RC0603FR-0733RL"
-			(at -3.81 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C108661"
-			(at -3.81 69.85 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5ce0581f-3d39-4f03-b7d4-460031f07f3e")
-		)
-		(pin "2"
-			(uuid "d6d73e49-898b-46a2-8472-2abb3af8bfc0")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R238")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:+3V3")
-		(at -19.05 49.53 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "b8ece002-aa35-4a51-a9ff-4743a6dda567")
-		(property "Reference" "#PWR0313"
-			(at -19.05 53.34 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+3V3"
-			(at -19.05 45.72 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at -19.05 49.53 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -19.05 49.53 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -19.05 49.53 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "cf784969-c49f-4013-9a9a-72310af8f5cc")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "#PWR0313")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "sjc_power:GND")
 		(at 144.78 138.43 0)
 		(mirror y)
@@ -9040,88 +8175,6 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
 					(reference "#PWR0325")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "74LVC2G17GW,125_1")
-		(lib_id "symbols:74LVC2G17GW,125")
-		(at -19.05 67.31 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "bf074db8-2b3e-4856-9846-d121327ca3ce")
-		(property "Reference" "U134"
-			(at -18.034 76.2 0)
-			(effects
-				(font
-					(size 0.9906 0.9906)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "74LVC2G17GW,125"
-			(at -17.78 77.978 0)
-			(effects
-				(font
-					(size 0.9906 0.9906)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-363_SC-70-6"
-			(at -22.86 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at -17.78 63.5 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at -19.05 67.31 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "6"
-			(uuid "ff88e244-772d-4f02-abad-f7fdaabb876a")
-		)
-		(pin "1"
-			(uuid "048d1343-684d-43d0-8008-4943a6749e81")
-		)
-		(pin "4"
-			(uuid "10019582-d8fc-4319-80b4-b1af26449957")
-		)
-		(pin "2"
-			(uuid "d2e80435-9d22-448f-a079-7f8d0853096f")
-		)
-		(pin "5"
-			(uuid "a60786af-0218-45dc-bec9-cbe4110ea116")
-		)
-		(pin "3"
-			(uuid "6e7d57e2-32ea-4d6c-b316-9186287bc255")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "U134")
 					(unit 1)
 				)
 			)
@@ -9857,101 +8910,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:R_Small_US")
-		(at -34.29 69.85 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ecad89c2-f402-4522-a1e7-c0d5905c796d")
-		(property "Reference" "R237"
-			(at -31.242 69.088 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "33R 1%"
-			(at -34.29 71.882 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at -34.29 69.85 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at -34.29 69.85 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at -34.29 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at -34.29 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "RC0603FR-0733RL"
-			(at -34.29 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C108661"
-			(at -34.29 69.85 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "35a32091-7c81-4e41-9dc6-3833e0b6ea0e")
-		)
-		(pin "2"
-			(uuid "ed248106-bd65-41b3-abff-371a5e401644")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R237")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Isolator:TLP291")
 		(at 66.04 139.7 0)
 		(unit 1)
@@ -10050,101 +9008,6 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
 					(reference "U136")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small_US")
-		(at -34.29 63.5 270)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f3effcff-8c55-4f4c-aa51-79c24d81b8a6")
-		(property "Reference" "R231"
-			(at -31.242 62.738 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "33R 1%"
-			(at -34.29 65.532 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at -34.29 63.5 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at -34.29 63.5 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at -34.29 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at -34.29 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "RC0603FR-0733RL"
-			(at -34.29 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C108661"
-			(at -34.29 63.5 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "7eb28d9c-62ec-4087-9560-eec82b2a8510")
-		)
-		(pin "2"
-			(uuid "5c345dca-e1cf-4fdd-9499-e40c88021060")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "R231")
 					(unit 1)
 				)
 			)
