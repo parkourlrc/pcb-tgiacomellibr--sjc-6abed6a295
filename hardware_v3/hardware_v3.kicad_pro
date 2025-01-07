@@ -531,6 +531,10 @@
       "/Motor/R_{PWM}+": "DRV_HV",
       "/Motor/R_{PWM}-": "DRV_HV",
       "/Motor/SHUNT_FUSE": "PWR",
+      "/Network communication/+12V_ISO_DC": "DRV_LV",
+      "/Network communication/+12V_ISO_FLT": "DRV_LV",
+      "/Network/+12V_ISO_DC": "DRV_LV",
+      "/Network/+12V_ISO_FLT": "DRV_LV",
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
@@ -905,11 +909,7 @@
     ],
     [
       "2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae",
-      "RS-485"
-    ],
-    [
-      "e105c053-9cba-4ac9-97c9-b5b752474278",
-      "CAN"
+      "Network"
     ],
     [
       "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
