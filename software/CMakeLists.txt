@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.10.0)
 project(sjc_interface VERSION 0.1.0 LANGUAGES C CXX)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(MODBUS REQUIRED libmodbus)
 
 # Project definitions
 # ------------------------------------------------------------------------------------------------- #
@@ -8,18 +10,20 @@ include(CMakePrintHelpers)
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
-
-message("CXX Flags: ${CMAKE_CXX_FLAGS}")
-message("DEBUG CXX Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-message("CXX Standard: ${CMAKE_CXX_STANDARD}")
+
+message("-- CXX Flags: ${CMAKE_CXX_FLAGS}")
+message("-- DEBUG CXX Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
+message("-- CXX Standard: ${CMAKE_CXX_STANDARD}")
 # ------------------------------------------------------------------------------------------------- #
 
 # 3rd party libs
 # ------------------------------------------------------------------------------------------------- #
 find_library(MODBUS_LIBRARY NAMES modbus REQUIRED)
+if(NOT MODBUS_LIBRARY)
+    message(FATAL_ERROR "Modbus library not found")
+endif()
 # ------------------------------------------------------------------------------------------------- #
 
 # Project libs
@@ -28,13 +32,16 @@ set(SJC_INTERFACE_LIB_DIR       ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 set(SJC_INTERFACE_SRCS_DIR      ${SJC_INTERFACE_LIB_DIR}/src)
 set(SJC_INTERFACE_INCS_DIR      ${SJC_INTERFACE_LIB_DIR}/include)
 
-add_library(sjc_interface  SHARED ${SJC_INTERFACE_SRCS_DIR}/sjc_interface.cpp 
+add_library(${PROJECT_NAME}  SHARED ${SJC_INTERFACE_SRCS_DIR}/${PROJECT_NAME}.cpp 
                                   ${SJC_INTERFACE_SRCS_DIR}/helpers.c
 )
-target_link_libraries(sjc_interface PUBLIC modbus)
-target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}                                                 
-                                                # ${LIB_MODBUS_SRCS_DIR}                                                   
+target_link_libraries(${PROJECT_NAME} PUBLIC modbus)
+target_include_directories(${PROJECT_NAME} PUBLIC
+    $<BUILD_INTERFACE:${SJC_INTERFACE_INCS_DIR}>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
+message("-- Configured library: ${PROJECT_NAME}")
+
 # ------------------------------------------------------------------------------------------------- #
 
 # Project executables
@@ -42,31 +49,59 @@ target_include_directories(sjc_interface PUBLIC ${SJC_INTERFACE_INCS_DIR}
 set(PROJECT_SRCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(PROJECT_INCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_executable(sjc_read_test ${PROJECT_SRCS_DIR}/sjc_read_registers.cpp )
-target_link_libraries(sjc_read_test PUBLIC modbus sjc_interface)
-target_include_directories(sjc_read_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
+set(TEST_SOURCES
+    sjc_read_registers.cpp
+    sjc_read_registers_simp.cpp
+    sjc_read_boards_test.cpp
+    sjc_write_registers.cpp
+    sjc_read_write_registers.cpp
+    sjc_read_write_registers2.cpp
+    sjc_write_control_ref.cpp
+)
 
-add_executable(sjc_read_test_simp ${PROJECT_SRCS_DIR}/sjc_read_registers2.cpp )
-target_link_libraries(sjc_read_test_simp PUBLIC modbus sjc_interface)
-target_include_directories(sjc_read_test_simp PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
-
-add_executable(sjc_read_boards_test ${PROJECT_SRCS_DIR}/sjc_read_registers_full.cpp )
-target_link_libraries(sjc_read_boards_test PUBLIC modbus sjc_interface)
-target_include_directories(sjc_read_boards_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
-
-add_executable(sjc_write_test ${PROJECT_SRCS_DIR}/sjc_write_registers.cpp )
-target_link_libraries(sjc_write_test PUBLIC modbus sjc_interface)
-target_include_directories(sjc_write_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
-
-add_executable(sjc_read_write_test ${PROJECT_SRCS_DIR}/sjc_read_write_registers.cpp )
-target_link_libraries(sjc_read_write_test PUBLIC modbus sjc_interface)
-target_include_directories(sjc_read_write_test PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
-
-add_executable(sjc_read_write_test2 ${PROJECT_SRCS_DIR}/sjc_read_write_registers2.cpp )
-target_link_libraries(sjc_read_write_test2 PUBLIC modbus sjc_interface)
-target_include_directories(sjc_read_write_test2 PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
-
-add_executable(sjc_write_control_ref ${PROJECT_SRCS_DIR}/sjc_write_control_ref.cpp )
-target_link_libraries(sjc_write_control_ref PUBLIC modbus sjc_interface)
-target_include_directories(sjc_write_control_ref PUBLIC ${LIB_MODBUS_SRCS_DIR} ${PROJECT_INCS_DIR} ${SJC_INTERFACE_INCS_DIR})
+foreach(source IN LISTS TEST_SOURCES)
+    get_filename_component(exec_name ${source} NAME_WE)
+    add_executable(${exec_name} ${PROJECT_SRCS_DIR}/${source})
+    target_link_libraries(${exec_name} PUBLIC ${PROJECT_NAME})
+    target_include_directories(${exec_name} PUBLIC ${SJC_INTERFACE_INCS_DIR})
+    message("-- Configured executable: ${exec_name}")
+endforeach()
 # ------------------------------------------------------------------------------------------------- #
+
+# Library installation
+# ------------------------------------------------------------------------------------------------- #
+include(GNUInstallDirs)
+
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+    message(FATAL_ERROR "In-source builds are not allowed. Please use a separate build directory.")
+endif()
+
+install(TARGETS ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}_targets
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(DIRECTORY ${SJC_INTERFACE_INCS_DIR}/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
+)
+
+# Exportar a configuração da biblioteca
+install(EXPORT ${PROJECT_NAME}_targets
+    FILE ${PROJECT_NAME}Config.cmake
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
+
+# Criar um arquivo de versão da biblioteca
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    COMPATIBILITY SameMajorVersion
+)
+
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}
+)
