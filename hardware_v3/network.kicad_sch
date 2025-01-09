@@ -2617,6 +2617,416 @@
 				)
 			)
 		)
+		(symbol "sjc_semiconductors:PESD2CANFD24L-TR"
+			(pin_names
+				(offset 0) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at 0 3.81 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
+			(property "Value" "PESD2CANFD24L"
+				(at 4.445 -5.715 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23W_Handsoldering"
+				(at 13.97 -12.7 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.bourns.com/pdfs/CDSOT23-SM712.pdf"
+				(at 21.59 -11.43 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "ESD protection for In-vehicle networks "
+				(at 9.398 -14.224 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "MF" "Nexperia"
+				(at 5.08 -8.89 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "PN" "PESD2CANFD24L-TR"
+				(at 8.89 -7.62 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "LCSC Part #" "C3711787"
+				(at 5.08 -10.16 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "PESD2CANFD24L-TR_0_1"
+				(rectangle
+					(start -4.318 2.7432)
+					(end 4.318 -4.1656)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -2.921) (xy -2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -0.381) (xy -2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -0.381) (xy -2.54 0.254)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 0.254) (xy -2.54 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -5.08) (xy 0 -2.921)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.54) (xy 2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -1.016) (xy 2.54 0.254)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -0.381) (xy 2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 0.254) (xy 2.54 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -1.8034) (xy -3.302 -1.8034) (xy -3.556 -2.0574)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -1.8034) (xy -1.778 -1.8034) (xy -1.524 -1.5494)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 1.524) (xy -3.302 1.524) (xy -3.556 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 1.524) (xy -1.778 1.524) (xy -1.524 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -2.413) (xy 2.54 -2.921) (xy -2.54 -2.921)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 -1.7018) (xy 3.302 -1.7018) (xy 3.556 -1.4478)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.524) (xy 1.778 1.524) (xy 1.524 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.524) (xy 3.302 1.524) (xy 3.556 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.5654 -1.7018) (xy 1.8034 -1.7018) (xy 1.5494 -1.9558)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 1.524) (xy -1.905 0.889) (xy -3.175 0.889) (xy -2.54 1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.524) (xy 3.175 0.889) (xy 1.905 0.889) (xy 2.54 1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.175 -1.016) (xy 1.905 -1.016) (xy 2.54 -1.651) (xy 3.175 -1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -1.143) (xy -1.905 -1.143) (xy -2.54 -1.778) (xy -3.175 -1.143) (xy -2.54 -1.143)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "PESD2CANFD24L-TR_1_1"
+				(pin input line
+					(at 2.54 3.81 270)
+					(length 1.27)
+					(name "K1"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -2.54 3.81 270)
+					(length 1.27)
+					(name "K2"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 0 -6.35 90)
+					(length 1.27)
+					(name "CC"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 0.9906 0.9906)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "sjc_semiconductors:PMEG60T20ELR"
 			(pin_numbers hide)
 			(pin_names hide)
@@ -4688,6 +5098,16 @@
 		)
 		(uuid "21dd5ca4-152b-43a4-b890-b61d032bf3a1")
 	)
+	(wire
+		(pts
+			(xy 213.36 80.01) (xy 218.44 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "236cd359-1014-49d2-95bb-1fa0a70eb3cb")
+	)
 	(polyline
 		(pts
 			(xy 142.24 157.48) (xy 142.24 195.58)
@@ -4862,7 +5282,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 63.5) (xy 213.36 71.12)
+			(xy 213.36 63.5) (xy 213.36 80.01)
 		)
 		(stroke
 			(width 0)
@@ -5454,6 +5874,16 @@
 	)
 	(wire
 		(pts
+			(xy 217.17 74.93) (xy 218.44 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "89e1a298-9950-46a1-9610-67dacf0051de")
+	)
+	(wire
+		(pts
 			(xy 87.63 69.85) (xy 87.63 83.82)
 		)
 		(stroke
@@ -5997,6 +6427,16 @@
 	)
 	(wire
 		(pts
+			(xy 217.17 60.96) (xy 217.17 74.93)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ce5fdcaa-deb6-4e48-82bf-c9208879af57")
+	)
+	(wire
+		(pts
 			(xy 205.74 60.96) (xy 217.17 60.96)
 		)
 		(stroke
@@ -6206,16 +6646,6 @@
 			(type default)
 		)
 		(uuid "e93a3218-8e32-4040-9261-7a7d124b0cfc")
-	)
-	(wire
-		(pts
-			(xy 217.17 60.96) (xy 217.17 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "eb459d68-308c-470a-8e46-731baf413b23")
 	)
 	(polyline
 		(pts
@@ -12698,6 +13128,103 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
 					(reference "#PWR0284")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_semiconductors:PESD2CANFD24L-TR")
+		(at 222.25 77.47 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b668010b-8406-43cf-9c70-3a9657f340c5")
+		(property "Reference" "TV?"
+			(at 222.25 72.39 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "PESD2CANFD24L"
+			(at 222.25 82.804 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Package_TO_SOT_SMD:SOT-23W_Handsoldering"
+			(at 234.95 63.5 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.bourns.com/pdfs/CDSOT23-SM712.pdf"
+			(at 233.68 55.88 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "ESD protection for In-vehicle networks"
+			(at 236.474 68.072 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Nexperia"
+			(at 231.14 72.39 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "PESD2CANFD24L-TR"
+			(at 229.87 68.58 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC Part #" "C3711787"
+			(at 232.41 72.39 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "3"
+			(uuid "7c3ebcc6-6a39-4ab7-b598-3805078153e1")
+		)
+		(pin "2"
+			(uuid "a54709e5-649a-4ac5-9e77-1209a53bbca5")
+		)
+		(pin "1"
+			(uuid "4a097cad-a010-45fb-8b36-9b9b89d90dc7")
+		)
+		(instances
+			(project ""
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
+					(reference "TV?")
 					(unit 1)
 				)
 			)
