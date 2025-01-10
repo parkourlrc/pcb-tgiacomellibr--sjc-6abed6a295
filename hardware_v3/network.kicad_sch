@@ -4680,12 +4680,6 @@
 		(uuid "17e45945-b7b4-4c79-ac02-642c54cd9972")
 	)
 	(junction
-		(at 102.87 114.3)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "1ba508ca-e878-4fff-8300-dab7ed004517")
-	)
-	(junction
 		(at 105.41 167.64)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4866,12 +4860,6 @@
 		(uuid "ef5bf186-5aea-4da1-a310-8705019599e8")
 	)
 	(junction
-		(at 170.18 109.22)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "f0db78a9-5358-49e6-b681-ea271867d1bd")
-	)
-	(junction
 		(at 91.44 69.85)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -4941,7 +4929,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 109.22) (xy 193.04 109.22)
+			(xy 187.96 116.84) (xy 193.04 116.84)
 		)
 		(stroke
 			(width 0)
@@ -5119,6 +5107,16 @@
 			(type default)
 		)
 		(uuid "21dd5ca4-152b-43a4-b890-b61d032bf3a1")
+	)
+	(wire
+		(pts
+			(xy 92.71 121.92) (xy 95.25 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "21ec685b-976d-4aa6-852b-654e5eaf6563")
 	)
 	(wire
 		(pts
@@ -5394,6 +5392,16 @@
 	)
 	(wire
 		(pts
+			(xy 200.66 109.22) (xy 203.2 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48b3ffff-ee6d-4aa8-9edd-48b5a877b917")
+	)
+	(wire
+		(pts
 			(xy 48.26 101.6) (xy 53.34 101.6)
 		)
 		(stroke
@@ -5434,6 +5442,16 @@
 	)
 	(wire
 		(pts
+			(xy 160.02 109.22) (xy 162.56 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bae0416-1648-40c0-80d2-8b62439aed85")
+	)
+	(wire
+		(pts
 			(xy 34.29 182.88) (xy 34.29 190.5)
 		)
 		(stroke
@@ -5451,16 +5469,6 @@
 			(type default)
 		)
 		(uuid "4ce14314-e530-4a15-98a5-93c1bda63a7d")
-	)
-	(wire
-		(pts
-			(xy 207.01 116.84) (xy 209.55 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4d555f20-9438-4047-938a-45943a04223c")
 	)
 	(wire
 		(pts
@@ -5494,16 +5502,6 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 116.84) (xy 170.18 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5269a3c5-16b5-4a0e-8056-a7717f94fdcd")
-	)
-	(wire
-		(pts
 			(xy 205.74 60.96) (xy 205.74 68.58)
 		)
 		(stroke
@@ -5534,16 +5532,6 @@
 	)
 	(wire
 		(pts
-			(xy 139.7 121.92) (xy 142.24 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "5566fd2a-6554-4b85-887b-738944388d8f")
-	)
-	(wire
-		(pts
 			(xy 66.04 101.6) (xy 66.04 104.14)
 		)
 		(stroke
@@ -5561,16 +5549,6 @@
 			(type default)
 		)
 		(uuid "5626b447-c4a5-46b2-ade4-d795a64b7c70")
-	)
-	(wire
-		(pts
-			(xy 102.87 121.92) (xy 102.87 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "571f63e2-d415-4a6d-830f-3cf6289bbae7")
 	)
 	(wire
 		(pts
@@ -5826,16 +5804,6 @@
 	)
 	(wire
 		(pts
-			(xy 172.72 116.84) (xy 170.18 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7d00cb06-9b68-4952-9781-aa1a463512a3")
-	)
-	(wire
-		(pts
 			(xy 180.34 93.98) (xy 180.34 96.52)
 		)
 		(stroke
@@ -5853,6 +5821,16 @@
 			(type default)
 		)
 		(uuid "7edb8e1d-aaca-47a9-b3b0-256fc9f50de3")
+	)
+	(wire
+		(pts
+			(xy 210.82 109.22) (xy 210.82 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "800a3ec1-f733-4642-9a46-9e945af3d2ca")
 	)
 	(wire
 		(pts
@@ -5876,17 +5854,7 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 114.3) (xy 105.41 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "853f6ff5-0155-46f9-8c0b-6323fa4ff022")
-	)
-	(wire
-		(pts
-			(xy 198.12 109.22) (xy 205.74 109.22)
+			(xy 198.12 116.84) (xy 205.74 116.84)
 		)
 		(stroke
 			(width 0)
@@ -5903,6 +5871,16 @@
 			(type default)
 		)
 		(uuid "862ecd3c-9445-43fc-8095-1e7742efe5c0")
+	)
+	(wire
+		(pts
+			(xy 143.51 121.92) (xy 143.51 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "86a46b7c-cc3d-4fa2-b856-07af1be223f7")
 	)
 	(wire
 		(pts
@@ -6026,7 +6004,7 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 116.84) (xy 187.96 116.84)
+			(xy 193.04 109.22) (xy 187.96 109.22)
 		)
 		(stroke
 			(width 0)
@@ -6053,6 +6031,16 @@
 			(type default)
 		)
 		(uuid "96f87372-5bb2-4dd5-bbc1-b376f91cbe72")
+	)
+	(wire
+		(pts
+			(xy 208.28 109.22) (xy 210.82 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9b410492-7d03-4557-b178-3e038d77ead9")
 	)
 	(wire
 		(pts
@@ -6167,7 +6155,7 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 109.22) (xy 172.72 109.22)
+			(xy 167.64 116.84) (xy 172.72 116.84)
 		)
 		(stroke
 			(width 0)
@@ -6248,7 +6236,7 @@
 	)
 	(wire
 		(pts
-			(xy 130.81 121.92) (xy 132.08 121.92)
+			(xy 133.35 121.92) (xy 135.89 121.92)
 		)
 		(stroke
 			(width 0)
@@ -6589,16 +6577,6 @@
 	)
 	(wire
 		(pts
-			(xy 198.12 116.84) (xy 199.39 116.84)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d3568520-6366-4762-8037-b6740e3f591f")
-	)
-	(wire
-		(pts
 			(xy 95.25 72.39) (xy 96.52 72.39)
 		)
 		(stroke
@@ -6669,6 +6647,16 @@
 	)
 	(wire
 		(pts
+			(xy 167.64 109.22) (xy 172.72 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dccee484-0443-48ba-9d49-efd803a45175")
+	)
+	(wire
+		(pts
 			(xy 27.94 72.39) (xy 45.72 72.39)
 		)
 		(stroke
@@ -6711,23 +6699,13 @@
 	)
 	(wire
 		(pts
-			(xy 100.33 114.3) (xy 102.87 114.3)
+			(xy 100.33 114.3) (xy 105.41 114.3)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "e0100643-8e23-4a27-8d5e-1b9e2820fcab")
-	)
-	(wire
-		(pts
-			(xy 105.41 121.92) (xy 102.87 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e5cdb192-f2c1-4e2d-9459-ed6df57ba71c")
 	)
 	(wire
 		(pts
@@ -6768,6 +6746,16 @@
 			(type default)
 		)
 		(uuid "e93a3218-8e32-4040-9261-7a7d124b0cfc")
+	)
+	(wire
+		(pts
+			(xy 140.97 121.92) (xy 143.51 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ecaff454-1c64-4c95-937f-467bdf7a58f1")
 	)
 	(polyline
 		(pts
@@ -6818,16 +6806,6 @@
 			(type default)
 		)
 		(uuid "f038fafa-8dcb-43ff-b468-c46decbc232c")
-	)
-	(wire
-		(pts
-			(xy 142.24 121.92) (xy 142.24 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f071bbcb-02b2-40bc-88e4-59ebc5e055c3")
 	)
 	(wire
 		(pts
@@ -6902,16 +6880,6 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 109.22) (xy 170.18 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f3b7c37f-d365-4a07-a8a4-03d617ba5987")
-	)
-	(wire
-		(pts
 			(xy 66.04 114.3) (xy 77.47 114.3)
 		)
 		(stroke
@@ -6940,16 +6908,6 @@
 			(type default)
 		)
 		(uuid "f5790f4a-4ce6-4837-bcfa-05dabb603ecc")
-	)
-	(wire
-		(pts
-			(xy 209.55 116.84) (xy 209.55 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f83b62e6-33a1-415a-94ce-a9bef6cb20ab")
 	)
 	(wire
 		(pts
@@ -6984,7 +6942,7 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 109.22) (xy 162.56 109.22)
+			(xy 148.59 116.84) (xy 162.56 116.84)
 		)
 		(stroke
 			(width 0)
@@ -7021,6 +6979,16 @@
 			(type default)
 		)
 		(uuid "fe3ba609-5276-423b-9360-fe7096883e4a")
+	)
+	(wire
+		(pts
+			(xy 100.33 121.92) (xy 105.41 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fec3dd5a-f09f-420f-8c13-973afebc3136")
 	)
 	(text "B"
 		(exclude_from_sim no)
@@ -7280,7 +7248,7 @@
 		(uuid "1a9903bc-31be-4f5e-9d81-8580166631f2")
 	)
 	(label "CAN_XCVR_RX"
-		(at 149.86 109.22 0)
+		(at 149.86 116.84 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7480,7 +7448,7 @@
 	)
 	(hierarchical_label "CAN_RX"
 		(shape output)
-		(at 205.74 109.22 0)
+		(at 205.74 116.84 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7489,6 +7457,18 @@
 			(justify left)
 		)
 		(uuid "548d6604-87f9-4983-b6ae-924dcab54cfb")
+	)
+	(hierarchical_label "CAN_ACT"
+		(shape input)
+		(at 160.02 109.22 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 0.9906 0.9906)
+			)
+			(justify right)
+		)
+		(uuid "5a733b3d-5011-4710-97b2-5df492c86cc4")
 	)
 	(hierarchical_label "CAN_TX"
 		(shape input)
@@ -7513,6 +7493,18 @@
 			(justify right)
 		)
 		(uuid "6b2a92e9-3676-4db2-9e77-b7f1634d6c23")
+	)
+	(hierarchical_label "RS485_ACT"
+		(shape input)
+		(at 92.71 121.92 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 0.9906 0.9906)
+			)
+			(justify right)
+		)
+		(uuid "e9ddc9df-d8e9-40fe-b288-527c06824ee6")
 	)
 	(hierarchical_label "RS485_~{RE}_DE"
 		(shape input)
@@ -9482,7 +9474,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 195.58 109.22 270)
+		(at 195.58 116.84 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -9491,7 +9483,7 @@
 		(dnp no)
 		(uuid "3ac0f9a2-0f1c-4957-9627-93bfae76f6ab")
 		(property "Reference" "R116"
-			(at 195.58 107.442 90)
+			(at 195.58 115.062 90)
 			(effects
 				(font
 					(size 1 1)
@@ -9499,7 +9491,7 @@
 			)
 		)
 		(property "Value" "33R 1%"
-			(at 195.58 111.252 90)
+			(at 195.58 118.872 90)
 			(effects
 				(font
 					(size 1 1)
@@ -9507,7 +9499,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 195.58 109.22 0)
+			(at 195.58 116.84 0)
 			(effects
 				(font
 					(size 1 1)
@@ -9516,7 +9508,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 195.58 109.22 0)
+			(at 195.58 116.84 0)
 			(effects
 				(font
 					(size 1 1)
@@ -9525,7 +9517,7 @@
 			)
 		)
 		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 195.58 109.22 90)
+			(at 195.58 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -9534,7 +9526,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 195.58 109.22 90)
+			(at 195.58 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -9543,7 +9535,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-0733RL"
-			(at 195.58 109.22 90)
+			(at 195.58 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -9552,7 +9544,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C108661"
-			(at 195.58 109.22 90)
+			(at 195.58 116.84 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10218,7 +10210,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 165.1 109.22 270)
+		(at 165.1 116.84 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -10227,7 +10219,7 @@
 		(dnp no)
 		(uuid "51acca4c-3eb5-4ec1-bf46-87b793be2c80")
 		(property "Reference" "R115"
-			(at 165.1 107.442 90)
+			(at 165.1 115.062 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10235,7 +10227,7 @@
 			)
 		)
 		(property "Value" "33R 1%"
-			(at 165.1 111.252 90)
+			(at 165.1 118.872 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10243,7 +10235,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 165.1 109.22 0)
+			(at 165.1 116.84 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10252,7 +10244,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 165.1 109.22 0)
+			(at 165.1 116.84 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10261,7 +10253,7 @@
 			)
 		)
 		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 165.1 109.22 90)
+			(at 165.1 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10270,7 +10262,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 165.1 109.22 90)
+			(at 165.1 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10279,7 +10271,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-0733RL"
-			(at 165.1 109.22 90)
+			(at 165.1 116.84 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10288,7 +10280,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C108661"
-			(at 165.1 109.22 90)
+			(at 165.1 116.84 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11215,8 +11207,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 135.89 121.92 0)
-		(mirror y)
+		(at 129.54 121.92 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -11224,7 +11215,7 @@
 		(dnp no)
 		(uuid "734bb48a-189c-4124-9bd3-404eb006cd3a")
 		(property "Reference" "LD17"
-			(at 137.16 124.46 0)
+			(at 130.81 119.38 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11233,7 +11224,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 142.24 119.38 0)
+			(at 135.89 124.46 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11243,7 +11234,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11252,7 +11243,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11261,7 +11252,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11270,7 +11261,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11279,7 +11270,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11288,7 +11279,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 135.89 121.92 0)
+			(at 129.54 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12203,6 +12194,101 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 97.79 121.92 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "87b26387-ecdc-4005-8a31-7c2d9a639613")
+		(property "Reference" "R140"
+			(at 97.79 120.142 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "33R 1%"
+			(at 97.79 123.952 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 97.79 121.92 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 97.79 121.92 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
+			(at 97.79 121.92 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 97.79 121.92 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "RC0603FR-0733RL"
+			(at 97.79 121.92 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C108661"
+			(at 97.79 121.92 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9919c71b-82d2-42a0-89b0-b04e9c0b396b")
+		)
+		(pin "2"
+			(uuid "62c619c4-43f7-4242-a239-72fc9da58566")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
+					(reference "R140")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:GND_ISO")
 		(at 68.58 81.28 0)
 		(unit 1)
@@ -12526,8 +12612,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 203.2 116.84 0)
-		(mirror y)
+		(at 196.85 109.22 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -12535,7 +12620,7 @@
 		(dnp no)
 		(uuid "9b9b3018-fa65-4747-9fb4-70995cd1d987")
 		(property "Reference" "LD18"
-			(at 204.47 119.38 0)
+			(at 198.12 106.68 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12544,7 +12629,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 209.55 114.3 0)
+			(at 203.2 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12554,7 +12639,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12563,7 +12648,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12572,7 +12657,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12581,7 +12666,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12590,7 +12675,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12599,7 +12684,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 203.2 116.84 0)
+			(at 196.85 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12755,7 +12840,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 209.55 121.92 0)
+		(at 210.82 111.76 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -12764,7 +12849,7 @@
 		(dnp no)
 		(uuid "a0707349-8c75-464c-9439-61117fb3eb49")
 		(property "Reference" "#PWR0222"
-			(at 209.55 128.27 0)
+			(at 210.82 118.11 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12773,7 +12858,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 209.55 125.73 0)
+			(at 210.82 115.57 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12781,7 +12866,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 209.55 121.92 0)
+			(at 210.82 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12790,7 +12875,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 209.55 121.92 0)
+			(at 210.82 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12799,7 +12884,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 209.55 121.92 0)
+			(at 210.82 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12821,7 +12906,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 195.58 116.84 90)
+		(at 205.74 109.22 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -12829,7 +12914,7 @@
 		(dnp no)
 		(uuid "a12dadcf-ad9e-4fa4-869d-0e83b91539dd")
 		(property "Reference" "R139"
-			(at 195.58 114.3 90)
+			(at 205.74 106.68 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12837,7 +12922,7 @@
 			)
 		)
 		(property "Value" "330R 1%"
-			(at 195.58 119.38 90)
+			(at 205.74 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12845,7 +12930,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 195.58 116.84 0)
+			(at 205.74 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12854,7 +12939,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 195.58 116.84 0)
+			(at 205.74 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12863,7 +12948,7 @@
 			)
 		)
 		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 195.58 116.84 90)
+			(at 205.74 109.22 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12872,7 +12957,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 195.58 116.84 90)
+			(at 205.74 109.22 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12881,7 +12966,7 @@
 			)
 		)
 		(property "PN" "AF0603FR-07330RL"
-			(at 195.58 116.84 90)
+			(at 205.74 109.22 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12890,7 +12975,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C144102"
-			(at 195.58 116.84 90)
+			(at 205.74 109.22 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13494,7 +13579,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 128.27 121.92 90)
+		(at 138.43 121.92 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -13502,7 +13587,7 @@
 		(dnp no)
 		(uuid "ac56cc1c-dcc5-4665-a251-dba224bfd83e")
 		(property "Reference" "R138"
-			(at 128.27 119.38 90)
+			(at 138.43 119.38 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13510,7 +13595,7 @@
 			)
 		)
 		(property "Value" "330R 1%"
-			(at 128.27 124.46 90)
+			(at 138.43 124.46 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13518,7 +13603,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 128.27 121.92 0)
+			(at 138.43 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13527,7 +13612,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 128.27 121.92 0)
+			(at 138.43 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13536,7 +13621,7 @@
 			)
 		)
 		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 128.27 121.92 90)
+			(at 138.43 121.92 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13545,7 +13630,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 128.27 121.92 90)
+			(at 138.43 121.92 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13554,7 +13639,7 @@
 			)
 		)
 		(property "PN" "AF0603FR-07330RL"
-			(at 128.27 121.92 90)
+			(at 138.43 121.92 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13563,7 +13648,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C144102"
-			(at 128.27 121.92 90)
+			(at 138.43 121.92 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13588,7 +13673,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 142.24 127 0)
+		(at 143.51 124.46 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -13597,7 +13682,7 @@
 		(dnp no)
 		(uuid "ad0697e1-d842-4284-87a9-23bb61c61e53")
 		(property "Reference" "#PWR0221"
-			(at 142.24 133.35 0)
+			(at 143.51 130.81 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13606,7 +13691,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 142.24 130.81 0)
+			(at 143.51 128.27 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13614,7 +13699,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 142.24 127 0)
+			(at 143.51 124.46 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13623,7 +13708,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 142.24 127 0)
+			(at 143.51 124.46 0)
 			(effects
 				(font
 					(size 1 1)
@@ -13632,7 +13717,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 142.24 127 0)
+			(at 143.51 124.46 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14844,6 +14929,101 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
 					(reference "JP2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 165.1 109.22 270)
+		(mirror x)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "ebc963dc-927d-457b-bdd2-7467b30327f2")
+		(property "Reference" "R141"
+			(at 165.1 107.442 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "33R 1%"
+			(at 165.1 111.252 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 165.1 109.22 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 165.1 109.22 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 33 Ohms, ±1%, 1/10W, SMD 0603"
+			(at 165.1 109.22 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 165.1 109.22 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "RC0603FR-0733RL"
+			(at 165.1 109.22 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C108661"
+			(at 165.1 109.22 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "68fc88db-51a7-42c8-8f53-d4e9cbec2278")
+		)
+		(pin "2"
+			(uuid "8b9d2f8a-ff5e-4886-9b90-4077fdbb9e97")
+		)
+		(instances
+			(project "hardware_v3"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
+					(reference "R141")
 					(unit 1)
 				)
 			)
