@@ -342,7 +342,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 143.51) (xy 139.7 143.51)
+			(xy 76.2 146.05) (xy 139.7 146.05)
 		)
 		(stroke
 			(width 0)
@@ -402,7 +402,7 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 146.05) (xy 139.7 146.05)
+			(xy 76.2 148.59) (xy 139.7 148.59)
 		)
 		(stroke
 			(width 0)
@@ -439,6 +439,16 @@
 			(type default)
 		)
 		(uuid "a01ed17b-00f0-4243-8da1-163b40f352a2")
+	)
+	(wire
+		(pts
+			(xy 76.2 151.13) (xy 139.7 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad708171-3701-4cc7-bd79-83d4fdef51a8")
 	)
 	(wire
 		(pts
@@ -479,6 +489,16 @@
 			(type default)
 		)
 		(uuid "eb88f6ed-255b-4f22-b1e4-d25fe2385a8e")
+	)
+	(wire
+		(pts
+			(xy 76.2 140.97) (xy 139.7 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fd4975f8-5e90-4bc8-b03d-26a58032522c")
 	)
 	(wire
 		(pts
@@ -935,7 +955,7 @@
 	)
 	(sheet
 		(at 139.7 130.81)
-		(size 29.21 17.78)
+		(size 29.21 21.59)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -955,7 +975,7 @@
 			)
 		)
 		(property "Sheetfile" "network.kicad_sch"
-			(at 139.7 149.1746 0)
+			(at 139.7 152.9846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -994,7 +1014,7 @@
 			(uuid "e62cd2cf-7971-4802-803f-d8f946ae3238")
 		)
 		(pin "CAN_RX" output
-			(at 139.7 143.51 180)
+			(at 139.7 146.05 180)
 			(effects
 				(font
 					(size 1 1)
@@ -1004,7 +1024,7 @@
 			(uuid "c639fa49-f70d-4b69-9593-64446f8857f8")
 		)
 		(pin "CAN_TX" input
-			(at 139.7 146.05 180)
+			(at 139.7 148.59 180)
 			(effects
 				(font
 					(size 1 1)
@@ -1012,6 +1032,26 @@
 				(justify left)
 			)
 			(uuid "e6ca2e58-1ab3-4bbf-9d6e-7c67188b38d6")
+		)
+		(pin "RS485_ACT" input
+			(at 139.7 140.97 180)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+			(uuid "455b470a-36fc-45f9-b391-2e043afac13a")
+		)
+		(pin "CAN_ACT" input
+			(at 139.7 151.13 180)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+			(uuid "f4f407a4-7ecb-45e4-b0bb-e14191b066c0")
 		)
 		(instances
 			(project "hardware_v3"
@@ -1546,7 +1586,7 @@
 			(uuid "a46a1c91-9818-4d39-ab2c-368dfa0ee5c8")
 		)
 		(pin "CAN_TX" output
-			(at 76.2 146.05 0)
+			(at 76.2 148.59 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1556,7 +1596,7 @@
 			(uuid "2b32c83f-0141-462a-8b17-1fcc9c370765")
 		)
 		(pin "CAN_RX" input
-			(at 76.2 143.51 0)
+			(at 76.2 146.05 0)
 			(effects
 				(font
 					(size 1.27 1.27)
