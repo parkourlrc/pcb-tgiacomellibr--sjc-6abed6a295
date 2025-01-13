@@ -3413,7 +3413,7 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 69.85) (xy 250.19 67.31)
+			(xy 250.19 67.31) (xy 250.19 64.77)
 		)
 		(stroke
 			(width 0)
@@ -5207,7 +5207,7 @@
 	)
 	(wire
 		(pts
-			(xy 242.57 69.85) (xy 242.57 67.31)
+			(xy 242.57 67.31) (xy 242.57 64.77)
 		)
 		(stroke
 			(width 0)
@@ -6170,7 +6170,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 242.57 63.5 90)
+		(at 242.57 71.12 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -6178,7 +6178,7 @@
 		(dnp no)
 		(uuid "08ebf688-cecc-48da-ac20-d94f5b8edab0")
 		(property "Reference" "LD11"
-			(at 245.11 64.77 0)
+			(at 245.11 72.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6187,7 +6187,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 240.03 69.85 0)
+			(at 240.03 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6197,7 +6197,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6206,7 +6206,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6215,7 +6215,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6224,7 +6224,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6233,7 +6233,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6242,7 +6242,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 242.57 63.5 0)
+			(at 242.57 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7198,7 +7198,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 250.19 63.5 90)
+		(at 250.19 71.12 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -7206,7 +7206,7 @@
 		(dnp no)
 		(uuid "3112817e-1dda-431c-889b-af0ae90f1e1c")
 		(property "Reference" "LD10"
-			(at 252.73 64.77 0)
+			(at 252.73 72.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7215,7 +7215,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 247.65 69.85 0)
+			(at 247.65 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7225,7 +7225,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7234,7 +7234,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7243,7 +7243,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7252,7 +7252,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7261,7 +7261,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7270,7 +7270,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 250.19 63.5 0)
+			(at 250.19 71.12 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11169,7 +11169,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 250.19 72.39 0)
+		(at 250.19 62.23 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -11178,7 +11178,7 @@
 		(dnp no)
 		(uuid "a0af5c48-3c08-4380-b486-d112e11d1b1c")
 		(property "Reference" "R103"
-			(at 247.65 72.39 90)
+			(at 247.65 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11186,7 +11186,7 @@
 			)
 		)
 		(property "Value" "330R 1%"
-			(at 252.73 72.39 90)
+			(at 252.73 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11194,7 +11194,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 250.19 72.39 0)
+			(at 250.19 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11203,7 +11203,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 250.19 72.39 0)
+			(at 250.19 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11212,7 +11212,7 @@
 			)
 		)
 		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 250.19 72.39 90)
+			(at 250.19 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11221,7 +11221,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 250.19 72.39 90)
+			(at 250.19 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11230,7 +11230,7 @@
 			)
 		)
 		(property "PN" "AF0603FR-07330RL"
-			(at 250.19 72.39 90)
+			(at 250.19 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -11239,7 +11239,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C144102"
-			(at 250.19 72.39 90)
+			(at 250.19 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -12568,7 +12568,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 242.57 72.39 0)
+		(at 242.57 62.23 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -12577,7 +12577,7 @@
 		(dnp no)
 		(uuid "c94d9b63-9393-4087-873b-470126e8d87b")
 		(property "Reference" "R104"
-			(at 240.03 72.39 90)
+			(at 240.03 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12585,7 +12585,7 @@
 			)
 		)
 		(property "Value" "330R 1%"
-			(at 245.11 72.39 90)
+			(at 245.11 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12593,7 +12593,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 242.57 72.39 0)
+			(at 242.57 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12602,7 +12602,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 242.57 72.39 0)
+			(at 242.57 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12611,7 +12611,7 @@
 			)
 		)
 		(property "Description" "Resistor, 330 Ohms, ±1%, 1/10W, SMD 0603"
-			(at 242.57 72.39 90)
+			(at 242.57 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12620,7 +12620,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 242.57 72.39 90)
+			(at 242.57 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12629,7 +12629,7 @@
 			)
 		)
 		(property "PN" "AF0603FR-07330RL"
-			(at 242.57 72.39 90)
+			(at 242.57 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12638,7 +12638,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C144102"
-			(at 242.57 72.39 90)
+			(at 242.57 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
