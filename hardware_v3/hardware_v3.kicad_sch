@@ -596,7 +596,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a948f5fb-f19a-4d40-96dd-65d10372d9da")
-		(property "Reference" "H3"
+		(property "Reference" "H2"
 			(at 280.67 158.115 90)
 			(effects
 				(font
@@ -645,7 +645,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(reference "H3")
+					(reference "H2")
 					(unit 1)
 				)
 			)
@@ -661,7 +661,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d2bbca8b-b550-4a67-9bc7-87f1a4d3fba5")
-		(property "Reference" "H2"
+		(property "Reference" "H3"
 			(at 270.51 163.195 90)
 			(effects
 				(font
@@ -710,7 +710,7 @@
 		(instances
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(reference "H2")
+					(reference "H3")
 					(unit 1)
 				)
 			)

@@ -503,6 +503,8 @@
     },
     "net_colors": null,
     "netclass_assignments": {
+      "+12V": "PWR",
+      "+12V_LOGIC": "DRV_LV",
       "+V_{BAT}": "PWR",
       "/CAN/+12V_ISO_DC": "DRV_LV",
       "/CAN/+12V_ISO_FLT": "DRV_LV",
@@ -534,6 +536,7 @@
       "/Network/+12V_ISO_DC": "DRV_LV",
       "/Network/+12V_ISO_FLT": "DRV_LV",
       "/Power Supply/12V_REG_IN": "DRV_HV",
+      "/Power Supply/12V_buck_converter/Vin": "PWR",
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
       "/Power Supply/DRIVER_~{EN": "DRV_HV",
@@ -542,7 +545,10 @@
       "/Power Supply/MOTOR_~{EN}": "DRV_HV",
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
+      "Net-(C1-Pad2)": "PWR",
+      "Net-(C10-Pad2)": "PWR",
       "Net-(C101-Pad2)": "PWR",
+      "Net-(C11-Pad2)": "PWR",
       "Net-(C110-Pad2)": "PWR",
       "Net-(C180-Pad2)": "PWR",
       "Net-(C188-Pad2)": "PWR",
@@ -576,6 +582,7 @@
       "Net-(D8-K)": "DRV_HV",
       "Net-(D9-K)": "DRV_HV",
       "Net-(F3-Pad1)": "PWR",
+      "Net-(LD1-K)": "PWR",
       "Net-(LD101-K)": "PWR",
       "Net-(LD105-K)": "PWR",
       "Net-(LD2-K)": "PWR",
@@ -592,6 +599,7 @@
       "Net-(Q106-G)": "DRV_HV",
       "Net-(Q107-G)": "DRV_HV",
       "Net-(Q109-G)": "DRV_HV",
+      "Net-(Q11-G)": "DRV_HV",
       "Net-(Q111-G)": "DRV_HV",
       "Net-(Q112-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
@@ -606,6 +614,7 @@
       "Net-(Q7-G)": "DRV_HV",
       "Net-(Q8-G)": "DRV_HV",
       "Net-(U1-1Y)": "DRV_HV",
+      "Net-(U1-VI)": "DRV_HV",
       "Net-(U101-VI)": "DRV_HV",
       "Net-(U102-VI)": "DRV_LV",
       "Net-(U107-H_{O})": "DRV_HV",
@@ -616,6 +625,7 @@
       "Net-(U108-V_{B})": "DRV_HV",
       "Net-(U11-H_{O})": "DRV_HV",
       "Net-(U11-L_{O})": "DRV_HV",
+      "Net-(U11-VB)": "DRV_HV",
       "Net-(U11-V_{B})": "DRV_HV",
       "Net-(U115-VB)": "DRV_HV",
       "Net-(U126-VB)": "DRV_HV",
@@ -623,7 +633,7 @@
       "Net-(U136-VI)": "DRV_LV",
       "Net-(U18-VI)": "DRV_HV",
       "Net-(U19-VI)": "DRV_LV",
-      "Net-(U2-VI)": "DRV_HV",
+      "Net-(U2-VI)": "DRV_LV",
       "Net-(U20-H_{O})": "DRV_HV",
       "Net-(U20-L_{O})": "DRV_HV",
       "Net-(U20-V_{B})": "DRV_HV",
@@ -635,7 +645,9 @@
       "Net-(U9-VB)": "DRV_HV",
       "V_{BPS}+": "DRV_HV",
       "V_{PWR}_Fuse+": "PWR",
-      "V_{PWR}_Rect+": "DRV_HV"
+      "V_{PWR}_Rect+": "DRV_HV",
+      "unconnected-(D1-A-Pad2)": "PWR",
+      "unconnected-(D7-A-Pad2)": "PWR"
     },
     "netclass_patterns": [
       {
@@ -892,7 +904,7 @@
   "sheets": [
     [
       "9538e4ed-27e6-4c37-b989-9859dc0d49e8",
-      "Raiz"
+      "Root"
     ],
     [
       "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
@@ -913,6 +925,10 @@
     [
       "2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae",
       "Network"
+    ],
+    [
+      "b319a129-6b4c-4720-bfb5-95d30030eab8",
+      "12V_buck_converter"
     ],
     [
       "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
