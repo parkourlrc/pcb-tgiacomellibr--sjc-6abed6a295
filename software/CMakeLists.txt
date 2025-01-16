@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.0)
 project(sjc_interface VERSION 0.1.0 LANGUAGES C CXX)
 
-find_package(PkgConfig REQUIRED)
+find_pacKage(PkgConfig REQUIRED)
 pkg_check_modules(MODBUS REQUIRED libmodbus)
 
 # Project definitions

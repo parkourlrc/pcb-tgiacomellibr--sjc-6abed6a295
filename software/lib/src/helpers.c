@@ -37,17 +37,17 @@
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-float SJC_Helpers_RealClamp(const float var, const float LimitMin, const float LimitMax)
+float real_value_clamp(const float var, const float limit_min, const float limit_max)
 {
 	float ret;
 
-	if (var > LimitMax)
+	if (var > limit_max)
 	{
-		ret = LimitMax;
+		ret = limit_max;
 	}
-	else if (var < LimitMin)
+	else if (var < limit_min)
 	{
-		ret = LimitMin;
+		ret = limit_min;
 	}
 	else
 	{
@@ -56,17 +56,17 @@ float SJC_Helpers_RealClamp(const float var, const float LimitMin, const float L
 
 	return ret;
 }
-int32_t SJC_Helpers_IntClamp(const int32_t var, const int32_t LimitMin, const int32_t LimitMax)
+int32_t int_value_clamp(const int32_t var, const int32_t limit_min, const int32_t limit_max)
 {
 	int32_t ret;
 
-	if (var > LimitMax)
+	if (var > limit_max)
 	{
-		ret = LimitMax;
+		ret = limit_max;
 	}
-	else if (var < LimitMin)
+	else if (var < limit_min)
 	{
-		ret = LimitMin;
+		ret = limit_min;
 	}
 	else
 	{
@@ -75,17 +75,17 @@ int32_t SJC_Helpers_IntClamp(const int32_t var, const int32_t LimitMin, const in
 
 	return ret;
 }
-uint32_t SJC_Helpers_UintClamp(const uint32_t var, const uint32_t LimitMin, const uint32_t LimitMax)
+uint32_t unsigned_int_value_clamp(const uint32_t var, const uint32_t limit_min, const uint32_t limit_max)
 {
 	uint32_t ret;
 
-	if (var > LimitMax)
+	if (var > limit_max)
 	{
-		ret = LimitMax;
+		ret = limit_max;
 	}
-	else if (var < LimitMin)
+	else if (var < limit_min)
 	{
-		ret = LimitMin;
+		ret = limit_min;
 	}
 	else
 	{

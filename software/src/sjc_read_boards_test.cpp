@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
                     //           << " * Mode: " << RuntimeInfo.controller_mode << " - Ref.: " << RuntimeInfo.controller_ref << " - Error: " << RuntimeInfo.controller_error << std::endl;
                     std::cout << "----------------------------------" << std::endl;
                     std::cout << "Displacement sensors: " << std::endl
-                              << " * Actuator: " << RuntimeInfo.actuator_displacement << " rd - Aux A: " << RuntimeInfo.aux_A_displacement << " rd - Aux B: " << RuntimeInfo.aux_B_displacement << " rd" << std::endl;
+                              << " * Actuator: " << RuntimeInfo.actuator_displacement << " rd - Aux A: " << RuntimeInfo.aux_displacement_a << " rd - Aux B: " << RuntimeInfo.aux_displacement_b << " rd" << std::endl;
                     float dt = (RuntimeInfo.uptime - last_time) / 1000.0f;
                     last_time = RuntimeInfo.uptime;
                     float ds = RuntimeInfo.actuator_displacement - last_dp;
@@ -126,12 +126,12 @@ int main(int argc, char *argv[])
                     std::cout << " - Current: " << std::to_string(RuntimeInfo.actuator_current) << " A" << std::endl;
                     std::cout << "----------------------------------" << std::endl;
                     // std::cout << "I/Os: " << std::endl;
-                    // std::cout << " * SwA: " << RuntimeInfo.inputs.switchA;
-                    // std::cout << " - SwB: " << RuntimeInfo.inputs.switchB;
-                    // std::cout << " - Iso. InA: " << RuntimeInfo.inputs.iso_inputA;
-                    // std::cout << " - Iso. InB: " << RuntimeInfo.inputs.iso_inputB;
-                    // std::cout << " - OutA: " << RuntimeInfo.outputs.outputA;
-                    // std::cout << " - OutB: " << RuntimeInfo.outputs.outputB << std::endl;
+                    // std::cout << " * SwA: " << RuntimeInfo.inputs.switch_a;
+                    // std::cout << " - SwB: " << RuntimeInfo.inputs.switch_b;
+                    // std::cout << " - Iso. InA: " << RuntimeInfo.inputs.iso_input_a;
+                    // std::cout << " - Iso. InB: " << RuntimeInfo.inputs.iso_input_b;
+                    // std::cout << " - OutA: " << RuntimeInfo.outputs.output_a;
+                    // std::cout << " - OutB: " << RuntimeInfo.outputs.output_b << std::endl;
                     // std::cout << "----------------------------------" << std::endl;
                 }
                 else

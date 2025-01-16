@@ -125,14 +125,14 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xSensorsConfig.actuator_sensor_res_ppr = 2048 * 4;
-            xSensorsConfig.auxA_sensor_res_ppr = 2048 * 4;
-            xSensorsConfig.auxB_sensor_res_ppr = 2048 * 4;
+            xSensorsConfig.actuator_sensor_resolution = 2048 * 4;
+            xSensorsConfig.aux_sensor_resolution_a = 2048 * 4;
+            xSensorsConfig.aux_sensor_resolution_b = 2048 * 4;
 
             std::cout << "Sensors config: " << std::endl;
-            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_res_ppr << " ppr ";
-            std::cout << " - Aux A resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr ";
-            std::cout << " - Aux B resolution: " << xSensorsConfig.auxA_sensor_res_ppr << " ppr " << std::endl;
+            std::cout << " * Actuator resolution: " << xSensorsConfig.actuator_sensor_resolution << " ppr ";
+            std::cout << " - Aux A resolution: " << xSensorsConfig.aux_sensor_resolution_a << " ppr ";
+            std::cout << " - Aux B resolution: " << xSensorsConfig.aux_sensor_resolution_a << " ppr " << std::endl;
 
             if (SJC_RET_OK == Sjc.setSensorsParameters(xSensorsConfig))
             {
@@ -146,22 +146,22 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            // xControllerParameters.kp_parameter = 0.0050077;
-            // xControllerParameters.ki_parameter = 0.23959;
-            xControllerParameters.kp_parameter = 0.0113;
-            xControllerParameters.ki_parameter = 0.5;
-            xControllerParameters.kd_parameter = 0.0;
-            xControllerParameters.KT = 10000.0;
-            xControllerParameters.KA = 30000.0;
-            xControllerParameters.rate_parameter = 1000.0;
+            // xControllerParameters.Kp = 0.0050077;
+            // xControllerParameters.Ki = 0.23959;
+            xControllerParameters.Kp = 0.0113;
+            xControllerParameters.Ki = 0.5;
+            xControllerParameters.Kd = 0.0;
+            xControllerParameters.Kt = 10000.0;
+            xControllerParameters.Ka = 30000.0;
+            xControllerParameters.update_rate = 1000.0;
 
             std::cout << "Controller parameters: " << std::endl;
-            std::cout << " * Kp: " << xControllerParameters.kp_parameter;
-            std::cout << " - Ki: " << xControllerParameters.ki_parameter;
-            std::cout << " - Kd: " << xControllerParameters.kd_parameter;
-            std::cout << " - Aux1: " << xControllerParameters.KT;
-            std::cout << " - Aux2: " << xControllerParameters.KA;
-            std::cout << " - Rate: " << xControllerParameters.rate_parameter << std::endl;
+            std::cout << " * Kp: " << xControllerParameters.Kp;
+            std::cout << " - Ki: " << xControllerParameters.Ki;
+            std::cout << " - Kd: " << xControllerParameters.Kd;
+            std::cout << " - Aux1: " << xControllerParameters.Kt;
+            std::cout << " - Aux2: " << xControllerParameters.Ka;
+            std::cout << " - Rate: " << xControllerParameters.update_rate << std::endl;
 
             if (SJC_RET_OK == Sjc.setControllerParameters(xControllerParameters))
             {
@@ -213,12 +213,12 @@ int main(int argc, char *argv[])
             }
             std::cout << "----------------------------------" << std::endl;
 
-            xOutputsStateConfig.outputA = false;
-            xOutputsStateConfig.outputB = true;
+            xOutputsStateConfig.output_a = false;
+            xOutputsStateConfig.output_b = true;
 
             std::cout << "Digital outputs: " << std::endl;
-            std::cout << " * OutA: " << std::to_string(xOutputsStateConfig.outputA);
-            std::cout << " - OutB: " << std::to_string(xOutputsStateConfig.outputB);
+            std::cout << " * OutA: " << std::to_string(xOutputsStateConfig.output_a);
+            std::cout << " - OutB: " << std::to_string(xOutputsStateConfig.output_b);
 
             if (SJC_RET_OK == Sjc.setDigitalOutputsStates(xOutputsStateConfig))
             {

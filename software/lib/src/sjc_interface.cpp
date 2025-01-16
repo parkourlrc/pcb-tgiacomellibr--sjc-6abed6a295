@@ -140,17 +140,17 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_CURRENT, RUNTIME_INFO_OFFSET)], &config->actuator_current);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->actuator_voltage);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->actuator_displacement);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_A_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_A_displacement);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_B_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_B_displacement);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_A_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_displacement_a);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_B_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_displacement_b);
 
         uint16_t digital_inputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_INPUTS, RUNTIME_INFO_OFFSET)];
         uint16_t digital_outputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_OUTPUTS, RUNTIME_INFO_OFFSET)];
-        config->inputs.switchA = digital_inputs & (1 << SWITCH_A_MASK);
-        config->inputs.switchB = digital_inputs & (1 << SWITCH_B_MASK);
-        config->inputs.iso_inputA = digital_inputs & (1 << ISO_INPUT_A_MASK);
-        config->inputs.iso_inputB = digital_inputs & (1 << ISO_INPUT_B_MASK);
-        config->outputs.outputA = digital_outputs & (1 << OUTPUT_A_MASK);
-        config->outputs.outputB = digital_outputs & (1 << OUTPUT_B_MASK);
+        config->inputs.switch_a = digital_inputs & (1 << SWITCH_A_MASK);
+        config->inputs.switch_b = digital_inputs & (1 << SWITCH_B_MASK);
+        config->inputs.iso_input_a = digital_inputs & (1 << ISO_INPUT_A_MASK);
+        config->inputs.iso_input_b = digital_inputs & (1 << ISO_INPUT_B_MASK);
+        config->outputs.output_a = digital_outputs & (1 << OUTPUT_A_MASK);
+        config->outputs.output_b = digital_outputs & (1 << OUTPUT_B_MASK);
 
         config->error_flags = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_ERROR_FLAGS, RUNTIME_INFO_OFFSET)];
 
@@ -273,12 +273,12 @@ eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerParameters_
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_CONTROLLER_PARAMS_KP, nb, tab_reg))
     {
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KP, CONTROLLER_INFO_OFFSET)], &config->kp_parameter);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KI, CONTROLLER_INFO_OFFSET)], &config->ki_parameter);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KD, CONTROLLER_INFO_OFFSET)], &config->kd_parameter);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX1, CONTROLLER_INFO_OFFSET)], &config->KT);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX2, CONTROLLER_INFO_OFFSET)], &config->KA);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_RATE, CONTROLLER_INFO_OFFSET)], &config->rate_parameter);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KP, CONTROLLER_INFO_OFFSET)], &config->Kp);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KI, CONTROLLER_INFO_OFFSET)], &config->Ki);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KD, CONTROLLER_INFO_OFFSET)], &config->Kd);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX1, CONTROLLER_INFO_OFFSET)], &config->Kt);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX2, CONTROLLER_INFO_OFFSET)], &config->Ka);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_RATE, CONTROLLER_INFO_OFFSET)], &config->update_rate);
 
         return SJC_RET_OK;
     }
@@ -293,12 +293,12 @@ eSjcReturnType_t SjcInterface::setControllerParameters(const xSjcControllerParam
     const int nb = 13;
     uint16_t tab_reg[nb];
 
-    compose_byte_array_from_float(config.kp_parameter, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KP, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.ki_parameter, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KI, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.kd_parameter, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KD, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.KT, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX1, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.KA, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX2, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.rate_parameter, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_RATE, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kp, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KP, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ki, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KI, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kd, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KD, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kt, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX1, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ka, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX2, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.update_rate, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_RATE, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_UPDATE, CONTROLLER_PARAMETERS_UPDATE_OFFSET)] = CONTROLLER_PARAMETERS_UPDATE_MSK;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_PARAMS_KP, nb, tab_reg))
@@ -318,9 +318,9 @@ eSjcReturnType_t SjcInterface::getSensorsParameters(xSjcSensorsConfig_t *config)
 
     if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
     {
-        config->auxA_sensor_res_ppr = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
-        config->auxB_sensor_res_ppr = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
-        config->actuator_sensor_res_ppr = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
+        config->aux_sensor_resolution_a = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
+        config->aux_sensor_resolution_b = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
+        config->actuator_sensor_resolution = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
 
         return SJC_RET_OK;
     }
@@ -336,9 +336,9 @@ eSjcReturnType_t SjcInterface::setSensorsParameters(const xSjcSensorsConfig_t co
     uint16_t tab_reg[nb];
 
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_SENSORS_SETUP_UPDATE, SENSORS_PARAMETERS_UPDATE_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.auxA_sensor_res_ppr;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.auxB_sensor_res_ppr;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_sensor_res_ppr;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_a;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_b;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_sensor_resolution;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
     {
@@ -357,8 +357,8 @@ eSjcReturnType_t SjcInterface::setDigitalOutputsStates(const xSjcOutputsStates_t
     uint16_t tab_reg[nb];
 
     uint16_t temp = DIGITAL_OUTPUTS_UPDATE_MSK;
-    temp |= (config.outputA << OUTPUT_A_MASK);
-    temp |= (config.outputB << OUTPUT_B_MASK);
+    temp |= (config.output_a << OUTPUT_A_MASK);
+    temp |= (config.output_b << OUTPUT_B_MASK);
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, DIGITAL_OUTPUTS_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, nb, tab_reg))

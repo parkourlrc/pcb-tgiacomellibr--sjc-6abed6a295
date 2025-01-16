@@ -32,16 +32,16 @@ typedef enum
 
 typedef struct
 {
-    bool switchA;
-    bool switchB;
-    bool iso_inputA;
-    bool iso_inputB;
+    bool switch_a;
+    bool switch_b;
+    bool iso_input_a;
+    bool iso_input_b;
 } xSjcInputsStates_t;
 
 typedef struct
 {
-    bool outputA;
-    bool outputB;
+    bool output_a;
+    bool output_b;
 } xSjcOutputsStates_t;
 
 typedef struct
@@ -54,8 +54,8 @@ typedef struct
     float actuator_voltage;
     float actuator_current;
     float actuator_displacement;
-    float aux_A_displacement;
-    float aux_B_displacement;
+    float aux_displacement_a;
+    float aux_displacement_b;
     xSjcInputsStates_t inputs;
     xSjcOutputsStates_t outputs;
     uint16_t error_flags;
@@ -92,19 +92,19 @@ typedef struct
 
 typedef struct
 {
-    float kp_parameter;
-    float ki_parameter;
-    float kd_parameter;
-    float KT; // [N.m / A]
-    float KA; // [V / (rd/s)]
-    float rate_parameter;
+    float Kp;          // Proporcional gain
+    float Ki;          // Integral gain
+    float Kd;          // Derivative gain
+    float Kt;          // Torque constant
+    float Ka;          // Back-EMF constant
+    float update_rate; // Update frequency
 } xSjcControllerParameters_t;
 	
 typedef struct
 {
-    uint16_t actuator_sensor_res_ppr;
-    uint16_t auxA_sensor_res_ppr;
-    uint16_t auxB_sensor_res_ppr;
+    uint16_t actuator_sensor_resolution;
+    uint16_t aux_sensor_resolution_a;
+    uint16_t aux_sensor_resolution_b;
 } xSjcSensorsConfig_t;
 
 typedef struct

@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
                           << " * Mode: " << RuntimeInfo.controller_mode << " - Ref.: " << RuntimeInfo.controller_ref << " - Error: " << RuntimeInfo.controller_error << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Displacement sensors: " << std::endl
-                          << " * Actuator: " << RuntimeInfo.actuator_displacement << " rd - Aux A: " << RuntimeInfo.aux_A_displacement << " rd - Aux B: " << RuntimeInfo.aux_B_displacement << " rd" << std::endl;
+                          << " * Actuator: " << RuntimeInfo.actuator_displacement << " rd - Aux A: " << RuntimeInfo.aux_displacement_a << " rd - Aux B: " << RuntimeInfo.aux_displacement_b << " rd" << std::endl;
                 float dt = (RuntimeInfo.uptime - last_time) / 1000.0f;
                 last_time = RuntimeInfo.uptime;
                 float ds = RuntimeInfo.actuator_displacement - last_dp;
@@ -159,12 +159,12 @@ int main(int argc, char *argv[])
                 std::cout << " - Current: " << std::to_string(RuntimeInfo.actuator_current) << " A" << std::endl;
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "I/Os: " << std::endl;
-                std::cout << " * SwA: " << RuntimeInfo.inputs.switchA;
-                std::cout << " - SwB: " << RuntimeInfo.inputs.switchB;
-                std::cout << " - Iso. InA: " << RuntimeInfo.inputs.iso_inputA;
-                std::cout << " - Iso. InB: " << RuntimeInfo.inputs.iso_inputB;
-                std::cout << " - OutA: " << RuntimeInfo.outputs.outputA;
-                std::cout << " - OutB: " << RuntimeInfo.outputs.outputB << std::endl;
+                std::cout << " * SwA: " << RuntimeInfo.inputs.switch_a;
+                std::cout << " - SwB: " << RuntimeInfo.inputs.switch_b;
+                std::cout << " - Iso. InA: " << RuntimeInfo.inputs.iso_input_a;
+                std::cout << " - Iso. InB: " << RuntimeInfo.inputs.iso_input_b;
+                std::cout << " - OutA: " << RuntimeInfo.outputs.output_a;
+                std::cout << " - OutB: " << RuntimeInfo.outputs.output_b << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
             else
@@ -206,9 +206,9 @@ int main(int argc, char *argv[])
             {
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Sensors parameters: " << std::endl;
-                std::cout << " * Actuator encoder: " << SensorsInfo.actuator_sensor_res_ppr << " ppr";
-                std::cout << " - Aux A encoder: " << SensorsInfo.auxA_sensor_res_ppr << " ppr";
-                std::cout << " - Aux B encoder: " << SensorsInfo.auxB_sensor_res_ppr << " ppr" << std::endl;
+                std::cout << " * Actuator encoder: " << SensorsInfo.actuator_sensor_resolution << " ppr";
+                std::cout << " - Aux A encoder: " << SensorsInfo.aux_sensor_resolution_a << " ppr";
+                std::cout << " - Aux B encoder: " << SensorsInfo.aux_sensor_resolution_b << " ppr" << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
             else
@@ -222,12 +222,12 @@ int main(int argc, char *argv[])
             {
                 std::cout << "----------------------------------" << std::endl;
                 std::cout << "Controller parameters: " << std::endl;
-                std::cout << " * Kp: " << std::to_string(ControllerInfo.kp_parameter);
-                std::cout << " - Ki: " << std::to_string(ControllerInfo.ki_parameter);
-                std::cout << " - Kd: " << std::to_string(ControllerInfo.kd_parameter);
-                std::cout << " - Aux1: " << std::to_string(ControllerInfo.KT);
-                std::cout << " - Aux2: " << std::to_string(ControllerInfo.KA);
-                std::cout << " - Rate: " << std::to_string(ControllerInfo.rate_parameter) << std::endl;
+                std::cout << " * Kp: " << std::to_string(ControllerInfo.Kp);
+                std::cout << " - Ki: " << std::to_string(ControllerInfo.Ki);
+                std::cout << " - Kd: " << std::to_string(ControllerInfo.Kd);
+                std::cout << " - Aux1: " << std::to_string(ControllerInfo.Kt);
+                std::cout << " - Aux2: " << std::to_string(ControllerInfo.Ka);
+                std::cout << " - Rate: " << std::to_string(ControllerInfo.update_rate) << std::endl;
                 std::cout << "----------------------------------" << std::endl;
             }
             else
