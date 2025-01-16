@@ -145,12 +145,12 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
 
         uint16_t digital_inputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_INPUTS, RUNTIME_INFO_OFFSET)];
         uint16_t digital_outputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_OUTPUTS, RUNTIME_INFO_OFFSET)];
-        config->inputs.switchA = digital_inputs & (1 << switchA_msk);
-        config->inputs.switchB = digital_inputs & (1 << switchB_msk);
-        config->inputs.iso_inputA = digital_inputs & (1 << iso_inputA_msk);
-        config->inputs.iso_inputB = digital_inputs & (1 << iso_inputB_msk);
-        config->outputs.outputA = digital_outputs & (1 << outputA_msk);
-        config->outputs.outputB = digital_outputs & (1 << outputB_msk);
+        config->inputs.switchA = digital_inputs & (1 << SWITCH_A_MASK);
+        config->inputs.switchB = digital_inputs & (1 << SWITCH_B_MASK);
+        config->inputs.iso_inputA = digital_inputs & (1 << ISO_INPUT_A_MASK);
+        config->inputs.iso_inputB = digital_inputs & (1 << ISO_INPUT_B_MASK);
+        config->outputs.outputA = digital_outputs & (1 << OUTPUT_A_MASK);
+        config->outputs.outputB = digital_outputs & (1 << OUTPUT_B_MASK);
 
         config->error_flags = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_ERROR_FLAGS, RUNTIME_INFO_OFFSET)];
 
@@ -357,8 +357,8 @@ eSjcReturnType_t SjcInterface::setDigitalOutputsStates(const xSjcOutputsStates_t
     uint16_t tab_reg[nb];
 
     uint16_t temp = DIGITAL_OUTPUTS_UPDATE_MSK;
-    temp |= (config.outputA << outputA_msk);
-    temp |= (config.outputB << outputB_msk);
+    temp |= (config.outputA << OUTPUT_A_MASK);
+    temp |= (config.outputB << OUTPUT_B_MASK);
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, DIGITAL_OUTPUTS_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, nb, tab_reg))

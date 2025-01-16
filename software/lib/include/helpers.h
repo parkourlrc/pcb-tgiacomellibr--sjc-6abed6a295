@@ -11,9 +11,9 @@
 #include "stdint.h"
 
 // Clamp functions
-float SJC_Helpers_RealClamp(const float var, const float LimitMin, const float LimitMax);
-int32_t SJC_Helpers_IntClamp(const int32_t var, const int32_t LimitMin, const int32_t LimitMax);
-uint32_t SJC_Helpers_UintClamp(const uint32_t var, const uint32_t LimitMin, const uint32_t LimitMax);
+float real_value_clamp(const float var, const float LimitMin, const float LimitMax);
+int32_t int_value_clamp(const int32_t var, const int32_t LimitMin, const int32_t LimitMax);
+uint32_t unsigned_int_value_clamp(const uint32_t var, const uint32_t LimitMin, const uint32_t LimitMax);
 
 void compose_byte_array_from_ui32(const uint32_t src, uint16_t *dst);
 void compose_ui32_from_byte_array(const uint16_t *src, uint32_t *dst);

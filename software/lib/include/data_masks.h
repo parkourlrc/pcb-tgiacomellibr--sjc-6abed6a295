@@ -18,16 +18,18 @@
 
 typedef enum
 {
-    switchA_msk = 0UL,
-    switchB_msk,
-    iso_inputA_msk,
-    iso_inputB_msk
+    SWITCH_A_MASK = 0UL,
+    SWITCH_B_MASK,
+    ISO_INPUT_A_MASK,
+    ISO_INPUT_B_MASK,
+    SJC_DIGITAL_INPUT_MASK_SIZE
 } eSjcDigitalInputMasks;
 
 typedef enum
 {
-    outputA_msk = 0UL,
-    outputB_msk
+    OUTPUT_A_MASK = 0UL,
+    OUTPUT_B_MASK,
+    SJC_DIGITAL_OUTPUT_MASK_SIZE
 } eSjcDigitalOutputMasks;
 
 #endif /* SJC__SYSTEM_TYPES__DATA_MASKS_H_ */
