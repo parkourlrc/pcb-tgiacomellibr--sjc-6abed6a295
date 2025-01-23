@@ -6399,6 +6399,7 @@
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" "~"
@@ -6463,7 +6464,8 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 21.59 49.53 180)
+		(at 21.59 46.99 0)
+		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -6471,7 +6473,7 @@
 		(dnp no)
 		(uuid "3bb5df5d-e453-457e-b6a3-0cc659070c05")
 		(property "Reference" "J10"
-			(at 21.59 44.45 0)
+			(at 21.59 52.07 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6487,7 +6489,7 @@
 			)
 		)
 		(property "Footprint" "sjc:AMASS_XT60PW-F_1x02_P7.20mm_Horizontal"
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6496,7 +6498,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6505,7 +6507,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6514,7 +6516,7 @@
 			)
 		)
 		(property "MF" "AMASS"
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6523,7 +6525,7 @@
 			)
 		)
 		(property "PN" "XT60PW-F"
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6532,7 +6534,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C428722"
-			(at 21.59 49.53 0)
+			(at 21.59 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
