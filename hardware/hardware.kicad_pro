@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.3556
+          "min_clearance": 0.508
         }
       },
       "diff_pair_dimensions": [
@@ -551,6 +551,7 @@
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
       "Net-(C1-Pad2)": "PWR",
       "Net-(C10-Pad2)": "PWR",
+      "Net-(C100-Pad2)": "PWR",
       "Net-(C101-Pad2)": "PWR",
       "Net-(C11-Pad2)": "PWR",
       "Net-(C110-Pad2)": "PWR",
@@ -564,6 +565,7 @@
       "Net-(C73-Pad2)": "PWR",
       "Net-(C74-Pad2)": "PWR",
       "Net-(C79-Pad2)": "PWR",
+      "Net-(C85-Pad2)": "PWR",
       "Net-(C92-Pad2)": "PWR",
       "Net-(C96-Pad2)": "PWR",
       "Net-(D10-K)": "DRV_HV",
@@ -591,6 +593,7 @@
       "Net-(LD1-K)": "PWR",
       "Net-(LD101-K)": "PWR",
       "Net-(LD105-K)": "PWR",
+      "Net-(LD11-K)": "PWR",
       "Net-(LD12-K)": "PWR",
       "Net-(LD2-K)": "PWR",
       "Net-(LD3-K)": "PWR",
@@ -640,12 +643,14 @@
       "Net-(U126-VB)": "DRV_HV",
       "Net-(U135-VI)": "DRV_HV",
       "Net-(U136-VI)": "DRV_LV",
+      "Net-(U14-VB)": "DRV_HV",
       "Net-(U18-VI)": "DRV_HV",
       "Net-(U19-VI)": "DRV_LV",
       "Net-(U2-VI)": "DRV_LV",
       "Net-(U20-H_{O})": "DRV_HV",
       "Net-(U20-L_{O})": "DRV_HV",
       "Net-(U20-V_{B})": "DRV_HV",
+      "Net-(U3-VB)": "DRV_HV",
       "Net-(U3-VI)": "DRV_HV",
       "Net-(U4-VI)": "DRV_LV",
       "Net-(U5-VI)": "DRV_HV",

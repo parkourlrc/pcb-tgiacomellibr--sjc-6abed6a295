@@ -1717,6 +1717,17 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 80.01) (xy 128.27 82.55)
+		)
+		(stroke
+			(width 0.254)
+			(type solid)
+			(color 255 0 0 1)
+		)
+		(uuid "cd60e91a-3df2-42e7-8baa-377c430a69ca")
+	)
+	(wire
+		(pts
 			(xy 128.27 105.41) (xy 146.05 105.41)
 		)
 		(stroke
@@ -1842,7 +1853,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1518fe52-dc94-416d-b560-684f967413e1")
-		(property "Reference" "#PWR0221"
+		(property "Reference" "#PWR0234"
 			(at 166.37 114.3 0)
 			(effects
 				(font
@@ -1892,7 +1903,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0221")
+					(reference "#PWR0234")
 					(unit 1)
 				)
 			)
@@ -1907,7 +1918,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1afabd9b-ecf6-4e42-b97f-4842661fc9aa")
-		(property "Reference" "C97"
+		(property "Reference" "C105"
 			(at 153.67 93.98 90)
 			(effects
 				(font
@@ -1986,7 +1997,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C97")
+					(reference "C105")
 					(unit 1)
 				)
 			)
@@ -2002,7 +2013,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "285d7311-838e-4e79-ba96-6a01ea5dfe90")
-		(property "Reference" "R146"
+		(property "Reference" "R157"
 			(at 191.77 99.06 90)
 			(effects
 				(font
@@ -2081,7 +2092,102 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "R146")
+					(reference "R157")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_semiconductors:PMEG60T20ELR")
+		(at 114.3 82.55 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2b5c5bc3-d63e-440c-b1c7-fa0674712968")
+		(property "Reference" "D8"
+			(at 114.3 80.645 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "530mV 3A"
+			(at 114.3 85.09 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-128"
+			(at 114.3 86.995 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMEG6030ETP.pdf"
+			(at 111.76 91.44 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Schottky diode. 60 V reverse voltage, 3 A average forward current, 530 mV forward voltage"
+			(at 114.3 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Nexperia"
+			(at 114.3 92.71 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "PMEG6030ETPX"
+			(at 114.3 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C458168"
+			(at 114.3 95.25 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f2729389-8ffc-43f8-b62e-fe683ac16d76")
+		)
+		(pin "2"
+			(uuid "6c5d87fb-0fb1-44d3-820f-58329723d06d")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "D8")
 					(unit 1)
 				)
 			)
@@ -2096,7 +2202,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "364ee201-b32a-4594-b6ea-5af21a271f72")
-		(property "Reference" "#PWR0200"
+		(property "Reference" "#PWR0235"
 			(at 186.69 78.74 0)
 			(effects
 				(font
@@ -2146,7 +2252,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0200")
+					(reference "#PWR0235")
 					(unit 1)
 				)
 			)
@@ -2256,7 +2362,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4286a053-9ef3-4caf-9c8d-b644bb5c737e")
-		(property "Reference" "LD14"
+		(property "Reference" "LD13"
 			(at 191.77 91.44 0)
 			(effects
 				(font
@@ -2338,7 +2444,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "LD14")
+					(reference "LD13")
 					(unit 1)
 				)
 			)
@@ -2353,7 +2459,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "488cc2fd-8b42-45ef-96d9-f83052def747")
-		(property "Reference" "C98"
+		(property "Reference" "C106"
 			(at 163.83 93.98 90)
 			(effects
 				(font
@@ -2432,7 +2538,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C98")
+					(reference "C106")
 					(unit 1)
 				)
 			)
@@ -2447,7 +2553,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "4c7157b8-e679-482f-914a-0883ce4518b9")
-		(property "Reference" "#PWR0218"
+		(property "Reference" "#PWR0231"
 			(at 109.22 78.74 0)
 			(effects
 				(font
@@ -2497,7 +2603,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0218")
+					(reference "#PWR0231")
 					(unit 1)
 				)
 			)
@@ -2607,7 +2713,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "63165b5c-1398-4ab2-b3c1-af2921246af8")
-		(property "Reference" "R145"
+		(property "Reference" "R156"
 			(at 126.365 93.98 90)
 			(effects
 				(font
@@ -2686,102 +2792,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "R145")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_semiconductors:PMEG60T20ELR")
-		(at 114.3 82.55 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "7a9886ee-9a1d-4cc2-a90a-2a6e81ad7bdd")
-		(property "Reference" "D7"
-			(at 114.3 80.645 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "B560C"
-			(at 114.3 85.09 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Diode_SMD:D_SMC_Handsoldering"
-			(at 114.3 86.995 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/B520C-B560C.pdf"
-			(at 111.76 91.44 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "5.0A SCHOTTKY BARRIER RECTIFIER, 60V VRRM, 0.7Vf Max, 0.5A Ir Max, SMD DO-214AB"
-			(at 114.3 82.55 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "Diodes Incorporated"
-			(at 114.3 92.71 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "B560C-13-F"
-			(at 114.3 88.9 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C85100"
-			(at 114.3 95.25 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "bfa7e1b6-b125-428e-b874-12dd8232455b")
-		)
-		(pin "2"
-			(uuid "e9de26dc-83dd-4c84-a928-ea80ac87433b")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "D7")
+					(reference "R156")
 					(unit 1)
 				)
 			)
@@ -2796,7 +2807,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "8c679e15-98bd-4376-99fe-acc588f11694")
-		(property "Reference" "#PWR0219"
+		(property "Reference" "#PWR0233"
 			(at 168.91 78.74 0)
 			(effects
 				(font
@@ -2846,7 +2857,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0219")
+					(reference "#PWR0233")
 					(unit 1)
 				)
 			)
@@ -2861,7 +2872,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9d1a329d-a390-4f07-ae64-36adc9b2a4c7")
-		(property "Reference" "C99"
+		(property "Reference" "C107"
 			(at 181.61 93.98 90)
 			(effects
 				(font
@@ -2940,7 +2951,72 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C99")
+					(reference "C107")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+12V")
+		(at 128.27 80.01 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "b2da2ddd-7826-4dd9-a9b4-5d50ffb9a7a5")
+		(property "Reference" "#PWR0232"
+			(at 130.81 78.74 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+13V_RECT"
+			(at 128.27 76.454 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 128.27 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 128.27 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 128.27 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "3333250c-428b-43c2-970d-407c33a2d8c6")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "#PWR0232")
 					(unit 1)
 				)
 			)
@@ -3049,7 +3125,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "db8b739b-6126-4053-8bd1-70616c1ea6ef")
-		(property "Reference" "C96"
+		(property "Reference" "C104"
 			(at 142.24 95.25 90)
 			(effects
 				(font
@@ -3131,7 +3207,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C96")
+					(reference "C104")
 					(unit 1)
 				)
 			)
@@ -3146,7 +3222,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fce503ea-8154-4701-a6b3-252d8c29789b")
-		(property "Reference" "#PWR0222"
+		(property "Reference" "#PWR0236"
 			(at 184.15 114.3 0)
 			(effects
 				(font
@@ -3196,7 +3272,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0222")
+					(reference "#PWR0236")
 					(unit 1)
 				)
 			)
