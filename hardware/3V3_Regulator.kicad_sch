@@ -1971,7 +1971,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "18d17c3f-0528-4ae7-9a91-a5f511734273")
-		(property "Reference" "#PWR0241"
+		(property "Reference" "#PWR0234"
 			(at 93.98 113.03 0)
 			(effects
 				(font
@@ -2021,7 +2021,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "#PWR0241")
+					(reference "#PWR0234")
 					(unit 1)
 				)
 			)
@@ -2386,7 +2386,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "60388521-0e5e-4b7f-9cd7-4b3863abdf9f")
-		(property "Reference" "TV26"
+		(property "Reference" "TV24"
 			(at 149.86 91.44 0)
 			(effects
 				(font
@@ -2467,7 +2467,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "TV26")
+					(reference "TV24")
 					(unit 1)
 				)
 			)
@@ -2580,7 +2580,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7c49affa-b3d2-4670-a151-f30ed1b12003")
-		(property "Reference" "#PWR0242"
+		(property "Reference" "#PWR0235"
 			(at 193.04 82.55 0)
 			(effects
 				(font
@@ -2630,7 +2630,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "#PWR0242")
+					(reference "#PWR0235")
 					(unit 1)
 				)
 			)
@@ -2645,7 +2645,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "b1072361-d21e-4f20-8b2b-98d1522bfd92")
-		(property "Reference" "#PWR0240"
+		(property "Reference" "#PWR0233"
 			(at 96.52 77.47 0)
 			(effects
 				(font
@@ -2695,7 +2695,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "#PWR0240")
+					(reference "#PWR0233")
 					(unit 1)
 				)
 			)
@@ -3093,7 +3093,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fcca8828-a582-4529-ad69-68042b8a4f22")
-		(property "Reference" "R159"
+		(property "Reference" "R157"
 			(at 190.5 97.79 90)
 			(effects
 				(font
@@ -3172,7 +3172,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "R159")
+					(reference "R157")
 					(unit 1)
 				)
 			)
