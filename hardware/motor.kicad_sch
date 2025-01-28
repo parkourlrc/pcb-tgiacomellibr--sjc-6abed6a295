@@ -2876,116 +2876,6 @@
 				)
 			)
 		)
-		(symbol "sjc_power:V_{PWR}_Fuse+"
-			(power)
-			(pin_numbers hide)
-			(pin_names hide)
-			(exclude_from_sim no)
-			(in_bom no)
-			(on_board no)
-			(property "Reference" "#PWR"
-				(at 2.54 1.27 0)
-				(effects
-					(font
-						(size 1 1)
-					)
-					(hide yes)
-				)
-			)
-			(property "Value" "V_{PWR}_Fuse+"
-				(at 0 3.429 0)
-				(effects
-					(font
-						(size 1 1)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0.635 0 0)
-				(effects
-					(font
-						(size 1 1)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0.635 0 0)
-				(effects
-					(font
-						(size 1 1)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"V_{PWR}_Fuse+\" , ground"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "V_{PWR}_Fuse+_0_1"
-				(polyline
-					(pts
-						(xy 0 2.54) (xy -1.27 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 1.27 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "V_{PWR}_Fuse+_1_1"
-				(pin power_in line
-					(at 0 0 180)
-					(length 0) hide
-					(name "V_{PWR}_Fuse+"
-						(effects
-							(font
-								(size 1 1)
-							)
-						)
-					)
-					(number ""
-						(effects
-							(font
-								(size 1 1)
-							)
-						)
-					)
-				)
-			)
-		)
 		(symbol "sjc_semiconductors:74LVC2T45DC"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -7237,7 +7127,7 @@
 	)
 	(wire
 		(pts
-			(xy 276.86 203.2) (xy 276.86 208.28)
+			(xy 276.86 204.47) (xy 276.86 208.28)
 		)
 		(stroke
 			(width 0)
@@ -8148,7 +8038,7 @@
 	)
 	(wire
 		(pts
-			(xy 276.86 193.04) (xy 276.86 198.12)
+			(xy 276.86 195.58) (xy 276.86 199.39)
 		)
 		(stroke
 			(width 0)
@@ -9050,7 +8940,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 132.08) (xy 205.74 137.16)
+			(xy 205.74 134.62) (xy 205.74 138.43)
 		)
 		(stroke
 			(width 0)
@@ -9584,7 +9474,7 @@
 	)
 	(wire
 		(pts
-			(xy 205.74 142.24) (xy 205.74 147.32)
+			(xy 205.74 143.51) (xy 205.74 147.32)
 		)
 		(stroke
 			(width 0)
@@ -10738,16 +10628,6 @@
 		)
 		(uuid "86a9b7bb-39c4-40e4-ae05-1a4be7db9062")
 	)
-	(label "VS_{SRC}"
-		(at 313.69 212.09 270)
-		(effects
-			(font
-				(size 1 1)
-			)
-			(justify right bottom)
-		)
-		(uuid "8af3dbc1-0e3e-42ba-afa1-d61b4e346c2c")
-	)
 	(label "CS_{SRC}"
 		(at 226.06 153.67 0)
 		(effects
@@ -11382,7 +11262,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+3V3A")
-		(at 205.74 132.08 0)
+		(at 205.74 134.62 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -11391,7 +11271,7 @@
 		(dnp no)
 		(uuid "0333cf92-cbe4-4473-904d-6b3311b19a87")
 		(property "Reference" "#PWR072"
-			(at 203.2 133.35 0)
+			(at 203.2 135.89 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11400,7 +11280,7 @@
 			)
 		)
 		(property "Value" "+3V3_SENSE"
-			(at 205.74 128.778 0)
+			(at 205.74 131.318 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11408,7 +11288,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 210.82 128.27 0)
+			(at 210.82 130.81 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11417,7 +11297,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 210.82 128.27 0)
+			(at 210.82 130.81 0)
 			(effects
 				(font
 					(size 1 1)
@@ -11426,7 +11306,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3A\""
-			(at 205.74 132.08 0)
+			(at 205.74 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12761,7 +12641,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 205.74 139.7 180)
+		(at 205.74 140.97 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -12769,7 +12649,7 @@
 		(dnp no)
 		(uuid "194b9a5e-80e1-41fa-8dd2-d82751219259")
 		(property "Reference" "R43"
-			(at 203.2 139.7 90)
+			(at 203.2 140.97 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12777,7 +12657,7 @@
 			)
 		)
 		(property "Value" "1.58k 0.1%"
-			(at 207.772 139.7 90)
+			(at 207.772 140.97 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12785,7 +12665,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 205.74 139.7 0)
+			(at 205.74 140.97 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12794,7 +12674,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 205.74 139.7 0)
+			(at 205.74 140.97 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12803,7 +12683,7 @@
 			)
 		)
 		(property "Description" "Resistor, 1.58 kOhms, ±0.1%, 1/10W, SMD 0603"
-			(at 205.74 139.7 90)
+			(at 205.74 140.97 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12812,7 +12692,7 @@
 			)
 		)
 		(property "MF" "Viking Tech"
-			(at 205.74 139.7 90)
+			(at 205.74 140.97 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12821,7 +12701,7 @@
 			)
 		)
 		(property "PN" "ARG03BTC1581"
-			(at 205.74 139.7 90)
+			(at 205.74 140.97 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12830,7 +12710,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C2441192"
-			(at 205.74 139.7 0)
+			(at 205.74 140.97 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19761,7 +19641,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 276.86 200.66 180)
+		(at 276.86 201.93 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -19769,7 +19649,7 @@
 		(dnp no)
 		(uuid "8c71c0ac-1098-4f2a-b113-861ef5a3b281")
 		(property "Reference" "R51"
-			(at 274.955 200.66 90)
+			(at 274.955 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19777,7 +19657,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 278.765 200.66 90)
+			(at 278.765 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19785,7 +19665,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 276.86 200.66 0)
+			(at 276.86 201.93 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19794,7 +19674,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 276.86 200.66 0)
+			(at 276.86 201.93 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19803,7 +19683,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 276.86 200.66 90)
+			(at 276.86 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19812,7 +19692,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 276.86 200.66 90)
+			(at 276.86 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19821,7 +19701,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 276.86 200.66 90)
+			(at 276.86 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19830,7 +19710,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 276.86 200.66 0)
+			(at 276.86 201.93 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23127,71 +23007,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:V_{PWR}_Fuse+")
-		(at 276.86 193.04 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "bbc704f4-6681-4fcb-999b-6bee9fa6c2c9")
-		(property "Reference" "#PWR083"
-			(at 279.4 191.77 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "V_{PWR}_Src+"
-			(at 276.86 189.23 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 277.495 193.04 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 277.495 193.04 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 276.86 193.04 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin ""
-			(uuid "d2aca2a8-a484-4f60-894d-3f3fae3de983")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR083")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 30.48 142.24 0)
 		(mirror y)
@@ -24410,6 +24225,73 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "#PWR071")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:V_{MOTOR}")
+		(at 276.86 195.58 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cd927f27-ee15-438c-b8ff-9de349bf71d9")
+		(property "Reference" "#PWR083"
+			(at 274.32 194.31 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "V_{MOTOR}"
+			(at 276.86 191.77 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 276.225 195.58 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 276.225 195.58 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 276.86 195.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "eee834d1-7324-4687-8455-e6bdf01338a0")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR083")
 					(unit 1)
 				)
 			)
