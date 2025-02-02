@@ -367,14 +367,14 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     PE9     ------> TIM1_CH1
     PE11     ------> TIM1_CH2
     */
-    GPIO_InitStruct.Pin = R_MOT_LO_Pin;
+    GPIO_InitStruct.Pin = L_MOT_LO_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-    HAL_GPIO_Init(R_MOT_LO_GPIO_Port, &GPIO_InitStruct);
+    HAL_GPIO_Init(L_MOT_LO_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = L_MOT_LO_Pin|L_MOT_HI_Pin|R_MOT_HI_Pin;
+    GPIO_InitStruct.Pin = R_MOT_LO_Pin|R_MOT_HI_Pin|L_MOT_HI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

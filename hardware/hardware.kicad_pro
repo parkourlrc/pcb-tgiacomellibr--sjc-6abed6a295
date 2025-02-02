@@ -513,7 +513,9 @@
       "/CAN/+12V_ISO_FLT": "DRV_LV",
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
+      "/Motor/DC_MOT_T2": "PWR",
       "/Motor/INNER": "PWR",
+      "/Motor/INNER-": "PWR",
       "/Motor/L_HSG": "DRV_HV",
       "/Motor/L_H_{O}": "DRV_HV",
       "/Motor/L_LSG": "DRV_HV",
@@ -524,6 +526,7 @@
       "/Motor/L_{PWM}+": "DRV_HV",
       "/Motor/L_{PWM}-": "DRV_HV",
       "/Motor/M+": "PWR",
+      "/Motor/M+_FUSE": "PWR",
       "/Motor/R_HSG": "DRV_HV",
       "/Motor/R_H_{O}": "DRV_HV",
       "/Motor/R_LSG": "DRV_HV",
@@ -549,6 +552,7 @@
       "/Power Supply/MOTOR_~{EN}": "DRV_HV",
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
+      "DRIVER_PSU_GND": "DRV_HV",
       "Net-(C1-Pad2)": "PWR",
       "Net-(C10-Pad2)": "PWR",
       "Net-(C100-Pad2)": "PWR",
@@ -565,6 +569,7 @@
       "Net-(C73-Pad2)": "PWR",
       "Net-(C74-Pad2)": "PWR",
       "Net-(C79-Pad2)": "PWR",
+      "Net-(C82-Pad2)": "PWR",
       "Net-(C85-Pad2)": "PWR",
       "Net-(C92-Pad2)": "PWR",
       "Net-(C96-Pad2)": "PWR",
@@ -657,6 +662,7 @@
       "Net-(U6-VB)": "DRV_HV",
       "Net-(U6-VI)": "DRV_LV",
       "Net-(U7-1Y)": "DRV_HV",
+      "Net-(U7-VB)": "DRV_HV",
       "Net-(U9-VB)": "DRV_HV",
       "VIN_BUCK": "PWR",
       "V_{BPS}+": "DRV_HV",
@@ -947,28 +953,12 @@
       "Power Supply"
     ],
     [
-      "56fac67f-0734-44f5-a0d0-adc40bddaf19",
-      "Buck Converter Input Filter"
-    ],
-    [
-      "b319a129-6b4c-4720-bfb5-95d30030eab8",
-      "13V Buck Converter"
-    ],
-    [
       "31417acb-8d50-449d-bcf9-adebb5b91172",
-      "Driver PSU Input Filter"
+      "Driver PSU"
     ],
     [
       "86cfe570-51ff-4724-9fac-fe0e5addee15",
-      "Logic PSU Input Filter"
-    ],
-    [
-      "42eb1dd9-b0e3-4336-94ff-16329918cfd6",
-      "5V Regulator"
-    ],
-    [
-      "3b5a6a99-e409-4afc-a0f5-aa7afcf4febb",
-      "3V3 Regulator"
+      "Logic PSU"
     ]
   ],
   "text_variables": {}

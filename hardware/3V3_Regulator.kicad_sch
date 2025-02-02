@@ -1971,7 +1971,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "18d17c3f-0528-4ae7-9a91-a5f511734273")
-		(property "Reference" "#PWR0234"
+		(property "Reference" "#PWR0236"
 			(at 93.98 113.03 0)
 			(effects
 				(font
@@ -2021,7 +2021,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "#PWR0234")
+					(reference "#PWR0236")
 					(unit 1)
 				)
 			)
@@ -2645,7 +2645,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "b1072361-d21e-4f20-8b2b-98d1522bfd92")
-		(property "Reference" "#PWR0233"
+		(property "Reference" "#PWR0234"
 			(at 96.52 77.47 0)
 			(effects
 				(font
@@ -2695,7 +2695,7 @@
 		(instances
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/3b5a6a99-e409-4afc-a0f5-aa7afcf4febb"
-					(reference "#PWR0233")
+					(reference "#PWR0234")
 					(unit 1)
 				)
 			)
