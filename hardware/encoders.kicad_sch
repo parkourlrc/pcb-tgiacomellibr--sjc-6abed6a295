@@ -9551,7 +9551,7 @@
 	)
 	(symbol
 		(lib_id "sjc_semiconductors:PTVS5V0S1UR")
-		(at 40.64 86.36 270)
+		(at 97.79 86.36 270)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -9559,7 +9559,7 @@
 		(dnp no)
 		(uuid "707552c6-2857-4b35-aefa-7b28b95d1a5a")
 		(property "Reference" "TV8"
-			(at 38.1 85.09 0)
+			(at 95.25 85.09 0)
 			(effects
 				(font
 					(size 1 1)
@@ -9568,7 +9568,7 @@
 			)
 		)
 		(property "Value" "PTVS5V0S1UR"
-			(at 43.18 81.28 0)
+			(at 100.33 81.28 0)
 			(effects
 				(font
 					(size 1 1)
@@ -9577,7 +9577,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-123"
-			(at 31.75 85.09 0)
+			(at 88.9 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9586,7 +9586,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PTVSXS1UR_SER.pdf"
-			(at 33.02 83.82 0)
+			(at 90.17 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9595,7 +9595,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 40.64 86.36 0)
+			(at 97.79 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9604,7 +9604,7 @@
 			)
 		)
 		(property "MF" "Nexperia"
-			(at 34.29 87.63 0)
+			(at 91.44 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9613,7 +9613,7 @@
 			)
 		)
 		(property "PN" "PTVS5V0S1UR,115"
-			(at 45.72 85.09 0)
+			(at 102.87 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9622,7 +9622,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C478011"
-			(at 29.21 87.63 0)
+			(at 86.36 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10885,7 +10885,7 @@
 	)
 	(symbol
 		(lib_id "sjc_semiconductors:PTVS5V0S1UR")
-		(at 97.79 86.36 270)
+		(at 40.64 86.36 270)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -10893,7 +10893,7 @@
 		(dnp no)
 		(uuid "96faf64d-6c97-4fd1-b508-beea6917920c")
 		(property "Reference" "TV9"
-			(at 95.25 85.09 0)
+			(at 38.1 85.09 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10902,7 +10902,7 @@
 			)
 		)
 		(property "Value" "PTVS5V0S1UR"
-			(at 100.33 81.28 0)
+			(at 43.18 81.28 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10911,7 +10911,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-123"
-			(at 88.9 85.09 0)
+			(at 31.75 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10920,7 +10920,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PTVSXS1UR_SER.pdf"
-			(at 90.17 83.82 0)
+			(at 33.02 83.82 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10929,7 +10929,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 97.79 86.36 0)
+			(at 40.64 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10938,7 +10938,7 @@
 			)
 		)
 		(property "MF" "Nexperia"
-			(at 91.44 87.63 0)
+			(at 34.29 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10947,7 +10947,7 @@
 			)
 		)
 		(property "PN" "PTVS5V0S1UR,115"
-			(at 102.87 85.09 0)
+			(at 45.72 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10956,7 +10956,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C478011"
-			(at 86.36 87.63 0)
+			(at 29.21 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)

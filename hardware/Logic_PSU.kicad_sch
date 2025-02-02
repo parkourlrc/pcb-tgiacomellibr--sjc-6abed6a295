@@ -2283,13 +2283,13 @@
 		(uuid "1ea6e760-1244-41d2-97ec-b8f0ce97e7f1")
 	)
 	(junction
-		(at 107.95 52.07)
+		(at 124.46 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2b9d19dc-fd10-4a5a-9563-a7adb47bbc96")
 	)
 	(junction
-		(at 163.83 74.93)
+		(at 180.34 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "34ee8df4-c2f0-415d-9a9b-d3e2bbe63640")
@@ -2301,13 +2301,13 @@
 		(uuid "3965d922-c8ea-490f-9d2e-d7cd3b212a15")
 	)
 	(junction
-		(at 146.05 52.07)
+		(at 162.56 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3aa6047e-0d69-468d-a4fa-43397e245317")
 	)
 	(junction
-		(at 146.05 74.93)
+		(at 162.56 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3df32904-bc0a-4f5a-97e6-461be9daf38a")
@@ -2319,7 +2319,7 @@
 		(uuid "4b3b7a2e-e981-4f21-aa06-c76020b08bba")
 	)
 	(junction
-		(at 125.73 74.93)
+		(at 142.24 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "658a9364-e5fa-4640-aefd-353807aa448e")
@@ -2379,7 +2379,7 @@
 		(uuid "9457cba5-aae1-4b9e-b1af-394b4a081dfb")
 	)
 	(junction
-		(at 163.83 52.07)
+		(at 180.34 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9d72ef68-42af-4a61-89c6-15bd154a8b98")
@@ -2409,7 +2409,7 @@
 		(uuid "be8492f3-134d-49f7-8e9f-b7703353328c")
 	)
 	(junction
-		(at 125.73 52.07)
+		(at 142.24 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bff804fa-f615-43ac-a38e-33605e4cf06e")
@@ -2433,7 +2433,7 @@
 		(uuid "c394daa0-0277-43be-a4f7-16f255100497")
 	)
 	(junction
-		(at 135.89 52.07)
+		(at 152.4 50.8)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "cc2a475d-7aed-48ae-9a67-f6edb1418b92")
@@ -2493,13 +2493,13 @@
 		(uuid "f5cc11de-fe4c-415e-b1a1-209fc508395f")
 	)
 	(junction
-		(at 107.95 74.93)
+		(at 124.46 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f915d6ce-e986-4df9-8813-4d06650fbb92")
 	)
 	(junction
-		(at 135.89 74.93)
+		(at 152.4 73.66)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "fc5244e1-68cd-42d4-8e78-0a56913e5a27")
@@ -2536,7 +2536,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 67.31) (xy 125.73 74.93)
+			(xy 142.24 66.04) (xy 142.24 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2566,7 +2566,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 74.93) (xy 107.95 66.04)
+			(xy 124.46 73.66) (xy 124.46 64.77)
 		)
 		(stroke
 			(width 0.254)
@@ -2587,7 +2587,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 52.07) (xy 125.73 52.07)
+			(xy 135.89 50.8) (xy 142.24 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2607,7 +2607,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 52.07) (xy 125.73 59.69)
+			(xy 142.24 50.8) (xy 142.24 58.42)
 		)
 		(stroke
 			(width 0)
@@ -2637,7 +2637,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 74.93) (xy 135.89 74.93)
+			(xy 142.24 73.66) (xy 152.4 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2657,7 +2657,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 52.07) (xy 135.89 60.96)
+			(xy 152.4 50.8) (xy 152.4 59.69)
 		)
 		(stroke
 			(width 0)
@@ -2667,7 +2667,7 @@
 	)
 	(wire
 		(pts
-			(xy 85.09 74.93) (xy 107.95 74.93)
+			(xy 101.6 73.66) (xy 124.46 73.66)
 		)
 		(stroke
 			(width 0.254)
@@ -2678,7 +2678,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 52.07) (xy 146.05 52.07)
+			(xy 168.91 50.8) (xy 162.56 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2698,7 +2698,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 74.93) (xy 163.83 77.47)
+			(xy 180.34 73.66) (xy 180.34 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2718,7 +2718,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 52.07) (xy 146.05 60.96)
+			(xy 162.56 50.8) (xy 162.56 59.69)
 		)
 		(stroke
 			(width 0)
@@ -2778,7 +2778,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 49.53) (xy 146.05 52.07)
+			(xy 162.56 48.26) (xy 162.56 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2818,7 +2818,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 66.04) (xy 146.05 74.93)
+			(xy 162.56 64.77) (xy 162.56 73.66)
 		)
 		(stroke
 			(width 0)
@@ -2828,7 +2828,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 66.04) (xy 173.99 63.5)
+			(xy 190.5 64.77) (xy 190.5 62.23)
 		)
 		(stroke
 			(width 0)
@@ -2878,7 +2878,7 @@
 	)
 	(wire
 		(pts
-			(xy 85.09 52.07) (xy 90.17 52.07)
+			(xy 101.6 50.8) (xy 106.68 50.8)
 		)
 		(stroke
 			(width 0)
@@ -2918,7 +2918,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 93.98) (xy 92.71 101.6)
+			(xy 92.71 93.98) (xy 92.71 102.87)
 		)
 		(stroke
 			(width 0)
@@ -2948,7 +2948,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 74.93) (xy 146.05 77.47)
+			(xy 162.56 73.66) (xy 162.56 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2978,7 +2978,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 52.07) (xy 114.3 52.07)
+			(xy 124.46 50.8) (xy 130.81 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3018,7 +3018,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 71.12) (xy 173.99 74.93)
+			(xy 190.5 69.85) (xy 190.5 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3058,7 +3058,7 @@
 	)
 	(wire
 		(pts
-			(xy 157.48 74.93) (xy 163.83 74.93)
+			(xy 173.99 73.66) (xy 180.34 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3128,7 +3128,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 52.07) (xy 157.48 52.07)
+			(xy 180.34 50.8) (xy 173.99 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3148,7 +3148,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 52.07) (xy 146.05 52.07)
+			(xy 152.4 50.8) (xy 162.56 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3198,7 +3198,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 52.07) (xy 107.95 60.96)
+			(xy 124.46 50.8) (xy 124.46 59.69)
 		)
 		(stroke
 			(width 0)
@@ -3238,7 +3238,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 66.04) (xy 163.83 74.93)
+			(xy 180.34 64.77) (xy 180.34 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3248,7 +3248,7 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 52.07) (xy 135.89 52.07)
+			(xy 142.24 50.8) (xy 152.4 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3318,7 +3318,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 74.93) (xy 146.05 74.93)
+			(xy 152.4 73.66) (xy 162.56 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3328,7 +3328,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 52.07) (xy 173.99 52.07)
+			(xy 180.34 50.8) (xy 190.5 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3338,7 +3338,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 109.22) (xy 92.71 116.84)
+			(xy 92.71 107.95) (xy 92.71 116.84)
 		)
 		(stroke
 			(width 0)
@@ -3358,7 +3358,17 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 49.53) (xy 107.95 52.07)
+			(xy 92.71 149.86) (xy 92.71 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbfe114a-4f2d-402c-b050-57f90cfbe769")
+	)
+	(wire
+		(pts
+			(xy 124.46 48.26) (xy 124.46 50.8)
 		)
 		(stroke
 			(width 0.254)
@@ -3369,17 +3379,7 @@
 	)
 	(wire
 		(pts
-			(xy 92.71 151.13) (xy 92.71 158.75)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cd8a7c20-4fc1-4bf0-ba78-23d9afeba175")
-	)
-	(wire
-		(pts
-			(xy 92.71 135.89) (xy 92.71 143.51)
+			(xy 92.71 135.89) (xy 92.71 144.78)
 		)
 		(stroke
 			(width 0)
@@ -3399,7 +3399,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 74.93) (xy 125.73 74.93)
+			(xy 124.46 73.66) (xy 142.24 73.66)
 		)
 		(stroke
 			(width 0.254)
@@ -3420,7 +3420,7 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 52.07) (xy 173.99 55.88)
+			(xy 190.5 50.8) (xy 190.5 54.61)
 		)
 		(stroke
 			(width 0)
@@ -3440,7 +3440,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 52.07) (xy 163.83 60.96)
+			(xy 180.34 50.8) (xy 180.34 59.69)
 		)
 		(stroke
 			(width 0)
@@ -3480,7 +3480,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 66.04) (xy 135.89 74.93)
+			(xy 152.4 64.77) (xy 152.4 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3490,7 +3490,7 @@
 	)
 	(wire
 		(pts
-			(xy 146.05 74.93) (xy 152.4 74.93)
+			(xy 162.56 73.66) (xy 168.91 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3500,7 +3500,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 52.07) (xy 107.95 52.07)
+			(xy 114.3 50.8) (xy 124.46 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3550,7 +3550,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 49.53) (xy 163.83 52.07)
+			(xy 180.34 48.26) (xy 180.34 50.8)
 		)
 		(stroke
 			(width 0)
@@ -3560,7 +3560,7 @@
 	)
 	(wire
 		(pts
-			(xy 163.83 74.93) (xy 173.99 74.93)
+			(xy 180.34 73.66) (xy 190.5 73.66)
 		)
 		(stroke
 			(width 0)
@@ -3583,7 +3583,7 @@
 	)
 	(hierarchical_label "LOGIC_PSU_VIN"
 		(shape input)
-		(at 85.09 52.07 180)
+		(at 101.6 50.8 180)
 		(effects
 			(font
 				(size 1 1)
@@ -3594,7 +3594,7 @@
 	)
 	(hierarchical_label "LOGIC_PSU_GND"
 		(shape input)
-		(at 85.09 74.93 180)
+		(at 101.6 73.66 180)
 		(effects
 			(font
 				(size 1 1)
@@ -3916,7 +3916,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 135.89 63.5 180)
+		(at 152.4 62.23 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -3924,7 +3924,7 @@
 		(dnp no)
 		(uuid "1afabd9b-ecf6-4e42-b97f-4842661fc9aa")
 		(property "Reference" "C105"
-			(at 133.35 63.5 90)
+			(at 149.86 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3932,7 +3932,7 @@
 			)
 		)
 		(property "Value" "22uF 10% 25V"
-			(at 138.43 63.5 90)
+			(at 154.94 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3940,7 +3940,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 135.89 63.5 0)
+			(at 152.4 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3949,7 +3949,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 135.89 63.5 0)
+			(at 152.4 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3958,7 +3958,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
-			(at 135.89 63.5 90)
+			(at 152.4 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3967,7 +3967,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 135.89 63.5 90)
+			(at 152.4 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3976,7 +3976,7 @@
 			)
 		)
 		(property "PN" "CC1206KKX5R8BB226"
-			(at 135.89 63.5 90)
+			(at 152.4 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3985,7 +3985,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C2178233"
-			(at 135.89 63.5 90)
+			(at 152.4 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4108,7 +4108,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 173.99 68.58 0)
+		(at 190.5 67.31 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -4117,7 +4117,7 @@
 		(dnp no)
 		(uuid "285d7311-838e-4e79-ba96-6a01ea5dfe90")
 		(property "Reference" "R155"
-			(at 171.45 68.58 90)
+			(at 187.96 67.31 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4125,7 +4125,7 @@
 			)
 		)
 		(property "Value" "2k 5%"
-			(at 176.53 68.58 90)
+			(at 193.04 67.31 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4133,7 +4133,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 173.99 68.58 0)
+			(at 190.5 67.31 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4142,7 +4142,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 173.99 68.58 0)
+			(at 190.5 67.31 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4151,7 +4151,7 @@
 			)
 		)
 		(property "Description" "Resistor, 2k Ohms, ±5%, 1/10W, SMD 0603"
-			(at 173.99 68.58 90)
+			(at 190.5 67.31 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4160,7 +4160,7 @@
 			)
 		)
 		(property "MF" "RALEC"
-			(at 173.99 68.58 90)
+			(at 190.5 67.31 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4169,7 +4169,7 @@
 			)
 		)
 		(property "PN" "RTT03202JTP"
-			(at 173.99 68.58 90)
+			(at 190.5 67.31 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4178,7 +4178,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C103396"
-			(at 173.99 68.58 90)
+			(at 190.5 67.31 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4297,7 +4297,7 @@
 	)
 	(symbol
 		(lib_id "sjc_semiconductors:PMEG60T20ELR")
-		(at 93.98 52.07 0)
+		(at 110.49 50.8 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -4306,7 +4306,7 @@
 		(dnp no)
 		(uuid "2b5c5bc3-d63e-440c-b1c7-fa0674712968")
 		(property "Reference" "D8"
-			(at 93.98 50.165 0)
+			(at 110.49 48.895 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4314,7 +4314,7 @@
 			)
 		)
 		(property "Value" "530mV 3A"
-			(at 93.98 54.61 0)
+			(at 110.49 53.34 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4322,7 +4322,7 @@
 			)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-128"
-			(at 93.98 56.515 0)
+			(at 110.49 55.245 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4331,7 +4331,7 @@
 			)
 		)
 		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMEG6030ETP.pdf"
-			(at 91.44 60.96 0)
+			(at 107.95 59.69 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4340,7 +4340,7 @@
 			)
 		)
 		(property "Description" "Schottky diode. 60 V reverse voltage, 3 A average forward current, 530 mV forward voltage"
-			(at 93.98 52.07 0)
+			(at 110.49 50.8 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4349,7 +4349,7 @@
 			)
 		)
 		(property "MF" "Nexperia"
-			(at 93.98 62.23 0)
+			(at 110.49 60.96 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4358,7 +4358,7 @@
 			)
 		)
 		(property "PN" "PMEG6030ETPX"
-			(at 93.98 58.42 0)
+			(at 110.49 57.15 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4367,7 +4367,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C458168"
-			(at 93.98 64.77 0)
+			(at 110.49 63.5 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4490,7 +4490,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 163.83 49.53 0)
+		(at 180.34 48.26 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -4498,7 +4498,7 @@
 		(dnp no)
 		(uuid "364ee201-b32a-4594-b6ea-5af21a271f72")
 		(property "Reference" "#PWR0228"
-			(at 166.37 48.26 0)
+			(at 182.88 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4506,8 +4506,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+13V_LOGIC_FILT"
-			(at 163.83 45.974 0)
+		(property "Value" "LOGIC_PSU_VIN_FILT"
+			(at 180.34 44.704 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4515,7 +4515,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 163.83 49.53 0)
+			(at 180.34 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4524,7 +4524,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 163.83 49.53 0)
+			(at 180.34 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4533,7 +4533,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 163.83 49.53 0)
+			(at 180.34 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4555,7 +4555,7 @@
 	)
 	(symbol
 		(lib_id "Device:FerriteBead_Small")
-		(at 154.94 74.93 270)
+		(at 171.45 73.66 270)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -4563,7 +4563,7 @@
 		(dnp no)
 		(uuid "3990ecc5-b2c7-4d21-bfc3-673e7e1a7b4f")
 		(property "Reference" "FB7"
-			(at 154.94 72.39 90)
+			(at 171.45 71.12 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4571,7 +4571,7 @@
 			)
 		)
 		(property "Value" "220R 3A"
-			(at 154.94 78.74 90)
+			(at 171.45 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4579,7 +4579,7 @@
 			)
 		)
 		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.05x1.20mm_HandSolder"
-			(at 154.94 73.152 90)
+			(at 171.45 71.882 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4588,7 +4588,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/emc/emc/beads/catalog/beads_commercial_power_mpz2012_en.pdf?ref_disty=mouser"
-			(at 154.94 74.93 0)
+			(at 171.45 73.66 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4597,7 +4597,7 @@
 			)
 		)
 		(property "Description" "Ferrite Bead, 3A, 40mΩ DC Resistance,  220Ω@100MHz, SMD 0805"
-			(at 154.94 74.93 90)
+			(at 171.45 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4606,7 +4606,7 @@
 			)
 		)
 		(property "MF" "TDK"
-			(at 154.94 74.93 90)
+			(at 171.45 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4615,7 +4615,7 @@
 			)
 		)
 		(property "PN" "MPZ2012S221AT000"
-			(at 154.94 74.93 90)
+			(at 171.45 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4624,7 +4624,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C76818"
-			(at 154.94 74.93 90)
+			(at 171.45 73.66 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4642,6 +4642,71 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
 					(reference "FB7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+12V")
+		(at 92.71 133.35 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "3ad26c8f-aef3-4357-b07e-707e149b8b69")
+		(property "Reference" "#PWR0218"
+			(at 95.25 132.08 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "LOGIC_PSU_VIN_FILT"
+			(at 92.71 129.794 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 133.35 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 133.35 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 92.71 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "8249a075-3fb2-4957-a293-ab8b0c8a23b6")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "#PWR0218")
 					(unit 1)
 				)
 			)
@@ -4743,7 +4808,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 173.99 59.69 270)
+		(at 190.5 58.42 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -4752,7 +4817,7 @@
 		(dnp no)
 		(uuid "4286a053-9ef3-4caf-9c8d-b644bb5c737e")
 		(property "Reference" "LD13"
-			(at 171.45 60.96 0)
+			(at 187.96 59.69 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4761,7 +4826,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 176.53 66.04 0)
+			(at 193.04 64.77 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4771,7 +4836,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4780,7 +4845,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4789,7 +4854,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4798,7 +4863,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4807,7 +4872,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4816,7 +4881,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 173.99 59.69 0)
+			(at 190.5 58.42 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4840,105 +4905,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 92.71 147.32 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "43c8a4e3-3c58-4cf3-aa44-97ffad566107")
-		(property "Reference" "C110"
-			(at 88.9 148.59 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Value" "47uF 63V 20%"
-			(at 96.52 153.67 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:CP_Elec_8x10.5"
-			(at 93.6752 151.13 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 92.71 147.32 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Electrolytic capacitor, 47uF, 20%, 63V, SMD D8xL10.5mm"
-			(at 92.71 147.32 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "ST(Semtech)"
-			(at 92.71 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CS1J470M-CRF10"
-			(at 92.71 147.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C116428"
-			(at 92.71 147.32 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4ea0db0e-6006-4b92-98ca-82f7b364e918")
-		)
-		(pin "2"
-			(uuid "8e4ad79b-3b6e-499e-ad30-ce0059adb9d6")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C110")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C_Small")
-		(at 146.05 63.5 180)
+		(at 162.56 62.23 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -4946,7 +4914,7 @@
 		(dnp no)
 		(uuid "488cc2fd-8b42-45ef-96d9-f83052def747")
 		(property "Reference" "C106"
-			(at 143.51 63.5 90)
+			(at 160.02 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4954,7 +4922,7 @@
 			)
 		)
 		(property "Value" "10uF 10% 50V"
-			(at 148.59 63.5 90)
+			(at 165.1 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4962,7 +4930,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 146.05 63.5 0)
+			(at 162.56 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4971,7 +4939,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 63.5 0)
+			(at 162.56 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4980,7 +4948,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 10uF, ±10%, X5R, 50V, SMD 1206"
-			(at 146.05 63.5 90)
+			(at 162.56 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4989,7 +4957,7 @@
 			)
 		)
 		(property "MF" "Samsung Electro-Mechanics"
-			(at 146.05 63.5 90)
+			(at 162.56 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4998,7 +4966,7 @@
 			)
 		)
 		(property "PN" "CL31A106KBHNNNE"
-			(at 146.05 63.5 90)
+			(at 162.56 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5007,7 +4975,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C13585"
-			(at 146.05 63.5 90)
+			(at 162.56 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5097,7 +5065,7 @@
 	)
 	(symbol
 		(lib_id "Device:Polyfuse_Small")
-		(at 116.84 52.07 270)
+		(at 133.35 50.8 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5105,7 +5073,7 @@
 		(dnp no)
 		(uuid "55e31608-84f1-42e4-b593-a7baa3ca1661")
 		(property "Reference" "F5"
-			(at 116.84 50.292 90)
+			(at 133.35 49.022 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5113,7 +5081,7 @@
 			)
 		)
 		(property "Value" "16V 750mA"
-			(at 116.84 54.102 90)
+			(at 133.35 52.832 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5121,7 +5089,7 @@
 			)
 		)
 		(property "Footprint" "Fuse:Fuse_1206_3216Metric"
-			(at 111.76 53.34 0)
+			(at 128.27 52.07 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5131,7 +5099,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 116.84 52.07 0)
+			(at 133.35 50.8 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5140,7 +5108,7 @@
 			)
 		)
 		(property "Description" "Resettable fuse, polymeric positive temperature coefficient, small symbol"
-			(at 116.84 52.07 0)
+			(at 133.35 50.8 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5149,7 +5117,7 @@
 			)
 		)
 		(property "MF" "Littelfuse"
-			(at 116.84 52.07 90)
+			(at 133.35 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5158,7 +5126,7 @@
 			)
 		)
 		(property "PN" "1206L075/16WR"
-			(at 116.84 52.07 90)
+			(at 133.35 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5167,7 +5135,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C371166"
-			(at 116.84 52.07 90)
+			(at 133.35 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5191,8 +5159,102 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Small")
+		(at 92.71 105.41 180)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5e564591-e25f-4976-a6ef-861be60d5c83")
+		(property "Reference" "C88"
+			(at 90.17 105.41 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "22uF 10% 25V"
+			(at 95.25 105.41 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 92.71 105.41 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 105.41 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
+			(at 92.71 105.41 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 92.71 105.41 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CC1206KKX5R8BB226"
+			(at 92.71 105.41 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2178233"
+			(at 92.71 105.41 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "39f23ccb-086e-4186-b102-5928af0ea680")
+		)
+		(pin "2"
+			(uuid "f3cbea09-af42-4ce2-86d6-1d54163a2d21")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "C88")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 107.95 63.5 180)
+		(at 124.46 62.23 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -5200,7 +5262,7 @@
 		(dnp no)
 		(uuid "63165b5c-1398-4ab2-b3c1-af2921246af8")
 		(property "Reference" "R154"
-			(at 106.045 63.5 90)
+			(at 122.555 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5208,7 +5270,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 109.855 63.5 90)
+			(at 126.365 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5216,7 +5278,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 107.95 63.5 0)
+			(at 124.46 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5225,7 +5287,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 107.95 63.5 0)
+			(at 124.46 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5234,7 +5296,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 107.95 63.5 90)
+			(at 124.46 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5243,7 +5305,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 107.95 63.5 90)
+			(at 124.46 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5252,7 +5314,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 107.95 63.5 90)
+			(at 124.46 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5261,7 +5323,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 107.95 63.5 0)
+			(at 124.46 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5286,7 +5348,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 146.05 77.47 0)
+		(at 162.56 76.2 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -5294,7 +5356,7 @@
 		(dnp no)
 		(uuid "75ba9c86-3b0d-4e4c-b6cd-f782284dca88")
 		(property "Reference" "#PWR0229"
-			(at 146.05 83.82 0)
+			(at 162.56 82.55 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5303,7 +5365,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_GND"
-			(at 146.05 81.28 0)
+			(at 162.56 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5311,7 +5373,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 146.05 77.47 0)
+			(at 162.56 76.2 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5320,7 +5382,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 77.47 0)
+			(at 162.56 76.2 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5329,7 +5391,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 146.05 77.47 0)
+			(at 162.56 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5438,71 +5500,6 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
 					(reference "C112")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:+12V")
-		(at 92.71 133.35 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(uuid "8abe53d3-5331-4eb0-a693-ae50bcaa911c")
-		(property "Reference" "#PWR0219"
-			(at 95.25 132.08 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "+13V_LOGIC_FILT"
-			(at 92.71 129.794 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 92.71 133.35 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 92.71 133.35 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 92.71 133.35 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin ""
-			(uuid "e567d0e2-ba47-412f-8f8d-8be44c298ec7")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "#PWR0219")
 					(unit 1)
 				)
 			)
@@ -5671,7 +5668,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 146.05 49.53 0)
+		(at 162.56 48.26 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -5679,7 +5676,7 @@
 		(dnp no)
 		(uuid "8c679e15-98bd-4376-99fe-acc588f11694")
 		(property "Reference" "#PWR0227"
-			(at 148.59 48.26 0)
+			(at 165.1 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5687,8 +5684,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+13V_LOGIC"
-			(at 146.05 45.974 0)
+		(property "Value" "LOGIC_PSU_VIN_FUSE"
+			(at 162.56 44.704 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5696,7 +5693,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 146.05 49.53 0)
+			(at 162.56 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5705,7 +5702,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 146.05 49.53 0)
+			(at 162.56 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5714,7 +5711,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 146.05 49.53 0)
+			(at 162.56 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5830,7 +5827,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 163.83 63.5 180)
+		(at 180.34 62.23 180)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -5838,7 +5835,7 @@
 		(dnp no)
 		(uuid "9d1a329d-a390-4f07-ae64-36adc9b2a4c7")
 		(property "Reference" "C107"
-			(at 161.29 63.5 90)
+			(at 177.8 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5846,7 +5843,7 @@
 			)
 		)
 		(property "Value" "100nF 5% 50V"
-			(at 167.005 63.5 90)
+			(at 183.515 62.23 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5854,7 +5851,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 163.83 63.5 0)
+			(at 180.34 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5863,7 +5860,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 163.83 63.5 0)
+			(at 180.34 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5872,7 +5869,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0603"
-			(at 163.83 63.5 90)
+			(at 180.34 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5881,7 +5878,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 163.83 63.5 90)
+			(at 180.34 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5890,7 +5887,7 @@
 			)
 		)
 		(property "PN" "CC0603JRX7R9BB104"
-			(at 163.83 63.5 90)
+			(at 180.34 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5899,7 +5896,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C91183"
-			(at 163.83 63.5 90)
+			(at 180.34 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6208,7 +6205,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 107.95 49.53 0)
+		(at 124.46 48.26 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -6216,7 +6213,7 @@
 		(dnp no)
 		(uuid "b2da2ddd-7826-4dd9-a9b4-5d50ffb9a7a5")
 		(property "Reference" "#PWR0226"
-			(at 110.49 48.26 0)
+			(at 127 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6224,8 +6221,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+13V_RECT"
-			(at 107.95 45.974 0)
+		(property "Value" "LOGIC_PSU_VIN"
+			(at 124.46 44.704 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6233,7 +6230,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 107.95 49.53 0)
+			(at 124.46 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6242,7 +6239,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 107.95 49.53 0)
+			(at 124.46 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6251,7 +6248,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 107.95 49.53 0)
+			(at 124.46 48.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6729,7 +6726,7 @@
 	)
 	(symbol
 		(lib_id "Device:FerriteBead_Small")
-		(at 154.94 52.07 270)
+		(at 171.45 50.8 270)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -6737,7 +6734,7 @@
 		(dnp no)
 		(uuid "c3bcb8ad-9ce2-4316-9176-f24ef8a345a7")
 		(property "Reference" "FB6"
-			(at 154.94 49.53 90)
+			(at 171.45 48.26 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6745,7 +6742,7 @@
 			)
 		)
 		(property "Value" "220R 3A"
-			(at 154.94 55.88 90)
+			(at 171.45 54.61 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6753,7 +6750,7 @@
 			)
 		)
 		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.05x1.20mm_HandSolder"
-			(at 154.94 50.292 90)
+			(at 171.45 49.022 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6762,7 +6759,7 @@
 			)
 		)
 		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/emc/emc/beads/catalog/beads_commercial_power_mpz2012_en.pdf?ref_disty=mouser"
-			(at 154.94 52.07 0)
+			(at 171.45 50.8 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6771,7 +6768,7 @@
 			)
 		)
 		(property "Description" "Ferrite Bead, 3A, 40mΩ DC Resistance,  220Ω@100MHz, SMD 0805"
-			(at 154.94 52.07 90)
+			(at 171.45 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6780,7 +6777,7 @@
 			)
 		)
 		(property "MF" "TDK"
-			(at 154.94 52.07 90)
+			(at 171.45 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6789,7 +6786,7 @@
 			)
 		)
 		(property "PN" "MPZ2012S221AT000"
-			(at 154.94 52.07 90)
+			(at 171.45 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6798,7 +6795,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C76818"
-			(at 154.94 52.07 90)
+			(at 171.45 50.8 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6919,104 +6916,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized")
-		(at 92.71 105.41 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d5a2eb25-b4cf-4039-9a62-1843d2bf8bfc")
-		(property "Reference" "C88"
-			(at 88.9 106.68 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-				(hide yes)
-			)
-		)
-		(property "Value" "47uF 63V 20%"
-			(at 96.52 111.76 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:CP_Elec_8x10.5"
-			(at 93.6752 109.22 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 92.71 105.41 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Electrolytic capacitor, 47uF, 20%, 63V, SMD D8xL10.5mm"
-			(at 92.71 105.41 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "ST(Semtech)"
-			(at 92.71 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CS1J470M-CRF10"
-			(at 92.71 105.41 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C116428"
-			(at 92.71 105.41 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "b8ec3575-2452-4ab4-94b4-e5ff6ccfc892")
-		)
-		(pin "2"
-			(uuid "030af122-6621-42ff-8b7d-f489484ba51d")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "C88")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Polarized")
-		(at 125.73 63.5 0)
+		(at 142.24 62.23 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -7024,7 +6924,7 @@
 		(dnp no)
 		(uuid "db8b739b-6126-4053-8bd1-70616c1ea6ef")
 		(property "Reference" "C104"
-			(at 121.92 64.77 90)
+			(at 138.43 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -7034,7 +6934,7 @@
 			)
 		)
 		(property "Value" "47uF 63V 20%"
-			(at 129.54 69.85 90)
+			(at 146.05 68.58 90)
 			(effects
 				(font
 					(size 1 1)
@@ -7043,7 +6943,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:CP_Elec_8x10.5"
-			(at 126.6952 67.31 0)
+			(at 143.2052 66.04 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7052,7 +6952,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 125.73 63.5 0)
+			(at 142.24 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7061,7 +6961,7 @@
 			)
 		)
 		(property "Description" "Electrolytic capacitor, 47uF, 20%, 63V, SMD D8xL10.5mm"
-			(at 125.73 63.5 90)
+			(at 142.24 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7070,7 +6970,7 @@
 			)
 		)
 		(property "MF" "ST(Semtech)"
-			(at 125.73 63.5 0)
+			(at 142.24 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7079,7 +6979,7 @@
 			)
 		)
 		(property "PN" "CS1J470M-CRF10"
-			(at 125.73 63.5 0)
+			(at 142.24 62.23 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7088,7 +6988,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C116428"
-			(at 125.73 63.5 90)
+			(at 142.24 62.23 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7119,7 +7019,7 @@
 		(in_bom no)
 		(on_board no)
 		(dnp no)
-		(uuid "e99e2781-33fa-421e-9073-20c267331dd4")
+		(uuid "e217f251-64a6-4ffe-83c4-ecf2186e4c42")
 		(property "Reference" "#PWR0209"
 			(at 95.25 90.17 0)
 			(effects
@@ -7129,7 +7029,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+13V_LOGIC_FILT"
+		(property "Value" "LOGIC_PSU_VIN_FILT"
 			(at 92.71 87.884 0)
 			(effects
 				(font
@@ -7165,7 +7065,7 @@
 			)
 		)
 		(pin ""
-			(uuid "aaf659a6-946c-41a9-9ff2-c5b45e36e4db")
+			(uuid "3928fb89-06f4-4286-80b7-c5799813fb30")
 		)
 		(instances
 			(project "hardware"
@@ -7367,7 +7267,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 163.83 77.47 0)
+		(at 180.34 76.2 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -7375,7 +7275,7 @@
 		(dnp no)
 		(uuid "fce503ea-8154-4701-a6b3-252d8c29789b")
 		(property "Reference" "#PWR0230"
-			(at 163.83 83.82 0)
+			(at 180.34 82.55 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7384,7 +7284,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 163.83 81.28 0)
+			(at 180.34 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7392,7 +7292,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 163.83 77.47 0)
+			(at 180.34 76.2 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7401,7 +7301,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 163.83 77.47 0)
+			(at 180.34 76.2 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7410,7 +7310,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 163.83 77.47 0)
+			(at 180.34 76.2 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7425,6 +7325,100 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
 					(reference "#PWR0230")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 92.71 147.32 180)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "fe541773-5dba-4e85-8f71-d57d5d2e94f0")
+		(property "Reference" "C92"
+			(at 90.17 147.32 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "22uF 10% 25V"
+			(at 95.25 147.32 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 92.71 147.32 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 147.32 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
+			(at 92.71 147.32 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 92.71 147.32 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CC1206KKX5R8BB226"
+			(at 92.71 147.32 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2178233"
+			(at 92.71 147.32 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "77ecc36e-8213-420d-baa0-d8fca29e8b21")
+		)
+		(pin "2"
+			(uuid "711d0157-5c81-4397-bf60-8945ca18c8ce")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "C92")
 					(unit 1)
 				)
 			)

@@ -543,6 +543,7 @@
       "/Network/+12V_ISO_FLT": "DRV_LV",
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/12V_buck_converter/Vin": "PWR",
+      "/Power Supply/13V Buck Converter/BUCK_VIN": "PWR",
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
       "/Power Supply/DRIVER_~{EN": "DRV_HV",
@@ -553,6 +554,7 @@
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
       "DRIVER_PSU_GND": "DRV_HV",
+      "LOGIC_PSU_VIN_FILT": "DRV_LV",
       "Net-(C1-Pad2)": "PWR",
       "Net-(C10-Pad2)": "PWR",
       "Net-(C100-Pad2)": "PWR",
@@ -664,6 +666,7 @@
       "Net-(U7-1Y)": "DRV_HV",
       "Net-(U7-VB)": "DRV_HV",
       "Net-(U9-VB)": "DRV_HV",
+      "PGND": "DRV_HV",
       "VIN_BUCK": "PWR",
       "V_{BPS}+": "DRV_HV",
       "V_{PWR}_Fuse+": "PWR",
@@ -951,6 +954,10 @@
     [
       "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
       "Power Supply"
+    ],
+    [
+      "4f33fade-0a37-4324-9655-a6a35ba6b15f",
+      "13V Buck Converter"
     ],
     [
       "31417acb-8d50-449d-bcf9-adebb5b91172",
