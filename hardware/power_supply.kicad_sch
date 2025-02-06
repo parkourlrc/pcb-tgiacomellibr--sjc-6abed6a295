@@ -5627,6 +5627,71 @@
 		)
 	)
 	(symbol
+		(lib_id "sjc_power:V_{PWR}_Fuse+")
+		(at 140.97 38.1 0)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "0eb22e86-3471-4d44-b865-55a48260bcd7")
+		(property "Reference" "#PWR010"
+			(at 143.51 36.83 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "V_{PWR}_Fuse+"
+			(at 140.97 34.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 141.605 38.1 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 141.605 38.1 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 140.97 38.1 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin ""
+			(uuid "05172f3b-6d6d-4d8f-b9ed-1ed575993297")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR010")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:GND")
 		(at 81.28 147.32 0)
 		(mirror y)
@@ -6866,72 +6931,6 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
 					(reference "#PWR0206")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:V_{PWR}+")
-		(at 140.97 38.1 0)
-		(unit 1)
-		(exclude_from_sim yes)
-		(in_bom no)
-		(on_board no)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "4e7986aa-6659-4f61-b752-2236e25be9b0")
-		(property "Reference" "#PWR0189"
-			(at 143.51 36.83 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "V_{PWR}+"
-			(at 140.97 34.29 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 141.605 38.1 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 141.605 38.1 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 140.97 38.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin ""
-			(uuid "a77150e9-1ed8-47ec-8f67-f82391a943c6")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0189")
 					(unit 1)
 				)
 			)
