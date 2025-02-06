@@ -10946,7 +10946,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 200.66 207.01 90)
+		(at 142.24 207.01 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -10954,7 +10954,7 @@
 		(dnp no)
 		(uuid "012134b9-368b-4d44-9ded-4a42f6f80d61")
 		(property "Reference" "C43"
-			(at 200.66 204.47 90)
+			(at 142.24 204.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10962,7 +10962,7 @@
 			)
 		)
 		(property "Value" "10nF 5% 50V"
-			(at 200.66 209.55 90)
+			(at 142.24 209.55 90)
 			(effects
 				(font
 					(size 1 1)
@@ -10970,7 +10970,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 200.66 207.01 0)
+			(at 142.24 207.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10979,7 +10979,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.66 207.01 0)
+			(at 142.24 207.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -10988,7 +10988,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 10nF, ±5%, NP0, 50V, SMD 0603"
-			(at 200.66 207.01 90)
+			(at 142.24 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10997,7 +10997,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 200.66 207.01 90)
+			(at 142.24 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11006,7 +11006,7 @@
 			)
 		)
 		(property "PN" "CC0603JRNPO9BN103"
-			(at 200.66 207.01 90)
+			(at 142.24 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11015,7 +11015,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C389113"
-			(at 200.66 207.01 0)
+			(at 142.24 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14346,7 +14346,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 142.24 207.01 90)
+		(at 200.66 207.01 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -14354,7 +14354,7 @@
 		(dnp no)
 		(uuid "41805842-056a-44ef-bdbb-8d7f4a4fa0fa")
 		(property "Reference" "C42"
-			(at 142.24 204.47 90)
+			(at 200.66 204.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14362,7 +14362,7 @@
 			)
 		)
 		(property "Value" "10nF 5% 50V"
-			(at 142.24 209.55 90)
+			(at 200.66 209.55 90)
 			(effects
 				(font
 					(size 1 1)
@@ -14370,7 +14370,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 142.24 207.01 0)
+			(at 200.66 207.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14379,7 +14379,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 142.24 207.01 0)
+			(at 200.66 207.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -14388,7 +14388,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 10nF, ±5%, NP0, 50V, SMD 0603"
-			(at 142.24 207.01 90)
+			(at 200.66 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14397,7 +14397,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 142.24 207.01 90)
+			(at 200.66 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14406,7 +14406,7 @@
 			)
 		)
 		(property "PN" "CC0603JRNPO9BN103"
-			(at 142.24 207.01 90)
+			(at 200.66 207.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -14415,7 +14415,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C389113"
-			(at 142.24 207.01 0)
+			(at 200.66 207.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19529,7 +19529,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 200.66 199.39 90)
+		(at 142.24 199.39 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -19537,7 +19537,7 @@
 		(dnp no)
 		(uuid "9a7140a8-e4bb-4dc9-bac5-f43ea88e14f6")
 		(property "Reference" "C40"
-			(at 200.66 196.85 90)
+			(at 142.24 196.85 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19545,7 +19545,7 @@
 			)
 		)
 		(property "Value" "100nF 5% 50V"
-			(at 200.66 201.93 90)
+			(at 142.24 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -19553,7 +19553,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 200.66 199.39 0)
+			(at 142.24 199.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19562,7 +19562,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.66 199.39 0)
+			(at 142.24 199.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19571,7 +19571,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0603"
-			(at 200.66 199.39 90)
+			(at 142.24 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19580,7 +19580,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 200.66 199.39 90)
+			(at 142.24 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19589,7 +19589,7 @@
 			)
 		)
 		(property "PN" "CC0603JRX7R9BB104"
-			(at 200.66 199.39 90)
+			(at 142.24 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -19598,7 +19598,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C91183"
-			(at 200.66 199.39 0)
+			(at 142.24 199.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23357,7 +23357,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 142.24 199.39 90)
+		(at 200.66 199.39 90)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom yes)
@@ -23365,7 +23365,7 @@
 		(dnp no)
 		(uuid "de1c1576-1172-4405-9364-b1944cd8fd3d")
 		(property "Reference" "C39"
-			(at 142.24 196.85 90)
+			(at 200.66 196.85 90)
 			(effects
 				(font
 					(size 1 1)
@@ -23373,7 +23373,7 @@
 			)
 		)
 		(property "Value" "100nF 5% 50V"
-			(at 142.24 201.93 90)
+			(at 200.66 201.93 90)
 			(effects
 				(font
 					(size 1 1)
@@ -23381,7 +23381,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
-			(at 142.24 199.39 0)
+			(at 200.66 199.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23390,7 +23390,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 142.24 199.39 0)
+			(at 200.66 199.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23399,7 +23399,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0603"
-			(at 142.24 199.39 90)
+			(at 200.66 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23408,7 +23408,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 142.24 199.39 90)
+			(at 200.66 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23417,7 +23417,7 @@
 			)
 		)
 		(property "PN" "CC0603JRX7R9BB104"
-			(at 142.24 199.39 90)
+			(at 200.66 199.39 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23426,7 +23426,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C91183"
-			(at 142.24 199.39 0)
+			(at 200.66 199.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
