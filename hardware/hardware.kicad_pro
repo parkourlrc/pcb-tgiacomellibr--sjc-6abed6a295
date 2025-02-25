@@ -70,16 +70,19 @@
         "copper_edge_clearance": "error",
         "copper_sliver": "warning",
         "courtyards_overlap": "error",
+        "creepage": "error",
         "diff_pair_gap_out_of_range": "error",
         "diff_pair_uncoupled_length_too_long": "error",
         "drill_out_of_range": "error",
         "duplicate_footprints": "warning",
         "extra_footprint": "warning",
         "footprint": "error",
+        "footprint_filters_mismatch": "ignore",
         "footprint_symbol_mismatch": "warning",
         "footprint_type_mismatch": "error",
         "hole_clearance": "error",
         "hole_near_hole": "error",
+        "hole_to_hole": "error",
         "holes_co_located": "warning",
         "invalid_outline": "error",
         "isolated_copper": "warning",
@@ -90,9 +93,11 @@
         "lib_footprint_mismatch": "warning",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
+        "mirrored_text_on_front_layer": "warning",
         "missing_courtyard": "ignore",
         "missing_footprint": "warning",
         "net_conflict": "warning",
+        "nonmirrored_text_on_back_layer": "warning",
         "npth_inside_courtyard": "warning",
         "padstack": "error",
         "pth_inside_courtyard": "warning",
@@ -107,7 +112,9 @@
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
         "too_many_vias": "error",
+        "track_angle": "error",
         "track_dangling": "warning",
+        "track_segment_length": "error",
         "track_width": "error",
         "tracks_crossing": "error",
         "unconnected_items": "error",
@@ -122,6 +129,7 @@
         "min_clearance": 0.1524,
         "min_connection": 0.1016,
         "min_copper_edge_clearance": 0.3,
+        "min_groove_width": 0.0,
         "min_hole_clearance": 0.254,
         "min_hole_to_hole": 0.5,
         "min_microvia_diameter": 0.6,
@@ -141,10 +149,11 @@
       },
       "teardrop_options": [
         {
-          "td_onpadsmd": true,
+          "td_onpthpad": true,
           "td_onroundshapesonly": false,
+          "td_onsmdpad": true,
           "td_ontrackend": false,
-          "td_onviapad": true
+          "td_onvia": true
         }
       ],
       "teardrop_parameters": [
@@ -252,6 +261,7 @@
       "mfg": "",
       "mpn": ""
     },
+    "layer_pairs": [],
     "layer_presets": [],
     "viewports": []
   },
@@ -446,10 +456,15 @@
       "duplicate_sheet_names": "error",
       "endpoint_off_grid": "warning",
       "extra_units": "error",
+      "footprint_filter": "ignore",
+      "footprint_link_issues": "warning",
+      "four_way_junction": "ignore",
       "global_label_dangling": "warning",
       "hier_label_mismatch": "error",
       "label_dangling": "error",
+      "label_multiple_wires": "warning",
       "lib_symbol_issues": "warning",
+      "lib_symbol_mismatch": "warning",
       "missing_bidi_pin": "warning",
       "missing_input_pin": "warning",
       "missing_power_pin": "error",
@@ -462,9 +477,14 @@
       "pin_not_driven": "error",
       "pin_to_pin": "error",
       "power_pin_not_driven": "error",
+      "same_local_global_label": "warning",
+      "similar_label_and_power": "warning",
       "similar_labels": "warning",
+      "similar_power": "warning",
       "simulation_model_issue": "error",
+      "single_global_label": "ignore",
       "unannotated": "error",
+      "unconnected_wire_endpoint": "warning",
       "unit_value_mismatch": "error",
       "unresolved_variable": "error",
       "wire_dangling": "error"
@@ -513,9 +533,13 @@
       "/CAN/+12V_ISO_FLT": "DRV_LV",
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
-      "/Motor/DC_MOT_T2": "PWR",
+      "/Motor/DC_MOT_T2": [
+        "PWR"
+      ],
       "/Motor/INNER": "PWR",
-      "/Motor/INNER-": "PWR",
+      "/Motor/INNER-": [
+        "PWR"
+      ],
       "/Motor/L_HSG": "DRV_HV",
       "/Motor/L_H_{O}": "DRV_HV",
       "/Motor/L_LSG": "DRV_HV",
@@ -525,8 +549,12 @@
       "/Motor/L_{GT}-": "DRV_HV",
       "/Motor/L_{PWM}+": "DRV_HV",
       "/Motor/L_{PWM}-": "DRV_HV",
-      "/Motor/M+": "PWR",
-      "/Motor/M+_FUSE": "PWR",
+      "/Motor/M+": [
+        "PWR"
+      ],
+      "/Motor/M+_FUSE": [
+        "PWR"
+      ],
       "/Motor/R_HSG": "DRV_HV",
       "/Motor/R_H_{O}": "DRV_HV",
       "/Motor/R_LSG": "DRV_HV",
@@ -539,23 +567,35 @@
       "/Motor/SHUNT_FUSE": "PWR",
       "/Network communication/+12V_ISO_DC": "DRV_LV",
       "/Network communication/+12V_ISO_FLT": "DRV_LV",
-      "/Network/+12V_ISO_DC": "DRV_LV",
-      "/Network/+12V_ISO_FLT": "DRV_LV",
+      "/Network/+12V_ISO_DC": [
+        "DRV_LV"
+      ],
+      "/Network/+12V_ISO_FLT": [
+        "DRV_LV"
+      ],
       "/Power Supply/12V_REG_IN": "DRV_HV",
       "/Power Supply/12V_buck_converter/Vin": "PWR",
-      "/Power Supply/13V Buck Converter/BUCK_VIN": "PWR",
+      "/Power Supply/13V Buck Converter/BUCK_VIN": [
+        "PWR"
+      ],
       "/Power Supply/15V_REG_IN": "DRV_HV",
       "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
       "/Power Supply/DRIVER_~{EN": "DRV_HV",
       "/Power Supply/DRIVER_~{EN}": "DRV_HV",
       "/Power Supply/Driver PSU Input Filter/DRIVER_~{EN}": "DRV_HV",
-      "/Power Supply/Driver PSU/DRIVER_~{EN}": "DRV_HV",
+      "/Power Supply/Driver PSU/DRIVER_~{EN}": [
+        "DRV_HV"
+      ],
       "/Power Supply/MOTOR_{SHDN}": "DRV_HV",
-      "/Power Supply/MOTOR_~{EN}": "DRV_HV",
+      "/Power Supply/MOTOR_~{EN}": [
+        "DRV_HV"
+      ],
       "/RS-485/+12V_ISO_DC": "DRV_LV",
       "/RS-485/+12V_ISO_FLT": "DRV_LV",
       "DRIVER_PSU_GND": "DRV_HV",
-      "LOGIC_PSU_VIN_FILT": "DRV_LV",
+      "LOGIC_PSU_VIN_FILT": [
+        "DRV_LV"
+      ],
       "Net-(C1-Pad2)": "PWR",
       "Net-(C10-Pad2)": "PWR",
       "Net-(C100-Pad2)": "PWR",
@@ -573,13 +613,17 @@
       "Net-(C74-Pad2)": "PWR",
       "Net-(C79-Pad2)": "PWR",
       "Net-(C80-Pad2)": "PWR",
-      "Net-(C82-Pad2)": "PWR",
+      "Net-(C82-Pad2)": [
+        "PWR"
+      ],
       "Net-(C83-Pad2)": "PWR",
       "Net-(C85-Pad2)": "PWR",
       "Net-(C92-Pad2)": "PWR",
       "Net-(C96-Pad2)": "PWR",
       "Net-(C97-Pad2)": "PWR",
-      "Net-(C98-Pad2)": "PWR",
+      "Net-(C98-Pad2)": [
+        "PWR"
+      ],
       "Net-(C99-Pad2)": "PWR",
       "Net-(D10-K)": "DRV_HV",
       "Net-(D103-K)": "DRV_HV",
@@ -592,7 +636,9 @@
       "Net-(D11-A)": "DRV_LV",
       "Net-(D11-K)": "DRV_HV",
       "Net-(D3-A)": "DRV_LV",
-      "Net-(D4-A)": "DRV_LV",
+      "Net-(D4-A)": [
+        "DRV_LV"
+      ],
       "Net-(D4-K)": "DRV_HV",
       "Net-(D5-A)": "DRV_HV",
       "Net-(D5-K)": "DRV_HV",
@@ -606,7 +652,9 @@
       "Net-(LD1-K)": "PWR",
       "Net-(LD101-K)": "PWR",
       "Net-(LD105-K)": "PWR",
-      "Net-(LD11-K)": "PWR",
+      "Net-(LD11-K)": [
+        "PWR"
+      ],
       "Net-(LD12-K)": "PWR",
       "Net-(LD2-K)": "PWR",
       "Net-(LD3-K)": "PWR",
@@ -615,7 +663,9 @@
       "Net-(LD8-K)": "PWR",
       "Net-(LD9-K)": "PWR",
       "Net-(Q1-G)": "DRV_HV",
-      "Net-(Q10-G)": "DRV_HV",
+      "Net-(Q10-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q101-G)": "DRV_HV",
       "Net-(Q103-G)": "DRV_HV",
       "Net-(Q104-G)": "DRV_HV",
@@ -631,12 +681,20 @@
       "Net-(Q3-D)": "DRV_HV",
       "Net-(Q3-G)": "DRV_HV",
       "Net-(Q4-D)": "DRV_HV",
-      "Net-(Q4-G)": "DRV_HV",
+      "Net-(Q4-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q5-G)": "DRV_HV",
       "Net-(Q6-D)": "DRV_HV",
-      "Net-(Q6-G)": "DRV_HV",
-      "Net-(Q7-G)": "DRV_HV",
-      "Net-(Q8-G)": "DRV_HV",
+      "Net-(Q6-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q7-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q8-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q9-G)": "DRV_HV",
       "Net-(U1-1Y)": "DRV_HV",
       "Net-(U1-VI)": "DRV_HV",
@@ -667,12 +725,18 @@
       "Net-(U3-VI)": "DRV_HV",
       "Net-(U4-VI)": "DRV_LV",
       "Net-(U5-VI)": "DRV_HV",
-      "Net-(U6-VB)": "DRV_HV",
+      "Net-(U6-VB)": [
+        "DRV_HV"
+      ],
       "Net-(U6-VI)": "DRV_LV",
       "Net-(U7-1Y)": "DRV_HV",
-      "Net-(U7-VB)": "DRV_HV",
+      "Net-(U7-VB)": [
+        "DRV_HV"
+      ],
       "Net-(U9-VB)": "DRV_HV",
-      "PGND": "DRV_HV",
+      "PGND": [
+        "DRV_HV"
+      ],
       "VIN_BUCK": "PWR",
       "V_{BPS}+": "DRV_HV",
       "V_{PWR}_Fuse+": "PWR",
@@ -879,6 +943,7 @@
       ],
       "filter_string": "",
       "group_symbols": true,
+      "include_excluded_from_bom": false,
       "name": "",
       "sort_asc": true,
       "sort_field": "Value"
@@ -922,6 +987,7 @@
     },
     "page_layout_descr_file": "",
     "plot_directory": "outputs/doc/",
+    "space_save_all_events": true,
     "spice_adjust_passive_values": false,
     "spice_current_sheet_as_root": false,
     "spice_external_command": "spice \"%I\"",

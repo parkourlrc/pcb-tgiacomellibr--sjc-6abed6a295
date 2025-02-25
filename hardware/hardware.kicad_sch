@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "9538e4ed-27e6-4c37-b989-9859dc0d49e8")
 	(paper "A4")
 	(title_block
@@ -146,6 +146,7 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Mechanical:MountingHole"
 			(pin_names
@@ -228,7 +229,21 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
+	)
+	(text "System overview"
+		(exclude_from_sim no)
+		(at 15.24 21.59 0)
+		(effects
+			(font
+				(size 5 5)
+				(thickness 2.54)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "c0b5b00c-7de6-4876-8bbd-6e106a6c3103")
 	)
 	(wire
 		(pts
@@ -509,19 +524,6 @@
 			(type default)
 		)
 		(uuid "fd9d8e72-dce5-401b-8867-ebd068e6a96b")
-	)
-	(text "System overview"
-		(exclude_from_sim no)
-		(at 15.24 21.59 0)
-		(effects
-			(font
-				(size 5 5)
-				(thickness 2.54)
-				(bold yes)
-			)
-			(justify left bottom)
-		)
-		(uuid "c0b5b00c-7de6-4876-8bbd-6e106a6c3103")
 	)
 	(symbol
 		(lib_id "Graphic:Logo_Open_Hardware_Small")
@@ -848,6 +850,10 @@
 	(sheet
 		(at 139.7 44.45)
 		(size 29.21 24.13)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -877,73 +883,73 @@
 		)
 		(pin "MOTOR_INPUT_VOLTAGE_SIG" output
 			(at 139.7 46.99 180)
+			(uuid "39b1d7b6-5fcf-4368-ac43-daf98aa1d75b")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "39b1d7b6-5fcf-4368-ac43-daf98aa1d75b")
 		)
 		(pin "CURRENT_SIGNAL_FILT" output
 			(at 139.7 49.53 180)
+			(uuid "6c28c87b-ffe7-4f47-a670-6f5e15bf22e2")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "6c28c87b-ffe7-4f47-a670-6f5e15bf22e2")
 		)
 		(pin "L_MOT_HI_{PWM}" input
 			(at 139.7 54.61 180)
+			(uuid "d4988d7c-c661-4476-ab53-679df68852b8")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "d4988d7c-c661-4476-ab53-679df68852b8")
 		)
 		(pin "L_MOT_LO_{PWM}" input
 			(at 139.7 57.15 180)
+			(uuid "54393dab-aa3a-4e56-b4b5-ebcfa7b02c33")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "54393dab-aa3a-4e56-b4b5-ebcfa7b02c33")
 		)
 		(pin "R_MOT_HI_{PWM}" input
 			(at 139.7 59.69 180)
+			(uuid "19565ec3-9335-4eb5-8f6d-16d7327c09b9")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "19565ec3-9335-4eb5-8f6d-16d7327c09b9")
 		)
 		(pin "R_MOT_LO_{PWM}" input
 			(at 139.7 62.23 180)
+			(uuid "30d8c945-24b3-4248-b510-2f977304873a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "30d8c945-24b3-4248-b510-2f977304873a")
 		)
 		(pin "MotorDriver_{EN}" input
 			(at 139.7 66.04 180)
+			(uuid "4ee0bec1-c14e-4323-be38-deb13bc6f73f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "4ee0bec1-c14e-4323-be38-deb13bc6f73f")
 		)
 		(instances
 			(project "hardware"
@@ -956,6 +962,10 @@
 	(sheet
 		(at 139.7 130.81)
 		(size 29.21 21.59)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -985,73 +995,73 @@
 		)
 		(pin "RS485_~{RE}_DE" input
 			(at 139.7 138.43 180)
+			(uuid "b8db02ba-c11d-4549-baba-1275d930b7a7")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "b8db02ba-c11d-4549-baba-1275d930b7a7")
 		)
 		(pin "RS485_TX" input
 			(at 139.7 135.89 180)
+			(uuid "c3364c9f-3b09-4164-ae17-183503b7353a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "c3364c9f-3b09-4164-ae17-183503b7353a")
 		)
 		(pin "RS485_RX" output
 			(at 139.7 133.35 180)
+			(uuid "e62cd2cf-7971-4802-803f-d8f946ae3238")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "e62cd2cf-7971-4802-803f-d8f946ae3238")
 		)
 		(pin "CAN_RX" output
 			(at 139.7 146.05 180)
+			(uuid "c639fa49-f70d-4b69-9593-64446f8857f8")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "c639fa49-f70d-4b69-9593-64446f8857f8")
 		)
 		(pin "CAN_TX" input
 			(at 139.7 148.59 180)
+			(uuid "e6ca2e58-1ab3-4bbf-9d6e-7c67188b38d6")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "e6ca2e58-1ab3-4bbf-9d6e-7c67188b38d6")
 		)
 		(pin "RS485_ACT" input
 			(at 139.7 140.97 180)
+			(uuid "455b470a-36fc-45f9-b391-2e043afac13a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "455b470a-36fc-45f9-b391-2e043afac13a")
 		)
 		(pin "CAN_ACT" input
 			(at 139.7 151.13 180)
+			(uuid "f4f407a4-7ecb-45e4-b0bb-e14191b066c0")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify left)
 			)
-			(uuid "f4f407a4-7ecb-45e4-b0bb-e14191b066c0")
 		)
 		(instances
 			(project "hardware"
@@ -1064,6 +1074,10 @@
 	(sheet
 		(at 139.7 109.22)
 		(size 29.21 15.24)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -1093,43 +1107,43 @@
 		)
 		(pin "GP_OUT_A" input
 			(at 139.7 119.38 180)
+			(uuid "4e4f3704-7684-4e24-a15b-07842e3a9ac2")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "4e4f3704-7684-4e24-a15b-07842e3a9ac2")
 		)
 		(pin "GP_OUT_B" input
 			(at 139.7 121.92 180)
+			(uuid "ccef57b9-c1e2-4039-b874-f36ac7a18e4a")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "ccef57b9-c1e2-4039-b874-f36ac7a18e4a")
 		)
 		(pin "GP_ISO_IN_B" output
 			(at 139.7 114.3 180)
+			(uuid "507bc6c1-0e15-4dc5-b64d-cd587bb58815")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "507bc6c1-0e15-4dc5-b64d-cd587bb58815")
 		)
 		(pin "GP_ISO_IN_A" output
 			(at 139.7 111.76 180)
+			(uuid "0074bd59-1697-4317-b336-ae6da99adb40")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "0074bd59-1697-4317-b336-ae6da99adb40")
 		)
 		(instances
 			(project "hardware"
@@ -1142,6 +1156,10 @@
 	(sheet
 		(at 139.7 29.21)
 		(size 29.21 8.89)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -1171,23 +1189,23 @@
 		)
 		(pin "MotorDriverPSU_{EN}" input
 			(at 139.7 35.56 180)
+			(uuid "f92fe9f0-aa2f-4e47-a732-58dd18e48822")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "f92fe9f0-aa2f-4e47-a732-58dd18e48822")
 		)
 		(pin "MotorPSU_{EN}" input
 			(at 139.7 31.75 180)
+			(uuid "11db1d24-830f-4934-a027-a1299996913b")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "11db1d24-830f-4934-a027-a1299996913b")
 		)
 		(instances
 			(project "hardware"
@@ -1200,6 +1218,10 @@
 	(sheet
 		(at 139.7 74.93)
 		(size 29.21 27.94)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -1229,83 +1251,83 @@
 		)
 		(pin "JOINT_ENC_A" output
 			(at 139.7 77.47 180)
+			(uuid "ac513aab-7fd8-47d6-826f-af32ad464dae")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "ac513aab-7fd8-47d6-826f-af32ad464dae")
 		)
 		(pin "JOINT_ENC_B" output
 			(at 139.7 80.01 180)
+			(uuid "d68b862d-010e-4f02-a0b5-ad184e47aaa5")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "d68b862d-010e-4f02-a0b5-ad184e47aaa5")
 		)
 		(pin "JOINT_SW_A" output
 			(at 139.7 82.55 180)
+			(uuid "3ab5d4ee-418f-4934-8670-16631eab1795")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "3ab5d4ee-418f-4934-8670-16631eab1795")
 		)
 		(pin "JOINT_SW_B" output
 			(at 139.7 85.09 180)
+			(uuid "637b6928-b0ee-4d5a-a7a4-fe93f593794a")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "637b6928-b0ee-4d5a-a7a4-fe93f593794a")
 		)
 		(pin "AUX2_ENC_B" output
 			(at 139.7 92.71 180)
+			(uuid "dfd7ee78-fde5-4b17-8ae8-c6cbc988eca6")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "dfd7ee78-fde5-4b17-8ae8-c6cbc988eca6")
 		)
 		(pin "AUX2_ENC_A" output
 			(at 139.7 90.17 180)
+			(uuid "0a36f6ee-d549-424a-aa83-cc60bbdee20d")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "0a36f6ee-d549-424a-aa83-cc60bbdee20d")
 		)
 		(pin "AUX1_ENC_B" output
 			(at 139.7 100.33 180)
+			(uuid "48a10535-c619-4c6c-a3e6-9c099b9691e0")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "48a10535-c619-4c6c-a3e6-9c099b9691e0")
 		)
 		(pin "AUX1_ENC_A" output
 			(at 139.7 97.79 180)
+			(uuid "4847d48e-e853-4ee5-826a-e90c50914b6e")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "4847d48e-e853-4ee5-826a-e90c50914b6e")
 		)
 		(instances
 			(project "hardware"
@@ -1318,6 +1340,10 @@
 	(sheet
 		(at 27.94 29.21)
 		(size 48.26 140.97)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -1347,313 +1373,313 @@
 		)
 		(pin "GP_OUT_A" output
 			(at 76.2 119.38 0)
+			(uuid "d1792337-8c61-4812-bcb7-1e3f9c9f1bce")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "d1792337-8c61-4812-bcb7-1e3f9c9f1bce")
 		)
 		(pin "CURRENT_SIGNAL_FILT" output
 			(at 76.2 49.53 0)
+			(uuid "eb073460-70ad-4c05-bee4-4eacc371afc4")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "eb073460-70ad-4c05-bee4-4eacc371afc4")
 		)
 		(pin "MOTOR_INPUT_VOLTAGE_SIG" input
 			(at 76.2 46.99 0)
+			(uuid "a256727f-3074-42bb-839b-0c8ac1ef6b74")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "a256727f-3074-42bb-839b-0c8ac1ef6b74")
 		)
 		(pin "GP_ISO_IN_B" input
 			(at 76.2 114.3 0)
+			(uuid "92b02438-07ac-47ec-b5c3-548aaf713add")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "92b02438-07ac-47ec-b5c3-548aaf713add")
 		)
 		(pin "GP_OUT_B" output
 			(at 76.2 121.92 0)
+			(uuid "e2e682ee-dbe1-4acf-aad2-dc3cc787ff4a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "e2e682ee-dbe1-4acf-aad2-dc3cc787ff4a")
 		)
 		(pin "GP_ISO_IN_A" input
 			(at 76.2 111.76 0)
+			(uuid "f36cd0d3-da30-4357-b681-8a9bd3c1661a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "f36cd0d3-da30-4357-b681-8a9bd3c1661a")
 		)
 		(pin "JOINT_ENC_CH2" input
 			(at 76.2 80.01 0)
+			(uuid "d54a3902-32f5-45b5-a920-8a5f54661dd8")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "d54a3902-32f5-45b5-a920-8a5f54661dd8")
 		)
 		(pin "JOINT_ENC_CH1" input
 			(at 76.2 77.47 0)
+			(uuid "a1f0f464-045c-4071-9b43-68b7548b9b36")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "a1f0f464-045c-4071-9b43-68b7548b9b36")
 		)
 		(pin "AUX1_ENC_CH1" input
 			(at 76.2 97.79 0)
+			(uuid "54bc3929-512b-4bbd-9369-11538334b1e7")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "54bc3929-512b-4bbd-9369-11538334b1e7")
 		)
 		(pin "AUX1_ENC_CH2" input
 			(at 76.2 100.33 0)
+			(uuid "5477bc7a-a298-4ecc-a0b1-7c18f2c10d89")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "5477bc7a-a298-4ecc-a0b1-7c18f2c10d89")
 		)
 		(pin "AUX2_ENC_CH2" input
 			(at 76.2 92.71 0)
+			(uuid "8b909ef7-7c70-476d-b8a7-a689a466216f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "8b909ef7-7c70-476d-b8a7-a689a466216f")
 		)
 		(pin "AUX2_ENC_CH1" input
 			(at 76.2 90.17 0)
+			(uuid "f49bb7b1-0dcf-476b-8b42-ace0947d12f2")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "f49bb7b1-0dcf-476b-8b42-ace0947d12f2")
 		)
 		(pin "L_MOT_HI_{PWM}" output
 			(at 76.2 54.61 0)
+			(uuid "4a13bd33-3290-469d-8c07-e2230d93bbb3")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "4a13bd33-3290-469d-8c07-e2230d93bbb3")
 		)
 		(pin "L_MOT_LO_{PWM}" output
 			(at 76.2 57.15 0)
+			(uuid "abeaceda-7520-4b0d-b2f2-98e0a461ccde")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "abeaceda-7520-4b0d-b2f2-98e0a461ccde")
 		)
 		(pin "R_MOT_HI_{PWM}" output
 			(at 76.2 59.69 0)
+			(uuid "d6a267a8-b642-4b92-98b6-95d58dfac5ef")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "d6a267a8-b642-4b92-98b6-95d58dfac5ef")
 		)
 		(pin "R_MOT_LO_{PWM}" output
 			(at 76.2 62.23 0)
+			(uuid "cdbf87ca-8031-431a-ad24-f37f2e0b9fa2")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "cdbf87ca-8031-431a-ad24-f37f2e0b9fa2")
 		)
 		(pin "JOINT_SW_L" input
 			(at 76.2 82.55 0)
+			(uuid "e2376be5-7f8f-4696-ba61-0022b18bbc55")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "e2376be5-7f8f-4696-ba61-0022b18bbc55")
 		)
 		(pin "JOINT_SW_R" input
 			(at 76.2 85.09 0)
+			(uuid "a8cad783-b713-4196-ae6f-33cf9f4c4dea")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "a8cad783-b713-4196-ae6f-33cf9f4c4dea")
 		)
 		(pin "COM_485_~{RE}_DE" output
 			(at 76.2 138.43 0)
+			(uuid "30d7b4a7-d9b3-4dcf-8b00-96a7948a6d5b")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "30d7b4a7-d9b3-4dcf-8b00-96a7948a6d5b")
 		)
 		(pin "COM_485_TX" output
 			(at 76.2 135.89 0)
+			(uuid "f064f14f-b03c-4cf4-9468-41bcea2f2a79")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "f064f14f-b03c-4cf4-9468-41bcea2f2a79")
 		)
 		(pin "COM_485_RX" input
 			(at 76.2 133.35 0)
+			(uuid "86fd4d0c-8ef1-4348-a69a-ad14a77ef69a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "86fd4d0c-8ef1-4348-a69a-ad14a77ef69a")
 		)
 		(pin "COM_485_ACT" output
 			(at 76.2 140.97 0)
+			(uuid "908dbef6-2748-455f-af4a-7ca87eb52bbe")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "908dbef6-2748-455f-af4a-7ca87eb52bbe")
 		)
 		(pin "COM_USB_DP" bidirectional
 			(at 76.2 163.83 0)
+			(uuid "f298cf72-c6be-4e86-8734-f4c30c9fdda1")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "f298cf72-c6be-4e86-8734-f4c30c9fdda1")
 		)
 		(pin "COM_USB_DM" bidirectional
 			(at 76.2 166.37 0)
+			(uuid "e60aed57-d777-425e-b471-7539e2ceac93")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "e60aed57-d777-425e-b471-7539e2ceac93")
 		)
 		(pin "COM_USB_V_{BUS}_SIG" input
 			(at 76.2 168.91 0)
+			(uuid "de8adbaf-4524-46d1-94bd-f6627c2167de")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "de8adbaf-4524-46d1-94bd-f6627c2167de")
 		)
 		(pin "MotorPSU_{EN}" output
 			(at 76.2 31.75 0)
+			(uuid "a464980d-5155-415b-ad0c-68ccc6a8ae67")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "a464980d-5155-415b-ad0c-68ccc6a8ae67")
 		)
 		(pin "MotorDriverPSU_{EN}" output
 			(at 76.2 35.56 0)
+			(uuid "552793bf-5730-45cd-a26a-6b374c4b76d9")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "552793bf-5730-45cd-a26a-6b374c4b76d9")
 		)
 		(pin "MotorDriver_{EN}" output
 			(at 76.2 66.04 0)
+			(uuid "bb1cf443-f188-45a2-bf38-246cf6519d4f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "bb1cf443-f188-45a2-bf38-246cf6519d4f")
 		)
 		(pin "FDCAN_RX" input
 			(at 76.2 146.05 0)
+			(uuid "b94ffda2-9781-4d3d-bf56-576947ef3900")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "b94ffda2-9781-4d3d-bf56-576947ef3900")
 		)
 		(pin "FDCAN_ACT" output
 			(at 76.2 151.13 0)
+			(uuid "386b8a06-fbeb-4623-97cb-644896c27b7a")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "386b8a06-fbeb-4623-97cb-644896c27b7a")
 		)
 		(pin "FDCAN_TX" output
 			(at 76.2 148.59 0)
+			(uuid "41b5c9df-c57f-4571-8b82-cf0054a54a5e")
 			(effects
 				(font
 					(size 1 1)
 				)
 				(justify right)
 			)
-			(uuid "41b5c9df-c57f-4571-8b82-cf0054a54a5e")
 		)
 		(instances
 			(project "hardware"
@@ -1668,4 +1694,5 @@
 			(page "1")
 		)
 	)
+	(embedded_fonts no)
 )
