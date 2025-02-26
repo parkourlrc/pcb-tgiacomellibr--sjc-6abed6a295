@@ -7416,6 +7416,16 @@
 	)
 	(wire
 		(pts
+			(xy 146.05 121.92) (xy 165.1 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a0af16b-06e7-4643-a458-7f16fd513f7b")
+	)
+	(wire
+		(pts
 			(xy 53.34 187.96) (xy 53.34 185.42)
 		)
 		(stroke
@@ -7473,6 +7483,26 @@
 			(type default)
 		)
 		(uuid "1f3ea666-eff4-41fd-af6e-ed761ac35bbf")
+	)
+	(polyline
+		(pts
+			(xy 135.89 123.19) (xy 165.1 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1fbb29db-d5f1-416a-b160-d4832a536ab6")
+	)
+	(polyline
+		(pts
+			(xy 135.89 120.65) (xy 135.89 123.19)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "207457a2-dcae-434b-8c3e-59890e3dd291")
 	)
 	(wire
 		(pts
@@ -9173,6 +9203,16 @@
 	)
 	(polyline
 		(pts
+			(xy 165.1 120.65) (xy 135.89 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1bf6d14-5031-4a01-907b-8f6c930f9137")
+	)
+	(polyline
+		(pts
 			(xy 55.88 261.62) (xy 55.88 276.86)
 		)
 		(stroke
@@ -10673,6 +10713,17 @@
 			(justify left)
 		)
 		(uuid "f248cfdc-2dac-4a34-818a-709145e2181b")
+	)
+	(hierarchical_label "NET_STATUS"
+		(shape input)
+		(at 146.05 121.92 180)
+		(effects
+			(font
+				(size 0.9906 0.9906)
+			)
+			(justify right)
+		)
+		(uuid "fbcbce6c-7fcf-4cee-beac-bfef181a23c6")
 	)
 	(hierarchical_label "L_MOT_HI_{PWM}"
 		(shape output)

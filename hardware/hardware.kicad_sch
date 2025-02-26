@@ -277,6 +277,16 @@
 	)
 	(wire
 		(pts
+			(xy 76.2 143.51) (xy 139.7 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26fed1c2-8bbb-4407-aa6e-381ae11e709f")
+	)
+	(wire
+		(pts
 			(xy 76.2 54.61) (xy 139.7 54.61)
 		)
 		(stroke
@@ -1063,6 +1073,16 @@
 				(justify left)
 			)
 		)
+		(pin "NET_STATUS" input
+			(at 139.7 143.51 180)
+			(uuid "b48d54b4-c6f3-41ba-8ad9-24a8ae382b0b")
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
@@ -1381,16 +1401,6 @@
 				(justify right)
 			)
 		)
-		(pin "CURRENT_SIGNAL_FILT" output
-			(at 76.2 49.53 0)
-			(uuid "eb073460-70ad-4c05-bee4-4eacc371afc4")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
 		(pin "MOTOR_INPUT_VOLTAGE_SIG" input
 			(at 76.2 46.99 0)
 			(uuid "a256727f-3074-42bb-839b-0c8ac1ef6b74")
@@ -1677,6 +1687,26 @@
 			(effects
 				(font
 					(size 1 1)
+				)
+				(justify right)
+			)
+		)
+		(pin "NET_STATUS" input
+			(at 76.2 143.51 0)
+			(uuid "2252643d-0a13-445d-b332-a269109883be")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CURRENT_SIGNAL_FILT" input
+			(at 76.2 49.53 0)
+			(uuid "67a0553f-84c7-4541-8556-3a55695a74d2")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 				(justify right)
 			)
