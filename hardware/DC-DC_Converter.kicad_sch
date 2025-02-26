@@ -2820,7 +2820,7 @@
 		(lib_id "Device:C_Small")
 		(at 237.49 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -2914,7 +2914,7 @@
 		(lib_id "sjc_semiconductors:SI7149ADP")
 		(at 57.15 121.92 0)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3020,7 +3020,7 @@
 		(lib_id "Device:C_Small")
 		(at 124.46 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3114,7 +3114,7 @@
 		(lib_id "Device:C_Small")
 		(at 132.08 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3208,7 +3208,7 @@
 		(lib_id "Device:C_Small")
 		(at 66.04 127 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3302,12 +3302,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 154.94 135.89 90)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "28b8a26b-a06c-4048-923c-9bb7a3aafb6b")
-		(property "Reference" "R138"
+		(property "Reference" "R139"
 			(at 154.94 132.715 90)
 			(effects
 				(font
@@ -3386,7 +3386,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R138")
+					(reference "R139")
 					(unit 1)
 				)
 			)
@@ -3396,7 +3396,7 @@
 		(lib_id "Device:C_Small")
 		(at 222.25 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3490,7 +3490,7 @@
 		(lib_id "Device:C_Small")
 		(at 106.68 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3584,7 +3584,7 @@
 		(lib_id "Device:C_Small")
 		(at 229.87 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -3808,12 +3808,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 161.29 130.81 90)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "4943507c-d4e1-4fca-b59d-ee87d78f1ba2")
-		(property "Reference" "R136"
+		(property "Reference" "R140"
 			(at 161.29 128.778 90)
 			(effects
 				(font
@@ -3892,7 +3892,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R136")
+					(reference "R140")
 					(unit 1)
 				)
 			)
@@ -3902,13 +3902,13 @@
 		(lib_id "sjc_power:+12V")
 		(at 44.45 118.11 0)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4a9ac608-c2d4-4f8a-a0b0-516a5cea208b")
-		(property "Reference" "#PWR0210"
+		(property "Reference" "#PWR0211"
 			(at 46.99 116.84 0)
 			(effects
 				(font
@@ -3958,7 +3958,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "#PWR0210")
+					(reference "#PWR0211")
 					(unit 1)
 				)
 			)
@@ -3968,12 +3968,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 213.36 127 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "4dc8f00d-c465-4548-9aad-8f7bbf16237f")
-		(property "Reference" "R135"
+		(property "Reference" "R141"
 			(at 210.185 127 90)
 			(effects
 				(font
@@ -4052,7 +4052,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R135")
+					(reference "R141")
 					(unit 1)
 				)
 			)
@@ -4062,12 +4062,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 86.36 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "5bbe7f02-97dc-4232-a60e-13787f6056b6")
-		(property "Reference" "R137"
+		(property "Reference" "R138"
 			(at 84.455 133.35 90)
 			(effects
 				(font
@@ -4146,7 +4146,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R137")
+					(reference "R138")
 					(unit 1)
 				)
 			)
@@ -4156,7 +4156,7 @@
 		(lib_id "Device:C_Small")
 		(at 139.7 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -4250,7 +4250,7 @@
 		(lib_id "Device:C_Small")
 		(at 96.52 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -4344,12 +4344,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 76.2 127 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "74c620aa-4b94-473a-bb4f-f3607a1578db")
-		(property "Reference" "R134"
+		(property "Reference" "R137"
 			(at 73.66 127 90)
 			(effects
 				(font
@@ -4428,7 +4428,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R134")
+					(reference "R137")
 					(unit 1)
 				)
 			)
@@ -4438,7 +4438,7 @@
 		(lib_id "sjc_power:PGND")
 		(at 229.87 149.86 0)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -4503,7 +4503,7 @@
 		(lib_id "sjc_power:PGND")
 		(at 44.45 149.86 0)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -4757,7 +4757,7 @@
 		(lib_id "Device:C_Small")
 		(at 116.84 133.35 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
@@ -4851,12 +4851,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 71.12 137.16 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "ad4de23e-bad6-45a8-ac9e-8bfb4e899810")
-		(property "Reference" "R139"
+		(property "Reference" "R136"
 			(at 68.58 137.16 90)
 			(effects
 				(font
@@ -4935,7 +4935,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R139")
+					(reference "R136")
 					(unit 1)
 				)
 			)
@@ -4945,12 +4945,12 @@
 		(lib_id "Device:R_Small_US")
 		(at 213.36 139.7 180)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "c666ec15-d169-4af1-a5e9-8a870425da96")
-		(property "Reference" "R140"
+		(property "Reference" "R142"
 			(at 211.455 139.7 90)
 			(effects
 				(font
@@ -5029,7 +5029,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "R140")
+					(reference "R142")
 					(unit 1)
 				)
 			)
@@ -5039,13 +5039,13 @@
 		(lib_id "sjc_power:+12V")
 		(at 262.89 118.11 0)
 		(unit 1)
-		(exclude_from_sim yes)
+		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf6f72be-bea7-478c-949f-7f311951943e")
-		(property "Reference" "#PWR0211"
+		(property "Reference" "#PWR0214"
 			(at 265.43 116.84 0)
 			(effects
 				(font
@@ -5095,7 +5095,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/4f33fade-0a37-4324-9655-a6a35ba6b15f"
-					(reference "#PWR0211")
+					(reference "#PWR0214")
 					(unit 1)
 				)
 			)
