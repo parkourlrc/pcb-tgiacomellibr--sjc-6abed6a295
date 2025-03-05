@@ -2548,12 +2548,6 @@
 		(uuid "0f3dcea2-e11b-4692-9581-24b401cbc3bd")
 	)
 	(junction
-		(at 213.36 78.74)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "105f724b-ee24-4055-a927-f0a8351d9396")
-	)
-	(junction
 		(at 162.56 60.96)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2660,6 +2654,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a9922be3-164b-413c-92ac-94d7ad9a1b2f")
+	)
+	(junction
+		(at 187.96 68.58)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ae4e25c5-a830-42af-ad80-2c39c49e4022")
 	)
 	(junction
 		(at 50.8 180.34)
@@ -2903,7 +2903,7 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 78.74) (xy 182.88 78.74)
+			(xy 218.44 78.74) (xy 208.28 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2963,7 +2963,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 68.58) (xy 213.36 78.74)
+			(xy 187.96 78.74) (xy 187.96 68.58)
 		)
 		(stroke
 			(width 0)
@@ -3563,7 +3563,7 @@
 	)
 	(wire
 		(pts
-			(xy 193.04 68.58) (xy 182.88 68.58)
+			(xy 218.44 68.58) (xy 208.28 68.58)
 		)
 		(stroke
 			(width 0)
@@ -3643,7 +3643,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 78.74) (xy 208.28 78.74)
+			(xy 187.96 68.58) (xy 193.04 68.58)
 		)
 		(stroke
 			(width 0)
@@ -3793,7 +3793,7 @@
 	)
 	(wire
 		(pts
-			(xy 213.36 68.58) (xy 208.28 68.58)
+			(xy 187.96 78.74) (xy 193.04 78.74)
 		)
 		(stroke
 			(width 0)
@@ -3913,6 +3913,16 @@
 	)
 	(wire
 		(pts
+			(xy 187.96 66.04) (xy 187.96 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e15c01a0-7b3a-4cfd-a856-e40fdb254a27")
+	)
+	(wire
+		(pts
 			(xy 119.38 58.42) (xy 119.38 60.96)
 		)
 		(stroke
@@ -3940,16 +3950,6 @@
 			(type default)
 		)
 		(uuid "e34d089f-d045-4402-9c03-f89019530111")
-	)
-	(wire
-		(pts
-			(xy 213.36 78.74) (xy 213.36 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e3ceefe5-92cf-4523-be24-318557d85328")
 	)
 	(wire
 		(pts
@@ -4232,7 +4232,7 @@
 		(uuid "90349088-dab6-46ca-ba7c-2298757b9bd3")
 	)
 	(label "~{GP_OUT_A}"
-		(at 184.15 68.58 0)
+		(at 209.55 68.58 0)
 		(effects
 			(font
 				(size 1 1)
@@ -4242,7 +4242,7 @@
 		(uuid "b5c5b750-44da-44ff-9378-2b4255e78e95")
 	)
 	(label "~{GP_OUT_B}"
-		(at 184.15 78.74 0)
+		(at 209.55 78.74 0)
 		(effects
 			(font
 				(size 1 1)
@@ -7906,6 +7906,72 @@
 		)
 	)
 	(symbol
+		(lib_id "sjc_power:+3V3")
+		(at 187.96 66.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b3ebf789-e153-4204-a241-2aff1b7507e3")
+		(property "Reference" "#PWR0183"
+			(at 187.96 69.85 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 187.96 62.23 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 187.96 66.04 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 66.04 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 187.96 66.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0c1bb55d-7935-4851-81f9-a262f777339a")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
+					(reference "#PWR0183")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:GND")
 		(at 162.56 81.28 0)
 		(unit 1)
@@ -8415,71 +8481,6 @@
 			(project "hardware_v2"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
 					(reference "R126")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:GND")
-		(at 213.36 83.82 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "c16c3034-877c-4bb1-9906-d63543b7a23a")
-		(property "Reference" "#PWR0183"
-			(at 213.36 90.17 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 213.36 87.63 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 213.36 83.82 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 213.36 83.82 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 213.36 83.82 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "c5b4aa76-a217-43fb-b21d-608b84313a15")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/55a8b452-cae3-4582-8c1f-cd1344e8c0fc"
-					(reference "#PWR0183")
 					(unit 1)
 				)
 			)

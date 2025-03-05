@@ -10048,19 +10048,9 @@
 				(hide yes)
 			)
 		)
-		(pin "DRIVER_PSU_VIN" input
+		(pin "DRIVER_PSU_VIN" bidirectional
 			(at 196.85 64.77 180)
-			(uuid "da967e1b-2bc8-4079-8103-f7e527d78007")
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(pin "DRIVER_PSU_GND" input
-			(at 196.85 73.66 180)
-			(uuid "a7fb6078-1637-4a2d-b77f-fa700c0653f7")
+			(uuid "02c5e35d-a936-4466-80c2-51183d417a1d")
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10070,7 +10060,17 @@
 		)
 		(pin "DRIVER_PSU_EN" input
 			(at 196.85 68.58 180)
-			(uuid "4adc7a44-512c-428d-80a6-8dba5bd2b3ee")
+			(uuid "8c3dbba9-40ce-423c-96bb-979af41244a8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DRIVER_PSU_GND" bidirectional
+			(at 196.85 73.66 180)
+			(uuid "cf4c4db8-1ef8-4510-adbc-b3e741d3a0e3")
 			(effects
 				(font
 					(size 1.27 1.27)

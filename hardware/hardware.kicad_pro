@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.508
+          "min_clearance": 0.4064
         }
       },
       "diff_pair_dimensions": [
@@ -502,7 +502,7 @@
     "classes": [
       {
         "bus_width": 12,
-        "clearance": 0.199898,
+        "clearance": 0.2032,
         "diff_pair_gap": 0.254,
         "diff_pair_via_gap": 0.25,
         "diff_pair_width": 0.2032,
@@ -517,6 +517,62 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "clearance": 0.3048,
+        "diff_pair_gap": 0.254,
+        "diff_pair_width": 0.2032,
+        "microvia_diameter": 0.6,
+        "microvia_drill": 0.3,
+        "name": "DRV_SIGNAL",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3302,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.4064,
+        "diff_pair_gap": 0.254,
+        "diff_pair_width": 0.2032,
+        "microvia_diameter": 0.6,
+        "microvia_drill": 0.3,
+        "name": "LOGIC_PWR",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3302,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
+      },
+      {
+        "clearance": 0.508,
+        "diff_pair_gap": 0.254,
+        "diff_pair_width": 0.2032,
+        "microvia_diameter": 0.6,
+        "microvia_drill": 0.3,
+        "name": "PWR",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.4064,
+        "via_diameter": 0.8,
+        "via_drill": 0.4
+      },
+      {
+        "clearance": 0.2032,
+        "diff_pair_gap": 0.254,
+        "diff_pair_width": 0.2032,
+        "microvia_diameter": 0.6,
+        "microvia_drill": 0.3,
+        "name": "SIGNAL",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.2032,
+        "via_diameter": 0.6,
+        "via_drill": 0.3
       }
     ],
     "meta": {
@@ -736,6 +792,9 @@
         "DRV_HV"
       ],
       "Net-(U3-VI)": "DRV_HV",
+      "Net-(U36-VI)": [
+        "DRV_LV"
+      ],
       "Net-(U4-VI)": "DRV_LV",
       "Net-(U5-VI)": "DRV_HV",
       "Net-(U6-VB)": [
@@ -795,11 +854,11 @@
         "pattern": "V_{DC}+"
       },
       {
-        "netclass": "Default",
+        "netclass": "PWR",
         "pattern": "PGND"
       },
       {
-        "netclass": "DRV_LV",
+        "netclass": "DRV_SIGNAL",
         "pattern": "+15V"
       },
       {
@@ -807,7 +866,7 @@
         "pattern": "+5V"
       },
       {
-        "netclass": "DRV_LV",
+        "netclass": "DRV_SIGNAL",
         "pattern": "+12V"
       },
       {
@@ -823,11 +882,11 @@
         "pattern": "+3V3_ISO"
       },
       {
-        "netclass": "DRV_LV",
+        "netclass": "Default",
         "pattern": "GND_ISO"
       },
       {
-        "netclass": "DRV_LV",
+        "netclass": "Default",
         "pattern": "+12V_ISO"
       },
       {
@@ -841,6 +900,18 @@
       {
         "netclass": "PWR",
         "pattern": "V_{PWR}_Src+"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/L_HSG"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/L_LSG"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/L_PWM"
       }
     ]
   },

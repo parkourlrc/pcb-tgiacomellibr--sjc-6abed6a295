@@ -5653,12 +5653,6 @@
 		(uuid "b6b5fa7c-d183-423f-b6f4-a08f7a5992d5")
 	)
 	(junction
-		(at 62.23 44.45)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b9abe154-7773-4d4d-9057-f7916d6b4db7")
-	)
-	(junction
 		(at 274.32 162.56)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -5705,6 +5699,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "caa8d427-791c-4466-b2ee-bcb49cbd1476")
+	)
+	(junction
+		(at 62.23 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cfebf3c4-45d2-455d-b602-ffd76366d31c")
 	)
 	(junction
 		(at 125.73 121.92)
@@ -5831,6 +5831,16 @@
 			(type default)
 		)
 		(uuid "043bb89c-c501-4347-97e5-1ecdd53f6a12")
+	)
+	(wire
+		(pts
+			(xy 52.07 36.83) (xy 62.23 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "045aff03-0e4a-4874-8b43-117ff61dcf7c")
 	)
 	(wire
 		(pts
@@ -6227,16 +6237,6 @@
 	)
 	(wire
 		(pts
-			(xy 62.23 36.83) (xy 62.23 44.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1a08c149-51df-4a57-97e8-0dc550992bac")
-	)
-	(wire
-		(pts
 			(xy 191.77 228.6) (xy 191.77 233.68)
 		)
 		(stroke
@@ -6499,6 +6499,16 @@
 	)
 	(wire
 		(pts
+			(xy 62.23 36.83) (xy 62.23 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29fad909-ac63-49d4-8442-8c6b338546f3")
+	)
+	(wire
+		(pts
 			(xy 30.48 154.94) (xy 30.48 157.48)
 		)
 		(stroke
@@ -6638,6 +6648,16 @@
 		)
 		(uuid "30e7c005-e2e8-42b7-8b02-9dca0f7d8e76")
 	)
+	(wire
+		(pts
+			(xy 62.23 44.45) (xy 62.23 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32cfdc2d-ff6c-4f7e-b864-369b6001f289")
+	)
 	(polyline
 		(pts
 			(xy 125.73 31.75) (xy 153.67 31.75)
@@ -6647,16 +6667,6 @@
 			(type dash)
 		)
 		(uuid "3312ee85-e0a2-4e2a-bdba-0cd1443ed821")
-	)
-	(wire
-		(pts
-			(xy 62.23 44.45) (xy 62.23 46.99)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "340ec3c3-9b1b-497d-abd6-da67fb372d67")
 	)
 	(wire
 		(pts
@@ -8612,16 +8622,6 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 36.83) (xy 62.23 36.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9de81033-a2ae-4f81-b266-efc2b33a4a86")
-	)
-	(wire
-		(pts
 			(xy 321.31 83.82) (xy 321.31 86.36)
 		)
 		(stroke
@@ -9014,16 +9014,6 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 44.45) (xy 62.23 44.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b420ed29-bc31-43da-85b3-ebd1ed6f0995")
-	)
-	(wire
-		(pts
 			(xy 298.45 110.49) (xy 313.69 110.49)
 		)
 		(stroke
@@ -9225,6 +9215,16 @@
 			(type default)
 		)
 		(uuid "c4a7a070-d48b-4bbe-9d8f-4c925489d922")
+	)
+	(wire
+		(pts
+			(xy 52.07 44.45) (xy 62.23 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4ae0ab7-1e27-4aef-b578-149fca388ce4")
 	)
 	(wire
 		(pts
@@ -11033,6 +11033,71 @@
 		)
 	)
 	(symbol
+		(lib_id "sjc_power:GND")
+		(at 245.11 80.01 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "00edc458-0730-420a-b2ba-65747cc8a4c8")
+		(property "Reference" "#PWR079"
+			(at 245.11 86.36 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "DRIVER_GND"
+			(at 245.11 83.82 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 245.11 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 245.11 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 245.11 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4f5e7246-9ba7-46c4-ab8c-2e458033b6eb")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR079")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 142.24 207.01 90)
 		(unit 1)
@@ -12017,72 +12082,6 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "R42")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:PGND")
-		(at 219.71 46.99 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "1769ed2c-7754-468d-b7e6-b884e01456b2")
-		(property "Reference" "#PWR076"
-			(at 219.71 53.34 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PGND"
-			(at 219.71 50.8 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 219.71 46.99 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 219.71 46.99 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 219.71 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1a69904e-84c1-49ff-9d43-509061829d11")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR076")
 					(unit 1)
 				)
 			)
@@ -17595,6 +17594,71 @@
 		)
 	)
 	(symbol
+		(lib_id "sjc_power:GND")
+		(at 62.23 46.99 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "73468b53-8f3b-46bc-9700-667cc7e87f0d")
+		(property "Reference" "#PWR049"
+			(at 62.23 53.34 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "DRIVER_GND"
+			(at 62.23 50.8 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 62.23 46.99 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 46.99 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 62.23 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9cc4c61b-689c-4ccb-b171-8fd35e478e5d")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR049")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:GNDA")
 		(at 125.73 165.1 0)
 		(unit 1)
@@ -17846,71 +17910,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:PGND")
-		(at 36.83 80.01 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "76c889c4-4f21-4d37-bd78-1e4c48e9da5b")
-		(property "Reference" "#PWR042"
-			(at 36.83 86.36 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PGND"
-			(at 36.83 83.82 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 36.83 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 36.83 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 36.83 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "176d927c-a39e-4001-b7e9-3e6d1c19c2de")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR042")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "sjc_power:+12V")
 		(at 245.11 27.94 0)
 		(unit 1)
@@ -18065,6 +18064,71 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "R52")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 219.71 46.99 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7a7e2af7-ba6f-4ca5-939f-5a8508932aa5")
+		(property "Reference" "#PWR076"
+			(at 219.71 53.34 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "DRIVER_GND"
+			(at 219.71 50.8 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 219.71 46.99 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 219.71 46.99 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 219.71 46.99 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e9130b8a-ede4-4ccc-a974-9313c6deac3f")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR076")
 					(unit 1)
 				)
 			)
@@ -24401,17 +24465,16 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:PGND")
-		(at 245.11 80.01 0)
-		(mirror y)
+		(lib_id "sjc_power:GND")
+		(at 36.83 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "ec76404e-de35-4812-b3e9-083f05ae2135")
-		(property "Reference" "#PWR079"
-			(at 245.11 86.36 0)
+		(uuid "ed7c53bc-b0d4-4979-aa62-29fe5ff7b445")
+		(property "Reference" "#PWR042"
+			(at 36.83 86.36 0)
 			(effects
 				(font
 					(size 1 1)
@@ -24419,8 +24482,8 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "PGND"
-			(at 245.11 83.82 0)
+		(property "Value" "DRIVER_GND"
+			(at 36.83 83.82 0)
 			(effects
 				(font
 					(size 1 1)
@@ -24428,7 +24491,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 245.11 80.01 0)
+			(at 36.83 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -24437,7 +24500,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 245.11 80.01 0)
+			(at 36.83 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -24446,7 +24509,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 245.11 80.01 0)
+			(at 36.83 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -24455,12 +24518,12 @@
 			)
 		)
 		(pin "1"
-			(uuid "67346f64-6c83-4171-b17d-db640521de6e")
+			(uuid "5fdb3134-65bf-4b2e-8b57-3eff754f3b12")
 		)
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR079")
+					(reference "#PWR042")
 					(unit 1)
 				)
 			)
@@ -24848,71 +24911,6 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "#PWR066")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:PGND")
-		(at 62.23 46.99 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f76712cb-ff41-4e19-b538-5df9fca610a7")
-		(property "Reference" "#PWR049"
-			(at 62.23 53.34 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "PGND"
-			(at 62.23 50.8 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 62.23 46.99 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 62.23 46.99 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 62.23 46.99 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "3a844d33-764a-4e49-b02c-0c26b185c6cc")
-		)
-		(instances
-			(project "hardware_v3"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR049")
 					(unit 1)
 				)
 			)
