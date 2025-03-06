@@ -590,6 +590,9 @@
       "/CAN/+12V_ISO_FLT": "DRV_LV",
       "/Communication/+12V_ISO_DC": "DRV_LV",
       "/Communication/+12V_ISO_FLT": "DRV_LV",
+      "/Motor/DC_MOT_T1": [
+        "PWR"
+      ],
       "/Motor/DC_MOT_T2": [
         "PWR"
       ],

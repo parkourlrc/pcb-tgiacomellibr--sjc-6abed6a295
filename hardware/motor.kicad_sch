@@ -4348,6 +4348,183 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "sjc_semiconductors:PMEG60T10ELR"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
+			(property "Value" "PMEG60T10ELR"
+				(at 0 -2.54 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+				)
+			)
+			(property "Footprint" "Diode_SMD:D_SOD-123F"
+				(at 1.27 -5.08 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 6.35 -8.89 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Schottky diode, 60 V reverse  voltage, 1 A average forward current, 600 mV forward voltage, SOD123W"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MF" "Nexperia"
+				(at 0 -8.89 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "PN" "PMEG60T10ELRX"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "JLCPCB Part #" "C552945"
+				(at 0 -7.62 0)
+				(effects
+					(font
+						(size 1 1)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "diode Schottky"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "PMEG60T10ELR_0_1"
+				(polyline
+					(pts
+						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy -1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "PMEG60T10ELR_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "sjc_semiconductors:PMEG60T20ELR"
 			(pin_numbers
 				(hide yes)
@@ -5012,20 +5189,6 @@
 		)
 		(uuid d8e15b40-390e-45db-b29a-90354d0ee7e2)
 	)
-	(arc
-		(start 76.2 86.36)
-		(mid 74.5649 92.4024)
-		(end 69.85 96.52)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(fill
-			(type none)
-		)
-		(uuid e6d87a7f-c0b7-438d-82d3-2d9b5077fb8c)
-	)
 	(text "2ED2184S06F Output Current: \n- Sink: 2.5 A\n- Source: 2.5 A"
 		(exclude_from_sim no)
 		(at 212.598 91.186 0)
@@ -5086,18 +5249,6 @@
 			(justify left bottom)
 		)
 		(uuid "6df2497b-4bb0-4cc5-a597-ee4a54a45de8")
-	)
-	(text "2ED2184S06F Output Current: \n- Sink: 2.5 A\n- Source: 2.5 A"
-		(exclude_from_sim no)
-		(at 39.878 91.186 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(color 255 153 0 1)
-			)
-			(justify left)
-		)
-		(uuid "6e292406-889a-4947-bf59-b72f8fd74763")
 	)
 	(text "Servomotor interface"
 		(exclude_from_sim no)
@@ -5281,10 +5432,22 @@
 		(uuid "042cb3be-06a2-4dd5-b3be-cb51dd5faedc")
 	)
 	(junction
-		(at 90.17 82.55)
+		(at 92.71 88.9)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "09f9ba3a-6841-4e3c-a454-b5b57f451d82")
+	)
+	(junction
+		(at 74.93 55.88)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0b87ab2b-4848-4b58-a8c4-57d40dae9421")
+	)
+	(junction
+		(at 74.93 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0dc7d1e3-e46e-4d91-b61e-4eb77eb6b62d")
 	)
 	(junction
 		(at 321.31 86.36)
@@ -5329,7 +5492,7 @@
 		(uuid "1babcce3-e436-4af5-9f14-5681b2b987af")
 	)
 	(junction
-		(at 90.17 55.88)
+		(at 92.71 55.88)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "1bdfdfff-b30e-4062-b6f9-3584418504f5")
@@ -5359,7 +5522,7 @@
 		(uuid "29cf7024-f1ce-407e-acd8-b533269ea921")
 	)
 	(junction
-		(at 105.41 71.12)
+		(at 107.95 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "2ef76cbf-8f02-4078-9025-606928b84fbe")
@@ -5449,7 +5612,7 @@
 		(uuid "531048f0-df39-44e4-a7e9-3ae96b3758c9")
 	)
 	(junction
-		(at 90.17 71.12)
+		(at 92.71 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "5786efdf-6a9b-4fe3-853d-af6f6ee04d8d")
@@ -5587,7 +5750,7 @@
 		(uuid "8fd2a0ed-b242-4e39-89b1-aa55d006c592")
 	)
 	(junction
-		(at 105.41 95.25)
+		(at 107.95 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "910b4616-ff19-4684-b010-b8294750c5c5")
@@ -5609,6 +5772,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9f5c045f-7ce1-43e6-ad12-3de71e91f1f3")
+	)
+	(junction
+		(at 125.73 71.12)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a2062aa8-e49d-4964-9dfd-3d2ab6208a0c")
 	)
 	(junction
 		(at 259.08 144.78)
@@ -5687,6 +5856,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c604b4de-8bd4-43c5-8f71-7666b5bdf97e")
+	)
+	(junction
+		(at 125.73 69.85)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c908385a-e2a3-4ca5-b1d8-c9576962ef9c")
 	)
 	(junction
 		(at 162.56 218.44)
@@ -5784,16 +5959,6 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 71.12) (xy 90.17 71.12)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "01a90c70-26cc-4cba-abb2-a2e3b5d397a9")
-	)
-	(wire
-		(pts
 			(xy 205.74 147.32) (xy 198.12 147.32)
 		)
 		(stroke
@@ -5814,7 +5979,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 82.55) (xy 90.17 86.36)
+			(xy 92.71 88.9) (xy 92.71 92.71)
 		)
 		(stroke
 			(width 0)
@@ -5824,7 +5989,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 55.88) (xy 90.17 55.88)
+			(xy 86.36 55.88) (xy 92.71 55.88)
 		)
 		(stroke
 			(width 0)
@@ -6025,7 +6190,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 76.2) (xy 71.12 82.55)
+			(xy 71.12 76.2) (xy 71.12 88.9)
 		)
 		(stroke
 			(width 0)
@@ -6042,6 +6207,16 @@
 			(type default)
 		)
 		(uuid "0f7e9f74-08ab-4caa-9a06-3268ffb5a2eb")
+	)
+	(wire
+		(pts
+			(xy 125.73 69.85) (xy 123.19 69.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0fe7338c-650c-4b4e-81b4-4b3967ad0f32")
 	)
 	(wire
 		(pts
@@ -6123,17 +6298,6 @@
 			(type default)
 		)
 		(uuid "15f33a0e-c88d-44c0-a3fe-0c766d57d67a")
-	)
-	(polyline
-		(pts
-			(xy 76.2 86.36) (xy 86.36 86.36)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "1615542b-2faa-4692-a6b5-d8a5252b0c62")
 	)
 	(wire
 		(pts
@@ -6237,6 +6401,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 76.2) (xy 92.71 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a0d374d-efaa-4df6-b9ef-4bee593bd2ab")
+	)
+	(wire
+		(pts
 			(xy 191.77 228.6) (xy 191.77 233.68)
 		)
 		(stroke
@@ -6257,7 +6431,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 82.55) (xy 97.79 82.55)
+			(xy 92.71 88.9) (xy 100.33 88.9)
 		)
 		(stroke
 			(width 0)
@@ -6298,16 +6472,6 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 71.12) (xy 105.41 77.47)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1cb619a6-50f8-4f4f-a762-9a638335fe0b")
-	)
-	(wire
-		(pts
 			(xy 162.56 228.6) (xy 162.56 233.68)
 		)
 		(stroke
@@ -6328,7 +6492,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 95.25) (xy 105.41 99.06)
+			(xy 107.95 101.6) (xy 107.95 105.41)
 		)
 		(stroke
 			(width 0)
@@ -6569,7 +6733,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 66.04) (xy 90.17 71.12)
+			(xy 92.71 66.04) (xy 92.71 71.12)
 		)
 		(stroke
 			(width 0)
@@ -6771,17 +6935,6 @@
 	)
 	(polyline
 		(pts
-			(xy 69.85 96.52) (xy 69.85 86.36)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "380d57ee-5b94-4e61-825a-67867d2fa4aa")
-	)
-	(polyline
-		(pts
 			(xy 250.19 176.53) (xy 250.19 234.95)
 		)
 		(stroke
@@ -6934,17 +7087,6 @@
 		)
 		(uuid "3f54e8b8-2271-4bc5-a8e4-89a9469912d4")
 	)
-	(polyline
-		(pts
-			(xy 39.37 96.52) (xy 39.37 86.36)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "3f6bfe95-67b7-456b-82ce-f0180c4acd1d")
-	)
 	(wire
 		(pts
 			(xy 320.04 210.82) (xy 320.04 215.9)
@@ -7009,7 +7151,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 55.88) (xy 97.79 55.88)
+			(xy 92.71 55.88) (xy 100.33 55.88)
 		)
 		(stroke
 			(width 0)
@@ -7088,6 +7230,16 @@
 			(type default)
 		)
 		(uuid "48770a64-5aab-4ce8-91be-699232baef69")
+	)
+	(wire
+		(pts
+			(xy 74.93 55.88) (xy 81.28 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48d80240-fd60-47eb-889e-13cd2f9c5319")
 	)
 	(wire
 		(pts
@@ -7191,7 +7343,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 82.55) (xy 90.17 82.55)
+			(xy 86.36 88.9) (xy 92.71 88.9)
 		)
 		(stroke
 			(width 0)
@@ -7201,7 +7353,7 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 71.12) (xy 123.19 63.5)
+			(xy 125.73 71.12) (xy 125.73 69.85)
 		)
 		(stroke
 			(width 0)
@@ -7339,6 +7491,16 @@
 			(type default)
 		)
 		(uuid "5144a291-01d9-4ab2-9a55-d5ebf18e77fb")
+	)
+	(wire
+		(pts
+			(xy 123.19 69.85) (xy 123.19 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51af8375-8953-45e0-a028-20df950398d9")
 	)
 	(wire
 		(pts
@@ -7523,17 +7685,6 @@
 		)
 		(uuid "5dbd5dfe-da5c-4734-b022-6ea749e79e20")
 	)
-	(polyline
-		(pts
-			(xy 76.2 86.36) (xy 76.2 59.69)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "5de32e0c-7878-4da7-bc8a-d5013e34dff6")
-	)
 	(wire
 		(pts
 			(xy 191.77 82.55) (xy 184.15 82.55)
@@ -7584,17 +7735,6 @@
 		)
 		(uuid "61f78b00-88e0-46d5-aee0-fb2773b3822a")
 	)
-	(polyline
-		(pts
-			(xy 76.2 59.69) (xy 86.36 59.69)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "6243755d-8fdb-483f-8ba8-dc116d983fef")
-	)
 	(wire
 		(pts
 			(xy 147.32 218.44) (xy 147.32 220.98)
@@ -7637,7 +7777,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 46.99) (xy 105.41 50.8)
+			(xy 107.95 46.99) (xy 107.95 50.8)
 		)
 		(stroke
 			(width 0)
@@ -7798,7 +7938,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 87.63) (xy 105.41 95.25)
+			(xy 107.95 93.98) (xy 107.95 101.6)
 		)
 		(stroke
 			(width 0)
@@ -7991,7 +8131,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 91.44) (xy 90.17 95.25)
+			(xy 92.71 97.79) (xy 92.71 101.6)
 		)
 		(stroke
 			(width 0)
@@ -8091,13 +8231,23 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 71.12) (xy 123.19 71.12)
+			(xy 107.95 71.12) (xy 125.73 71.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "7ce848cd-c0c5-4011-8a4a-235e9f2f3921")
+	)
+	(wire
+		(pts
+			(xy 74.93 76.2) (xy 74.93 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7dcf9245-ad04-498c-929e-687a4b706149")
 	)
 	(wire
 		(pts
@@ -8201,17 +8351,6 @@
 			(type default)
 		)
 		(uuid "83787a15-f813-4cbf-8628-a7cc38a03f0d")
-	)
-	(polyline
-		(pts
-			(xy 39.37 86.36) (xy 69.85 86.36)
-		)
-		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
-		)
-		(uuid "83e191b1-af68-4d16-a50c-85a5f80edad9")
 	)
 	(wire
 		(pts
@@ -8338,7 +8477,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 82.55) (xy 78.74 82.55)
+			(xy 71.12 88.9) (xy 74.93 88.9)
 		)
 		(stroke
 			(width 0)
@@ -8974,7 +9113,7 @@
 	)
 	(wire
 		(pts
-			(xy 105.41 60.96) (xy 105.41 71.12)
+			(xy 107.95 60.96) (xy 107.95 71.12)
 		)
 		(stroke
 			(width 0)
@@ -9001,6 +9140,16 @@
 			(type default)
 		)
 		(uuid "b36c3fbb-7586-47b3-872d-74648725b312")
+	)
+	(wire
+		(pts
+			(xy 80.01 43.18) (xy 74.93 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b39cf444-a4d4-42e5-8b54-351e2de01294")
 	)
 	(wire
 		(pts
@@ -9035,7 +9184,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 71.12) (xy 105.41 71.12)
+			(xy 92.71 71.12) (xy 107.95 71.12)
 		)
 		(stroke
 			(width 0)
@@ -9228,7 +9377,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 95.25) (xy 105.41 95.25)
+			(xy 92.71 101.6) (xy 107.95 101.6)
 		)
 		(stroke
 			(width 0)
@@ -9336,16 +9485,15 @@
 		)
 		(uuid "c939bf0d-af16-4eb7-a69f-416cc3bfd850")
 	)
-	(polyline
+	(wire
 		(pts
-			(xy 39.37 96.52) (xy 69.85 96.52)
+			(xy 80.01 76.2) (xy 74.93 76.2)
 		)
 		(stroke
-			(width 0.3)
-			(type dash)
-			(color 255 153 0 1)
+			(width 0)
+			(type default)
 		)
-		(uuid "ca69a134-d286-45cd-b4c4-d606786766ab")
+		(uuid "cb064309-d3e9-47c5-a96d-046aede9aad1")
 	)
 	(wire
 		(pts
@@ -9621,7 +9769,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 55.88) (xy 78.74 55.88)
+			(xy 59.69 55.88) (xy 74.93 55.88)
 		)
 		(stroke
 			(width 0)
@@ -9791,6 +9939,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 52.07) (xy 92.71 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dfa9dadf-a705-4619-a85e-e80d8781d0ed")
+	)
+	(wire
+		(pts
 			(xy 134.62 74.93) (xy 134.62 87.63)
 		)
 		(stroke
@@ -9801,13 +9959,13 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 71.12) (xy 125.73 63.5)
+			(xy 74.93 43.18) (xy 74.93 55.88)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dfee12cf-d0cc-4bbf-874d-8db7c5402842")
+		(uuid "e08e5d35-6629-43ce-bf63-06ecaee2b3b9")
 	)
 	(wire
 		(pts
@@ -9878,6 +10036,16 @@
 			(type default)
 		)
 		(uuid "e3f88c3d-4ced-422a-ad3b-5cd909e8151d")
+	)
+	(wire
+		(pts
+			(xy 92.71 85.09) (xy 92.71 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e5884160-b972-4bfb-9068-942c0bd8344b")
 	)
 	(polyline
 		(pts
@@ -9984,6 +10152,16 @@
 	)
 	(wire
 		(pts
+			(xy 74.93 88.9) (xy 81.28 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e982060f-4cdb-4fd2-adc4-e04b4d261e41")
+	)
+	(wire
+		(pts
 			(xy 104.14 218.44) (xy 109.22 218.44)
 		)
 		(stroke
@@ -10041,6 +10219,16 @@
 			(type default)
 		)
 		(uuid "edf1433e-a509-4703-a506-f13ca7247b72")
+	)
+	(wire
+		(pts
+			(xy 125.73 69.85) (xy 125.73 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eeb92d39-75ec-4bf6-96b4-0cf270a195f5")
 	)
 	(wire
 		(pts
@@ -10115,7 +10303,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.17 55.88) (xy 90.17 60.96)
+			(xy 92.71 55.88) (xy 92.71 60.96)
 		)
 		(stroke
 			(width 0)
@@ -10142,6 +10330,26 @@
 			(type default)
 		)
 		(uuid "f61af6d6-26f7-4da7-8e43-43f84a38d80b")
+	)
+	(wire
+		(pts
+			(xy 92.71 43.18) (xy 92.71 46.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7a6314c-0f06-4e9f-a59e-3092f7cac696")
+	)
+	(wire
+		(pts
+			(xy 107.95 71.12) (xy 107.95 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f7b982ef-a387-4fea-b1b6-bc474b34e9ee")
 	)
 	(wire
 		(pts
@@ -10172,6 +10380,16 @@
 			(type default)
 		)
 		(uuid "f878a2fd-807a-4ee6-a896-7398c64629b6")
+	)
+	(wire
+		(pts
+			(xy 71.12 71.12) (xy 92.71 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f977cf06-5515-4161-a7e4-0b2cec5a6c2d")
 	)
 	(polyline
 		(pts
@@ -10216,6 +10434,16 @@
 	)
 	(wire
 		(pts
+			(xy 87.63 76.2) (xy 92.71 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fcce7244-4de6-4c5b-9917-94eeb1ea8b0c")
+	)
+	(wire
+		(pts
 			(xy 269.24 144.78) (xy 274.32 144.78)
 		)
 		(stroke
@@ -10254,6 +10482,16 @@
 			(type default)
 		)
 		(uuid "ff8b6181-4135-4e2c-8d74-470f905b3465")
+	)
+	(wire
+		(pts
+			(xy 87.63 43.18) (xy 92.71 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fff3f0a5-1bd7-4c70-b24f-06fe60e100cc")
 	)
 	(wire
 		(pts
@@ -10376,7 +10614,7 @@
 		(uuid "3e43289a-91db-4751-ba9a-14fce648106a")
 	)
 	(label "L_HSG"
-		(at 91.44 55.88 0)
+		(at 93.98 55.88 0)
 		(effects
 			(font
 				(size 1 1)
@@ -10486,7 +10724,7 @@
 		(uuid "7bb7fe17-ee90-426a-a692-3bda55db9fd9")
 	)
 	(label "DC_MOT_T1"
-		(at 119.38 71.12 180)
+		(at 121.92 71.12 180)
 		(effects
 			(font
 				(size 1 1)
@@ -10554,6 +10792,16 @@
 			(justify right bottom)
 		)
 		(uuid "a6694181-cd4d-42a6-9fde-afacc5d8c484")
+	)
+	(label "L_HSG"
+		(at 52.07 101.6 0)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify left bottom)
+		)
+		(uuid "a8dc6d84-69bf-4e91-9b8b-fb97cc13e6eb")
 	)
 	(label "LS_{EN}"
 		(at 17.78 71.12 0)
@@ -10666,7 +10914,7 @@
 		(uuid "de9b16e8-863a-4bb1-9480-cc56bd099f0d")
 	)
 	(label "L_LSG"
-		(at 91.44 82.55 0)
+		(at 93.98 88.9 0)
 		(effects
 			(font
 				(size 1 1)
@@ -11574,6 +11822,101 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "SB3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 92.71 82.55 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0b5f3020-03ec-4b58-b10c-131eaf20df3c")
+		(property "Reference" "R156"
+			(at 90.805 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "2.4R 1% 1W"
+			(at 94.615 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+			(at 92.71 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 92.71 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+			(at 92.71 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Ever Ohms Tech"
+			(at 92.71 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CR2512F2R40E04S"
+			(at 92.71 82.55 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C175225"
+			(at 92.71 82.55 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "743a64d9-5394-4bda-a2a7-b4016c501d6b")
+		)
+		(pin "2"
+			(uuid "398e1304-bb82-4e2e-909c-667db803813a")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "R156")
 					(unit 1)
 				)
 			)
@@ -12956,7 +13299,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 81.28 82.55 270)
+		(at 83.82 88.9 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -12965,7 +13308,7 @@
 		(dnp no)
 		(uuid "22036959-5340-4f23-a59a-b227314baba7")
 		(property "Reference" "R28"
-			(at 81.28 80.645 90)
+			(at 83.82 86.995 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12973,7 +13316,7 @@
 			)
 		)
 		(property "Value" "130R 1% 1W"
-			(at 81.28 84.455 90)
+			(at 83.82 90.805 90)
 			(effects
 				(font
 					(size 1 1)
@@ -12981,7 +13324,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
-			(at 81.28 82.55 0)
+			(at 83.82 88.9 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12990,7 +13333,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 81.28 82.55 0)
+			(at 83.82 88.9 0)
 			(effects
 				(font
 					(size 1 1)
@@ -12999,7 +13342,7 @@
 			)
 		)
 		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
-			(at 81.28 82.55 90)
+			(at 83.82 88.9 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13008,7 +13351,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 81.28 82.55 90)
+			(at 83.82 88.9 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13017,7 +13360,7 @@
 			)
 		)
 		(property "PN" "AC2512FK-07130RL"
-			(at 81.28 82.55 90)
+			(at 83.82 88.9 90)
 			(effects
 				(font
 					(size 1 1)
@@ -13026,7 +13369,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C728111"
-			(at 81.28 82.55 90)
+			(at 83.82 88.9 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -16752,7 +17095,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:V_{MOTOR}")
-		(at 105.41 46.99 0)
+		(at 107.95 46.99 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
@@ -16761,7 +17104,7 @@
 		(fields_autoplaced yes)
 		(uuid "69b3eaeb-2e77-4c7b-aed6-da80e05e5f77")
 		(property "Reference" "#PWR055"
-			(at 107.95 45.72 0)
+			(at 110.49 45.72 0)
 			(effects
 				(font
 					(size 1 1)
@@ -16770,7 +17113,7 @@
 			)
 		)
 		(property "Value" "V_{MOTOR}"
-			(at 105.41 43.18 0)
+			(at 107.95 43.18 0)
 			(effects
 				(font
 					(size 1 1)
@@ -16778,7 +17121,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 106.045 46.99 0)
+			(at 108.585 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -16787,7 +17130,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 106.045 46.99 0)
+			(at 108.585 46.99 0)
 			(effects
 				(font
 					(size 1 1)
@@ -16796,7 +17139,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 105.41 46.99 0)
+			(at 107.95 46.99 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17402,7 +17745,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 90.17 63.5 180)
+		(at 92.71 63.5 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -17410,7 +17753,7 @@
 		(dnp no)
 		(uuid "705af517-6595-4c99-8ca0-0cb422c253d3")
 		(property "Reference" "R29"
-			(at 87.63 63.5 90)
+			(at 90.17 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17418,7 +17761,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 92.71 63.5 90)
+			(at 95.25 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17426,7 +17769,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 90.17 63.5 0)
+			(at 92.71 63.5 0)
 			(effects
 				(font
 					(size 1 1)
@@ -17435,7 +17778,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 90.17 63.5 0)
+			(at 92.71 63.5 0)
 			(effects
 				(font
 					(size 1 1)
@@ -17444,7 +17787,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 90.17 63.5 90)
+			(at 92.71 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17453,7 +17796,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 90.17 63.5 90)
+			(at 92.71 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17462,7 +17805,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 90.17 63.5 90)
+			(at 92.71 63.5 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17471,7 +17814,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 90.17 63.5 0)
+			(at 92.71 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17496,7 +17839,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 81.28 55.88 270)
+		(at 83.82 55.88 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -17505,7 +17848,7 @@
 		(dnp no)
 		(uuid "7170acea-7531-49e7-88f9-5eb6eb315e75")
 		(property "Reference" "R27"
-			(at 81.28 53.975 90)
+			(at 83.82 53.975 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17513,7 +17856,7 @@
 			)
 		)
 		(property "Value" "130R 1% 1W"
-			(at 81.28 57.785 90)
+			(at 83.82 57.785 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17521,7 +17864,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
-			(at 81.28 55.88 0)
+			(at 83.82 55.88 0)
 			(effects
 				(font
 					(size 1 1)
@@ -17530,7 +17873,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 81.28 55.88 0)
+			(at 83.82 55.88 0)
 			(effects
 				(font
 					(size 1 1)
@@ -17539,7 +17882,7 @@
 			)
 		)
 		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
-			(at 81.28 55.88 90)
+			(at 83.82 55.88 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17548,7 +17891,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 81.28 55.88 90)
+			(at 83.82 55.88 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17557,7 +17900,7 @@
 			)
 		)
 		(property "PN" "AC2512FK-07130RL"
-			(at 81.28 55.88 90)
+			(at 83.82 55.88 90)
 			(effects
 				(font
 					(size 1 1)
@@ -17566,7 +17909,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C728111"
-			(at 81.28 55.88 90)
+			(at 83.82 55.88 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -17584,6 +17927,100 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_semiconductors:PMEG60T10ELR")
+		(at 83.82 43.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "72b33de3-0e2c-4351-87b2-e3285229a6ad")
+		(property "Reference" "D13"
+			(at 83.566 40.894 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "PMEG60T30ELR"
+			(at 82.55 45.72 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
+			(at 85.09 48.26 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 52.07 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 83.82 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Nexperia"
+			(at 83.82 52.07 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "PMEG60T30ELRX"
+			(at 83.82 49.53 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2938304"
+			(at 83.82 50.8 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fe095feb-4f00-4cf7-8685-7f69296e35d1")
+		)
+		(pin "2"
+			(uuid "6e2d9567-6a5d-43e6-9ab8-49d78a028aa8")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "D13")
 					(unit 1)
 				)
 			)
@@ -19453,7 +19890,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:PGND")
-		(at 105.41 99.06 0)
+		(at 107.95 105.41 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -19461,7 +19898,7 @@
 		(dnp no)
 		(uuid "95e60880-e5f2-4cc0-a805-d0fae4f88037")
 		(property "Reference" "#PWR056"
-			(at 105.41 105.41 0)
+			(at 107.95 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19470,7 +19907,7 @@
 			)
 		)
 		(property "Value" "PGND"
-			(at 105.41 102.87 0)
+			(at 107.95 109.22 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19478,7 +19915,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 105.41 99.06 0)
+			(at 107.95 105.41 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19487,7 +19924,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 105.41 99.06 0)
+			(at 107.95 105.41 0)
 			(effects
 				(font
 					(size 1 1)
@@ -19496,7 +19933,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 105.41 99.06 0)
+			(at 107.95 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -20107,6 +20544,101 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 92.71 49.53 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9c4a136b-762f-4934-a93c-cb1e8c805847")
+		(property "Reference" "R155"
+			(at 90.805 49.53 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "2.4R 1% 1W"
+			(at 94.615 49.53 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+			(at 92.71 49.53 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 92.71 49.53 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+			(at 92.71 49.53 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Ever Ohms Tech"
+			(at 92.71 49.53 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CR2512F2R40E04S"
+			(at 92.71 49.53 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C175225"
+			(at 92.71 49.53 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0266f36f-7143-4219-868a-36220e13c879")
+		)
+		(pin "2"
+			(uuid "edcbd1df-babf-4d6c-baaf-f15a7c4ed0c7")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "R155")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_semiconductors:BAT54S")
 		(at 43.18 214.63 0)
 		(mirror y)
@@ -20427,6 +20959,100 @@
 			(project "hardware_v3"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "C31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_semiconductors:PMEG60T10ELR")
+		(at 83.82 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a1a2819a-339e-4e21-bf49-58024489e694")
+		(property "Reference" "D14"
+			(at 83.566 73.914 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "PMEG60T30ELR"
+			(at 82.55 78.74 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
+			(at 85.09 81.28 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 90.17 85.09 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 83.82 76.2 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Nexperia"
+			(at 83.82 85.09 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "PMEG60T30ELRX"
+			(at 83.82 82.55 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2938304"
+			(at 83.82 83.82 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "da820a0e-bd72-4ca4-8a1b-f8792316ea27")
+		)
+		(pin "2"
+			(uuid "bb9bcc6a-51d8-4a47-aabb-b616d5059d2d")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "D14")
 					(unit 1)
 				)
 			)
@@ -21178,7 +21804,7 @@
 	(symbol
 		(lib_name "BSC0902NSI_1")
 		(lib_id "sjc_semiconductors:BSC0902NSI")
-		(at 105.41 82.55 0)
+		(at 107.95 88.9 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -21186,7 +21812,7 @@
 		(dnp no)
 		(uuid "b36606c2-6b54-4ec5-955f-64792650ff94")
 		(property "Reference" "U7"
-			(at 107.95 81.915 0)
+			(at 110.49 88.265 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21195,7 +21821,7 @@
 			)
 		)
 		(property "Value" "BSC0902NSI"
-			(at 107.95 83.185 0)
+			(at 110.49 89.535 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21204,7 +21830,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TDSON-8-1"
-			(at 111.76 96.52 0)
+			(at 114.3 102.87 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21213,7 +21839,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BSC0902NSI-DataSheet-v02_04-EN.pdf?fileId=db3a30433072cd8f01308ea027703424"
-			(at 115.57 99.06 0)
+			(at 118.11 105.41 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21222,7 +21848,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 105.41 82.55 0)
+			(at 107.95 88.9 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -21231,7 +21857,7 @@
 			)
 		)
 		(property "MF" "Infineon Technologies"
-			(at 115.57 88.9 0)
+			(at 118.11 95.25 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21240,7 +21866,7 @@
 			)
 		)
 		(property "PN" "BSC0902NSI"
-			(at 113.03 93.98 0)
+			(at 115.57 100.33 0)
 			(effects
 				(font
 					(size 1 1)
@@ -21249,7 +21875,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C534382"
-			(at 113.03 91.44 0)
+			(at 115.57 97.79 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23400,7 +24026,7 @@
 	(symbol
 		(lib_name "BSC0902NSI_1")
 		(lib_id "sjc_semiconductors:BSC0902NSI")
-		(at 105.41 55.88 0)
+		(at 107.95 55.88 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -23408,7 +24034,7 @@
 		(dnp no)
 		(uuid "d7d0ecf5-835c-496b-81ee-0fad8c21b2d2")
 		(property "Reference" "U6"
-			(at 107.95 55.245 0)
+			(at 110.49 55.245 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23417,7 +24043,7 @@
 			)
 		)
 		(property "Value" "BSC0902NSI"
-			(at 107.95 56.515 0)
+			(at 110.49 56.515 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23426,7 +24052,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TDSON-8-1"
-			(at 111.76 69.85 0)
+			(at 114.3 69.85 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23435,7 +24061,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.infineon.com/dgdl/Infineon-BSC0902NSI-DataSheet-v02_04-EN.pdf?fileId=db3a30433072cd8f01308ea027703424"
-			(at 115.57 72.39 0)
+			(at 118.11 72.39 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23444,7 +24070,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 105.41 55.88 0)
+			(at 107.95 55.88 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23453,7 +24079,7 @@
 			)
 		)
 		(property "MF" "Infineon Technologies"
-			(at 115.57 62.23 0)
+			(at 118.11 62.23 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23462,7 +24088,7 @@
 			)
 		)
 		(property "PN" "BSC0902NSI"
-			(at 113.03 67.31 0)
+			(at 115.57 67.31 0)
 			(effects
 				(font
 					(size 1 1)
@@ -23471,7 +24097,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C534382"
-			(at 113.03 64.77 0)
+			(at 115.57 64.77 0)
 			(effects
 				(font
 					(size 1 1)
@@ -25108,7 +25734,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 90.17 88.9 180)
+		(at 92.71 95.25 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -25116,7 +25742,7 @@
 		(dnp no)
 		(uuid "feedb232-42b1-4d73-ae96-0d76a0a0c675")
 		(property "Reference" "R30"
-			(at 87.63 88.9 90)
+			(at 90.17 95.25 90)
 			(effects
 				(font
 					(size 1 1)
@@ -25124,7 +25750,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 92.71 88.9 90)
+			(at 95.25 95.25 90)
 			(effects
 				(font
 					(size 1 1)
@@ -25132,7 +25758,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 90.17 88.9 0)
+			(at 92.71 95.25 0)
 			(effects
 				(font
 					(size 1 1)
@@ -25141,7 +25767,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 90.17 88.9 0)
+			(at 92.71 95.25 0)
 			(effects
 				(font
 					(size 1 1)
@@ -25150,7 +25776,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 90.17 88.9 90)
+			(at 92.71 95.25 90)
 			(effects
 				(font
 					(size 1 1)
@@ -25159,7 +25785,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 90.17 88.9 90)
+			(at 92.71 95.25 90)
 			(effects
 				(font
 					(size 1 1)
@@ -25168,7 +25794,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 90.17 88.9 90)
+			(at 92.71 95.25 90)
 			(effects
 				(font
 					(size 1 1)
@@ -25177,7 +25803,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 90.17 88.9 0)
+			(at 92.71 95.25 0)
 			(effects
 				(font
 					(size 1.27 1.27)
