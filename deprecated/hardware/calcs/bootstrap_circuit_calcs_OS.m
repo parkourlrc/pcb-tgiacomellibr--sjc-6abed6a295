@@ -45,11 +45,11 @@ td_off = 300e-9; % Turn-off delay time
 tr = 140e-9; % Rise time
 tf = 80e-9; % Fall time
 
-% Bootstrap diode: PMEG60T20ELR
+% Bootstrap diode: PMEG60T30ELR
 a = sprintf('\r - Bootstrap diode: %s', 'PMEG60T20ELR');
 disp(a)
 V_D = 0.62;
-ILK_D = 450e-6;
+ILK_D = 1.8e-6;
 V_R = 60;
 
 % Bootstrap capacitor

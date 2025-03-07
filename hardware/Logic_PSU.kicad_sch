@@ -1814,11 +1814,12 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "sjc_semiconductors:PMEG60T20ELR"
+		(symbol "sjc_semiconductors:PMEG60T10ELR"
 			(pin_numbers
 				(hide yes)
 			)
 			(pin_names
+				(offset 1.016)
 				(hide yes)
 			)
 			(exclude_from_sim no)
@@ -1828,37 +1829,37 @@
 				(at 0 2.54 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 				)
 			)
-			(property "Value" "PMEG60T20ELR"
+			(property "Value" "PMEG60T10ELR"
 				(at 0 -2.54 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 				)
 			)
 			(property "Footprint" "Diode_SMD:D_SOD-123F"
-				(at 0 -4.445 0)
+				(at 1.27 -5.08 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 					(hide yes)
 				)
 			)
-			(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMEG60T20ELR.pdf"
-				(at 2.54 -8.89 0)
+			(property "Datasheet" "~"
+				(at 6.35 -8.89 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 					(hide yes)
 				)
 			)
-			(property "Description" "60V, 2A low leakage current Trench MEGA Schottky barrier rectifier, SOD-123W"
+			(property "Description" "Schottky diode, 60 V reverse  voltage, 1 A average forward current, 600 mV forward voltage, SOD123W"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1868,33 +1869,33 @@
 				)
 			)
 			(property "MF" "Nexperia"
-				(at 0 -10.16 0)
+				(at 0 -8.89 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 					(hide yes)
 				)
 			)
-			(property "PN" "PMEG60T20ELRX"
+			(property "PN" "PMEG60T10ELRX"
 				(at 0 -6.35 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 					(hide yes)
 				)
 			)
-			(property "JLCPCB Part #" "C552947"
-				(at 0 -12.7 0)
+			(property "JLCPCB Part #" "C552945"
+				(at 0 -7.62 0)
 				(effects
 					(font
-						(size 1.27 1.27)
+						(size 1 1)
 					)
 					(hide yes)
 				)
 			)
-			(property "ki_keywords" "ir diode"
+			(property "ki_keywords" "diode Schottky"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1903,7 +1904,7 @@
 					(hide yes)
 				)
 			)
-			(property "ki_fp_filters" "Nexperia*CFP3*SOD?123W*"
+			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
 				(at 0 0 0)
 				(effects
 					(font
@@ -1912,13 +1913,13 @@
 					(hide yes)
 				)
 			)
-			(symbol "PMEG60T20ELR_0_1"
+			(symbol "PMEG60T10ELR_0_1"
 				(polyline
 					(pts
 						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
 					)
 					(stroke
-						(width 0.2032)
+						(width 0.254)
 						(type default)
 					)
 					(fill
@@ -1930,7 +1931,7 @@
 						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
 					)
 					(stroke
-						(width 0.2032)
+						(width 0.254)
 						(type default)
 					)
 					(fill
@@ -1950,7 +1951,7 @@
 					)
 				)
 			)
-			(symbol "PMEG60T20ELR_1_1"
+			(symbol "PMEG60T10ELR_1_1"
 				(pin passive line
 					(at -3.81 0 0)
 					(length 2.54)
@@ -4191,101 +4192,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_semiconductors:PMEG60T20ELR")
-		(at 115.57 43.18 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2b5c5bc3-d63e-440c-b1c7-fa0674712968")
-		(property "Reference" "D8"
-			(at 115.57 41.275 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "530mV 3A"
-			(at 115.57 45.72 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Diode_SMD:D_SOD-128"
-			(at 115.57 47.625 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://assets.nexperia.com/documents/data-sheet/PMEG6030ETP.pdf"
-			(at 113.03 52.07 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Schottky diode. 60 V reverse voltage, 3 A average forward current, 530 mV forward voltage"
-			(at 115.57 43.18 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "Nexperia"
-			(at 115.57 53.34 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "PMEG6030ETPX"
-			(at 115.57 49.53 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C458168"
-			(at 115.57 55.88 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "f2729389-8ffc-43f8-b62e-fe683ac16d76")
-		)
-		(pin "2"
-			(uuid "6c5d87fb-0fb1-44d3-820f-58329723d06d")
-		)
-		(instances
-			(project "hardware"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
-					(reference "D8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:LED")
 		(at 193.04 135.89 270)
 		(mirror x)
@@ -6454,6 +6360,101 @@
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
 					(reference "#PWR0233")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_semiconductors:PMEG60T10ELR")
+		(at 115.57 43.18 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "bda9ec89-3ccd-4b87-acb5-b2705fd5f72c")
+		(property "Reference" "D19"
+			(at 115.824 40.894 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "PMEG60T30ELR"
+			(at 115.57 45.72 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-123F"
+			(at 114.3 48.26 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 109.22 52.07 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 115.57 43.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Nexperia"
+			(at 115.57 52.07 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "PMEG60T30ELRX"
+			(at 115.57 49.53 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2938304"
+			(at 115.57 50.8 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f0b47c4a-2643-477d-b90f-7cca05cc9af0")
+		)
+		(pin "2"
+			(uuid "5d2c227a-1766-42de-a915-d9ffff424cf8")
+		)
+		(instances
+			(project "hardware"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3/86cfe570-51ff-4724-9fac-fe0e5addee15"
+					(reference "D19")
 					(unit 1)
 				)
 			)

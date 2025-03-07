@@ -2,28 +2,37 @@ clear all
 close all
 clc
 
+
+% Operating conditions
+VCC = 10;
+Fsw = 20e3;
+D = 95/100;      % Percent value
+Dmin = 2/100;    %  1 %
+Dmax = (1-Dmin); % 99 %
+bs_rip = 10/100; % Maximum allowable ripple
+
 a = sprintf('\n\r Bootstrap Circuit calcs:');
 disp(a)
 
 % N-Channel Mosfet: BSC0902NSI
 a = sprintf('\r - N-Channel Mosfet: %s', 'BSC0902NSI');
 disp(a)
-Rdson = 3.7e-3; % 2.8e-3/3.7e-3 @ 10Vgs/4.5Vgs;
-Qgate = 32e-9;
+Rdson = 3e-3;
+Qgate = 68.6e-9;
 Q_G = Qgate;
-VGS_min = 4.5; %4.5;
-VGS_th = 2; % Gate threshold voltage VGS
+VGS_min = 4.5;
+VGS_th = 3; % Gate threshold voltage VGS
 IGSS = 100e-9; % Gate-source leakage current
 ILKGS = IGSS;
-SW_Ton = 3.9e-9;
-SW_Toff = 20e-9;
-SW_Tr = 5.4e-9;
-SW_Tf = 3.8e-9;
-SW_QGS = 4e-9;  % Gate to source charge
-SW_QGD = 4e-9;  % Gate to drain charge
-SW_CGD = 88e-12; % Reverse transfer capacitance (Crss)
-C_in = 2000e-12; % Input capacitance (Ciss)
-C_out = 840e-12; % Output capacitance (Coss)
+SW_Ton = 5.9e-9;
+SW_Toff = 25.8e-9;
+SW_Tr = 13.2e-9;
+SW_Tf = 7.9e-9;
+SW_QGS = 10e-9;  % Gate to source charge
+SW_QGD = 11.2e-9;  % Gate to drain charge
+SW_CGD = 74e-12; % Reverse transfer capacitance (Crss)
+C_in = 4450e-12; % Input capacitance (Ciss)
+C_out = 1407e-12; % Output capacitance (Coss)
 
 % Driver: 2ED2184S06F (https://www.infineon.com/dgdl/Infineon-2ED2184-4-S06F-J-DataSheet-v02_32-EN.pdf?fileId=5546d4626cb27db2016cb8d76cf229fb)
 a = sprintf('\r - Half-bridge driver: %s', '2ED2184S06F');
@@ -46,31 +55,24 @@ tf = 30e-9; % Fall time
 Icapability = 2.5;
 
 % Bootstrap diode: PMEG60T30ELR
-a = sprintf('\r - Bootstrap diode: %s', 'PMEG60T30ELR');
+a = sprintf('\r - Bootstrap diode: %s', 'PMEG60T20ELR');
 disp(a)
-V_D = 0.65;
-ILK_D = 1.2e-6;
+V_D = 0.62;
+ILK_D = 1.8e-6;
 V_R = 60;
 
 % Bootstrap capacitor
 ILKCAP = 0; % Ceramic capacitor
 
-% Operating conditions
 a = sprintf('\r - %s: %s', 'Operating conditions');
 disp(a)
-VCC = 15;
-Fsw = 20e3;
-T = 1/Fsw;
 
+T = 1/Fsw;
 a = sprintf('\r   - Vcc: %.2f', VCC);
 disp(a)
 a = sprintf('\r   - Swithing frequency: %.2f', Fsw);
 disp(a)
 
-D = 98/100;      % Percent value
-Dmin = 2/100;    %  1 %
-Dmax = (1-Dmin); % 99 %
-bs_rip = 5/100; % Maximum allowable ripple
 a = sprintf('\r   - Min. duty cycle: %.2f(%%)', Dmin*100);
 disp(a)
 a = sprintf('\r   - Maximum allowable ripple: %.2f(V)', bs_rip);
