@@ -964,7 +964,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "3")
+					(page "7")
 				)
 			)
 		)
@@ -1230,7 +1230,7 @@
 		(instances
 			(project "hardware"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8"
-					(page "7")
+					(page "3")
 				)
 			)
 		)

@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.4064
+          "min_clearance": 0.508
         }
       },
       "diff_pair_dimensions": [
@@ -594,6 +594,9 @@
         "PWR"
       ],
       "/Motor/INNER": "PWR",
+      "/Motor/INNER+": [
+        "PWR"
+      ],
       "/Motor/INNER-": [
         "PWR"
       ],
@@ -661,6 +664,9 @@
       "Net-(C110-Pad2)": "PWR",
       "Net-(C180-Pad2)": "PWR",
       "Net-(C188-Pad2)": "PWR",
+      "Net-(C20-Pad2)": [
+        "PWR"
+      ],
       "Net-(C27-Pad2)": "PWR",
       "Net-(C28-Pad2)": "PWR",
       "Net-(C6-Pad2)": "PWR",
@@ -678,12 +684,18 @@
         "PWR"
       ],
       "Net-(C92-Pad2)": "PWR",
+      "Net-(C93-Pad2)": [
+        "PWR"
+      ],
       "Net-(C96-Pad2)": "PWR",
       "Net-(C97-Pad2)": "PWR",
       "Net-(C98-Pad2)": [
         "PWR"
       ],
       "Net-(C99-Pad2)": "PWR",
+      "Net-(D1-A)": [
+        "DRV_LV"
+      ],
       "Net-(D10-K)": "DRV_HV",
       "Net-(D103-K)": "DRV_HV",
       "Net-(D104-A)": "DRV_LV",
@@ -717,7 +729,9 @@
       "Net-(LD12-K)": [
         "PWR"
       ],
-      "Net-(LD2-K)": "PWR",
+      "Net-(LD2-K)": [
+        "PWR"
+      ],
       "Net-(LD3-K)": "PWR",
       "Net-(LD4-K)": "PWR",
       "Net-(LD6-K)": "PWR",
@@ -738,9 +752,13 @@
       "Net-(Q111-G)": "DRV_HV",
       "Net-(Q112-G)": "DRV_HV",
       "Net-(Q2-D)": "DRV_HV",
-      "Net-(Q2-G)": "DRV_HV",
+      "Net-(Q2-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q3-D)": "DRV_HV",
-      "Net-(Q3-G)": "DRV_HV",
+      "Net-(Q3-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q4-D)": "DRV_HV",
       "Net-(Q4-G)": [
         "DRV_HV"
@@ -783,15 +801,24 @@
         "DRV_HV"
       ],
       "Net-(U18-VI)": "DRV_HV",
+      "Net-(U19-VB)": [
+        "DRV_HV"
+      ],
       "Net-(U19-VI)": "DRV_LV",
       "Net-(U2-VI)": "DRV_LV",
       "Net-(U20-H_{O})": "DRV_HV",
       "Net-(U20-L_{O})": "DRV_HV",
       "Net-(U20-V_{B})": "DRV_HV",
+      "Net-(U28-VB)": [
+        "DRV_HV"
+      ],
       "Net-(U3-VB)": [
         "DRV_HV"
       ],
       "Net-(U3-VI)": "DRV_HV",
+      "Net-(U34-VI)": [
+        "DRV_LV"
+      ],
       "Net-(U36-VI)": [
         "DRV_LV"
       ],
@@ -1098,8 +1125,8 @@
       "Control"
     ],
     [
-      "11908ee1-6c84-411c-a6d8-f57e318c637e",
-      "Motor"
+      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
+      "Power Supply"
     ],
     [
       "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
@@ -1114,8 +1141,8 @@
       "GPIOs"
     ],
     [
-      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
-      "Power Supply"
+      "11908ee1-6c84-411c-a6d8-f57e318c637e",
+      "Motor"
     ],
     [
       "4f33fade-0a37-4324-9655-a6a35ba6b15f",
