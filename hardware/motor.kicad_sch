@@ -327,7 +327,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector_Generic:Conn_02x02_Odd_Even"
+		(symbol "Connector_Generic:Conn_02x02_Counter_Clockwise"
 			(pin_names
 				(offset 1.016)
 				(hide yes)
@@ -343,7 +343,7 @@
 					)
 				)
 			)
-			(property "Value" "Conn_02x02_Odd_Even"
+			(property "Value" "Conn_02x02_Counter_Clockwise"
 				(at 1.27 -5.08 0)
 				(effects
 					(font
@@ -369,7 +369,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "Generic connector, double row, 02x02, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(property "Description" "Generic connector, double row, 02x02, counter clockwise pin numbering scheme (similar to DIP package numbering), script generated (kicad-library-utils/schlib/autogen/connector/)"
 				(at 0 0 0)
 				(effects
 					(font
@@ -396,7 +396,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "Conn_02x02_Odd_Even_1_1"
+			(symbol "Conn_02x02_Counter_Clockwise_1_1"
 				(rectangle
 					(start -1.27 1.27)
 					(end 3.81 -3.81)
@@ -473,24 +473,6 @@
 				(pin passive line
 					(at -5.08 -2.54 0)
 					(length 3.81)
-					(name "Pin_3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 0 180)
-					(length 3.81)
 					(name "Pin_2"
 						(effects
 							(font
@@ -507,7 +489,7 @@
 					)
 				)
 				(pin passive line
-					(at 7.62 -2.54 180)
+					(at 7.62 0 180)
 					(length 3.81)
 					(name "Pin_4"
 						(effects
@@ -517,6 +499,24 @@
 						)
 					)
 					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 7.62 -2.54 180)
+					(length 3.81)
+					(name "Pin_3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -4777,7 +4777,7 @@
 	)
 	(text "Motor terminals"
 		(exclude_from_sim no)
-		(at 127 35.56 0)
+		(at 111.76 35.56 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -6138,7 +6138,7 @@
 	)
 	(polyline
 		(pts
-			(xy 125.73 31.75) (xy 153.67 31.75)
+			(xy 110.49 31.75) (xy 138.43 31.75)
 		)
 		(stroke
 			(width 0)
@@ -6493,7 +6493,7 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 71.12) (xy 132.08 63.5)
+			(xy 147.32 71.12) (xy 147.32 63.5)
 		)
 		(stroke
 			(width 0)
@@ -7117,7 +7117,7 @@
 	)
 	(polyline
 		(pts
-			(xy 153.67 40.64) (xy 125.73 40.64)
+			(xy 138.43 40.64) (xy 110.49 40.64)
 		)
 		(stroke
 			(width 0)
@@ -7289,7 +7289,7 @@
 	)
 	(wire
 		(pts
-			(xy 149.86 39.37) (xy 149.86 71.12)
+			(xy 134.62 39.37) (xy 134.62 71.12)
 		)
 		(stroke
 			(width 0)
@@ -7389,7 +7389,7 @@
 	)
 	(wire
 		(pts
-			(xy 147.32 39.37) (xy 147.32 71.12)
+			(xy 132.08 39.37) (xy 132.08 71.12)
 		)
 		(stroke
 			(width 0)
@@ -8009,7 +8009,7 @@
 	)
 	(polyline
 		(pts
-			(xy 153.67 31.75) (xy 153.67 40.64)
+			(xy 138.43 31.75) (xy 138.43 40.64)
 		)
 		(stroke
 			(width 0)
@@ -8964,7 +8964,7 @@
 	)
 	(polyline
 		(pts
-			(xy 125.73 40.64) (xy 125.73 31.75)
+			(xy 110.49 40.64) (xy 110.49 31.75)
 		)
 		(stroke
 			(width 0)
@@ -9167,7 +9167,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 63.5) (xy 134.62 71.12)
+			(xy 149.86 63.5) (xy 149.86 71.12)
 		)
 		(stroke
 			(width 0)
@@ -9509,7 +9509,7 @@
 		(uuid "4437ee4d-cebd-4e39-90bc-ab402370be69")
 	)
 	(label "M-"
-		(at 149.86 44.45 90)
+		(at 134.62 44.45 90)
 		(effects
 			(font
 				(size 1 1)
@@ -9529,7 +9529,7 @@
 		(uuid "56a6d8a6-16fc-4a0b-96db-c3b0237c551e")
 	)
 	(label "INNER+"
-		(at 132.08 69.85 90)
+		(at 147.32 69.85 90)
 		(effects
 			(font
 				(size 1 1)
@@ -9539,7 +9539,7 @@
 		(uuid "598778fa-3219-4273-b8b2-5a1c5c2132f9")
 	)
 	(label "INNER-"
-		(at 134.62 69.85 90)
+		(at 149.86 69.85 90)
 		(effects
 			(font
 				(size 1 1)
@@ -9589,7 +9589,7 @@
 		(uuid "7bb7fe17-ee90-426a-a692-3bda55db9fd9")
 	)
 	(label "M+"
-		(at 147.32 41.91 270)
+		(at 132.08 41.91 270)
 		(effects
 			(font
 				(size 1 1)
@@ -9903,7 +9903,7 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 147.32 45.72 90)
+		(at 132.08 45.72 90)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9913,7 +9913,7 @@
 		)
 		(uuid "5bde2e50-226d-4a74-8ba4-df5c7fbf7406")
 		(property "Netclass" "PWR"
-			(at 144.78 45.0215 90)
+			(at 129.54 45.0215 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9927,7 +9927,7 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 149.86 45.72 270)
+		(at 134.62 45.72 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9937,7 +9937,7 @@
 		)
 		(uuid "685f65a0-c782-4f4a-b7f6-c1881f294e46")
 		(property "Netclass" "PWR"
-			(at 152.4 45.0215 90)
+			(at 137.16 45.0215 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9951,7 +9951,7 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 144.78 71.12 0)
+		(at 154.94 71.12 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -9961,7 +9961,7 @@
 		)
 		(uuid "74c40c1e-9be4-400c-9da3-f4d4547d362b")
 		(property "Netclass" "PWR"
-			(at 145.4785 68.58 0)
+			(at 155.6385 68.58 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -13408,7 +13408,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector_Generic:Conn_02x02_Odd_Even")
+		(lib_id "Connector_Generic:Conn_02x02_Counter_Clockwise")
 		(at 176.53 144.78 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -13451,7 +13451,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Generic connector, double row, 02x02, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+		(property "Description" "Generic connector, double row, 02x02, counter clockwise pin numbering scheme (similar to DIP package numbering), script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 176.53 144.78 0)
 			(effects
 				(font
@@ -22864,8 +22864,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Screw_Terminal_01x02")
-		(at 149.86 34.29 270)
-		(mirror x)
+		(at 132.08 34.29 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -22873,7 +22872,7 @@
 		(dnp no)
 		(uuid "f27a3e55-edab-43ba-bb62-1875c4cb5ec3")
 		(property "Reference" "J10"
-			(at 144.78 34.29 0)
+			(at 137.16 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -22881,7 +22880,7 @@
 			)
 		)
 		(property "Value" "Motor"
-			(at 148.59 31.75 90)
+			(at 133.35 31.75 90)
 			(effects
 				(font
 					(size 1 1)
@@ -22890,7 +22889,7 @@
 			)
 		)
 		(property "Footprint" "sjc:AMASS_XT60PW-F_1x02_P7.20mm_Horizontal"
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -22899,7 +22898,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1 1)
@@ -22908,7 +22907,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22917,7 +22916,7 @@
 			)
 		)
 		(property "MF" "AMASS"
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22926,7 +22925,7 @@
 			)
 		)
 		(property "PN" "XT60PW-F"
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -22935,7 +22934,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C428722"
-			(at 149.86 34.29 0)
+			(at 132.08 34.29 0)
 			(effects
 				(font
 					(size 1.27 1.27)
