@@ -615,6 +615,9 @@
       "/Motor/M+_FUSE": [
         "PWR"
       ],
+      "/Motor/M-": [
+        "PWR"
+      ],
       "/Motor/R_HSG": "DRV_HV",
       "/Motor/R_H_{O}": "DRV_HV",
       "/Motor/R_LSG": "DRV_HV",
@@ -889,7 +892,7 @@
         "pattern": "+15V"
       },
       {
-        "netclass": "Default",
+        "netclass": "LOGIC_PWR",
         "pattern": "+5V"
       },
       {
@@ -939,6 +942,30 @@
       {
         "netclass": "DRV_SIGNAL",
         "pattern": "/Motor/L_PWM"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/L_HO"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/L_LO"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/R_HO"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/R_LO"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/R_LSG"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor/R_HSG"
       }
     ]
   },
