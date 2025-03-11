@@ -1149,8 +1149,8 @@
       "Control"
     ],
     [
-      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
-      "Power Supply"
+      "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
+      "GPIOs"
     ],
     [
       "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
@@ -1161,8 +1161,8 @@
       "Network"
     ],
     [
-      "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
-      "GPIOs"
+      "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
+      "Power Supply"
     ],
     [
       "11908ee1-6c84-411c-a6d8-f57e318c637e",
