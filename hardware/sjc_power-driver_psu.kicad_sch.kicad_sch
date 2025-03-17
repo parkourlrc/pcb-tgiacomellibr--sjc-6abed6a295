@@ -11,6 +11,167 @@
 		(comment 2 "Single Joint Controller Board")
 	)
 	(lib_symbols
+		(symbol "Device:C_Polarized"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C_Polarized"
+				(at 0.635 -2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Polarized capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "CP_*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "C_Polarized_0_1"
+				(rectangle
+					(start -2.286 0.508)
+					(end 2.286 1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 2.286) (xy -0.762 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 2.794) (xy -1.27 1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 2.286 -0.508)
+					(end -2.286 -1.016)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(symbol "C_Polarized_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:C_Small"
 			(pin_numbers
 				(hide yes)
@@ -2322,6 +2483,16 @@
 	)
 	(wire
 		(pts
+			(xy 177.8 83.82) (xy 177.8 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3c2bdbd6-4e26-4c37-9f3f-4ae8cbe2fb9c")
+	)
+	(wire
+		(pts
 			(xy 177.8 93.98) (xy 187.96 93.98)
 		)
 		(stroke
@@ -2473,7 +2644,7 @@
 	)
 	(wire
 		(pts
-			(xy 167.64 68.58) (xy 167.64 77.47)
+			(xy 167.64 68.58) (xy 167.64 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2564,6 +2735,16 @@
 	)
 	(wire
 		(pts
+			(xy 167.64 83.82) (xy 167.64 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9748c69c-0ed0-4a9d-98cb-a4f3a61c0839")
+	)
+	(wire
+		(pts
 			(xy 149.86 66.04) (xy 149.86 68.58)
 		)
 		(stroke
@@ -2641,16 +2822,6 @@
 			(type default)
 		)
 		(uuid "b22455f7-68fd-4013-9c5a-d1f8b42eaee5")
-	)
-	(wire
-		(pts
-			(xy 167.64 82.55) (xy 167.64 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "bb12bd3d-1a7e-4bae-ab0c-745db47058ac")
 	)
 	(wire
 		(pts
@@ -2786,7 +2957,7 @@
 	)
 	(wire
 		(pts
-			(xy 177.8 68.58) (xy 177.8 77.47)
+			(xy 177.8 68.58) (xy 177.8 76.2)
 		)
 		(stroke
 			(width 0)
@@ -2803,16 +2974,6 @@
 			(type default)
 		)
 		(uuid "e66ec431-0b60-457e-abde-bbb2d063be64")
-	)
-	(wire
-		(pts
-			(xy 177.8 82.55) (xy 177.8 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ed88e304-af1a-4a8a-b589-db9ac6aa7092")
 	)
 	(wire
 		(pts
@@ -3353,7 +3514,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 198.12 80.01 180)
+		(at 208.28 80.01 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3361,7 +3522,7 @@
 		(dnp no)
 		(uuid "29debe72-94f7-4005-b261-d95ac16f19f6")
 		(property "Reference" "R18"
-			(at 196.215 80.01 90)
+			(at 206.375 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3369,7 +3530,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 200.025 80.01 90)
+			(at 210.185 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3377,7 +3538,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 198.12 80.01 0)
+			(at 208.28 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3386,7 +3547,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 198.12 80.01 0)
+			(at 208.28 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3395,7 +3556,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 198.12 80.01 90)
+			(at 208.28 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3404,7 +3565,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 198.12 80.01 90)
+			(at 208.28 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3413,7 +3574,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 198.12 80.01 90)
+			(at 208.28 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3422,7 +3583,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 198.12 80.01 0)
+			(at 208.28 80.01 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3535,100 +3696,6 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
 					(reference "F3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 177.8 80.01 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "2c46e8df-361e-45ad-93d4-f67a035366ed")
-		(property "Reference" "C16"
-			(at 175.26 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "22uF 10% 25V"
-			(at 180.34 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 177.8 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 177.8 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
-			(at 177.8 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at 177.8 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CC1206KKX5R8BB226"
-			(at 177.8 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C2178233"
-			(at 177.8 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "5593fed0-f554-4d64-95b5-fe7a04b3f3bb")
-		)
-		(pin "2"
-			(uuid "13ac23e7-2c36-4794-b2ef-e2bd8da8e1a9")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
-					(reference "C16")
 					(unit 1)
 				)
 			)
@@ -3759,100 +3826,6 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
 					(reference "#PWR023")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 167.64 80.01 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "4810a20b-29eb-4628-baf4-e2fd19d109e2")
-		(property "Reference" "C15"
-			(at 165.1 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "22uF 10% 25V"
-			(at 170.18 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 167.64 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 167.64 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
-			(at 167.64 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at 167.64 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CC1206KKX5R8BB226"
-			(at 167.64 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C2178233"
-			(at 167.64 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "4edec41c-3d23-4273-9d24-e71eef39c782")
-		)
-		(pin "2"
-			(uuid "1f6f5b89-90ad-49ad-8626-0b2acf88922d")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
-					(reference "C15")
 					(unit 1)
 				)
 			)
@@ -4472,6 +4445,102 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 177.8 80.01 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "973451af-6d69-4f9c-9e0b-094af2aac7d0")
+		(property "Reference" "C26"
+			(at 174.244 82.042 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47uF 63V 20%"
+			(at 181.61 86.36 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_8x10.5"
+			(at 178.7652 83.82 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Electrolytic capacitor, 47uF, 20%, 63V, SMD D8xL10.5mm"
+			(at 177.8 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "ST(Semtech)"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CS1J470M-CRF10"
+			(at 177.8 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C116428"
+			(at 177.8 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8f512dd6-1c4a-4d82-b5bd-87e27d0527b3")
+		)
+		(pin "2"
+			(uuid "eaa658a9-229c-4bb9-b14b-ab283af4912d")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
+					(reference "C26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 120.65 85.09 180)
 		(unit 1)
@@ -4631,6 +4700,100 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Small")
+		(at 187.96 80.01 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "a947238f-ba75-44cc-ba62-6b0873c29d66")
+		(property "Reference" "C27"
+			(at 185.42 80.01 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "10uF 10% 50V"
+			(at 190.5 80.01 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 187.96 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 10uF, ±10%, X5R, 50V, SMD 1206"
+			(at 187.96 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Samsung Electro-Mechanics"
+			(at 187.96 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CL31A106KBHNNNE"
+			(at 187.96 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C13585"
+			(at 187.96 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7ed861c9-9ded-4e3b-9707-4730f6a1c6f0")
+		)
+		(pin "2"
+			(uuid "329aa8ee-52c2-49d1-8194-a3f0220ea179")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
+					(reference "C27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "sjc_power:V_{PWR}+")
 		(at 149.86 66.04 0)
 		(unit 1)
@@ -4690,6 +4853,102 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
 					(reference "#PWR025")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Polarized")
+		(at 167.64 80.01 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b2b71972-9c55-419e-9130-4b0b694b9069")
+		(property "Reference" "C25"
+			(at 164.084 82.042 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "47uF 63V 20%"
+			(at 171.45 86.36 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:CP_Elec_8x10.5"
+			(at 168.6052 83.82 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 167.64 80.01 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Electrolytic capacitor, 47uF, 20%, 63V, SMD D8xL10.5mm"
+			(at 167.64 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "ST(Semtech)"
+			(at 167.64 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CS1J470M-CRF10"
+			(at 167.64 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C116428"
+			(at 167.64 80.01 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a5f83e7c-ff8e-45a6-abcc-67c4dad98c59")
+		)
+		(pin "2"
+			(uuid "8a6a6443-35b9-43aa-9e6a-1d5c15d96af3")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
+					(reference "C25")
 					(unit 1)
 				)
 			)
@@ -4827,7 +5086,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 208.28 80.01 180)
+		(at 198.12 80.01 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4835,7 +5094,7 @@
 		(dnp no)
 		(uuid "d4666cda-3d75-4651-9dd0-d5f2e6e11ec9")
 		(property "Reference" "C18"
-			(at 205.74 80.01 90)
+			(at 195.58 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4843,7 +5102,7 @@
 			)
 		)
 		(property "Value" "10uF 10% 50V"
-			(at 210.82 80.01 90)
+			(at 200.66 80.01 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4851,7 +5110,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 208.28 80.01 0)
+			(at 198.12 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4860,7 +5119,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 208.28 80.01 0)
+			(at 198.12 80.01 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4869,7 +5128,7 @@
 			)
 		)
 		(property "Description" "Capacitor, 10uF, ±10%, X5R, 50V, SMD 1206"
-			(at 208.28 80.01 90)
+			(at 198.12 80.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4878,7 +5137,7 @@
 			)
 		)
 		(property "MF" "Samsung Electro-Mechanics"
-			(at 208.28 80.01 90)
+			(at 198.12 80.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4887,7 +5146,7 @@
 			)
 		)
 		(property "PN" "CL31A106KBHNNNE"
-			(at 208.28 80.01 90)
+			(at 198.12 80.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4896,7 +5155,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C13585"
-			(at 208.28 80.01 90)
+			(at 198.12 80.01 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5076,100 +5335,6 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
 					(reference "NT1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 187.96 80.01 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "ed77cab2-fb6b-4c58-8464-6dde637b2cfd")
-		(property "Reference" "C17"
-			(at 185.42 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "22uF 10% 25V"
-			(at 190.5 80.01 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 187.96 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 187.96 80.01 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Capacitor, 22uF, ±10%, X5R, 25V, SMD 1206"
-			(at 187.96 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at 187.96 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CC1206KKX5R8BB226"
-			(at 187.96 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C2178233"
-			(at 187.96 80.01 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8d0e9e7d-1e57-4f6e-b2d9-765e9025c2d9")
-		)
-		(pin "2"
-			(uuid "ecbf7794-dca1-417e-a688-8b577dd9bc1f")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/1abebbb6-1e5b-4a25-975b-4c49f61fca1e"
-					(reference "C17")
 					(unit 1)
 				)
 			)

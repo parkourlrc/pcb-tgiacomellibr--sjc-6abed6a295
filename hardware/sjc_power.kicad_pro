@@ -1289,6 +1289,10 @@
       {
         "netclass": "DRV_SIGNAL",
         "pattern": "/Motor/R_HSG"
+      },
+      {
+        "netclass": "DRV_SIGNAL",
+        "pattern": "/Motor Driver/L_HO"
       }
     ]
   },
