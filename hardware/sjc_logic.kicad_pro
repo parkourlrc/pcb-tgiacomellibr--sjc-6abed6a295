@@ -495,7 +495,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "hardware.kicad_pro",
+    "filename": "sjc_logic.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -580,149 +580,327 @@
     },
     "net_colors": null,
     "netclass_assignments": {
-      "+12V": "PWR",
-      "+12V_LOGIC": "DRV_LV",
-      "+12V_LOGIC_FILT": "DRV_LV",
-      "+13V": "PWR",
-      "+13V_LOGIC_FILT": "DRV_LV",
-      "+V_{BAT}": "PWR",
-      "/CAN/+12V_ISO_DC": "DRV_LV",
-      "/CAN/+12V_ISO_FLT": "DRV_LV",
-      "/Communication/+12V_ISO_DC": "DRV_LV",
-      "/Communication/+12V_ISO_FLT": "DRV_LV",
+      "+12V": [
+        "PWR"
+      ],
+      "+12V_LOGIC": [
+        "DRV_LV"
+      ],
+      "+12V_LOGIC_FILT": [
+        "DRV_LV"
+      ],
+      "+13V": [
+        "PWR"
+      ],
+      "+13V_LOGIC_FILT": [
+        "DRV_LV"
+      ],
+      "+V_{BAT}": [
+        "PWR"
+      ],
+      "/CAN/+12V_ISO_DC": [
+        "DRV_LV"
+      ],
+      "/CAN/+12V_ISO_FLT": [
+        "DRV_LV"
+      ],
+      "/Communication/+12V_ISO_DC": [
+        "DRV_LV"
+      ],
+      "/Communication/+12V_ISO_FLT": [
+        "DRV_LV"
+      ],
       "/Motor/DC_MOT_T2": [
         "PWR"
       ],
-      "/Motor/INNER": "PWR",
+      "/Motor/INNER": [
+        "PWR"
+      ],
       "/Motor/INNER+": [
         "PWR"
       ],
       "/Motor/INNER-": [
         "PWR"
       ],
-      "/Motor/L_HSG": "DRV_HV",
-      "/Motor/L_H_{O}": "DRV_HV",
-      "/Motor/L_LSG": "DRV_HV",
-      "/Motor/L_L_{O}": "DRV_HV",
-      "/Motor/L_V_{B}": "DRV_HV",
-      "/Motor/L_{GT}+": "DRV_HV",
-      "/Motor/L_{GT}-": "DRV_HV",
-      "/Motor/L_{PWM}+": "DRV_HV",
-      "/Motor/L_{PWM}-": "DRV_HV",
+      "/Motor/L_HSG": [
+        "DRV_HV"
+      ],
+      "/Motor/L_H_{O}": [
+        "DRV_HV"
+      ],
+      "/Motor/L_LSG": [
+        "DRV_HV"
+      ],
+      "/Motor/L_L_{O}": [
+        "DRV_HV"
+      ],
+      "/Motor/L_V_{B}": [
+        "DRV_HV"
+      ],
+      "/Motor/L_{GT}+": [
+        "DRV_HV"
+      ],
+      "/Motor/L_{GT}-": [
+        "DRV_HV"
+      ],
+      "/Motor/L_{PWM}+": [
+        "DRV_HV"
+      ],
+      "/Motor/L_{PWM}-": [
+        "DRV_HV"
+      ],
       "/Motor/M+": [
         "PWR"
       ],
       "/Motor/M+_FUSE": [
         "PWR"
       ],
-      "/Motor/R_HSG": "DRV_HV",
-      "/Motor/R_H_{O}": "DRV_HV",
-      "/Motor/R_LSG": "DRV_HV",
-      "/Motor/R_L_{O}": "DRV_HV",
-      "/Motor/R_V_{B}": "DRV_HV",
-      "/Motor/R_{GT}+": "DRV_HV",
-      "/Motor/R_{GT}-": "DRV_HV",
-      "/Motor/R_{PWM}+": "DRV_HV",
-      "/Motor/R_{PWM}-": "DRV_HV",
-      "/Motor/SHUNT_FUSE": "PWR",
-      "/Network communication/+12V_ISO_DC": "DRV_LV",
-      "/Network communication/+12V_ISO_FLT": "DRV_LV",
+      "/Motor/R_HSG": [
+        "DRV_HV"
+      ],
+      "/Motor/R_H_{O}": [
+        "DRV_HV"
+      ],
+      "/Motor/R_LSG": [
+        "DRV_HV"
+      ],
+      "/Motor/R_L_{O}": [
+        "DRV_HV"
+      ],
+      "/Motor/R_V_{B}": [
+        "DRV_HV"
+      ],
+      "/Motor/R_{GT}+": [
+        "DRV_HV"
+      ],
+      "/Motor/R_{GT}-": [
+        "DRV_HV"
+      ],
+      "/Motor/R_{PWM}+": [
+        "DRV_HV"
+      ],
+      "/Motor/R_{PWM}-": [
+        "DRV_HV"
+      ],
+      "/Motor/SHUNT_FUSE": [
+        "PWR"
+      ],
+      "/Network communication/+12V_ISO_DC": [
+        "DRV_LV"
+      ],
+      "/Network communication/+12V_ISO_FLT": [
+        "DRV_LV"
+      ],
       "/Network/+12V_ISO_DC": [
         "DRV_LV"
       ],
       "/Network/+12V_ISO_FLT": [
         "DRV_LV"
       ],
-      "/Power Supply/12V_REG_IN": "DRV_HV",
-      "/Power Supply/12V_buck_converter/Vin": "PWR",
+      "/Power Supply/12V_REG_IN": [
+        "DRV_HV"
+      ],
+      "/Power Supply/12V_buck_converter/Vin": [
+        "PWR"
+      ],
       "/Power Supply/13V Buck Converter/BUCK_VIN": [
         "PWR"
       ],
-      "/Power Supply/15V_REG_IN": "DRV_HV",
-      "/Power Supply/DRIVER_{SHDN}": "DRV_HV",
-      "/Power Supply/DRIVER_~{EN": "DRV_HV",
-      "/Power Supply/DRIVER_~{EN}": "DRV_HV",
-      "/Power Supply/Driver PSU Input Filter/DRIVER_~{EN}": "DRV_HV",
+      "/Power Supply/15V_REG_IN": [
+        "DRV_HV"
+      ],
+      "/Power Supply/DRIVER_{SHDN}": [
+        "DRV_HV"
+      ],
+      "/Power Supply/DRIVER_~{EN": [
+        "DRV_HV"
+      ],
+      "/Power Supply/DRIVER_~{EN}": [
+        "DRV_HV"
+      ],
+      "/Power Supply/Driver PSU Input Filter/DRIVER_~{EN}": [
+        "DRV_HV"
+      ],
       "/Power Supply/Driver PSU/DRIVER_~{EN}": [
         "DRV_HV"
       ],
-      "/Power Supply/MOTOR_{SHDN}": "DRV_HV",
+      "/Power Supply/MOTOR_{SHDN}": [
+        "DRV_HV"
+      ],
       "/Power Supply/MOTOR_~{EN}": [
         "DRV_HV"
       ],
-      "/RS-485/+12V_ISO_DC": "DRV_LV",
-      "/RS-485/+12V_ISO_FLT": "DRV_LV",
-      "DRIVER_PSU_GND": "DRV_HV",
+      "/RS-485/+12V_ISO_DC": [
+        "DRV_LV"
+      ],
+      "/RS-485/+12V_ISO_FLT": [
+        "DRV_LV"
+      ],
+      "DRIVER_PSU_GND": [
+        "DRV_HV"
+      ],
       "LOGIC_PSU_VIN_FILT": [
         "DRV_LV"
       ],
-      "Net-(C1-Pad2)": "PWR",
-      "Net-(C10-Pad2)": "PWR",
-      "Net-(C100-Pad2)": "PWR",
-      "Net-(C101-Pad2)": "PWR",
-      "Net-(C11-Pad2)": "PWR",
-      "Net-(C110-Pad2)": "PWR",
-      "Net-(C180-Pad2)": "PWR",
-      "Net-(C188-Pad2)": "PWR",
+      "Net-(C1-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C10-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C100-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C101-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C11-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C110-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C180-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C188-Pad2)": [
+        "PWR"
+      ],
       "Net-(C20-Pad2)": [
         "PWR"
       ],
-      "Net-(C27-Pad2)": "PWR",
-      "Net-(C28-Pad2)": "PWR",
-      "Net-(C6-Pad2)": "PWR",
-      "Net-(C7-Pad2)": "PWR",
-      "Net-(C71-Pad2)": "PWR",
-      "Net-(C73-Pad2)": "PWR",
-      "Net-(C74-Pad2)": "PWR",
-      "Net-(C79-Pad2)": "PWR",
-      "Net-(C80-Pad2)": "PWR",
+      "Net-(C27-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C28-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C6-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C7-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C71-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C73-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C74-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C79-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C80-Pad2)": [
+        "PWR"
+      ],
       "Net-(C82-Pad2)": [
         "PWR"
       ],
-      "Net-(C83-Pad2)": "PWR",
+      "Net-(C83-Pad2)": [
+        "PWR"
+      ],
       "Net-(C85-Pad2)": [
         "PWR"
       ],
-      "Net-(C92-Pad2)": "PWR",
+      "Net-(C92-Pad2)": [
+        "PWR"
+      ],
       "Net-(C93-Pad2)": [
         "PWR"
       ],
-      "Net-(C96-Pad2)": "PWR",
-      "Net-(C97-Pad2)": "PWR",
+      "Net-(C96-Pad2)": [
+        "PWR"
+      ],
+      "Net-(C97-Pad2)": [
+        "PWR"
+      ],
       "Net-(C98-Pad2)": [
         "PWR"
       ],
-      "Net-(C99-Pad2)": "PWR",
+      "Net-(C99-Pad2)": [
+        "PWR"
+      ],
       "Net-(D1-A)": [
         "DRV_LV"
       ],
-      "Net-(D10-K)": "DRV_HV",
-      "Net-(D103-K)": "DRV_HV",
-      "Net-(D104-A)": "DRV_LV",
-      "Net-(D104-K)": "DRV_HV",
-      "Net-(D105-A)": "DRV_LV",
-      "Net-(D105-K)": "DRV_HV",
-      "Net-(D106-K)": "DRV_HV",
-      "Net-(D108-A)": "DRV_LV",
-      "Net-(D11-A)": "DRV_LV",
-      "Net-(D11-K)": "DRV_HV",
-      "Net-(D3-A)": "DRV_LV",
+      "Net-(D10-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D103-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D104-A)": [
+        "DRV_LV"
+      ],
+      "Net-(D104-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D105-A)": [
+        "DRV_LV"
+      ],
+      "Net-(D105-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D106-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D108-A)": [
+        "DRV_LV"
+      ],
+      "Net-(D11-A)": [
+        "DRV_LV"
+      ],
+      "Net-(D11-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D3-A)": [
+        "DRV_LV"
+      ],
       "Net-(D4-A)": [
         "DRV_LV"
       ],
-      "Net-(D4-K)": "DRV_HV",
-      "Net-(D5-A)": "DRV_HV",
-      "Net-(D5-K)": "DRV_HV",
-      "Net-(D6-K)": "DRV_HV",
-      "Net-(D7-A)": "DRV_HV",
-      "Net-(D7-K)": "DRV_HV",
-      "Net-(D8-A)": "DRV_LV",
-      "Net-(D8-K)": "DRV_HV",
-      "Net-(D9-K)": "DRV_HV",
-      "Net-(F3-Pad1)": "PWR",
-      "Net-(LD1-K)": "PWR",
-      "Net-(LD101-K)": "PWR",
-      "Net-(LD105-K)": "PWR",
+      "Net-(D4-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D5-A)": [
+        "DRV_HV"
+      ],
+      "Net-(D5-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D6-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D7-A)": [
+        "DRV_HV"
+      ],
+      "Net-(D7-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D8-A)": [
+        "DRV_LV"
+      ],
+      "Net-(D8-K)": [
+        "DRV_HV"
+      ],
+      "Net-(D9-K)": [
+        "DRV_HV"
+      ],
+      "Net-(F3-Pad1)": [
+        "PWR"
+      ],
+      "Net-(LD1-K)": [
+        "PWR"
+      ],
+      "Net-(LD101-K)": [
+        "PWR"
+      ],
+      "Net-(LD105-K)": [
+        "PWR"
+      ],
       "Net-(LD11-K)": [
         "PWR"
       ],
@@ -732,41 +910,81 @@
       "Net-(LD2-K)": [
         "PWR"
       ],
-      "Net-(LD3-K)": "PWR",
-      "Net-(LD4-K)": "PWR",
-      "Net-(LD6-K)": "PWR",
-      "Net-(LD8-K)": "PWR",
-      "Net-(LD9-K)": "PWR",
-      "Net-(Q1-G)": "DRV_HV",
+      "Net-(LD3-K)": [
+        "PWR"
+      ],
+      "Net-(LD4-K)": [
+        "PWR"
+      ],
+      "Net-(LD6-K)": [
+        "PWR"
+      ],
+      "Net-(LD8-K)": [
+        "PWR"
+      ],
+      "Net-(LD9-K)": [
+        "PWR"
+      ],
+      "Net-(Q1-G)": [
+        "DRV_HV"
+      ],
       "Net-(Q10-G)": [
         "DRV_HV"
       ],
-      "Net-(Q101-G)": "DRV_HV",
-      "Net-(Q103-G)": "DRV_HV",
-      "Net-(Q104-G)": "DRV_HV",
-      "Net-(Q105-G)": "DRV_HV",
-      "Net-(Q106-G)": "DRV_HV",
-      "Net-(Q107-G)": "DRV_HV",
-      "Net-(Q109-G)": "DRV_HV",
-      "Net-(Q11-G)": "DRV_HV",
-      "Net-(Q111-G)": "DRV_HV",
-      "Net-(Q112-G)": "DRV_HV",
-      "Net-(Q2-D)": "DRV_HV",
+      "Net-(Q101-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q103-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q104-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q105-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q106-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q107-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q109-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q11-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q111-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q112-G)": [
+        "DRV_HV"
+      ],
+      "Net-(Q2-D)": [
+        "DRV_HV"
+      ],
       "Net-(Q2-G)": [
         "DRV_HV"
       ],
-      "Net-(Q3-D)": "DRV_HV",
+      "Net-(Q3-D)": [
+        "DRV_HV"
+      ],
       "Net-(Q3-G)": [
         "DRV_HV"
       ],
-      "Net-(Q4-D)": "DRV_HV",
+      "Net-(Q4-D)": [
+        "DRV_HV"
+      ],
       "Net-(Q4-G)": [
         "DRV_HV"
       ],
       "Net-(Q5-G)": [
         "DRV_HV"
       ],
-      "Net-(Q6-D)": "DRV_HV",
+      "Net-(Q6-D)": [
+        "DRV_HV"
+      ],
       "Net-(Q6-G)": [
         "DRV_HV"
       ],
@@ -779,69 +997,141 @@
       "Net-(Q9-G)": [
         "DRV_HV"
       ],
-      "Net-(U1-1Y)": "DRV_HV",
-      "Net-(U1-VI)": "DRV_HV",
-      "Net-(U101-VI)": "DRV_HV",
-      "Net-(U102-VI)": "DRV_LV",
-      "Net-(U107-H_{O})": "DRV_HV",
-      "Net-(U107-L_{O})": "DRV_HV",
-      "Net-(U107-V_{B})": "DRV_HV",
-      "Net-(U108-H_{O})": "DRV_HV",
-      "Net-(U108-L_{O})": "DRV_HV",
-      "Net-(U108-V_{B})": "DRV_HV",
-      "Net-(U11-H_{O})": "DRV_HV",
-      "Net-(U11-L_{O})": "DRV_HV",
-      "Net-(U11-VB)": "DRV_HV",
-      "Net-(U11-V_{B})": "DRV_HV",
-      "Net-(U115-VB)": "DRV_HV",
-      "Net-(U126-VB)": "DRV_HV",
-      "Net-(U135-VI)": "DRV_HV",
-      "Net-(U136-VI)": "DRV_LV",
+      "Net-(U1-1Y)": [
+        "DRV_HV"
+      ],
+      "Net-(U1-VI)": [
+        "DRV_HV"
+      ],
+      "Net-(U101-VI)": [
+        "DRV_HV"
+      ],
+      "Net-(U102-VI)": [
+        "DRV_LV"
+      ],
+      "Net-(U107-H_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U107-L_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U107-V_{B})": [
+        "DRV_HV"
+      ],
+      "Net-(U108-H_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U108-L_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U108-V_{B})": [
+        "DRV_HV"
+      ],
+      "Net-(U11-H_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U11-L_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U11-VB)": [
+        "DRV_HV"
+      ],
+      "Net-(U11-V_{B})": [
+        "DRV_HV"
+      ],
+      "Net-(U115-VB)": [
+        "DRV_HV"
+      ],
+      "Net-(U126-VB)": [
+        "DRV_HV"
+      ],
+      "Net-(U135-VI)": [
+        "DRV_HV"
+      ],
+      "Net-(U136-VI)": [
+        "DRV_LV"
+      ],
       "Net-(U14-VB)": [
         "DRV_HV"
       ],
-      "Net-(U18-VI)": "DRV_HV",
+      "Net-(U18-VI)": [
+        "DRV_HV"
+      ],
       "Net-(U19-VB)": [
         "DRV_HV"
       ],
-      "Net-(U19-VI)": "DRV_LV",
-      "Net-(U2-VI)": "DRV_LV",
-      "Net-(U20-H_{O})": "DRV_HV",
-      "Net-(U20-L_{O})": "DRV_HV",
-      "Net-(U20-V_{B})": "DRV_HV",
+      "Net-(U19-VI)": [
+        "DRV_LV"
+      ],
+      "Net-(U2-VI)": [
+        "DRV_LV"
+      ],
+      "Net-(U20-H_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U20-L_{O})": [
+        "DRV_HV"
+      ],
+      "Net-(U20-V_{B})": [
+        "DRV_HV"
+      ],
       "Net-(U28-VB)": [
         "DRV_HV"
       ],
       "Net-(U3-VB)": [
         "DRV_HV"
       ],
-      "Net-(U3-VI)": "DRV_HV",
+      "Net-(U3-VI)": [
+        "DRV_HV"
+      ],
       "Net-(U34-VI)": [
         "DRV_LV"
       ],
       "Net-(U36-VI)": [
         "DRV_LV"
       ],
-      "Net-(U4-VI)": "DRV_LV",
-      "Net-(U5-VI)": "DRV_HV",
+      "Net-(U4-VI)": [
+        "DRV_LV"
+      ],
+      "Net-(U5-VI)": [
+        "DRV_HV"
+      ],
       "Net-(U6-VB)": [
         "DRV_HV"
       ],
-      "Net-(U6-VI)": "DRV_LV",
-      "Net-(U7-1Y)": "DRV_HV",
+      "Net-(U6-VI)": [
+        "DRV_LV"
+      ],
+      "Net-(U7-1Y)": [
+        "DRV_HV"
+      ],
       "Net-(U7-VB)": [
         "DRV_HV"
       ],
-      "Net-(U9-VB)": "DRV_HV",
+      "Net-(U9-VB)": [
+        "DRV_HV"
+      ],
       "PGND": [
         "DRV_HV"
       ],
-      "VIN_BUCK": "PWR",
-      "V_{BPS}+": "DRV_HV",
-      "V_{PWR}_Fuse+": "PWR",
-      "V_{PWR}_Rect+": "DRV_HV",
-      "unconnected-(D1-A-Pad2)": "PWR",
-      "unconnected-(D7-A-Pad2)": "PWR"
+      "VIN_BUCK": [
+        "PWR"
+      ],
+      "V_{BPS}+": [
+        "DRV_HV"
+      ],
+      "V_{PWR}_Fuse+": [
+        "PWR"
+      ],
+      "V_{PWR}_Rect+": [
+        "DRV_HV"
+      ],
+      "unconnected-(D1-A-Pad2)": [
+        "PWR"
+      ],
+      "unconnected-(D7-A-Pad2)": [
+        "PWR"
+      ]
     },
     "netclass_patterns": [
       {
@@ -1149,36 +1439,36 @@
       "Control"
     ],
     [
+      "11908ee1-6c84-411c-a6d8-f57e318c637e",
+      "Analog Measurement"
+    ],
+    [
+      "c8d2d6cc-0d73-4c79-9f9b-9cf5b12d606d",
+      "Motor PWM"
+    ],
+    [
+      "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
+      "Encoder Conditioners"
+    ],
+    [
       "55a8b452-cae3-4582-8c1f-cd1344e8c0fc",
       "GPIOs"
     ],
     [
-      "6aff8b4e-e980-4f0c-869d-c519c0240a4f",
-      "Encoders"
-    ],
-    [
       "2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae",
-      "Network"
+      "Communication Interfaces"
     ],
     [
       "56e592f0-95f9-46d7-b6c2-cca53a0a6ad3",
       "Power Supply"
     ],
     [
-      "11908ee1-6c84-411c-a6d8-f57e318c637e",
-      "Motor"
-    ],
-    [
-      "4f33fade-0a37-4324-9655-a6a35ba6b15f",
-      "13V Buck Converter"
-    ],
-    [
-      "31417acb-8d50-449d-bcf9-adebb5b91172",
-      "Driver PSU"
+      "ee824d76-dfaa-4473-8434-fee5051703a8",
+      "5V Power Supply"
     ],
     [
       "86cfe570-51ff-4724-9fac-fe0e5addee15",
-      "Logic PSU"
+      "3V3 Power Supply"
     ]
   ],
   "text_variables": {}

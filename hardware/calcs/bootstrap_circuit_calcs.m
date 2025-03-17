@@ -4,35 +4,35 @@ clc
 
 
 % Operating conditions
-VCC = 10;
+VCC = 15;
 Fsw = 20e3;
-D = 95/100;      % Percent value
-Dmin = 2/100;    %  1 %
+D = 99/100;      % Percent value
+Dmin = 1/100;    %  1 %
 Dmax = (1-Dmin); % 99 %
-bs_rip = 10/100; % Maximum allowable ripple
+bs_rip = 6/100; % Maximum allowable ripple
 
 a = sprintf('\n\r Bootstrap Circuit calcs:');
 disp(a)
 
-% N-Channel Mosfet: BSC0902NSI
-a = sprintf('\r - N-Channel Mosfet: %s', 'BSC0902NSI');
+% N-Channel Mosfet: PSMN1R4-30YLD
+a = sprintf('\r - N-Channel Mosfet: %s', 'PSMN1R4-30YLD');
 disp(a)
-Rdson = 3e-3;
-Qgate = 68.6e-9;
+Rdson = 1.85e-3;
+Qgate = 27.6e-9;
 Q_G = Qgate;
 VGS_min = 4.5;
-VGS_th = 3; % Gate threshold voltage VGS
+VGS_th = 2.2; % Gate threshold voltage VGS
 IGSS = 100e-9; % Gate-source leakage current
 ILKGS = IGSS;
-SW_Ton = 5.9e-9;
-SW_Toff = 25.8e-9;
-SW_Tr = 13.2e-9;
-SW_Tf = 7.9e-9;
-SW_QGS = 10e-9;  % Gate to source charge
-SW_QGD = 11.2e-9;  % Gate to drain charge
-SW_CGD = 74e-12; % Reverse transfer capacitance (Crss)
-C_in = 4450e-12; % Input capacitance (Ciss)
-C_out = 1407e-12; % Output capacitance (Coss)
+SW_Ton = 23e-9;
+SW_Toff = 31.5e-9;
+SW_Tr = 28e-9;
+SW_Tf = 20e-9;
+SW_QGS = 7.2e-9;  % Gate to source charge
+SW_QGD = 8.5e-9;  % Gate to drain charge
+SW_CGD = 251e-12; % Reverse transfer capacitance (Crss)
+C_in = 3840e-12; % Input capacitance (Ciss)
+C_out = 1785e-12; % Output capacitance (Coss)
 
 % Driver: 2ED2184S06F (https://www.infineon.com/dgdl/Infineon-2ED2184-4-S06F-J-DataSheet-v02_32-EN.pdf?fileId=5546d4626cb27db2016cb8d76cf229fb)
 a = sprintf('\r - Half-bridge driver: %s', '2ED2184S06F');
@@ -95,8 +95,8 @@ C_B = Q_CB/dV_boot;
 a = sprintf('\r   - Calculated bootstrap capacitor: %.2f(nF)', C_B*1e9);
 disp(a)
 C_B = round(C_B*1200e9)/1000e9;
-%C_B = 68e-9
-%C_B = 82e-9
+% C_B = 82e-9;
+C_B = 82e-9
 a = sprintf('\r   - *Specified bootstrap capacitor: %.2f(nF) <---', C_B*1e9);
 disp(a)
 dV = Q_CB/C_B;

@@ -5813,7 +5813,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "006e5589-c3f3-4fda-8bf1-03b0e0804606")
-		(property "Reference" "R34"
+		(property "Reference" "R50"
 			(at 116.205 86.36 90)
 			(effects
 				(font
@@ -5890,9 +5890,9 @@
 			(uuid "4cc4aaed-2a78-41b9-ac59-718a6692604b")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R34")
+					(reference "R50")
 					(unit 1)
 				)
 			)
@@ -5986,7 +5986,7 @@
 			(uuid "7be52776-c03b-44d8-be8e-86f5b7719913")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV12")
 					(unit 1)
@@ -6003,7 +6003,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "01e8b1b6-a3a1-49f6-a104-67c6fe574c43")
-		(property "Reference" "J5"
+		(property "Reference" "J7"
 			(at 77.47 34.29 0)
 			(effects
 				(font
@@ -6071,9 +6071,9 @@
 			(uuid "1acfbd1b-a4c8-4a30-85da-836cf23986f1")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "J5")
+					(reference "J7")
 					(unit 1)
 				)
 			)
@@ -6088,7 +6088,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "04ce9884-2a15-41bd-b994-572e079608f6")
-		(property "Reference" "#PWR077"
+		(property "Reference" "#PWR0108"
 			(at 158.75 76.2 0)
 			(effects
 				(font
@@ -6136,9 +6136,9 @@
 			(uuid "f02e8738-e5d4-4978-a386-dfdbadff1a8e")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR077")
+					(reference "#PWR0108")
 					(unit 1)
 				)
 			)
@@ -6155,7 +6155,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "08a681f2-ec52-44c6-a264-a21bc89d6bdf")
-		(property "Reference" "#PWR085"
+		(property "Reference" "#PWR0116"
 			(at 222.25 36.83 0)
 			(effects
 				(font
@@ -6203,9 +6203,9 @@
 			(uuid "1712484c-3c89-491c-85ee-534055ece8f9")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR085")
+					(reference "#PWR0116")
 					(unit 1)
 				)
 			)
@@ -6220,7 +6220,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "08ebf688-cecc-48da-ac20-d94f5b8edab0")
-		(property "Reference" "LD3"
+		(property "Reference" "LD2"
 			(at 245.11 72.39 0)
 			(effects
 				(font
@@ -6300,9 +6300,9 @@
 			(uuid "52750ef5-c09f-43f7-8237-4eea6cad8460")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "LD3")
+					(reference "LD2")
 					(unit 1)
 				)
 			)
@@ -6317,7 +6317,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0e3960c8-3f1f-40b8-9ea9-b007f7b74028")
-		(property "Reference" "R30"
+		(property "Reference" "R46"
 			(at 25.908 138.176 90)
 			(effects
 				(font
@@ -6394,9 +6394,9 @@
 			(uuid "25f35f2a-3f75-458b-8cac-ac79ad9d4060")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R30")
+					(reference "R46")
 					(unit 1)
 				)
 			)
@@ -6411,7 +6411,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1d60022a-0ee8-4af9-85f7-f22abffc0895")
-		(property "Reference" "#PWR087"
+		(property "Reference" "#PWR0118"
 			(at 224.79 76.2 0)
 			(effects
 				(font
@@ -6459,9 +6459,9 @@
 			(uuid "860eb75c-35c2-4d5e-b063-474c79fd8126")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR087")
+					(reference "#PWR0118")
 					(unit 1)
 				)
 			)
@@ -6476,7 +6476,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1e94c774-41fb-41a8-aafd-ded032ea1004")
-		(property "Reference" "#PWR083"
+		(property "Reference" "#PWR0114"
 			(at 204.47 44.45 0)
 			(effects
 				(font
@@ -6524,9 +6524,9 @@
 			(uuid "59322c47-1c7f-4258-a8cf-21157dad529f")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR083")
+					(reference "#PWR0114")
 					(unit 1)
 				)
 			)
@@ -6542,7 +6542,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1f686f05-3e0f-48a5-85fd-7c8df6210fd4")
-		(property "Reference" "R53"
+		(property "Reference" "R69"
 			(at 260.35 46.99 90)
 			(effects
 				(font
@@ -6620,9 +6620,9 @@
 			(uuid "4685e42c-5c13-4ffe-a00c-a6cb152eb4f8")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R53")
+					(reference "R69")
 					(unit 1)
 				)
 			)
@@ -6638,7 +6638,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "216bb2f8-7c02-4f96-9b3d-a280bad8827c")
-		(property "Reference" "R44"
+		(property "Reference" "R60"
 			(at 175.26 134.62 90)
 			(effects
 				(font
@@ -6716,9 +6716,9 @@
 			(uuid "6780fba0-d856-4864-946f-ddcfd8a6f372")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R44")
+					(reference "R60")
 					(unit 1)
 				)
 			)
@@ -6734,7 +6734,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "221319ed-1b2e-41e1-ac6b-29d222f8b23d")
-		(property "Reference" "R54"
+		(property "Reference" "R70"
 			(at 260.35 52.07 90)
 			(effects
 				(font
@@ -6812,9 +6812,9 @@
 			(uuid "a3097761-65eb-4538-a77a-2e8f89a8cf42")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R54")
+					(reference "R70")
 					(unit 1)
 				)
 			)
@@ -6830,7 +6830,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "25c8693b-d31a-4760-be25-83c097d94495")
-		(property "Reference" "SB3"
+		(property "Reference" "SB11"
 			(at 46.482 133.096 0)
 			(effects
 				(font
@@ -6880,9 +6880,9 @@
 			(uuid "e7986546-18c9-45e5-a56c-146999c10a90")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB3")
+					(reference "SB11")
 					(unit 1)
 				)
 			)
@@ -6897,7 +6897,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "262c9da8-fbea-43c0-9585-d9508826f873")
-		(property "Reference" "#PWR072"
+		(property "Reference" "#PWR0103"
 			(at 110.49 128.27 0)
 			(effects
 				(font
@@ -6945,9 +6945,9 @@
 			(uuid "d5d5299d-f85f-40fb-a562-2c896258b3a6")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR072")
+					(reference "#PWR0103")
 					(unit 1)
 				)
 			)
@@ -6963,7 +6963,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2a16072a-71f5-451a-b981-fe32911f82c5")
-		(property "Reference" "R42"
+		(property "Reference" "R58"
 			(at 175.26 52.07 90)
 			(effects
 				(font
@@ -7041,9 +7041,9 @@
 			(uuid "91a18933-343d-4fae-ba23-5cbbd882a32b")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R42")
+					(reference "R58")
 					(unit 1)
 				)
 			)
@@ -7058,7 +7058,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2f48c54a-3043-486f-8d18-18be14129476")
-		(property "Reference" "R31"
+		(property "Reference" "R47"
 			(at 34.29 77.47 90)
 			(effects
 				(font
@@ -7135,9 +7135,9 @@
 			(uuid "f46ba71a-f3be-4011-be0e-a7ade6bc8c85")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R31")
+					(reference "R47")
 					(unit 1)
 				)
 			)
@@ -7231,7 +7231,7 @@
 			(uuid "bc5f07a5-27ab-4dc9-a87e-36fb77bcde08")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV11")
 					(unit 1)
@@ -7248,7 +7248,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3112817e-1dda-431c-889b-af0ae90f1e1c")
-		(property "Reference" "LD4"
+		(property "Reference" "LD3"
 			(at 252.73 72.39 0)
 			(effects
 				(font
@@ -7328,9 +7328,9 @@
 			(uuid "5fdae93c-1a51-4349-895b-f2c19881596f")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "LD4")
+					(reference "LD3")
 					(unit 1)
 				)
 			)
@@ -7346,7 +7346,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3899160a-cc09-4255-9c6b-37b7b202b909")
-		(property "Reference" "#PWR076"
+		(property "Reference" "#PWR0107"
 			(at 156.21 119.38 0)
 			(effects
 				(font
@@ -7394,9 +7394,9 @@
 			(uuid "69165e84-43d5-487f-9978-6bbe865e1a1c")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR076")
+					(reference "#PWR0107")
 					(unit 1)
 				)
 			)
@@ -7412,7 +7412,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3abb2a39-0302-4cc9-93a2-f676382e8c6a")
-		(property "Reference" "SB6"
+		(property "Reference" "SB14"
 			(at 47.752 42.926 0)
 			(effects
 				(font
@@ -7462,9 +7462,9 @@
 			(uuid "ad4475ee-e676-429f-8cdf-967e0dc139ad")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB6")
+					(reference "SB14")
 					(unit 1)
 				)
 			)
@@ -7558,7 +7558,7 @@
 			(uuid "04292e45-9528-471d-a372-cc8fec79384a")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV9")
 					(unit 1)
@@ -7575,7 +7575,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4272f1d8-1049-4f44-b7f9-ddd76f6d35b8")
-		(property "Reference" "SB4"
+		(property "Reference" "SB12"
 			(at 46.482 135.636 0)
 			(effects
 				(font
@@ -7625,9 +7625,9 @@
 			(uuid "20fdfa0e-b718-477a-8a87-ec0c21027034")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB4")
+					(reference "SB12")
 					(unit 1)
 				)
 			)
@@ -7642,7 +7642,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4a0edf68-0f58-4847-90ab-29d8d31d9051")
-		(property "Reference" "R28"
+		(property "Reference" "R44"
 			(at 25.908 133.096 90)
 			(effects
 				(font
@@ -7719,9 +7719,9 @@
 			(uuid "5bb080e9-9bcc-42c5-a384-4fcf8c4ae624")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R28")
+					(reference "R44")
 					(unit 1)
 				)
 			)
@@ -7736,7 +7736,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4d87e1ec-0ccd-4608-9be5-6222ed77142e")
-		(property "Reference" "#PWR068"
+		(property "Reference" "#PWR099"
 			(at 77.47 66.04 0)
 			(effects
 				(font
@@ -7784,9 +7784,9 @@
 			(uuid "706fed57-c095-4979-af34-6bc1ff5ec89d")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR068")
+					(reference "#PWR099")
 					(unit 1)
 				)
 			)
@@ -7801,7 +7801,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4f18e48f-5412-4f0f-a9c7-912dcb456ab1")
-		(property "Reference" "R39"
+		(property "Reference" "R55"
 			(at 165.1 65.405 90)
 			(effects
 				(font
@@ -7878,9 +7878,9 @@
 			(uuid "36d8d7f1-2c46-48b3-9800-220102572316")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R39")
+					(reference "R55")
 					(unit 1)
 				)
 			)
@@ -7895,7 +7895,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "540524a7-7bf4-4aae-9d5c-18f42ad92aa7")
-		(property "Reference" "C27"
+		(property "Reference" "C47"
 			(at 147.32 33.02 90)
 			(effects
 				(font
@@ -7972,9 +7972,9 @@
 			(uuid "d3ebe33e-bdc3-4890-acc1-a6988e2af431")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C27")
+					(reference "C47")
 					(unit 1)
 				)
 			)
@@ -7991,7 +7991,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5571ef0f-e08e-45ae-b354-b79d470a5f61")
-		(property "Reference" "#PWR079"
+		(property "Reference" "#PWR0110"
 			(at 161.29 36.83 0)
 			(effects
 				(font
@@ -8039,9 +8039,9 @@
 			(uuid "bc6f0d7c-d608-4047-bfad-9c8ef81613bb")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR079")
+					(reference "#PWR0110")
 					(unit 1)
 				)
 			)
@@ -8057,7 +8057,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "56ddde30-b282-4963-be1a-c622a4180132")
-		(property "Reference" "#PWR082"
+		(property "Reference" "#PWR0113"
 			(at 179.07 127 0)
 			(effects
 				(font
@@ -8105,9 +8105,9 @@
 			(uuid "f3738e3b-d113-442b-bf3f-98c649fb2353")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR082")
+					(reference "#PWR0113")
 					(unit 1)
 				)
 			)
@@ -8123,7 +8123,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5872ccee-6bb9-4768-8473-6fb3ff19beee")
-		(property "Reference" "R38"
+		(property "Reference" "R54"
 			(at 142.24 134.62 90)
 			(effects
 				(font
@@ -8201,9 +8201,9 @@
 			(uuid "860478ce-d1e5-4e83-8fb2-ba007470f339")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R38")
+					(reference "R54")
 					(unit 1)
 				)
 			)
@@ -8219,7 +8219,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "58c9d54a-6753-4c82-876c-f7f0b3492c6b")
-		(property "Reference" "#PWR075"
+		(property "Reference" "#PWR0106"
 			(at 156.21 36.83 0)
 			(effects
 				(font
@@ -8267,9 +8267,9 @@
 			(uuid "8fe0d004-729c-4cf5-9c12-8e70c2ab3600")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR075")
+					(reference "#PWR0106")
 					(unit 1)
 				)
 			)
@@ -8284,7 +8284,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "596ddd55-ba91-46e3-8bba-0c5e74468068")
-		(property "Reference" "C26"
+		(property "Reference" "C46"
 			(at 107.95 139.7 90)
 			(effects
 				(font
@@ -8361,9 +8361,9 @@
 			(uuid "24825193-939c-49cf-ab61-31fd58dca9b8")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C26")
+					(reference "C46")
 					(unit 1)
 				)
 			)
@@ -8378,7 +8378,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "59ab554c-cb22-4d29-a235-a80ec40bf136")
-		(property "Reference" "#PWR074"
+		(property "Reference" "#PWR0105"
 			(at 138.43 127 0)
 			(effects
 				(font
@@ -8426,9 +8426,9 @@
 			(uuid "aa7af983-dd46-4cdf-9d15-4b6310f17053")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR074")
+					(reference "#PWR0105")
 					(unit 1)
 				)
 			)
@@ -8444,7 +8444,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "59b8fb78-2c6f-45f3-838f-10f6ef670f56")
-		(property "Reference" "R41"
+		(property "Reference" "R57"
 			(at 175.26 46.99 90)
 			(effects
 				(font
@@ -8522,9 +8522,9 @@
 			(uuid "b2e5f0ac-de2a-45e9-8774-04977c6708f4")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R41")
+					(reference "R57")
 					(unit 1)
 				)
 			)
@@ -8539,7 +8539,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "59d1e20a-4861-41b8-8270-be0d65b40d56")
-		(property "Reference" "C32"
+		(property "Reference" "C52"
 			(at 213.36 115.57 90)
 			(effects
 				(font
@@ -8616,9 +8616,9 @@
 			(uuid "b731470b-acc6-45af-90cb-2bd2d240e83c")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C32")
+					(reference "C52")
 					(unit 1)
 				)
 			)
@@ -8635,7 +8635,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5a93534f-9789-4f6c-b732-118bdb270ff9")
-		(property "Reference" "#PWR080"
+		(property "Reference" "#PWR0111"
 			(at 161.29 119.38 0)
 			(effects
 				(font
@@ -8683,9 +8683,9 @@
 			(uuid "068efb35-4eff-4ff8-af96-2051410448aa")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR080")
+					(reference "#PWR0111")
 					(unit 1)
 				)
 			)
@@ -8700,7 +8700,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5afd8166-1038-46bb-be64-415dd652aa5f")
-		(property "Reference" "SB2"
+		(property "Reference" "SB10"
 			(at 46.482 130.556 0)
 			(effects
 				(font
@@ -8750,9 +8750,9 @@
 			(uuid "61189fc7-b560-4b3a-b19f-17837faf5f71")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB2")
+					(reference "SB10")
 					(unit 1)
 				)
 			)
@@ -8767,7 +8767,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "611ab32b-e03c-463c-9067-fa3c6f3316ae")
-		(property "Reference" "#PWR084"
+		(property "Reference" "#PWR0115"
 			(at 204.47 127 0)
 			(effects
 				(font
@@ -8815,9 +8815,9 @@
 			(uuid "ef4ad62e-3cf5-47a3-a306-aec5f23fa584")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR084")
+					(reference "#PWR0115")
 					(unit 1)
 				)
 			)
@@ -8833,7 +8833,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "61eb2c55-0750-4668-a81a-6e352c69ac96")
-		(property "Reference" "R32"
+		(property "Reference" "R48"
 			(at 59.055 86.36 90)
 			(effects
 				(font
@@ -8910,9 +8910,9 @@
 			(uuid "92d2bd67-0896-4d17-a581-a900bafebaaa")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R32")
+					(reference "R48")
 					(unit 1)
 				)
 			)
@@ -8927,7 +8927,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6282900f-608b-4fd5-89b9-dfe45088dfb0")
-		(property "Reference" "C34"
+		(property "Reference" "C54"
 			(at 236.22 115.57 90)
 			(effects
 				(font
@@ -9004,9 +9004,9 @@
 			(uuid "2144c353-197f-4090-95d4-e6576b6e594b")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C34")
+					(reference "C54")
 					(unit 1)
 				)
 			)
@@ -9021,7 +9021,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "635e74ac-ea4b-49a6-9af2-79c8151bcfda")
-		(property "Reference" "#PWR071"
+		(property "Reference" "#PWR0102"
 			(at 105.41 102.87 0)
 			(effects
 				(font
@@ -9069,9 +9069,9 @@
 			(uuid "74a25bd3-abce-4217-a20e-fdd61c9db0a1")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR071")
+					(reference "#PWR0102")
 					(unit 1)
 				)
 			)
@@ -9086,7 +9086,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "65b0287a-3a23-48b3-9692-be508b9f5262")
-		(property "Reference" "R33"
+		(property "Reference" "R49"
 			(at 91.44 77.47 90)
 			(effects
 				(font
@@ -9163,9 +9163,9 @@
 			(uuid "2f350ec7-7497-4c6d-8e43-f7f14ea5c89b")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R33")
+					(reference "R49")
 					(unit 1)
 				)
 			)
@@ -9181,7 +9181,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "68e26fb4-f718-4d7d-a535-f425ee9f7285")
-		(property "Reference" "C33"
+		(property "Reference" "C53"
 			(at 236.22 33.02 90)
 			(effects
 				(font
@@ -9258,9 +9258,9 @@
 			(uuid "b4cf99e5-fb04-4935-8546-145a2f8b889a")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C33")
+					(reference "C53")
 					(unit 1)
 				)
 			)
@@ -9276,7 +9276,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6a047477-45e3-4180-8566-856b63c99c3f")
-		(property "Reference" "SB9"
+		(property "Reference" "SB17"
 			(at 115.57 92.71 0)
 			(effects
 				(font
@@ -9326,9 +9326,9 @@
 			(uuid "df5355e2-f1cd-404e-88ec-f29f9a284cb9")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB9")
+					(reference "SB17")
 					(unit 1)
 				)
 			)
@@ -9344,7 +9344,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6d3718ae-aded-4e09-963e-807ed39bd3ea")
-		(property "Reference" "R50"
+		(property "Reference" "R66"
 			(at 241.3 134.62 90)
 			(effects
 				(font
@@ -9422,9 +9422,9 @@
 			(uuid "84b00ac8-a1a9-4840-9dbc-03ad47a8d26c")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R50")
+					(reference "R66")
 					(unit 1)
 				)
 			)
@@ -9439,7 +9439,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6e33524c-1db1-463d-a638-179e657c29d1")
-		(property "Reference" "R48"
+		(property "Reference" "R64"
 			(at 231.14 147.955 90)
 			(effects
 				(font
@@ -9516,9 +9516,9 @@
 			(uuid "be6f4e06-5f5f-48e1-bee6-8b27b94327b7")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R48")
+					(reference "R64")
 					(unit 1)
 				)
 			)
@@ -9612,7 +9612,7 @@
 			(uuid "baf122b9-54ef-4180-8175-52762c8734fd")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV10")
 					(unit 1)
@@ -9708,7 +9708,7 @@
 			(uuid "a0ec5a66-5be2-4c92-bbe2-e5a03a147d57")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV13")
 					(unit 1)
@@ -9726,7 +9726,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "70ff5dc3-59a5-4d32-8c06-1e43fbebc0a5")
-		(property "Reference" "SB5"
+		(property "Reference" "SB13"
 			(at 46.482 138.176 0)
 			(effects
 				(font
@@ -9776,9 +9776,9 @@
 			(uuid "e7b56c2c-cc6a-4125-8453-8d7957f30bf0")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB5")
+					(reference "SB13")
 					(unit 1)
 				)
 			)
@@ -9793,7 +9793,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "71fa0059-f8c3-4540-aa61-688260493343")
-		(property "Reference" "C29"
+		(property "Reference" "C49"
 			(at 170.18 33.02 90)
 			(effects
 				(font
@@ -9870,9 +9870,9 @@
 			(uuid "62139fc5-c69a-4ac2-a046-af43debfc333")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C29")
+					(reference "C49")
 					(unit 1)
 				)
 			)
@@ -9888,7 +9888,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "747e0187-b6de-430d-95f5-002e8c56f897")
-		(property "Reference" "R43"
+		(property "Reference" "R59"
 			(at 175.26 129.54 90)
 			(effects
 				(font
@@ -9966,9 +9966,9 @@
 			(uuid "c3aa9e00-2755-48e6-8d15-cb5616daa4e2")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R43")
+					(reference "R59")
 					(unit 1)
 				)
 			)
@@ -10062,7 +10062,7 @@
 			(uuid "b82a9ee7-5fd8-4c65-91fd-e820b09187cf")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV15")
 					(unit 1)
@@ -10080,7 +10080,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7abcc116-4e62-466d-be49-5409a0ccce87")
-		(property "Reference" "U5"
+		(property "Reference" "U13"
 			(at 161.798 123.698 0)
 			(effects
 				(font
@@ -10177,9 +10177,9 @@
 			(uuid "1337dcac-64dd-430f-aa26-fb949f6df6a8")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "U5")
+					(reference "U13")
 					(unit 1)
 				)
 			)
@@ -10195,7 +10195,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7bee6d33-745a-4021-9afc-a04b9ff59174")
-		(property "Reference" "R35"
+		(property "Reference" "R51"
 			(at 142.24 46.99 90)
 			(effects
 				(font
@@ -10273,9 +10273,9 @@
 			(uuid "1b1ada25-af8f-4e7e-aa75-07d516388de5")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R35")
+					(reference "R51")
 					(unit 1)
 				)
 			)
@@ -10290,7 +10290,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "847ddff0-3fbd-4311-89b7-a982f2a83b34")
-		(property "Reference" "C23"
+		(property "Reference" "C43"
 			(at 45.72 86.36 90)
 			(effects
 				(font
@@ -10367,9 +10367,9 @@
 			(uuid "7652e81d-e392-40c1-bcff-2c83376bbfe3")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C23")
+					(reference "C43")
 					(unit 1)
 				)
 			)
@@ -10385,7 +10385,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "869103e4-4857-453d-b1f6-59c7269dc0bc")
-		(property "Reference" "R36"
+		(property "Reference" "R52"
 			(at 142.24 52.07 90)
 			(effects
 				(font
@@ -10463,9 +10463,9 @@
 			(uuid "354ae2f5-dc7c-491e-b05a-ac7bbbfd25c7")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R36")
+					(reference "R52")
 					(unit 1)
 				)
 			)
@@ -10480,7 +10480,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "86ab85b5-2b43-4485-b186-d0ecfd0599c0")
-		(property "Reference" "#PWR078"
+		(property "Reference" "#PWR0109"
 			(at 158.75 158.75 0)
 			(effects
 				(font
@@ -10528,9 +10528,9 @@
 			(uuid "eff3dfd7-4c79-4d80-9f80-1d092b648a9e")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR078")
+					(reference "#PWR0109")
 					(unit 1)
 				)
 			)
@@ -10546,7 +10546,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "87eac4bb-5f10-4c81-9a64-cf529234c7d6")
-		(property "Reference" "#PWR086"
+		(property "Reference" "#PWR0117"
 			(at 222.25 119.38 0)
 			(effects
 				(font
@@ -10594,9 +10594,9 @@
 			(uuid "27938aa6-117f-41ce-a4aa-60c751f9bb17")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR086")
+					(reference "#PWR0117")
 					(unit 1)
 				)
 			)
@@ -10611,7 +10611,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8b6d2db4-d378-4eba-8761-db93a42949d0")
-		(property "Reference" "R47"
+		(property "Reference" "R63"
 			(at 231.14 65.405 90)
 			(effects
 				(font
@@ -10688,9 +10688,9 @@
 			(uuid "60955bfa-0fef-4d4b-8587-7f80e714a718")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R47")
+					(reference "R63")
 					(unit 1)
 				)
 			)
@@ -10706,7 +10706,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8b8d9865-7e9e-4fce-ab03-35ace448517c")
-		(property "Reference" "#PWR093"
+		(property "Reference" "#PWR0124"
 			(at 247.65 44.45 0)
 			(effects
 				(font
@@ -10754,9 +10754,9 @@
 			(uuid "d16e9400-4ebc-472a-9a09-94306b6fca13")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR093")
+					(reference "#PWR0124")
 					(unit 1)
 				)
 			)
@@ -10772,7 +10772,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "8f469b48-3bd9-4059-9ffb-9173719fc00b")
-		(property "Reference" "R46"
+		(property "Reference" "R62"
 			(at 208.28 134.62 90)
 			(effects
 				(font
@@ -10850,9 +10850,9 @@
 			(uuid "5ab9c293-76e3-4c16-be32-86960cc9ebd7")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R46")
+					(reference "R62")
 					(unit 1)
 				)
 			)
@@ -10946,7 +10946,7 @@
 			(uuid "5a058b03-fdc0-4d2a-8d3b-dd23cdbd815a")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV8")
 					(unit 1)
@@ -11042,7 +11042,7 @@
 			(uuid "f6d5574a-2c95-47b8-bb03-3b61f78934c2")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV6")
 					(unit 1)
@@ -11059,7 +11059,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "97a71ffb-7aba-4fcd-b84c-bd6002b476ab")
-		(property "Reference" "R25"
+		(property "Reference" "R41"
 			(at 25.908 42.926 90)
 			(effects
 				(font
@@ -11136,9 +11136,9 @@
 			(uuid "df7deaf8-4f61-450c-85b1-23f130eb8084")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R25")
+					(reference "R41")
 					(unit 1)
 				)
 			)
@@ -11154,7 +11154,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9caa44a6-2fb8-497a-856a-f2443bac93a2")
-		(property "Reference" "#PWR089"
+		(property "Reference" "#PWR0120"
 			(at 227.33 36.83 0)
 			(effects
 				(font
@@ -11202,9 +11202,9 @@
 			(uuid "c83f595b-6d8f-40c0-8e3b-820ad2894a23")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR089")
+					(reference "#PWR0120")
 					(unit 1)
 				)
 			)
@@ -11220,7 +11220,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a0af5c48-3c08-4380-b486-d112e11d1b1c")
-		(property "Reference" "R52"
+		(property "Reference" "R68"
 			(at 247.65 62.23 90)
 			(effects
 				(font
@@ -11297,9 +11297,9 @@
 			(uuid "7c654061-3d0c-46f1-b899-ee7f81abb350")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R52")
+					(reference "R68")
 					(unit 1)
 				)
 			)
@@ -11316,7 +11316,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a8fecc35-f312-4379-9e79-8d440b7f887e")
-		(property "Reference" "#PWR090"
+		(property "Reference" "#PWR0121"
 			(at 227.33 119.38 0)
 			(effects
 				(font
@@ -11364,9 +11364,9 @@
 			(uuid "7f2f1d15-69a3-4e4c-b533-855418422aa8")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR090")
+					(reference "#PWR0121")
 					(unit 1)
 				)
 			)
@@ -11381,7 +11381,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "aae46ed9-8dd7-473d-b125-ad4b11757e45")
-		(property "Reference" "R27"
+		(property "Reference" "R43"
 			(at 25.908 130.556 90)
 			(effects
 				(font
@@ -11458,9 +11458,9 @@
 			(uuid "1e1a8e8a-44a6-456d-a918-515e9cc16f7a")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R27")
+					(reference "R43")
 					(unit 1)
 				)
 			)
@@ -11475,7 +11475,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ab2e326f-c4b4-4da6-b936-a2694f1e7c2d")
-		(property "Reference" "SB7"
+		(property "Reference" "SB15"
 			(at 47.752 45.466 0)
 			(effects
 				(font
@@ -11525,9 +11525,9 @@
 			(uuid "d27e8861-0cf3-4857-9b45-54deeaaacfef")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB7")
+					(reference "SB15")
 					(unit 1)
 				)
 			)
@@ -11542,7 +11542,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ad34ec2e-6fe2-4bf2-98da-847cb1d1e31d")
-		(property "Reference" "#PWR067"
+		(property "Reference" "#PWR098"
 			(at 48.26 102.87 0)
 			(effects
 				(font
@@ -11590,9 +11590,9 @@
 			(uuid "7366ed02-e8f6-442c-826f-18574d91ec99")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR067")
+					(reference "#PWR098")
 					(unit 1)
 				)
 			)
@@ -11608,7 +11608,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b10e1c62-f378-4221-9a12-42e59c0f999b")
-		(property "Reference" "R37"
+		(property "Reference" "R53"
 			(at 142.24 129.54 90)
 			(effects
 				(font
@@ -11686,9 +11686,9 @@
 			(uuid "fd110c83-138c-45cd-994d-e1bd82de2778")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R37")
+					(reference "R53")
 					(unit 1)
 				)
 			)
@@ -11704,7 +11704,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b3c41cc2-f21b-4e88-a319-1edbf48c0a12")
-		(property "Reference" "#PWR065"
+		(property "Reference" "#PWR096"
 			(at 19.05 43.18 0)
 			(effects
 				(font
@@ -11752,9 +11752,9 @@
 			(uuid "378b000b-5e8d-4303-a01f-48dcbc772514")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR065")
+					(reference "#PWR096")
 					(unit 1)
 				)
 			)
@@ -11769,7 +11769,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b5591ecc-02c9-453c-a3a1-337894f865c3")
-		(property "Reference" "C25"
+		(property "Reference" "C45"
 			(at 102.87 86.36 90)
 			(effects
 				(font
@@ -11846,9 +11846,9 @@
 			(uuid "5d709060-ea90-42ca-8f24-37569acb3806")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C25")
+					(reference "C45")
 					(unit 1)
 				)
 			)
@@ -11863,7 +11863,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b6e3ec1b-4de7-4730-8e6a-44518f7667a1")
-		(property "Reference" "C30"
+		(property "Reference" "C50"
 			(at 170.18 115.57 90)
 			(effects
 				(font
@@ -11940,9 +11940,9 @@
 			(uuid "a59ac703-32f0-43fd-96b5-7faae36197e2")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C30")
+					(reference "C50")
 					(unit 1)
 				)
 			)
@@ -11958,7 +11958,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "be04262b-708c-4874-8129-607df809da01")
-		(property "Reference" "#PWR081"
+		(property "Reference" "#PWR0112"
 			(at 179.07 44.45 0)
 			(effects
 				(font
@@ -12006,9 +12006,9 @@
 			(uuid "12e18349-d555-49d6-98e0-b49ae5a9fec0")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR081")
+					(reference "#PWR0112")
 					(unit 1)
 				)
 			)
@@ -12024,7 +12024,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bf6a3452-34b3-4fa4-94b9-05af87e37eeb")
-		(property "Reference" "R45"
+		(property "Reference" "R61"
 			(at 208.28 129.54 90)
 			(effects
 				(font
@@ -12102,9 +12102,9 @@
 			(uuid "aca349d2-7a4c-4902-be79-e8618d6c6eae")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R45")
+					(reference "R61")
 					(unit 1)
 				)
 			)
@@ -12119,7 +12119,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "bf89f5a0-aa00-4d0b-9eb8-7e17f9a9ea09")
-		(property "Reference" "R40"
+		(property "Reference" "R56"
 			(at 165.1 147.955 90)
 			(effects
 				(font
@@ -12196,9 +12196,9 @@
 			(uuid "0aa9385b-ff18-47c7-8eed-0eaf715d64ad")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R40")
+					(reference "R56")
 					(unit 1)
 				)
 			)
@@ -12214,7 +12214,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c104c49a-bc69-4171-95c0-41dde65b39ab")
-		(property "Reference" "U6"
+		(property "Reference" "U14"
 			(at 227.838 41.148 0)
 			(effects
 				(font
@@ -12311,9 +12311,9 @@
 			(uuid "0f035fe3-1738-40d8-b68c-738ab0ee6722")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "U6")
+					(reference "U14")
 					(unit 1)
 				)
 			)
@@ -12329,7 +12329,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c1d58da4-155d-4558-bd6b-63e0e6d3bb3b")
-		(property "Reference" "#PWR066"
+		(property "Reference" "#PWR097"
 			(at 19.05 130.81 0)
 			(effects
 				(font
@@ -12377,9 +12377,9 @@
 			(uuid "b0b7eae1-54d7-43d3-a95d-e0f68dfee695")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR066")
+					(reference "#PWR097")
 					(unit 1)
 				)
 			)
@@ -12394,7 +12394,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c4e00cff-e869-40ff-b659-22344d017850")
-		(property "Reference" "#PWR088"
+		(property "Reference" "#PWR0119"
 			(at 224.79 158.75 0)
 			(effects
 				(font
@@ -12442,9 +12442,9 @@
 			(uuid "b0e1ef95-afee-4602-b6ba-4fa3fe2ac77a")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR088")
+					(reference "#PWR0119")
 					(unit 1)
 				)
 			)
@@ -12459,7 +12459,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c69bd7ce-0b5c-4a74-a691-65a05d817142")
-		(property "Reference" "#PWR073"
+		(property "Reference" "#PWR0104"
 			(at 138.43 44.45 0)
 			(effects
 				(font
@@ -12507,9 +12507,9 @@
 			(uuid "55bcdc23-b733-41ae-9811-52b6c9559e24")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR073")
+					(reference "#PWR0104")
 					(unit 1)
 				)
 			)
@@ -12524,7 +12524,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c6cc51f6-a291-4b10-91ee-bdc9925c5588")
-		(property "Reference" "R26"
+		(property "Reference" "R42"
 			(at 25.908 45.466 90)
 			(effects
 				(font
@@ -12601,9 +12601,9 @@
 			(uuid "2b6b3152-b54a-4bb1-bf55-9fc1d8e6cc29")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R26")
+					(reference "R42")
 					(unit 1)
 				)
 			)
@@ -12619,7 +12619,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c94d9b63-9393-4087-873b-470126e8d87b")
-		(property "Reference" "R51"
+		(property "Reference" "R67"
 			(at 240.03 62.23 90)
 			(effects
 				(font
@@ -12696,9 +12696,9 @@
 			(uuid "72de7627-c519-4821-85da-813469622d67")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R51")
+					(reference "R67")
 					(unit 1)
 				)
 			)
@@ -12713,7 +12713,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cae4912d-3458-47ea-b2d8-0dbadf787e80")
-		(property "Reference" "#PWR092"
+		(property "Reference" "#PWR0123"
 			(at 246.38 88.9 0)
 			(effects
 				(font
@@ -12761,9 +12761,9 @@
 			(uuid "9cd04d76-b939-4654-92af-8e52fb0126eb")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR092")
+					(reference "#PWR0123")
 					(unit 1)
 				)
 			)
@@ -12779,7 +12779,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cbc189e1-953f-4b47-837a-bc80b9cc1150")
-		(property "Reference" "#PWR091"
+		(property "Reference" "#PWR0122"
 			(at 245.11 127 0)
 			(effects
 				(font
@@ -12827,9 +12827,9 @@
 			(uuid "e9a68bfa-b176-47cc-8510-a8647e986033")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR091")
+					(reference "#PWR0122")
 					(unit 1)
 				)
 			)
@@ -12845,7 +12845,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cfd487a1-0492-431c-bcf7-4e2fd247b91c")
-		(property "Reference" "U4"
+		(property "Reference" "U12"
 			(at 161.798 41.148 0)
 			(effects
 				(font
@@ -12942,9 +12942,9 @@
 			(uuid "fe44f5c9-b4ae-49ce-9e94-e2b428dd4c33")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "U4")
+					(reference "U12")
 					(unit 1)
 				)
 			)
@@ -12959,7 +12959,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d2528a67-cdcd-4e29-b0c5-74c25a1e1cdc")
-		(property "Reference" "J6"
+		(property "Reference" "J8"
 			(at 88.9 127 0)
 			(effects
 				(font
@@ -13027,9 +13027,9 @@
 			(uuid "60c35cb5-67a5-43da-90a8-18f83c636500")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "J6")
+					(reference "J8")
 					(unit 1)
 				)
 			)
@@ -13044,7 +13044,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d5cb94bc-3ec3-4af5-8e83-be7126830b48")
-		(property "Reference" "R29"
+		(property "Reference" "R45"
 			(at 25.908 135.636 90)
 			(effects
 				(font
@@ -13121,9 +13121,9 @@
 			(uuid "a474bf46-0905-463c-ba8d-dc53d7f2dc42")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R29")
+					(reference "R45")
 					(unit 1)
 				)
 			)
@@ -13139,7 +13139,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d6631ddc-84bd-4222-9b63-c05940f62947")
-		(property "Reference" "C31"
+		(property "Reference" "C51"
 			(at 213.36 33.02 90)
 			(effects
 				(font
@@ -13216,9 +13216,9 @@
 			(uuid "5ca4c326-f42f-4aac-a5ff-7228e9a51149")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C31")
+					(reference "C51")
 					(unit 1)
 				)
 			)
@@ -13233,7 +13233,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d9fe3e93-2e4c-496a-8a74-9e6520c7c777")
-		(property "Reference" "C24"
+		(property "Reference" "C44"
 			(at 96.52 46.99 90)
 			(effects
 				(font
@@ -13310,9 +13310,9 @@
 			(uuid "9d31b80c-69b8-4fa8-9a45-53bfe864179b")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C24")
+					(reference "C44")
 					(unit 1)
 				)
 			)
@@ -13327,7 +13327,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "da8ffe51-ae1f-4cd0-967d-bb30397a42b3")
-		(property "Reference" "C28"
+		(property "Reference" "C48"
 			(at 147.32 115.57 90)
 			(effects
 				(font
@@ -13404,9 +13404,9 @@
 			(uuid "9772fbe4-bdc6-401b-b3ad-5f8bbacfef64")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "C28")
+					(reference "C48")
 					(unit 1)
 				)
 			)
@@ -13422,7 +13422,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e6414bc2-4a24-46a2-933a-bcf5ef0ae089")
-		(property "Reference" "SB8"
+		(property "Reference" "SB16"
 			(at 58.42 92.71 0)
 			(effects
 				(font
@@ -13472,9 +13472,9 @@
 			(uuid "a5ade1d4-247e-42ce-a8fa-9e286fe41109")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "SB8")
+					(reference "SB16")
 					(unit 1)
 				)
 			)
@@ -13568,7 +13568,7 @@
 			(uuid "879e7869-c3a5-471c-94d9-8a3485e4bca9")
 		)
 		(instances
-			(project "hardware_v3"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV14")
 					(unit 1)
@@ -13664,7 +13664,7 @@
 			(uuid "0c6b3393-c404-436c-85ee-e2db710b43e1")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
 					(reference "TV7")
 					(unit 1)
@@ -13682,7 +13682,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f06b94d2-e32e-496e-b9ca-066228a09663")
-		(property "Reference" "U7"
+		(property "Reference" "U15"
 			(at 227.838 123.698 0)
 			(effects
 				(font
@@ -13779,9 +13779,9 @@
 			(uuid "fec91f5e-7ad6-46b0-afaf-c04bee282da0")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "U7")
+					(reference "U15")
 					(unit 1)
 				)
 			)
@@ -13797,7 +13797,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "f8cd74de-dcb5-4ab6-b0c8-47a9f0fa795d")
-		(property "Reference" "R49"
+		(property "Reference" "R65"
 			(at 241.3 129.54 90)
 			(effects
 				(font
@@ -13875,9 +13875,9 @@
 			(uuid "6dab15cd-2097-4bf1-97f1-4377cdedef7e")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "R49")
+					(reference "R65")
 					(unit 1)
 				)
 			)
@@ -13893,7 +13893,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fcf4a703-ecc1-4870-847c-977b970b85e3")
-		(property "Reference" "#PWR070"
+		(property "Reference" "#PWR0101"
 			(at 99.06 35.56 0)
 			(effects
 				(font
@@ -13941,9 +13941,9 @@
 			(uuid "9cbf7da3-0c1b-4b45-ba26-e2606be3e074")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR070")
+					(reference "#PWR0101")
 					(unit 1)
 				)
 			)
@@ -13958,7 +13958,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fe28daa2-bc35-4270-a44c-f855d3456ce9")
-		(property "Reference" "#PWR069"
+		(property "Reference" "#PWR0100"
 			(at 88.9 158.75 0)
 			(effects
 				(font
@@ -14006,9 +14006,9 @@
 			(uuid "aa8b81e0-e76d-470b-8720-85504c914c39")
 		)
 		(instances
-			(project "hardware_v2"
+			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/6aff8b4e-e980-4f0c-869d-c519c0240a4f"
-					(reference "#PWR069")
+					(reference "#PWR0100")
 					(unit 1)
 				)
 			)
