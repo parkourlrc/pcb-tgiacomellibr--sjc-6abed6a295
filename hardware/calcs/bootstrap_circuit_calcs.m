@@ -4,10 +4,10 @@ clc
 
 
 % Operating conditions
-VCC = 15;
+VCC = 12;
 Fsw = 20e3;
 D = 99/100;      % Percent value
-Dmin = 1/100;    %  1 %
+Dmin = 2/100;    %  1 %
 Dmax = (1-Dmin); % 99 %
 bs_rip = 6/100; % Maximum allowable ripple
 
@@ -94,9 +94,9 @@ Q_CB = Q_G + (T_Lmax*I_LK) + Q_LS;
 C_B = Q_CB/dV_boot;
 a = sprintf('\r   - Calculated bootstrap capacitor: %.2f(nF)', C_B*1e9);
 disp(a)
-C_B = round(C_B*1200e9)/1000e9;
+C_B = 1.2*round(C_B*10000e9)/10000e9;
 % C_B = 82e-9;
-C_B = 82e-9
+C_B = max(C_B,82e-9);
 a = sprintf('\r   - *Specified bootstrap capacitor: %.2f(nF) <---', C_B*1e9);
 disp(a)
 dV = Q_CB/C_B;

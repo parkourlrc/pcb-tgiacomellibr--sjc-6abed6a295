@@ -4219,15 +4219,15 @@
 				)
 			)
 		)
-		(property "Value" "2.4R 1% 1W"
-			(at 104.775 91.44 90)
+		(property "Value" "10R 1% 500mW"
+			(at 104.902 89.662 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 102.87 91.44 0)
 			(effects
 				(font
@@ -4245,7 +4245,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 10 Ohms, ±1%, 500mW, SMD 1210"
 			(at 102.87 91.44 90)
 			(effects
 				(font
@@ -4254,7 +4254,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Ever Ohms Tech"
+		(property "MF" " UNI-ROYAL"
 			(at 102.87 91.44 90)
 			(effects
 				(font
@@ -4263,7 +4263,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "CR2512F2R40E04S"
+		(property "PN" "1210W2F100JT5E"
 			(at 102.87 91.44 90)
 			(effects
 				(font
@@ -4272,11 +4272,11 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C175225"
+		(property "JLCPCB Part #" "C44451"
 			(at 102.87 91.44 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(hide yes)
 			)
@@ -4314,15 +4314,15 @@
 				)
 			)
 		)
-		(property "Value" "2.4R 1% 1W"
-			(at 201.295 91.44 90)
+		(property "Value" "10R 1% 500mW"
+			(at 201.422 89.662 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 199.39 91.44 0)
 			(effects
 				(font
@@ -4340,7 +4340,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 10 Ohms, ±1%, 500mW, SMD 1210"
 			(at 199.39 91.44 90)
 			(effects
 				(font
@@ -4349,7 +4349,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Ever Ohms Tech"
+		(property "MF" " UNI-ROYAL"
 			(at 199.39 91.44 90)
 			(effects
 				(font
@@ -4358,7 +4358,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "CR2512F2R40E04S"
+		(property "PN" "1210W2F100JT5E"
 			(at 199.39 91.44 90)
 			(effects
 				(font
@@ -4367,11 +4367,11 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C175225"
+		(property "JLCPCB Part #" "C44451"
 			(at 199.39 91.44 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(hide yes)
 			)
@@ -4408,7 +4408,7 @@
 				)
 			)
 		)
-		(property "Value" "130R 1% 1W"
+		(property "Value" "62R 1% 500mW"
 			(at 210.82 99.695 90)
 			(effects
 				(font
@@ -4416,7 +4416,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 210.82 97.79 0)
 			(effects
 				(font
@@ -4434,7 +4434,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 62 Ohms, ±1%, 500mW, SMD 1210"
 			(at 210.82 97.79 90)
 			(effects
 				(font
@@ -4443,7 +4443,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "YAGEO"
+		(property "MF" "UNI-ROYAL"
 			(at 210.82 97.79 90)
 			(effects
 				(font
@@ -4452,7 +4452,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "AC2512FK-07130RL"
+		(property "PN" "CQ07W2F620JT5E"
 			(at 210.82 97.79 90)
 			(effects
 				(font
@@ -4461,7 +4461,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C728111"
+		(property "JLCPCB Part #" "C966313"
 			(at 210.82 97.79 90)
 			(effects
 				(font
@@ -4503,15 +4503,15 @@
 				)
 			)
 		)
-		(property "Value" "2.4R 1% 1W"
-			(at 201.295 58.42 90)
+		(property "Value" "10R 1% 500mW"
+			(at 201.422 56.642 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 199.39 58.42 0)
 			(effects
 				(font
@@ -4529,7 +4529,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 10 Ohms, ±1%, 500mW, SMD 1210"
 			(at 199.39 58.42 90)
 			(effects
 				(font
@@ -4538,7 +4538,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Ever Ohms Tech"
+		(property "MF" " UNI-ROYAL"
 			(at 199.39 58.42 90)
 			(effects
 				(font
@@ -4547,7 +4547,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "CR2512F2R40E04S"
+		(property "PN" "1210W2F100JT5E"
 			(at 199.39 58.42 90)
 			(effects
 				(font
@@ -4556,11 +4556,11 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C175225"
+		(property "JLCPCB Part #" "C44451"
 			(at 199.39 58.42 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(hide yes)
 			)
@@ -4883,7 +4883,7 @@
 				)
 			)
 		)
-		(property "Value" "130R 1% 1W"
+		(property "Value" "62R 1% 500mW"
 			(at 93.98 99.695 90)
 			(effects
 				(font
@@ -4891,7 +4891,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 93.98 97.79 0)
 			(effects
 				(font
@@ -4909,7 +4909,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 62 Ohms, ±1%, 500mW, SMD 1210"
 			(at 93.98 97.79 90)
 			(effects
 				(font
@@ -4918,7 +4918,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "YAGEO"
+		(property "MF" "UNI-ROYAL"
 			(at 93.98 97.79 90)
 			(effects
 				(font
@@ -4927,7 +4927,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "AC2512FK-07130RL"
+		(property "PN" "CQ07W2F620JT5E"
 			(at 93.98 97.79 90)
 			(effects
 				(font
@@ -4936,7 +4936,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C728111"
+		(property "JLCPCB Part #" "C966313"
 			(at 93.98 97.79 90)
 			(effects
 				(font
@@ -5091,7 +5091,7 @@
 				)
 			)
 		)
-		(property "Value" "82nF 5% 50V"
+		(property "Value" "100nF 5% 50V"
 			(at 83.82 74.93 90)
 			(effects
 				(font
@@ -5117,7 +5117,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Capacitor, 82nF, ±5%, X7R, 50V, SMD 0805"
+		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0805"
 			(at 81.28 74.93 90)
 			(effects
 				(font
@@ -5135,7 +5135,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "CC0805JRX7R9BB823"
+		(property "PN" "CC0805JRX7R9BB104"
 			(at 81.28 74.93 90)
 			(effects
 				(font
@@ -5144,7 +5144,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C520047"
+		(property "JLCPCB Part #" "C111492"
 			(at 81.28 74.93 0)
 			(effects
 				(font
@@ -5186,7 +5186,7 @@
 				)
 			)
 		)
-		(property "Value" "130R 1% 1W"
+		(property "Value" "62R 1% 500mW"
 			(at 93.98 66.675 90)
 			(effects
 				(font
@@ -5194,7 +5194,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 93.98 64.77 0)
 			(effects
 				(font
@@ -5212,7 +5212,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 62 Ohms, ±1%, 500mW, SMD 1210"
 			(at 93.98 64.77 90)
 			(effects
 				(font
@@ -5221,7 +5221,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "YAGEO"
+		(property "MF" "UNI-ROYAL"
 			(at 93.98 64.77 90)
 			(effects
 				(font
@@ -5230,7 +5230,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "AC2512FK-07130RL"
+		(property "PN" "CQ07W2F620JT5E"
 			(at 93.98 64.77 90)
 			(effects
 				(font
@@ -5239,7 +5239,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C728111"
+		(property "JLCPCB Part #" "C966313"
 			(at 93.98 64.77 90)
 			(effects
 				(font
@@ -5969,6 +5969,100 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Small")
+		(at 220.98 74.93 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5c49356f-7a97-44fc-8aeb-e6d3001abd78")
+		(property "Reference" "C22"
+			(at 218.44 74.93 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "100nF 5% 50V"
+			(at 223.52 74.93 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
+			(at 220.98 74.93 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 220.98 74.93 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 100nF, ±5%, X7R, 50V, SMD 0805"
+			(at 220.98 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "YAGEO"
+			(at 220.98 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CC0805JRX7R9BB104"
+			(at 220.98 74.93 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C111492"
+			(at 220.98 74.93 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "59d7e426-314f-462b-9100-8e9159806139")
+		)
+		(pin "2"
+			(uuid "5ae49e53-f12a-41a7-a60e-9276b0631147")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small_US")
 		(at 38.1 86.36 90)
 		(unit 1)
@@ -6080,7 +6174,7 @@
 				)
 			)
 		)
-		(property "Value" "130R 1% 1W"
+		(property "Value" "62R 1% 500mW"
 			(at 210.82 66.675 90)
 			(effects
 				(font
@@ -6088,7 +6182,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 210.82 64.77 0)
 			(effects
 				(font
@@ -6106,7 +6200,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 130 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 62 Ohms, ±1%, 500mW, SMD 1210"
 			(at 210.82 64.77 90)
 			(effects
 				(font
@@ -6115,7 +6209,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "YAGEO"
+		(property "MF" "UNI-ROYAL"
 			(at 210.82 64.77 90)
 			(effects
 				(font
@@ -6124,7 +6218,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "AC2512FK-07130RL"
+		(property "PN" "CQ07W2F620JT5E"
 			(at 210.82 64.77 90)
 			(effects
 				(font
@@ -6133,7 +6227,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C728111"
+		(property "JLCPCB Part #" "C966313"
 			(at 210.82 64.77 90)
 			(effects
 				(font
@@ -7578,15 +7672,15 @@
 				)
 			)
 		)
-		(property "Value" "2.4R 1% 1W"
-			(at 104.775 58.42 90)
+		(property "Value" "10R 1% 500mW"
+			(at 104.902 56.642 90)
 			(effects
 				(font
 					(size 1 1)
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_2512_6332Metric_Pad1.40x3.35mm_HandSolder"
+		(property "Footprint" "Resistor_SMD:R_1210_3225Metric_Pad1.30x2.65mm_HandSolder"
 			(at 102.87 58.42 0)
 			(effects
 				(font
@@ -7604,7 +7698,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "Resistor, 2.4 Ohms, ±1%, 1W, SMD 2512"
+		(property "Description" "Resistor, 10 Ohms, ±1%, 500mW, SMD 1210"
 			(at 102.87 58.42 90)
 			(effects
 				(font
@@ -7613,7 +7707,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Ever Ohms Tech"
+		(property "MF" " UNI-ROYAL"
 			(at 102.87 58.42 90)
 			(effects
 				(font
@@ -7622,7 +7716,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "CR2512F2R40E04S"
+		(property "PN" "1210W2F100JT5E"
 			(at 102.87 58.42 90)
 			(effects
 				(font
@@ -7631,11 +7725,11 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C175225"
+		(property "JLCPCB Part #" "C44451"
 			(at 102.87 58.42 90)
 			(effects
 				(font
-					(size 1.27 1.27)
+					(size 1 1)
 				)
 				(hide yes)
 			)
@@ -8448,100 +8542,6 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "#PWR043")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C_Small")
-		(at 220.98 74.93 180)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d20706e5-beea-4b17-88ca-d5cf6ab9bfdd")
-		(property "Reference" "C22"
-			(at 218.44 74.93 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Value" "82nF 5% 50V"
-			(at 223.52 74.93 90)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
-			(at 220.98 74.93 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 220.98 74.93 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Capacitor, 82nF, ±5%, X7R, 50V, SMD 0805"
-			(at 220.98 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "MF" "YAGEO"
-			(at 220.98 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "PN" "CC0805JRX7R9BB823"
-			(at 220.98 74.93 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "JLCPCB Part #" "C520047"
-			(at 220.98 74.93 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "0281f33f-b6f1-466a-b044-3bf4def80412")
-		)
-		(pin "2"
-			(uuid "655863aa-a726-46b1-9639-db723582cfc8")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "C22")
 					(unit 1)
 				)
 			)
