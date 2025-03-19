@@ -3074,7 +3074,7 @@
 	(footprint "Capacitor_SMD:CP_Elec_8x10.5"
 		(layer "F.Cu")
 		(uuid "12a002ef-ca9e-4150-a30e-c3c3bd957c43")
-		(at 68.093 -4.287)
+		(at 104.873 109.373)
 		(descr "SMD capacitor, aluminum electrolytic, Vishay 0810, 8.0x10.5mm, http://www.vishay.com/docs/28395/150crz.pdf")
 		(tags "capacitor electrolytic")
 		(property "Reference" "C25"
@@ -4391,7 +4391,7 @@
 	(footprint "Capacitor_SMD:C_1206_3216Metric"
 		(layer "F.Cu")
 		(uuid "1ae13502-a2a4-40d5-b4f4-2bbdf5aaeaa3")
-		(at 72.693 2.413)
+		(at 118.383 122.473)
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C27"
@@ -5963,7 +5963,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "356449c5-9898-421b-80e1-5f867addba0f")
-		(at 91.778 -0.907)
+		(at 113.553 108.113)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R14"
@@ -7292,7 +7292,7 @@
 	(footprint "sjc:PowerPAK_SO-8_Single"
 		(layer "F.Cu")
 		(uuid "44f5fc8f-1f8b-45c9-ac1e-88f8ffc28998")
-		(at 71.628 56.333 -90)
+		(at 71.628 61.468 -90)
 		(descr "PowerPAK SO-8 Single (https://www.vishay.com/docs/71655/powerpak.pdf, https://www.vishay.com/docs/72599/72599.pdf)")
 		(tags "PowerPAK SO-8 Single")
 		(property "Reference" "Q4"
@@ -9325,7 +9325,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "4a90a76e-c481-4adb-aeae-22baa883bda8")
-		(at 91.778 4.113)
+		(at 113.553 113.133)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R16"
@@ -9570,7 +9570,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "4cc7a824-4ba5-4a9e-affe-1dfda99c77a9")
-		(at 91.778 -3.417)
+		(at 113.553 105.603)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C14"
@@ -12202,7 +12202,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "6028893a-a53f-4d76-99db-efe479156e44")
-		(at 124.2155 2.383)
+		(at 113.553 120.663)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R19"
@@ -15308,7 +15308,7 @@
 	(footprint "sjc:PowerPAK_SO-8_Single"
 		(layer "F.Cu")
 		(uuid "7efe2485-a3ef-403e-ae40-9d6e1dd35ebe")
-		(at 112.013 -1.397)
+		(at 119.633 114.173)
 		(descr "PowerPAK SO-8 Single (https://www.vishay.com/docs/71655/powerpak.pdf, https://www.vishay.com/docs/72599/72599.pdf)")
 		(tags "PowerPAK SO-8 Single")
 		(property "Reference" "Q7"
@@ -16790,7 +16790,7 @@
 	(footprint "Fuse:Fuse_1206_3216Metric_Pad1.42x1.75mm_HandSolder"
 		(layer "F.Cu")
 		(uuid "90c50861-6d6d-4359-b233-cede002a8e74")
-		(at 125.1855 -3.027)
+		(at 101.173 126.093)
 		(descr "Fuse SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
 		(tags "fuse handsolder")
 		(property "Reference" "F3"
@@ -17035,7 +17035,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23"
 		(layer "F.Cu")
 		(uuid "90e38305-38d3-4c1c-9a8e-d877d7a0640b")
-		(at 101.878 10.8442)
+		(at 118.003 126.5642)
 		(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236), generated with kicad-footprint-generator ipc_gullwing_generator.py")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "Q6"
@@ -18005,7 +18005,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "9eab7f0f-cf3f-4c17-a97a-a1e6a372c273")
-		(at 91.778 1.603)
+		(at 113.553 110.623)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R15"
@@ -18250,7 +18250,7 @@
 	(footprint "Capacitor_SMD:C_1206_3216Metric"
 		(layer "F.Cu")
 		(uuid "a6abaa8a-5d5c-472b-9a7e-cd89ef91bbe8")
-		(at 119.3855 7.053)
+		(at 118.383 119.123)
 		(descr "Capacitor SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "capacitor")
 		(property "Reference" "C18"
@@ -19168,7 +19168,7 @@
 	(footprint "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
 		(layer "F.Cu")
 		(uuid "ac7fbb07-f9b4-4e2a-b235-7a8720751360")
-		(at 124.4467 4.9492)
+		(at 106.3842 125.7592)
 		(descr "LED SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf), generated with kicad-footprint-generator")
 		(tags "LED handsolder")
 		(property "Reference" "LD3"
@@ -19695,7 +19695,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "b1381472-9c20-4ea8-b8ce-4ff55d3fd464")
-		(at 124.2155 -0.127)
+		(at 113.553 118.153)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R18"
@@ -21742,7 +21742,7 @@
 	(footprint "sjc:PowerPAK_SO-8_Single"
 		(layer "F.Cu")
 		(uuid "bd1ac80c-62e4-4b3a-9fc0-3ec75e404852")
-		(at 103.508 -1.397 180)
+		(at 119.633 107.623 180)
 		(descr "PowerPAK SO-8 Single (https://www.vishay.com/docs/71655/powerpak.pdf, https://www.vishay.com/docs/72599/72599.pdf)")
 		(tags "PowerPAK SO-8 Single")
 		(property "Reference" "Q5"
@@ -26558,7 +26558,7 @@
 	(footprint "Resistor_SMD:R_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "e51d524d-4b0b-4891-acdf-1d420833f27b")
-		(at 91.778 6.623)
+		(at 113.553 115.643)
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC_7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf), generated with kicad-footprint-generator")
 		(tags "resistor")
 		(property "Reference" "R17"
@@ -26803,7 +26803,7 @@
 	(footprint "Capacitor_SMD:CP_Elec_8x10.5"
 		(layer "F.Cu")
 		(uuid "e91b3db1-940c-42c7-ba2f-afa8ee70fa29")
-		(at 67.928 -17.272)
+		(at 104.873 119.423)
 		(descr "SMD capacitor, aluminum electrolytic, Vishay 0810, 8.0x10.5mm, http://www.vishay.com/docs/28395/150crz.pdf")
 		(tags "capacitor electrolytic")
 		(property "Reference" "C26"
@@ -31943,17 +31943,17 @@
 		)
 		(polygon
 			(pts
-				(xy 109.22 76.454) (xy 99.568 76.454) (xy 99.568 55.118) (xy 66.548 55.118) (xy 66.548 62.738) (xy 91.948 62.738)
+				(xy 109.22 76.454) (xy 99.568 76.454) (xy 99.568 60.198) (xy 69.088 60.198) (xy 69.088 66.548) (xy 91.948 66.548)
 				(xy 91.948 93.197) (xy 66.548 93.197) (xy 66.548 100.563) (xy 109.22 100.563)
 			)
 		)
 		(filled_polygon
 			(layer "F.Cu")
 			(pts
-				(xy 99.068058 55.119061) (xy 99.114263 55.125144) (xy 99.175296 55.133179) (xy 99.206561 55.141556)
-				(xy 99.298915 55.17981) (xy 99.326949 55.195996) (xy 99.406258 55.256853) (xy 99.429146 55.279741)
-				(xy 99.490003 55.35905) (xy 99.506189 55.387085) (xy 99.544442 55.479437) (xy 99.55282 55.510703)
-				(xy 99.566939 55.617941) (xy 99.568 55.634127) (xy 99.568 76.454) (xy 108.703873 76.454) (xy 108.720058 76.455061)
+				(xy 99.068058 60.199061) (xy 99.114263 60.205144) (xy 99.175296 60.213179) (xy 99.206561 60.221556)
+				(xy 99.298915 60.25981) (xy 99.326949 60.275996) (xy 99.406258 60.336853) (xy 99.429146 60.359741)
+				(xy 99.490003 60.43905) (xy 99.506189 60.467085) (xy 99.544442 60.559437) (xy 99.55282 60.590703)
+				(xy 99.566939 60.697941) (xy 99.568 60.714127) (xy 99.568 76.454) (xy 108.703873 76.454) (xy 108.720058 76.455061)
 				(xy 108.766263 76.461144) (xy 108.827296 76.469179) (xy 108.858561 76.477556) (xy 108.950915 76.51581)
 				(xy 108.978949 76.531996) (xy 109.058258 76.592853) (xy 109.081146 76.615741) (xy 109.142003 76.69505)
 				(xy 109.158189 76.723085) (xy 109.196442 76.815437) (xy 109.20482 76.846703) (xy 109.218939 76.953941)
@@ -32049,10 +32049,14 @@
 				(xy 105.481667 77.056444) (xy 105.460265 77.0545) (xy 105.460262 77.0545) (xy 104.945727 77.0545)
 				(xy 104.874354 77.060985) (xy 104.874344 77.060988) (xy 104.71009 77.112171) (xy 104.562841 77.201186)
 				(xy 104.441186 77.322841) (xy 104.352173 77.470086) (xy 104.300986 77.634354) (xy 104.2945 77.705737)
-				(xy 91.948 77.705737) (xy 91.948 62.738) (xy 91.44 62.738) (xy 67.064127 62.738) (xy 67.047942 62.736939)
-				(xy 67.032864 62.734954) (xy 66.956313 62.724875) (xy 66.892417 62.696608) (xy 66.853947 62.638283)
-				(xy 66.8485 62.601936) (xy 66.8485 55.254063) (xy 66.868185 55.187024) (xy 66.920989 55.141269)
-				(xy 66.956315 55.131124) (xy 67.047942 55.119061) (xy 67.064127 55.118) (xy 99.051873 55.118)
+				(xy 91.948 77.705737) (xy 91.948 66.548) (xy 91.44 66.548) (xy 69.604127 66.548) (xy 69.587941 66.546939)
+				(xy 69.480703 66.53282) (xy 69.449437 66.524442) (xy 69.357085 66.486189) (xy 69.32905 66.470003)
+				(xy 69.249741 66.409146) (xy 69.226853 66.386258) (xy 69.165996 66.306949) (xy 69.14981 66.278914)
+				(xy 69.111557 66.186562) (xy 69.103179 66.155295) (xy 69.089061 66.048057) (xy 69.088 66.031872)
+				(xy 69.088 60.714127) (xy 69.089061 60.697942) (xy 69.103179 60.590704) (xy 69.111556 60.55944)
+				(xy 69.149812 60.467081) (xy 69.165996 60.43905) (xy 69.226853 60.359741) (xy 69.249741 60.336853)
+				(xy 69.32905 60.275996) (xy 69.357081 60.259812) (xy 69.44944 60.221556) (xy 69.480701 60.213179)
+				(xy 69.556241 60.203234) (xy 69.587942 60.199061) (xy 69.604127 60.198) (xy 99.051873 60.198)
 			)
 		)
 	)
