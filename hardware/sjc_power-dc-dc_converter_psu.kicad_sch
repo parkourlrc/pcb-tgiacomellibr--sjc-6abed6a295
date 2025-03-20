@@ -3655,7 +3655,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "0eb22e86-3471-4d44-b865-55a48260bcd7")
-		(property "Reference" "#PWR01"
+		(property "Reference" "#PWR017"
 			(at 34.29 80.01 0)
 			(effects
 				(font
@@ -3705,7 +3705,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR01")
+					(reference "#PWR017")
 					(unit 1)
 				)
 			)
@@ -5147,7 +5147,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "96acb027-0da1-4f25-8980-06ae3537fc9c")
-		(property "Reference" "#PWR02"
+		(property "Reference" "#PWR018"
 			(at 31.75 119.38 0)
 			(effects
 				(font
@@ -5197,7 +5197,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR02")
+					(reference "#PWR018")
 					(unit 1)
 				)
 			)
@@ -5402,7 +5402,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a1d24f0c-69b9-48df-93b2-08d950a703fb")
-		(property "Reference" "#PWR021"
+		(property "Reference" "#PWR022"
 			(at 271.78 144.78 0)
 			(effects
 				(font
@@ -5452,7 +5452,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR021")
+					(reference "#PWR022")
 					(unit 1)
 				)
 			)
@@ -5561,7 +5561,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "aaecba81-1a77-4536-b486-4a0444e6c984")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR020"
 			(at 252.73 119.38 0)
 			(effects
 				(font
@@ -5611,7 +5611,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR014")
+					(reference "#PWR020")
 					(unit 1)
 				)
 			)
@@ -5815,7 +5815,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf6f72be-bea7-478c-949f-7f311951943e")
-		(property "Reference" "#PWR018"
+		(property "Reference" "#PWR019"
 			(at 255.27 80.01 0)
 			(effects
 				(font
@@ -5865,7 +5865,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR018")
+					(reference "#PWR019")
 					(unit 1)
 				)
 			)
@@ -5881,7 +5881,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ec5913db-1fc0-4429-a311-90178e70cd4a")
-		(property "Reference" "#PWR020"
+		(property "Reference" "#PWR021"
 			(at 274.32 129.54 0)
 			(effects
 				(font
@@ -5931,7 +5931,7 @@
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
-					(reference "#PWR020")
+					(reference "#PWR021")
 					(unit 1)
 				)
 			)
