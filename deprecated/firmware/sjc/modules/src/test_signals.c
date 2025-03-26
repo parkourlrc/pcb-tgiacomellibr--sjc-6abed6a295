@@ -63,19 +63,19 @@ void TestSignals_setState(const eSjcInputSignalState_t xSjcInputSignalState);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_TestSignals_Init(void)
+void TestSignals_init(void)
 {
 	xSjcInputSignalState = INPUT_SIGNAL_STATE_INIT_CONFIG;
 	xSjcSignalType = INPUT_TYPE_NONE;
 }
 
-void SJC_TestSignals_Reset(void)
+void TestSignals_reset(void)
 {
 	xSjcInputSignalState = INPUT_SIGNAL_STATE_INIT_CONFIG;
 	xSjcSignalType = INPUT_TYPE_NONE;
 }
 
-eSjcReturnType_t SJC_TestSignals_SetConfig(const eSjcInputType_t type, const float time_factor)
+eSjcReturnType_t TestSignals_setConfig(const eSjcInputType_t type, const float time_factor)
 {
 	xSjcSignalType = type;
 
@@ -121,14 +121,14 @@ eSjcReturnType_t SJC_TestSignals_SetConfig(const eSjcInputType_t type, const flo
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_TestSignals_GetState(eSjcInputSignalState_t *state)
+eSjcReturnType_t TestSignals_getState(eSjcInputSignalState_t *state)
 {
 	*state = xSjcInputSignalState;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_TestSignals_GetValue(float *value)
+eSjcReturnType_t TestSignals_getValue(float *value)
 {
 	if (INPUT_SIGNAL_STATE_FINISHED == xSjcInputSignalState)
 	{

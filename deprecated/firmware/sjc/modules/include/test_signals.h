@@ -10,10 +10,10 @@
 
 #include "system_types/include/types.h"
 
-void SJC_TestSignals_Init(void);
-void SJC_TestSignals_Reset(void);
-eSjcReturnType_t SJC_TestSignals_SetConfig(const eSjcInputType_t type, const float time_factor);
-eSjcReturnType_t SJC_TestSignals_GetState(eSjcInputSignalState_t *state);
-eSjcReturnType_t SJC_TestSignals_GetValue(float *value);
+void TestSignals_init(void);
+void TestSignals_reset(void);
+eSjcReturnType_t TestSignals_setConfig(const eSjcInputType_t type, const float time_factor);
+eSjcReturnType_t TestSignals_getState(eSjcInputSignalState_t *state);
+eSjcReturnType_t TestSignals_getValue(float *value);
 
 #endif /* SJC__MODULES__TEST_SIGNALS_H_ */

@@ -10,7 +10,7 @@
 
 #include "system_types/include/types.h"
 
-void SJC_DataLogger_Init(void);
-int SJC_DataLogger_Transmit(const char *format, ...);
+void DataLogger_init(void);
+int DataLogger_transmit(const char *format, ...);
 
 #endif /* SJC__MODULES__DATA_LOGGER_H_ */

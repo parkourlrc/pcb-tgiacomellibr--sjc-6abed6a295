@@ -218,6 +218,12 @@ typedef struct
 
 typedef struct
 {
+	bool State;
+	xSjcDigitalPort_t OutputEnablePort;
+} xSjcMotorOutput_t;
+
+typedef struct
+{
 	uint16_t Address;
 	uint32_t Baudrate;
 	uint8_t Parity;

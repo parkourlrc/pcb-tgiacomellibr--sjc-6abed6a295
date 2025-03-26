@@ -11,11 +11,11 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
 #include "modules/include/analog_interfaces.h"
-#include "modules/include/network.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
 #include "modules/include/test_signals.h"
@@ -145,7 +145,7 @@ void SJC_TaskCommon_Init(void)
 	/* Init Startup Tasks */
 	if (SJC_RET_NOK == InitOsThreads())
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
 		SJC_SYSTEM_RESET();
 	}
 }
@@ -211,37 +211,37 @@ eSjcReturnType_t InitOsThreads(void)
 
 	if (NULL == NetworkTaskHandle)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Network task not initiated...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Network task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == DataLoggerTaskHandle)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Data logger task not initiated...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Data logger task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == WatchdogTaskHandle)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Watchdog task not initiated...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Watchdog task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	if (NULL == ControllerAndMeasurementsTaskHandle)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Controller and measurements task not initiated...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Controller and measurements task not initiated...");
 		return SJC_RET_NOK;
 	}
 
 	//	if (NULL == ControllerTaskHandle)
 	//	{
-	//		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Joint controller task not initiated...");
+	//		DebugOutput_SystemPrintf("\r\n[OS FAULT] Joint controller task not initiated...");
 	//		return SJC_RET_NOK;
 	//	}
 	//
 	//	if (NULL == MeasurementsTaskHandle)
 	//	{
-	//		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog measurements task not initiated...");
+	//		DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog measurements task not initiated...");
 	//		return SJC_RET_NOK;
 	//	}
 

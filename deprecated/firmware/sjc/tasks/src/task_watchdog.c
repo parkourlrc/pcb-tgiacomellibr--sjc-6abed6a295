@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "main.h"
 #include "cmsis_os.h"
 #include "task.h"
@@ -22,7 +23,6 @@
 #include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
-#include "modules/include/network.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/debug_output.h"
 #include "tasks/include/task_common.h"
@@ -67,7 +67,7 @@ void WatchdogTaskApp(void *argument)
 	/* USER CODE BEGIN WatchdogTaskApp */
 
 	osDelay(SJC_TASK_INIT_DELAY);
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Watchdog task initiated!");
+	DebugOutput_systemPrintf("\r\n[OS] Watchdog task initiated!");
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -84,10 +84,10 @@ void WatchdogTaskApp(void *argument)
 
 		switch (xWatchdogState) {
 		case WD_STATE_STATISTICS:
-			SJC_AnalogInterfaces_GetMeanConversionDelay(&Ts);
+			AnalogInterfaces_getMeanConversionDelay(&Ts);
 			MeanSampleTime_us = (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f;
 
-			SJC_DebugOutput_SystemPrintf("\n\r[OS] Runtime Stats.:"
+			DebugOutput_systemPrintf("\n\r[OS] Runtime Stats.:"
 					"\n\r - Uptime: %lu s"
 					"\n\r - Analog. Conv. Delay: %.2f us"
 					"\n\r - Controller Ts: %.3f ms"
@@ -108,7 +108,7 @@ void WatchdogTaskApp(void *argument)
 			break;
 		case WD_STATE_MEMORY:
 			SJC_TaskCommon_UpdateHighWaterMarkInfo();
-			SJC_DebugOutput_SystemPrintf("\n\r[OS] HighWaterMark:"
+			DebugOutput_systemPrintf("\n\r[OS] HighWaterMark:"
 					"\n\r - Watchdog Task: %lu B"
 					"\n\r - Data Logger Task: %.lu B"
 					"\n\r - Network Task: %lu B"
@@ -121,7 +121,7 @@ void WatchdogTaskApp(void *argument)
 			break;
 
 		default: // WD_STATE_RTOS_REPORT
-			SJC_DebugOutput_PresentRuntimeStatistics();
+			DebugOutput_presentRuntimeStatistics();
 			xWatchdogState = WD_STATE_STATISTICS;
 			break;
 		}

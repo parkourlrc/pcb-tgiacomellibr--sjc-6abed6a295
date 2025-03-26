@@ -13,6 +13,11 @@
 #include "adc.h"
 #include "tim.h"
 
+// Hardware info ------------------------------------------------------------------ //
+// -------------------------------------------------------------------------------- //
+#define SJC_HW_VERSION_MAJOR 1U // First PCB layout
+#define SJC_HW_VERSION_MINOR 0U
+
 // Firmware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
 #define SJC_FW_VERSION_MAJOR 1U
@@ -22,24 +27,26 @@
 #define SJC_FW_RELEASE_MONTH 04U
 #define SJC_FW_RELEASE_YEAR 2024UL
 
-#define SJC_HW_VERSION_MAJOR 1U
-#define SJC_HW_VERSION_MINOR 0U
+// Current sense mode ------------------------------------------------------------ //
+// #define SJC_CURRENT_SENSE_CONFIG_EXTERNAL
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_16A
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_25A
 
 // PWM Configs -------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_PWM_COUNT_PERIOD ((uint32_t)1000)
-#define SJC_PWM_MIN_DUTY_CYCLE ((float)0.02)
-#define SJC_PWM_MAX_DUTY_CYCLE ((float)0.98)
+#define PwmSignal_COUNT_PERIOD ((uint32_t)1000)
+#define PwmSignal_MIN_DUTY_CYCLE ((float)0.02)
+#define PwmSignal_MAX_DUTY_CYCLE ((float)0.98)
 
-#define SJC_PWM_INSTANCE TIM1
-#define SJC_PWM_LEFT_CHANNEL LL_TIM_CHANNEL_CH1
-#define SJC_PWM_LEFT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH1N
+#define PwmSignal_INSTANCE TIM1
+#define PwmSignal_LEFT_CHANNEL LL_TIM_CHANNEL_CH1
+#define PwmSignal_LEFT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH1N
 
-#define SJC_PWM_RIGHT_CHANNEL LL_TIM_CHANNEL_CH3
-#define SJC_PWM_RIGHT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH3N
+#define PwmSignal_RIGHT_CHANNEL LL_TIM_CHANNEL_CH3
+#define PwmSignal_RIGHT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH3N
 
-#define SJC_PWM_DEFAULT_FREQUENCY ((uint32_t)20000UL)
-#define SJC_PWM_DEFAULT_PERIOD ((float)(1.0f / SJC_PWM_DEFAULT_FREQUENCY))
+#define PwmSignal_DEFAULT_FREQUENCY ((uint32_t)20000UL)
+#define PwmSignal_DEFAULT_PERIOD ((float)(1.0f / PwmSignal_DEFAULT_FREQUENCY))
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -62,8 +69,13 @@
 
 // Actuator Configs --------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_nEN_GPIO_Port
-#define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_nEN_Pin
+// #if SJC_HW_VERSION_MAJOR > 1
+// #define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_DRIVER_nEN_Pin
+// #define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_DRIVER_nEN_GPIO_Port
+// #endif
+
+#define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PORT V_MOTOR_nEN_GPIO_Port
+#define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PIN V_MOTOR_nEN_Pin
 
 #define SJC_ACTUATOR_LIMIT_MAX_SPEED ((float)10000.0f)
 #define SJC_ACTUATOR_LIMIT_MAX_CURRENT ((float)50.0f)
@@ -90,6 +102,16 @@
 #define SJC_ISOLATED_INPUT_A_PORT GP_ISO_IN_A_GPIO_Port
 #define SJC_ISOLATED_INPUT_B_PORT GP_ISO_IN_B_GPIO_Port
 
+// #if SJC_HW_VERSION_MAJOR > 1
+// #define SJC_NET_ADDR_A_INPUT_PIN NET_ADDR_A_Pin
+// #define SJC_NET_ADDR_B_INPUT_PIN NET_ADDR_B_Pin
+// #define SJC_NET_ADDR_C_INPUT_PIN NET_ADDR_C_Pin
+
+// #define SJC_NET_ADDR_A_INPUT_PORT NET_ADDR_A_GPIO_Port
+// #define SJC_NET_ADDR_B_INPUT_PORT NET_ADDR_B_GPIO_Port
+// #define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
+// #endif
+
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_ADC_INSTANCE (ADC1)
@@ -115,7 +137,7 @@
 #define AD8418_SHUNT_RESISTANCE ((float)0.008f)
 #define AD8418_ANALOG_FRONTED_GAIN ((float)0.7907f)
 
-#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.8f)
+#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.7f)
 #define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO (1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO)
 
 // Voltage Sensor ----------------------------------------------------------------- //
@@ -143,6 +165,8 @@
 // Modbus Communication ----------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define MODBUS_SERIAL_INSTANCE USART2
+#define MODBUS_SERIAL_DMA_INSTANCE DMA1
+#define MODBUS_SERIAL_DMA_STREAM LL_DMA_STREAM_6
 #define MODBUS_SET_RX_MODE() LL_GPIO_ResetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 #define MODBUS_SET_TX_MODE() LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 

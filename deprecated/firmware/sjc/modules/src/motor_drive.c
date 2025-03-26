@@ -41,90 +41,95 @@ static xSjcMotorDrive_t MotorDrive;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_MotorDrive_Init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage)
+void MotorDrive_init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage)
 {
+#if SJC_HW_VERSION_MAJOR > 1
 	MotorDrive.DriveEnablePort.Pin = SJC_ACTUATOR_DRIVER_ENABLE_PIN;
 	MotorDrive.DriveEnablePort.Port = SJC_ACTUATOR_DRIVER_ENABLE_PORT;
+#else
+	MotorDrive.DriveEnablePort.Pin = SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PIN;
+	MotorDrive.DriveEnablePort.Port = SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PORT;
+#endif
 
-	SJC_MotorDrive_Disable();
+	MotorDrive_disable();
 
-	SJC_PWM_Init(BaseFrequency);
+	PwmSignal_init(BaseFrequency);
 
-	SJC_MotorDrive_SetBaseVoltage(BaseVoltage);
+	MotorDrive_setBaseVoltage(BaseVoltage);
 
-	SJC_MotorDrive_SetOutputVoltage(ZERO_FLOAT);
+	MotorDrive_setOutputVoltage(ZERO_FLOAT);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetBaseVoltage(float *voltage)
+eSjcReturnType_t MotorDrive_getBaseVoltage(float *voltage)
 {
 	*voltage = MotorDrive.BaseVoltage;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_MotorDrive_SetBaseVoltage(float voltage)
+eSjcReturnType_t MotorDrive_setBaseVoltage(float voltage)
 {
 	MotorDrive.BaseVoltage = voltage;
-	MotorDrive.OutputVoltageRange.Max = SJC_PWM_GetMaxDutyCycle() * MotorDrive.BaseVoltage;
+	MotorDrive.OutputVoltageRange.Max = PwmSignal_getMaxDutyCycle() * MotorDrive.BaseVoltage;
 	MotorDrive.OutputVoltageRange.Min = -MotorDrive.OutputVoltageRange.Max;
 
 	return SJC_RET_OK;
 }
 
-void SJC_MotorDrive_Enable(void)
+void MotorDrive_enable(void)
 {
 	LL_GPIO_ResetOutputPin(MotorDrive.DriveEnablePort.Port, MotorDrive.DriveEnablePort.Pin);
 
-	SJC_PWM_Enable();
+	PwmSignal_enable();
 
-	SJC_MotorDrive_SetOutputVoltage(ZERO_FLOAT);
+	MotorDrive_setOutputVoltage(ZERO_FLOAT);
 
 	MotorDrive.State = true;
 }
 
-void SJC_MotorDrive_Disable(void)
+void MotorDrive_disable(void)
 {
-	SJC_MotorDrive_SetOutputVoltage(ZERO_FLOAT);
+	MotorDrive_setOutputVoltage(ZERO_FLOAT);
 
-	SJC_PWM_Disable();
+	PwmSignal_disable();
 
 	LL_GPIO_SetOutputPin(MotorDrive.DriveEnablePort.Port, MotorDrive.DriveEnablePort.Pin);
 
 	MotorDrive.State = false;
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetState(bool *state)
+eSjcReturnType_t MotorDrive_getState(bool *state)
 {
 	*state = MotorDrive.State;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetPowerSupplyVoltage(float *voltage)
+eSjcReturnType_t MotorDrive_getPowerSupplyVoltage(float *voltage)
 {
-	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_VOLTAGE_SENSOR, voltage);
+	return AnalogInterfaces_getAnalogConversion(SJC_VOLTAGE_SENSOR, voltage);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetOutputCurrent(float *current)
+eSjcReturnType_t MotorDrive_getOutputCurrent(float *current)
 {
-	//	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
-	return SJC_AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
+	//	return AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+	return AnalogInterfaces_getAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
 }
 
-eSjcReturnType_t SJC_MotorDrive_GetOutputVoltage(float *voltage)
+eSjcReturnType_t MotorDrive_getOutputVoltage(float *voltage)
 {
 	*voltage = MotorDrive.OutputVoltage;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_MotorDrive_SetOutputVoltage(const float voltage)
+eSjcReturnType_t MotorDrive_setOutputVoltage(const float voltage)
 {
 	MotorDrive.OutputVoltage = SJC_Helpers_RealClamp(voltage, MotorDrive.OutputVoltageRange.Min, MotorDrive.OutputVoltageRange.Max);
 
 	float xPwmDuty = (MotorDrive.OutputVoltage + MotorDrive.BaseVoltage) / (2.0 * MotorDrive.BaseVoltage);
 
-	SJC_PWM_SetDutyCycle(xPwmDuty);
+	PwmSignal_setDutyCycle(xPwmDuty);
 
 	return SJC_RET_OK;
 }

@@ -45,13 +45,13 @@ static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_Encoder_init(void)
+void Encoder_init(void)
 {
 	xEncoderInterfacesSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &EncoderInterfacesSemaphore_attributes);
 
 	if (xEncoderInterfacesSemprHandle == NULL)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
 	}
 	else
 	{
@@ -74,28 +74,28 @@ void SJC_Encoder_init(void)
 	Encoder[SJC_AUX_JOINT_A].radians_per_quadrature_pulse = 1.0f;
 	Encoder[SJC_AUX_JOINT_B].radians_per_quadrature_pulse = 1.0f;
 
-	SJC_Encoder_Reset(SJC_ACTUATOR_JOINT);
-	SJC_Encoder_Reset(SJC_AUX_JOINT_A);
-	SJC_Encoder_Reset(SJC_AUX_JOINT_B);
+	Encoder_reset(SJC_ACTUATOR_JOINT);
+	Encoder_reset(SJC_AUX_JOINT_A);
+	Encoder_reset(SJC_AUX_JOINT_B);
 }
 
-void SJC_Encoder_Reset(eSjcJoints_t Joint)
+void Encoder_reset(eSjcJoints_t Joint)
 {
 	LL_TIM_SetCounter(Encoder[Joint].Instance, 0);
 	Encoder[Joint].Counts = 0;
 }
 
-void SJC_Encoder_Enable(eSjcJoints_t Joint)
+void Encoder_enable(eSjcJoints_t Joint)
 {
 	LL_TIM_EnableCounter(Encoder[Joint].Instance);
 }
 
-void SJC_Encoder_Disable(eSjcJoints_t Joint)
+void Encoder_disable(eSjcJoints_t Joint)
 {
 	LL_TIM_DisableCounter(Encoder[Joint].Instance);
 }
 
-eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t *counts)
+eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -106,7 +106,7 @@ eSjcReturnType_t SJC_Encoder_GetCounter(eSjcJoints_t Joint, int32_t *counts)
 	return ret;
 }
 
-eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
+eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -132,14 +132,14 @@ eSjcReturnType_t SJC_Encoder_GetAngularDisplacement(eSjcJoints_t Joint, float *a
 	return ret;
 }
 
-eSjcReturnType_t SJC_Encoder_GetResolution(eSjcJoints_t Joint, uint16_t *resolution)
+eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 {
 	*resolution = Encoder[Joint].Resolution_PPR;
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Encoder_SetResolution(eSjcJoints_t Joint, const uint16_t resolution)
+eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution)
 {
 	Encoder[Joint].Resolution_PPR = resolution;
 	Encoder[Joint].radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * Encoder[Joint].Resolution_PPR);

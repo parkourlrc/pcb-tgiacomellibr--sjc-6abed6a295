@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "main.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
@@ -21,7 +22,6 @@
 #include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
-#include "modules/include/network.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
 #include "tasks/include/task_common.h"
@@ -60,7 +60,7 @@ void DataLoggerTaskApp(void *argument)
 
 	xSjcJointControllerMeasurements_t xQueueMsg = xSjcJointControllerMeasurementsEmptyObj;
 
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Data logger task initiated!");
+	DebugOutput_systemPrintf("\r\n[OS] Data logger task initiated!");
 
 
 	/* Infinite loop */
@@ -81,7 +81,7 @@ void DataLoggerTaskApp(void *argument)
 
 void TransmitLogData(const xSjcJointControllerMeasurements_t Log)
 {
-	SJC_DataLogger_Transmit("\r\n%lu, %.2f, %.2f, %.2f, %.4f, %.3f, %.3f, %.3f",
+	DataLogger_transmit("\r\n%lu, %.2f, %.2f, %.2f, %.4f, %.3f, %.3f, %.3f",
 				Log.Timestamp,
 				Log.ActuatorCurrent,
 				Log.ActuatorVoltage,

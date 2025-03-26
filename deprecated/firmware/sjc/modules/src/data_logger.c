@@ -56,7 +56,7 @@ static void TransmitBuffer(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_DataLogger_Init(void)
+void DataLogger_init(void)
 {
 	  LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
@@ -67,7 +67,7 @@ void SJC_DataLogger_Init(void)
 	  bSerialBusy = false;
 }
 
-int SJC_DataLogger_Transmit(const char *format, ...)
+int DataLogger_transmit(const char *format, ...)
 {
 	va_list apx;
 	int n = 0;

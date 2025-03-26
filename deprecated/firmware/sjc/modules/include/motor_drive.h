@@ -10,18 +10,18 @@
 
 #include "system_types/include/types.h"
 
-void SJC_MotorDrive_Init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage);
-void SJC_MotorDrive_Enable(void);
-void SJC_MotorDrive_Disable(void);
+void MotorDrive_init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage);
+void MotorDrive_enable(void);
+void MotorDrive_disable(void);
 
-eSjcReturnType_t SJC_MotorDrive_GetState(bool *state);
-eSjcReturnType_t SJC_MotorDrive_GetPowerSupplyVoltage(float *voltage);
+eSjcReturnType_t MotorDrive_getState(bool *state);
+eSjcReturnType_t MotorDrive_getPowerSupplyVoltage(float *voltage);
 
-eSjcReturnType_t SJC_MotorDrive_GetBaseVoltage(float *voltage);
-eSjcReturnType_t SJC_MotorDrive_SetBaseVoltage(float voltage);
+eSjcReturnType_t MotorDrive_getBaseVoltage(float *voltage);
+eSjcReturnType_t MotorDrive_setBaseVoltage(float voltage);
 
-eSjcReturnType_t SJC_MotorDrive_GetOutputCurrent(float *current);
-eSjcReturnType_t SJC_MotorDrive_GetOutputVoltage(float *voltage);
-eSjcReturnType_t SJC_MotorDrive_SetOutputVoltage(const float voltage);
+eSjcReturnType_t MotorDrive_getOutputCurrent(float *current);
+eSjcReturnType_t MotorDrive_getOutputVoltage(float *voltage);
+eSjcReturnType_t MotorDrive_setOutputVoltage(const float voltage);
 
 #endif /* SJC__MODULES__DC_MOTOR_DRIVE_H_ */

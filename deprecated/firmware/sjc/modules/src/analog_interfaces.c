@@ -72,14 +72,14 @@ void ResetIsrServiceCounter(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_AnalogInterfaces_Init(void)
+void AnalogInterfaces_init(void)
 {
 	/* ADC Peripheral Configuration ---------------------------------- */
 	xAnalogInterfaceSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &AnalogInterfaceSemaphore_attributes);
 
 	if (xAnalogInterfaceSemprHandle == NULL)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog interface semaphore not created...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Analog interface semaphore not created...");
 	}
 	else
 	{
@@ -92,7 +92,7 @@ void SJC_AnalogInterfaces_Init(void)
 	}
 }
 
-void SJC_AnalogInterfaces_MeasurementEnable(void)
+void AnalogInterfaces_enable(void)
 {
 	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
@@ -102,7 +102,7 @@ void SJC_AnalogInterfaces_MeasurementEnable(void)
 	ResetIsrServiceCounter();
 }
 
-void SJC_AnalogInterfaces_MeasurementDisable(void)
+void AnalogInterfaces_disable(void)
 {
 	LL_ADC_Disable(SJC_ADC_INSTANCE);
 
@@ -110,7 +110,7 @@ void SJC_AnalogInterfaces_MeasurementDisable(void)
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
+eSjcReturnType_t AnalogInterfaces_updateConversionValues(void)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
@@ -125,7 +125,7 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 
 		if (xIsrServiceCounter != 20)
 		{
-			SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
+			DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
 			//			for (;;);
 		}
 		ResetIsrServiceCounter();
@@ -140,13 +140,13 @@ eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void)
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_CheckUpdateConversionTime(void)
+eSjcReturnType_t AnalogInterfaces_checkUpdateConversionTime(void)
 {
 	eSjcReturnType_t ret = (xIsrServiceCounter >= ANALOG_MEASUREMENT_ISR_TICKS) ? SJC_RET_OK : SJC_RET_NOK;
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value)
+eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 	*value = ZERO_FLOAT;
@@ -184,7 +184,7 @@ eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensor
 	return ret;
 }
 
-eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts)
+eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 

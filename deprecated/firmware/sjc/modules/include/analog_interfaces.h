@@ -10,13 +10,13 @@
 
 #include "system_types/include/types.h"
 
-void SJC_AnalogInterfaces_Init(void);
-void SJC_AnalogInterfaces_MeasurementEnable(void);
-void SJC_AnalogInterfaces_MeasurementDisable(void);
-eSjcReturnType_t SJC_AnalogInterfaces_UpdateConversionValues(void);
-eSjcReturnType_t SJC_AnalogInterfaces_CheckUpdateConversionTime(void);
-eSjcReturnType_t SJC_AnalogInterfaces_GetMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts);
-eSjcReturnType_t SJC_AnalogInterfaces_GetAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value);
+void AnalogInterfaces_init(void);
+void AnalogInterfaces_enable(void);
+void AnalogInterfaces_disable(void);
+eSjcReturnType_t AnalogInterfaces_updateConversionValues(void);
+eSjcReturnType_t AnalogInterfaces_checkUpdateConversionTime(void);
+eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts);
+eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value);
 
 void SJC_AnalogInterfaces_AdcConversionIsr(void);
 

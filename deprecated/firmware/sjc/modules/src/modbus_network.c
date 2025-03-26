@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "main.h"
 // ------------------------------------------------------------------- //
 
@@ -20,7 +21,6 @@
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
-#include "modules/include/network.h"
 #include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
@@ -51,17 +51,17 @@ static xSjcNetworkConfig_t xNetworkParameters;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
+eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 {
 	eMBErrorCode eStatus;
 
 	xNetworkParameters.Address = xSlaveAddress;
-	SJC_Network_GetBaudRate(&xNetworkParameters.Baudrate);
+	ModbusNetwork_getBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
 	if (MB_ENOERR != (eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity)))
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network initialization failed...");
+		DebugOutput_systemPrintf("\r\n[OS] Modbus network initialization failed...");
 		/* Can not initialize. Add error handling code here. */
 		return SJC_RET_NOK;
 	}
@@ -75,14 +75,14 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 
 	//	if( MB_ENOERR != ( eStatus = eMBSetSlaveID( 0x34, TRUE, ucSlaveID, 3 ) ) )
 	//	{
-	//		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus slave address not set...");
+	//		DebugOutput_SystemPrintf("\r\n[OS] Modbus slave address not set...");
 	//		/* Can not set slave id. Check arguments */
 	//		return SJC_RET_NOK;
 	//	}
 
 	if (MB_ENOERR != (eStatus = eMBEnable()))
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS] Modbus network activation failed...");
+		DebugOutput_systemPrintf("\r\n[OS] Modbus network activation failed...");
 		/* Enable failed. */
 		return SJC_RET_NOK;
 	}
@@ -108,7 +108,7 @@ eSjcReturnType_t SJC_Network_Init(const uint32_t xSlaveAddress)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
+eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate)
 {
 	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
 
@@ -156,17 +156,17 @@ eSjcReturnType_t SJC_Network_GetBaudRate(uint32_t *xBaudRate)
 	return SJC_RET_OK;
 }
 
-void SJC_Network_Update(void)
+void ModbusNetwork_update(void)
 {
 	(void)eMBPoll();
 }
 
-void SJC_Network_ProcessReceivedData(void)
+void ModbusNetwork_processReceivedData(void)
 {
 
 }
 
-eSjcReturnType_t SJC_Network_GetParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
+eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
 {
 	*xSlaveAddress = xNetworkParameters.Address;
 	*xBaudRate = xNetworkParameters.Baudrate;

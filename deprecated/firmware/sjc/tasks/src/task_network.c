@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "main.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
@@ -21,7 +22,6 @@
 #include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
-#include "modules/include/network.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/debug_output.h"
 #include "tasks/include/task_common.h"
@@ -57,12 +57,12 @@ static uint32_t TaskTic, TaskToc;
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
+	if (SJC_RET_NOK == ModbusNetwork_init(NETWORK_BASE_ADRESS))
 	{
 		SJC_SYSTEM_RESET();
 	}
 
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Network task initiated!"
+	DebugOutput_systemPrintf("\r\n[OS] Network task initiated!"
 								 "\r\n[OS] Modbus communication enabled!");
 
 	uint32_t tick = osKernelGetTickCount();

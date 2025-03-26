@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "usart.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
@@ -20,7 +21,6 @@
 #include "base/include/network_configs.h"
 
 #include "modules/include/debug_output.h"
-#include "modules/include/network.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -54,13 +54,13 @@ int _write(int fd, char *ptr, int len);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_DebugOutput_Init(void)
+void DebugOutput_init(void)
 {
 	xSystemDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
 
 	if (xSystemDebugSemprHandle == NULL)
 	{
-		SJC_DebugOutput_SystemPrintf("\r\n[OS FAULT] Serial debug semaphore not created...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Serial debug semaphore not created...");
 		SJC_SYSTEM_RESET();
 	}
 	else
@@ -69,30 +69,45 @@ void SJC_DebugOutput_Init(void)
 	}
 }
 
-void SJC_DebugOutput_PresentSystemInfo(void)
+void DebugOutput_presentSystemInfo(void)
 {
-	SJC_DebugOutput_SystemPrintf("\f\r\n************************************************************");
-	SJC_DebugOutput_SystemPrintf("\r\n                      Crane Control");
-	SJC_DebugOutput_SystemPrintf("\r\n               Single Joint Control Board");
-	SJC_DebugOutput_SystemPrintf("\r\n                         (SJC)");
-	SJC_DebugOutput_SystemPrintf("\r\n************************************************************");
-	SJC_DebugOutput_SystemPrintf("\r\n\n Information: ");
-	SJC_DebugOutput_SystemPrintf("\r\n - HW Version: %u.%u", SJC_HW_VERSION_MAJOR, SJC_HW_VERSION_MINOR);
-	SJC_DebugOutput_SystemPrintf("\r\n - FW Version: %u.%u.%u (%u/%lu)", SJC_FW_VERSION_MAJOR, SJC_FW_VERSION_MINOR, SJC_FW_VERSION_PATCH, SJC_FW_RELEASE_MONTH, SJC_FW_RELEASE_YEAR);
-	SJC_DebugOutput_SystemPrintf("\r\n - O.S. Tick Rate: %lu kHz", configTICK_RATE_HZ / 1000);
-	SJC_DebugOutput_SystemPrintf("\r\n - Network address: %lu", NETWORK_BASE_ADRESS);
 	uint32_t xBaudRate;
-	SJC_Network_GetBaudRate(&xBaudRate);
-	SJC_DebugOutput_SystemPrintf("\r\n - Network baudrate: %lu bps", xBaudRate);
-	SJC_DebugOutput_SystemPrintf("\r\n************************************************************\n\n");
+	Network_getBaudRate(&xBaudRate);
+	uint32_t xNetworkAddress;
+	Network_getAddress(&xNetworkAddress);
+
+	DebugOutput_systemPrintf("\f\r\n"
+			"************************************************************"
+			"\r\n                      Crane Control"
+			"\r\n               Single Joint Control Board"
+			"\r\n                         (SJC)"
+			"\r\n************************************************************"
+			"\r\n\n Information: "
+			"\r\n - HW Version: %u.%u"
+			"\r\n - FW Version: %u.%u.%u (%u/%lu)"
+			"\r\n - O.S. Tick Rate: %lu kHz"
+			"\r\n - Network address: %lu"
+			"\r\n - Network baudrate: %lu bps"
+			"\r\n************************************************************\n\n",
+			SJC_HW_VERSION_MAJOR,
+			SJC_HW_VERSION_MINOR,
+			SJC_FW_VERSION_MAJOR,
+			SJC_FW_VERSION_MINOR,
+			SJC_FW_VERSION_PATCH,
+			SJC_FW_RELEASE_MONTH,
+			SJC_FW_RELEASE_YEAR,
+			(configTICK_RATE_HZ / 1000),
+			xNetworkAddress,
+			xBaudRate
+	);
 }
 
-void SJC_DebugOutput_PresentRuntimeStatistics(void)
+void DebugOutput_presentRuntimeStatistics(void)
 {
 
 }
 
-int SJC_DebugOutput_SystemPrintf(const char *format, ...)
+int DebugOutput_systemPrintf(const char *format, ...)
 {
 	configASSERT(xSystemDebugSemprHandle != NULL);
 
@@ -137,7 +152,7 @@ int _write(int fd, char *ptr, int len) {
 
 int __io_putchar(int ch)
 {
-	SJC_DebugOutput_SystemPrintf("c", ch);
+	DebugOutput_systemPrintf("c", ch);
 	return (ch);
 }
 // ------------------------------------------------------------------- //
