@@ -49,7 +49,7 @@
         "silk_text_upright": false,
         "zones": {
           "45_degree_only": false,
-          "min_clearance": 0.508
+          "min_clearance": 0.4064
         }
       },
       "diff_pair_dimensions": [
@@ -634,6 +634,9 @@
       "/Motor Driver/M-": [
         "PWR"
       ],
+      "/Motor Driver/M-_FUSE": [
+        "PWR"
+      ],
       "/Motor Driver/R_HBR_OUT": [
         "PWR"
       ],
@@ -923,6 +926,9 @@
         "PWR"
       ],
       "Net-(J5-Pin_2)": [
+        "PWR"
+      ],
+      "Net-(LD1-A)": [
         "PWR"
       ],
       "Net-(LD1-K)": [

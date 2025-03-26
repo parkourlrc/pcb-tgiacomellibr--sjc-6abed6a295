@@ -1400,7 +1400,7 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "sjc_semiconductors:DMTH4004LK3"
+		(symbol "sjc_semiconductors:IAUC100N04S6N028"
 			(pin_names
 				(offset 0)
 				(hide yes)
@@ -1417,7 +1417,7 @@
 					(justify left)
 				)
 			)
-			(property "Value" "DMTH4004LK3"
+			(property "Value" "IAUC100N04S6N028"
 				(at 5.08 0 0)
 				(effects
 					(font
@@ -1426,7 +1426,7 @@
 					(justify left)
 				)
 			)
-			(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+			(property "Footprint" "sjc:Infineon_PG-TDSON-8_6.15x5.15mm"
 				(at 4.826 -17.018 0)
 				(effects
 					(font
@@ -1444,7 +1444,7 @@
 					(hide yes)
 				)
 			)
-			(property "Description" "MOSFET Transistor, 40 Vdss, 20 Vgss, 100 A @ 25°C, 3 mOhm @ VGS = 10 V"
+			(property "Description" "MOSFET Transistor, 30 Vdss, 20 Vgss, 100 A @ 25°C, 1.85 mOhm @ VGS = 4.5 V"
 				(at 5.08 -14.732 0)
 				(effects
 					(font
@@ -1453,7 +1453,7 @@
 					(hide yes)
 				)
 			)
-			(property "MF" "Diodes Incorporated"
+			(property "MF" "Infineon Technologies"
 				(at 2.032 -19.05 0)
 				(effects
 					(font
@@ -1462,7 +1462,7 @@
 					(hide yes)
 				)
 			)
-			(property "PN" "DMTH4004LK3-13"
+			(property "PN" "IAUC100N04S6N028"
 				(at 2.286 -21.082 0)
 				(effects
 					(font
@@ -1471,7 +1471,7 @@
 					(hide yes)
 				)
 			)
-			(property "JLCPCB Part #" "C260930"
+			(property "JLCPCB Part #" "C3288826"
 				(at 3.048 -22.86 0)
 				(effects
 					(font
@@ -1489,7 +1489,7 @@
 					(hide yes)
 				)
 			)
-			(symbol "DMTH4004LK3_0_1"
+			(symbol "IAUC100N04S6N028_0_1"
 				(polyline
 					(pts
 						(xy 0.254 1.905) (xy 0.254 -1.905)
@@ -1656,18 +1656,19 @@
 					)
 				)
 			)
-			(symbol "DMTH4004LK3_1_1"
+			(symbol "IAUC100N04S6N028_1_0"
 				(pin passive line
-					(at -5.08 0 0)
+					(at 2.54 5.08 270)
 					(length 2.54)
-					(name "G"
+					(hide yes)
+					(name "D"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "1"
+					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1675,10 +1676,49 @@
 						)
 					)
 				)
-				(pin input line
+				(pin passive line
 					(at 2.54 5.08 270)
 					(length 2.54)
+					(hide yes)
 					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(hide yes)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(hide yes)
+					(name "S"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1696,6 +1736,7 @@
 				(pin passive line
 					(at 2.54 -5.08 90)
 					(length 2.54)
+					(hide yes)
 					(name "S"
 						(effects
 							(font
@@ -1704,6 +1745,62 @@
 						)
 					)
 					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "IAUC100N04S6N028_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 2.54 5.08 270)
+					(length 2.54)
+					(name "D"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -5.08 90)
+					(length 2.54)
+					(name "S"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3814,13 +3911,23 @@
 		)
 		(uuid "4437ee4d-cebd-4e39-90bc-ab402370be69")
 	)
-	(label "M-"
-		(at 139.7 53.34 90)
+	(label "M-_FUSE"
+		(at 154.94 50.8 270)
 		(effects
 			(font
 				(size 1 1)
 			)
-			(justify left bottom)
+			(justify right bottom)
+		)
+		(uuid "4f3780a8-fa46-49bd-8a30-0915a4810ade")
+	)
+	(label "M-"
+		(at 139.7 50.8 270)
+		(effects
+			(font
+				(size 1 1)
+			)
+			(justify right bottom)
 		)
 		(uuid "5525802f-2039-4ffb-a12a-5a564b5bade0")
 	)
@@ -5264,7 +5371,7 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_semiconductors:DMTH4004LK3")
+		(lib_id "sjc_semiconductors:IAUC100N04S6N028")
 		(at 186.69 64.77 0)
 		(mirror y)
 		(unit 1)
@@ -5282,8 +5389,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DMTH4004LK3"
-			(at 181.61 64.77 0)
+		(property "Value" "IAUC100N04S6N028"
+			(at 181.61 65.024 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5291,7 +5398,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+		(property "Footprint" "sjc:Infineon_PG-TDSON-8_6.15x5.15mm"
 			(at 181.864 81.788 0)
 			(effects
 				(font
@@ -5309,7 +5416,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MOSFET Transistor, 40 Vdss, 20 Vgss, 100 A @ 25°C, 3 mOhm @ VGS = 10 V"
+		(property "Description" "MOSFET Transistor, 30 Vdss, 20 Vgss, 100 A @ 25°C, 1.85 mOhm @ VGS = 4.5 V"
 			(at 181.61 79.502 0)
 			(effects
 				(font
@@ -5318,7 +5425,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Diodes Incorporated"
+		(property "MF" "Infineon Technologies"
 			(at 184.658 83.82 0)
 			(effects
 				(font
@@ -5327,7 +5434,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "DMTH4004LK3-13"
+		(property "PN" "IAUC100N04S6N028"
 			(at 184.404 85.852 0)
 			(effects
 				(font
@@ -5336,7 +5443,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C260930"
+		(property "JLCPCB Part #" "C3288826"
 			(at 183.642 87.63 0)
 			(effects
 				(font
@@ -5353,6 +5460,21 @@
 		)
 		(pin "3"
 			(uuid "bcf3017d-58bc-4c78-89f5-460e8d08ab8b")
+		)
+		(pin "5"
+			(uuid "b84812b3-f6ab-49c7-b0bd-0306075563a0")
+		)
+		(pin "7"
+			(uuid "685cc376-2ca5-480a-9155-6924d50ac9ff")
+		)
+		(pin "6"
+			(uuid "8b9a06c9-d031-43e5-8038-9a436a59d85b")
+		)
+		(pin "4"
+			(uuid "81e27be5-8af3-4687-bf73-3ee2bd0f410b")
+		)
+		(pin "8"
+			(uuid "81f70f87-19fb-4e20-a220-b684b9783a76")
 		)
 		(instances
 			(project "sjc_power"
@@ -5963,6 +6085,71 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "R37")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 33.02 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5bfd411c-fbf7-4e87-b0b9-4b14a02afb30")
+		(property "Reference" "#PWR028"
+			(at 33.02 95.25 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "DRIVER_GND"
+			(at 33.02 92.71 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 33.02 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 33.02 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 33.02 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "140d63c1-6994-4d61-9211-78afb4624a15")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -7216,72 +7403,6 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:GND")
-		(at 33.02 88.9 0)
-		(mirror y)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "8d3ac5ec-9d32-4b6f-867d-cffb85f4b3f6")
-		(property "Reference" "#PWR028"
-			(at 33.02 95.25 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 33.02 92.71 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 33.02 88.9 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 33.02 88.9 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 33.02 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "e8ba62ae-42a6-4d0e-8e2f-78c24956e797")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR028")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "sjc_semiconductors:PMEG60T10ELR")
 		(at 208.28 52.07 0)
 		(mirror y)
@@ -7377,7 +7498,7 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_semiconductors:DMTH4004LK3")
+		(lib_id "sjc_semiconductors:IAUC100N04S6N028")
 		(at 186.69 97.79 0)
 		(mirror y)
 		(unit 1)
@@ -7395,7 +7516,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DMTH4004LK3"
+		(property "Value" "IAUC100N04S6N028"
 			(at 181.61 98.044 0)
 			(effects
 				(font
@@ -7404,7 +7525,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+		(property "Footprint" "sjc:Infineon_PG-TDSON-8_6.15x5.15mm"
 			(at 181.864 114.808 0)
 			(effects
 				(font
@@ -7422,7 +7543,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MOSFET Transistor, 40 Vdss, 20 Vgss, 100 A @ 25°C, 3 mOhm @ VGS = 10 V"
+		(property "Description" "MOSFET Transistor, 30 Vdss, 20 Vgss, 100 A @ 25°C, 1.85 mOhm @ VGS = 4.5 V"
 			(at 181.61 112.522 0)
 			(effects
 				(font
@@ -7431,7 +7552,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Diodes Incorporated"
+		(property "MF" "Infineon Technologies"
 			(at 184.658 116.84 0)
 			(effects
 				(font
@@ -7440,7 +7561,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "DMTH4004LK3-13"
+		(property "PN" "IAUC100N04S6N028"
 			(at 184.404 118.872 0)
 			(effects
 				(font
@@ -7449,7 +7570,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C260930"
+		(property "JLCPCB Part #" "C3288826"
 			(at 183.642 120.65 0)
 			(effects
 				(font
@@ -7466,6 +7587,21 @@
 		)
 		(pin "3"
 			(uuid "1e71c0fb-d9dd-4afb-b2f7-d64ea93094a1")
+		)
+		(pin "4"
+			(uuid "d8d45e0e-f0fe-43ad-a670-0a8876e8f87f")
+		)
+		(pin "7"
+			(uuid "2178feb9-41e7-4b9a-96c8-b62f3d894932")
+		)
+		(pin "5"
+			(uuid "5f1b40b0-72ef-4cd3-9791-9cdb9b4c6578")
+		)
+		(pin "6"
+			(uuid "410dff8d-1bed-4cb2-86a1-4780bace90b6")
+		)
+		(pin "8"
+			(uuid "d97e89f1-45f8-4da3-b82b-69b12d6eb474")
 		)
 		(instances
 			(project "sjc_power"
@@ -8033,7 +8169,7 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_semiconductors:DMTH4004LK3")
+		(lib_id "sjc_semiconductors:IAUC100N04S6N028")
 		(at 115.57 97.79 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8050,7 +8186,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DMTH4004LK3"
+		(property "Value" "IAUC100N04S6N028"
 			(at 120.65 98.044 0)
 			(effects
 				(font
@@ -8059,7 +8195,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+		(property "Footprint" "sjc:Infineon_PG-TDSON-8_6.15x5.15mm"
 			(at 120.396 114.808 0)
 			(effects
 				(font
@@ -8077,7 +8213,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MOSFET Transistor, 40 Vdss, 20 Vgss, 100 A @ 25°C, 3 mOhm @ VGS = 10 V"
+		(property "Description" "MOSFET Transistor, 30 Vdss, 20 Vgss, 100 A @ 25°C, 1.85 mOhm @ VGS = 4.5 V"
 			(at 120.65 112.522 0)
 			(effects
 				(font
@@ -8086,7 +8222,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Diodes Incorporated"
+		(property "MF" "Infineon Technologies"
 			(at 117.602 116.84 0)
 			(effects
 				(font
@@ -8095,7 +8231,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "DMTH4004LK3-13"
+		(property "PN" "IAUC100N04S6N028"
 			(at 117.856 118.872 0)
 			(effects
 				(font
@@ -8104,7 +8240,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C260930"
+		(property "JLCPCB Part #" "C3288826"
 			(at 118.618 120.65 0)
 			(effects
 				(font
@@ -8121,6 +8257,21 @@
 		)
 		(pin "3"
 			(uuid "9b654ff6-f62b-4921-951a-bc7e7ce63609")
+		)
+		(pin "7"
+			(uuid "fcab65af-b7cb-4511-9533-7c3db711d933")
+		)
+		(pin "6"
+			(uuid "64ba9441-944b-4095-a1fe-02454616d8d6")
+		)
+		(pin "5"
+			(uuid "4547bef7-8dc4-4b79-9e5f-1e1dcd6929e1")
+		)
+		(pin "8"
+			(uuid "e26000fa-76da-4b54-b3a7-9d120614e1c2")
+		)
+		(pin "4"
+			(uuid "8fc211d0-fb7a-4e34-ac3f-e8b48ede6012")
 		)
 		(instances
 			(project "sjc_power"
@@ -8548,7 +8699,7 @@
 		)
 	)
 	(symbol
-		(lib_id "sjc_semiconductors:DMTH4004LK3")
+		(lib_id "sjc_semiconductors:IAUC100N04S6N028")
 		(at 115.57 64.77 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -8565,7 +8716,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "DMTH4004LK3"
+		(property "Value" "IAUC100N04S6N028"
 			(at 120.65 65.024 0)
 			(effects
 				(font
@@ -8574,7 +8725,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_TO_SOT_SMD:TO-252-2"
+		(property "Footprint" "sjc:Infineon_PG-TDSON-8_6.15x5.15mm"
 			(at 120.396 81.788 0)
 			(effects
 				(font
@@ -8592,7 +8743,7 @@
 				(hide yes)
 			)
 		)
-		(property "Description" "MOSFET Transistor, 40 Vdss, 20 Vgss, 100 A @ 25°C, 3 mOhm @ VGS = 10 V"
+		(property "Description" "MOSFET Transistor, 30 Vdss, 20 Vgss, 100 A @ 25°C, 1.85 mOhm @ VGS = 4.5 V"
 			(at 120.65 79.502 0)
 			(effects
 				(font
@@ -8601,7 +8752,7 @@
 				(hide yes)
 			)
 		)
-		(property "MF" "Diodes Incorporated"
+		(property "MF" "Infineon Technologies"
 			(at 117.602 83.82 0)
 			(effects
 				(font
@@ -8610,7 +8761,7 @@
 				(hide yes)
 			)
 		)
-		(property "PN" "DMTH4004LK3-13"
+		(property "PN" "IAUC100N04S6N028"
 			(at 117.856 85.852 0)
 			(effects
 				(font
@@ -8619,7 +8770,7 @@
 				(hide yes)
 			)
 		)
-		(property "JLCPCB Part #" "C260930"
+		(property "JLCPCB Part #" "C3288826"
 			(at 118.618 87.63 0)
 			(effects
 				(font
@@ -8637,10 +8788,90 @@
 		(pin "3"
 			(uuid "9623be61-1446-4199-ad39-6b3b9a39dd45")
 		)
+		(pin "8"
+			(uuid "4d106bac-bc36-4be3-8b41-cc8645ed19ea")
+		)
+		(pin "6"
+			(uuid "a7640736-af11-44cb-953f-c70dbec96b73")
+		)
+		(pin "4"
+			(uuid "b1ae5586-e1e4-4a91-b085-6aa05fbe9876")
+		)
+		(pin "7"
+			(uuid "9a20e47c-74f4-43fb-b5f1-c8851c36fa06")
+		)
+		(pin "5"
+			(uuid "9164731c-266c-4a47-b004-2c0b5a0553e9")
+		)
 		(instances
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "U3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 269.24 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "e0583518-d6cf-44cb-8d9d-6ecce55d5f98")
+		(property "Reference" "#PWR041"
+			(at 269.24 95.25 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "DRIVER_GND"
+			(at 269.24 92.71 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 269.24 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 269.24 88.9 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 269.24 88.9 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ee07e8e9-9619-41e3-8226-e1baa49645ad")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
+					(reference "#PWR041")
 					(unit 1)
 				)
 			)
@@ -8709,71 +8940,6 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
 					(reference "SB1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "sjc_power:GND")
-		(at 269.24 88.9 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "e5d051b7-2795-4fbe-9722-266c07133285")
-		(property "Reference" "#PWR041"
-			(at 269.24 95.25 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 269.24 92.71 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 269.24 88.9 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 269.24 88.9 0)
-			(effects
-				(font
-					(size 1 1)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 269.24 88.9 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "2510acc9-55b1-46b7-8ca8-14a0f25f6f74")
-		)
-		(instances
-			(project "sjc_power"
-				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/11908ee1-6c84-411c-a6d8-f57e318c637e"
-					(reference "#PWR041")
 					(unit 1)
 				)
 			)

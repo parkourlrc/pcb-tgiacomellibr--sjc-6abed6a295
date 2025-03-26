@@ -13,21 +13,11 @@ bs_rip = 6/100;  % Maximum allowable ripple
 disp('Bootstrap Circuit Calculations');
 
 % MOSFET Selection
-disp(' - N-Channel Mosfet: PSMN1R4-30YLD');
-Rdson = 1.85e-3;
-Qgate = 27.6e-9;  % Total gate charge
-VGS_min = 4.5;
-VGS_th = 2.2;
-IGSS = 100e-9;
-SW_Ton = 23e-9;
-SW_Toff = 31.5e-9;
-SW_Tr = 28e-9;
-SW_Tf = 20.6e-9;
-SW_QGS = 7.2e-9;
-SW_QGD = 8.5e-9;
-SW_CGD = 251e-12;
-C_in = 3840e-12;
-C_out = 1785e-12;
+% run('mosfet_params/PSMN1R4_30YLD.m')
+% run('mosfet_params/PSMN3R5_40YSB.m')
+% run('mosfet_params/PSMN3R3_40MLH.m')
+run('mosfet_params/IAUC100N04S6N028.m')
+
 
 % Driver Selection
 disp(' - Half-bridge driver: 2ED2184S06F');
@@ -69,10 +59,14 @@ Q_CB = Qgate + (T_Hmin * I_LK) + Q_LS;
 C_B = Q_CB / dV_boot;
 
 % Aplicação de margem de segurança (30%)
-C_B = 1.3*round(C_B * 10000e9) / 10000e9;  % Arredondamento para um valor padrão
+C_B = round(1.3*C_B * 100e9) / 100e9;  % Arredondamento para um valor padrão
 
 disp([' - Calculated bootstrap capacitor: ', num2str(C_B*1e9), ' nF']);
-C_B = max(C_B, 100e-9); % Garante um valor mínimo razoável
+if (C_B < 100e-9)
+    C_B = max(C_B, 100e-9); % Garante um valor mínimo razoável
+else
+    C_B = max(C_B, 220e-9); % Garante um valor mínimo razoável
+end
 disp([' - *Specified bootstrap capacitor: ', num2str(C_B*1e9), ' nF <---']);
 
 % Bootstrap Resistor Calculation
@@ -81,6 +75,7 @@ R_B_max = T_Hmin / (3 * C_B);
 
 % Aplicação de margem de segurança
 R_B = round(1000 * ((R_B_min + R_B_max))) / 2000;
+disp([' - Calculated bootstrap resistor: ', num2str(R_B), ' Ohm <---']);
 R_B = max(R_B, 2);
 disp([' - *Specified bootstrap resistor: ', num2str(R_B), ' Ohm <---']);
 

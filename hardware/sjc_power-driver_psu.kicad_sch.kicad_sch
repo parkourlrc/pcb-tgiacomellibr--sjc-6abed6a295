@@ -1949,7 +1949,7 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 87.63) (xy 218.44 93.98)
+			(xy 218.44 74.93) (xy 218.44 68.58)
 		)
 		(stroke
 			(width 0)
@@ -2070,7 +2070,7 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 82.55) (xy 218.44 80.01)
+			(xy 218.44 80.01) (xy 218.44 82.55)
 		)
 		(stroke
 			(width 0)
@@ -2242,7 +2242,7 @@
 	)
 	(wire
 		(pts
-			(xy 218.44 68.58) (xy 218.44 72.39)
+			(xy 218.44 93.98) (xy 218.44 90.17)
 		)
 		(stroke
 			(width 0)
@@ -4272,8 +4272,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 218.44 85.09 0)
-		(mirror y)
+		(at 218.44 77.47 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4281,7 +4280,7 @@
 		(dnp no)
 		(uuid "d6cd5d78-d34a-4178-940f-f1ad672442a3")
 		(property "Reference" "R19"
-			(at 215.9 85.09 90)
+			(at 215.9 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4289,7 +4288,7 @@
 			)
 		)
 		(property "Value" "2k 5%"
-			(at 220.98 85.09 90)
+			(at 220.98 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4297,7 +4296,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 218.44 85.09 0)
+			(at 218.44 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4306,7 +4305,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 218.44 85.09 0)
+			(at 218.44 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4315,7 +4314,7 @@
 			)
 		)
 		(property "Description" "Resistor, 2k Ohms, ±5%, 1/10W, SMD 0603"
-			(at 218.44 85.09 90)
+			(at 218.44 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4324,7 +4323,7 @@
 			)
 		)
 		(property "MF" "RALEC"
-			(at 218.44 85.09 90)
+			(at 218.44 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4333,7 +4332,7 @@
 			)
 		)
 		(property "PN" "RTT03202JTP"
-			(at 218.44 85.09 90)
+			(at 218.44 77.47 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4342,7 +4341,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C103396"
-			(at 218.44 85.09 90)
+			(at 218.44 77.47 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4367,7 +4366,7 @@
 	)
 	(symbol
 		(lib_id "Device:LED")
-		(at 218.44 76.2 270)
+		(at 218.44 86.36 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4376,7 +4375,7 @@
 		(dnp no)
 		(uuid "f6d6cd8d-bd4f-4e72-8e75-be4d3a82bc6f")
 		(property "Reference" "LD3"
-			(at 215.9 77.47 0)
+			(at 215.9 87.63 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4385,7 +4384,7 @@
 			)
 		)
 		(property "Value" "1.8V @ 5mA"
-			(at 220.98 82.55 0)
+			(at 220.98 92.71 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4395,7 +4394,7 @@
 			)
 		)
 		(property "Footprint" "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder"
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4404,7 +4403,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4413,7 +4412,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4422,7 +4421,7 @@
 			)
 		)
 		(property "MF" "BrtLed (Bright LED Elec)"
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4431,7 +4430,7 @@
 			)
 		)
 		(property "PN" "BL-HGE36G-AV-TRB"
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4440,7 +4439,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C165982"
-			(at 218.44 76.2 0)
+			(at 218.44 86.36 0)
 			(effects
 				(font
 					(size 1 1)
