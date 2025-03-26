@@ -8,7 +8,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "modules/include/modbus_network.h"
+#include <modules/include/modbus_network.h>
 #include "main.h"
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //

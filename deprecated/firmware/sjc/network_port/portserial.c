@@ -17,8 +17,9 @@
 
 /* ----------------------- Start implementation -----------------------------*/
 BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
-					   eMBParity eParity)
+		eMBParity eParity)
 {
+	// Init Serial communication device
 	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 
 	return TRUE;
@@ -69,18 +70,18 @@ BOOL xMBPortSerialPutByte(CHAR ucByte)
 
 BOOL xMBPortSerialPutBytes(volatile UCHAR *ucByte, USHORT usSize)
 {
-	LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_6);
+	LL_DMA_DisableStream(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM);
 
-	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucByte[0], LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	LL_DMA_ConfigAddresses(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM, (uint32_t)&ucByte[0], LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, usSize);
+	LL_DMA_SetDataLength(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM, usSize);
 
-	LL_DMA_ClearFlag_TE6(DMA1);
-	LL_DMA_ClearFlag_HT6(DMA1);
-	LL_DMA_ClearFlag_TC6(DMA1);
-	LL_DMA_ClearFlag_FE6(DMA1);
+	LL_DMA_ClearFlag_TE6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_HT6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_TC6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_FE6(MODBUS_SERIAL_DMA_INSTANCE);
 
-	LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_6);
+	LL_DMA_EnableStream(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM);
 
 	return TRUE;
 }
@@ -104,4 +105,15 @@ void USART2_IRQHandler(void)
 		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
 		pxMBFrameCBTransmitterEmpty();
 	}
+}
+
+void MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQHandler(void)
+{
+  /* USER CODE BEGIN MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 0 */
+
+  /* USER CODE END MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 0 */
+
+  /* USER CODE BEGIN MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 1 */
+
+  /* USER CODE END MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 1 */
 }

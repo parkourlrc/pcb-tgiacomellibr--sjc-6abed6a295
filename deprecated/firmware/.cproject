@@ -40,14 +40,10 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sjc/base/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sjc/definitions/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sjc/system_types/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/network_port}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/base/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/modules/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/network_port/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/system_types/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/sjc/tasks/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/Third_Party/modbus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/SJC_FW/Third_Party/modbus/rtu}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sjc/network_port}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/sjc/tasks/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Third_Party/modbus/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Third_Party/modbus/rtu}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1444445549" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>

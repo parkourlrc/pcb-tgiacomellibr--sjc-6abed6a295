@@ -192,8 +192,6 @@ eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value)
 
 eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 {
-	eSjcReturnType_t ret = SJC_RET_OK;
-
 	switch (type)
 	{
 	case SJC_TIME_MS:
@@ -203,7 +201,8 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 		*value = TimeoutTimer_getTimeSec();
 		break;
 	default:
-		ret = SJC_RET_NOK;
+		*value = 0;
+		return SJC_RET_NOK;
 		break;
 	}
 	return SJC_RET_OK;

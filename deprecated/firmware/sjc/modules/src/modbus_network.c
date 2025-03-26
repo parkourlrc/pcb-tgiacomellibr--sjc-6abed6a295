@@ -108,6 +108,11 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 	return SJC_RET_OK;
 }
 
+eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress)
+{
+	return xNetworkParameters.Address;
+}
+
 eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate)
 {
 	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);

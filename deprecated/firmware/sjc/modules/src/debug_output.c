@@ -21,6 +21,7 @@
 #include "base/include/network_configs.h"
 
 #include "modules/include/debug_output.h"
+#include "modules/include/modbus_network.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -72,9 +73,9 @@ void DebugOutput_init(void)
 void DebugOutput_presentSystemInfo(void)
 {
 	uint32_t xBaudRate;
-	Network_getBaudRate(&xBaudRate);
+	ModbusNetwork_getBaudRate(&xBaudRate);
 	uint32_t xNetworkAddress;
-	Network_getAddress(&xNetworkAddress);
+	ModbusNetwork_getAddress(&xNetworkAddress);
 
 	DebugOutput_systemPrintf("\f\r\n"
 			"************************************************************"
