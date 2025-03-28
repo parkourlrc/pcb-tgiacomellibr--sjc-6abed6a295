@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "modbus_network.h": "c"
+        "modbus_network.h": "c",
+        "filters.h": "c"
     }
 }

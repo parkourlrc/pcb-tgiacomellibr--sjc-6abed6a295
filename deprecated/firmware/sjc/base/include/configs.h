@@ -34,28 +34,29 @@
 
 // PWM Configs -------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define PwmSignal_COUNT_PERIOD ((uint32_t)1000)
-#define PwmSignal_MIN_DUTY_CYCLE ((float)0.02)
-#define PwmSignal_MAX_DUTY_CYCLE ((float)0.98)
+#define SJC_PWM_COUNT_PERIOD ((uint32_t)1000)
+#define SJC_PWM_MIN_DUTY_CYCLE ((float)0.02)
+#define SJC_PWM_MAX_DUTY_CYCLE ((float)0.98)
 
-#define PwmSignal_INSTANCE TIM1
-#define PwmSignal_LEFT_CHANNEL LL_TIM_CHANNEL_CH1
-#define PwmSignal_LEFT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH1N
+#define SJC_PWM_INSTANCE TIM1
+#define SJC_PWM_LEFT_CHANNEL LL_TIM_CHANNEL_CH1
+#define SJC_PWM_LEFT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH1N
 
-#define PwmSignal_RIGHT_CHANNEL LL_TIM_CHANNEL_CH3
-#define PwmSignal_RIGHT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH3N
+#define SJC_PWM_RIGHT_CHANNEL LL_TIM_CHANNEL_CH3
+#define SJC_PWM_RIGHT_COMPLEMENTARY_CHANNEL LL_TIM_CHANNEL_CH3N
 
-#define PwmSignal_DEFAULT_FREQUENCY ((uint32_t)20000UL)
-#define PwmSignal_DEFAULT_PERIOD ((float)(1.0f / PwmSignal_DEFAULT_FREQUENCY))
+#define SJC_PWM_DEFAULT_FREQUENCY ((uint32_t)20000UL)
+#define SJC_PWM_DEFAULT_PERIOD ((float)(1.0f / SJC_PWM_DEFAULT_FREQUENCY))
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY ((uint32_t) 2000UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 2000UL)
-#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t) 1UL)
-#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t) 3UL)
-#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t) 250UL)
-#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t) 50UL)
+#define SJC_TASK_INIT_DELAY ((uint32_t)2000UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t)2000UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_CONTROL_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t)3UL)
+#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t)250UL)
+#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t)50UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -173,7 +174,7 @@
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET HAL_NVIC_SystemReset
-#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t) 2UL)
+#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t)2UL)
 
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //

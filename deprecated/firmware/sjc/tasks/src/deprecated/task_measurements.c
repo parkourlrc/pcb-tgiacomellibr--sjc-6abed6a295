@@ -36,18 +36,18 @@
 //
 //// Task data structures ---------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//typedef enum {
+// typedef enum {
 //	TASK_MEASUREMENT_STATE_UNINITIALIZED = 0,
 //	TASK_MEASUREMENT_STATE_RUNNING
-//} eSjcTaskMeasurementState_t;
+// } eSjcTaskMeasurementState_t;
 //// ------------------------------------------------------------------- //
 //
 //// Task variables ---------------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//TaskHandle_t xMeasurementsTaskHandle;
-//static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
+// TaskHandle_t xMeasurementsTaskHandle;
+// static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 //
-//static uint32_t TaskTic, TaskToc;
+// static uint32_t TaskTic, TaskToc;
 //// ------------------------------------------------------------------- //
 //
 //// Private function prototypes --------------------------------------- //
@@ -62,7 +62,7 @@
 //
 //// Private functions ------------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//void MeasurementsTaskApp(void *argument)
+// void MeasurementsTaskApp(void *argument)
 //{
 //	/* USER CODE BEGIN MeasurementsTaskApp */
 //
@@ -93,7 +93,7 @@
 //		}
 //		else
 //		{
-//			if (LL_TIM_IsEnabledCounter(PwmSignal_INSTANCE))
+//			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 //			{
 //				DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 //			}
@@ -108,7 +108,7 @@
 //	/* USER CODE END MainTaskApp */
 //}
 //
-//void ADC_IRQHandler(void)
+// void ADC_IRQHandler(void)
 //{
 //	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
 //	{

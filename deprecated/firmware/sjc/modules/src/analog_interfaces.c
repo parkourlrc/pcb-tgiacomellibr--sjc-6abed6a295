@@ -2,15 +2,20 @@
  * analog_interfaces.c
  *
  *  Created on: Sep 9, 2023
+ * 	Updated: Mar 2025
  *      Author: tiago
  */
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "adc.h"
-#include "tim.h"
+#include "cmsis_os.h"
 #include "main.h"
+#include "tim.h"
+// ------------------------------------------------------------------- //
 
+// RTOS includes ----------------------------------------------------- //
+// ------------------------------------------------------------------- //
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
@@ -19,6 +24,7 @@
 #include "base/include/configs.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/debug_output.h"
+#include "system_types/include/types.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -26,7 +32,6 @@
 #define VDDA_APPLI ((uint32_t)3300UL)
 #define ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS ((uint32_t)3UL)
 #define ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS ((uint32_t)osWaitForever)
-#define CONV_MILLIVOLT_TO_VOLT(X) (X / 1000.0f)
 #define ANALOG_MEASUREMENT_BUFFER_SIZE ((uint32_t)100UL)
 
 #define ANALOG_IFACE_ISR_FREQUENCY (float)20000.0f
@@ -43,29 +48,46 @@ typedef enum
 	VREF_INT_CONV,
 	CONVERSION_ORDER_SIZE
 } eSjcConversionOrder_t;
+
+typedef struct
+{
+	float channels[CONVERSION_ORDER_SIZE];
+	// uint32_t timestamp;
+} SjcAdcFilteredSample_t;
+static const SjcAdcFilteredSample_t SjcAdcFilteredSampleNullObj = {0};
+
+typedef struct
+{
+	ExponentialFilter_t exp;
+	BoxFilter_t box;
+} SjcAdcFilter_t;
 // ------------------------------------------------------------------- //
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 /* ADC group regular conversion data */
 
-volatile uint32_t xAdcConversionIndex = 0;
-static uint32_t xAdcConversionBuffer[CONVERSION_ORDER_SIZE][ANALOG_MEASUREMENT_BUFFER_SIZE];
-static float xAdcMeasurementValueBuffer[CONVERSION_ORDER_SIZE];
+static osSemaphoreId_t xAnalogInterfaceSemprHandle = NULL;
+static StaticSemaphore_t AnalogInterfaceSemaphoreControlBlock;
 
+static TaskHandle_t xAdcUpdateTaskHandle = NULL;
+
+const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = {
+	.name = "AnalogInterfaceSemaphore",
+	.cb_mem = &AnalogInterfaceSemaphoreControlBlock,
+	.cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock)};
+
+static float xAdcMeasurementValueBuffer[CONVERSION_ORDER_SIZE];
+static SjcAdcFilter_t channel_filters[CONVERSION_ORDER_SIZE];
+static volatile SjcAdcFilteredSample_t xFilteredSampleFromIsr = {0};
+
+static volatile uint32_t xIsrServiceCounter = 0;
 static xSjcMeanSampleTimeMeasurement_t xMeanSampleTimeObj = xSjcSampleTimeEmptyObj;
 
-static uint32_t xIsrServiceCounter = 0;
-
-osSemaphoreId_t xAnalogInterfaceSemprHandle = NULL;
-StaticSemaphore_t AnalogInterfaceSemaphoreControlBlock;
-const osSemaphoreAttr_t AnalogInterfaceSemaphore_attributes = { .name = "AnalogInterfaceSemaphore", .cb_mem = &AnalogInterfaceSemaphoreControlBlock, .cb_size = sizeof(AnalogInterfaceSemaphoreControlBlock),
-};
 // ------------------------------------------------------------------- //
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-void ComputeFilteredMeasurements(void);
 void IncIsrServiceCounter(void);
 void ResetIsrServiceCounter(void);
 // ------------------------------------------------------------------- //
@@ -76,7 +98,6 @@ void AnalogInterfaces_init(void)
 {
 	/* ADC Peripheral Configuration ---------------------------------- */
 	xAnalogInterfaceSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &AnalogInterfaceSemaphore_attributes);
-
 	if (xAnalogInterfaceSemprHandle == NULL)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Analog interface semaphore not created...");
@@ -84,6 +105,12 @@ void AnalogInterfaces_init(void)
 	else
 	{
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
+	}
+
+	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
+	{
+		ExponentialFilter_init(&channel_filters[ch].exp, ANALOG_MEASUREMENT_ISR_FREQUENCY, ANALOG_IFACE_ISR_FREQUENCY);
+		BoxFilter_init(&channel_filters[ch].box, (uint16_t)ANALOG_MEASUREMENT_ISR_TICKS);
 	}
 
 	if (false == LL_TIM_IsEnabledCounter(SJC_ADC_CHECK_TIMER_INSTANCE))
@@ -96,7 +123,6 @@ void AnalogInterfaces_enable(void)
 {
 	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
 	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
-
 	LL_ADC_Enable(SJC_ADC_INSTANCE);
 
 	ResetIsrServiceCounter();
@@ -105,44 +131,45 @@ void AnalogInterfaces_enable(void)
 void AnalogInterfaces_disable(void)
 {
 	LL_ADC_Disable(SJC_ADC_INSTANCE);
-
-	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
-	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
+	LL_ADC_DisableIT_OVR(SJC_ADC_INSTANCE);
+	LL_ADC_DisableIT_JEOS(SJC_ADC_INSTANCE);
 }
 
 eSjcReturnType_t AnalogInterfaces_updateConversionValues(void)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
-	configASSERT(xAnalogInterfaceSemprHandle != NULL);
-
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS))
 	{
+
+		/* Check converion times and conversion errors                           */
+		/* --------------------------------------------------------------------- */
 		// LL_TIM_DisableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 		xMeanSampleTimeObj.AccumulatedTimerTicks += LL_TIM_GetCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 		LL_TIM_SetCounter(SJC_ADC_CHECK_TIMER_INSTANCE, 0);
 		xMeanSampleTimeObj.Samples++;
 
-		if (xIsrServiceCounter != 20)
+		if ((xIsrServiceCounter < 20) || (xIsrServiceCounter > 25))
 		{
-			DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period!");
+			DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Measurement check timer wrong period! (%d cycles)", xIsrServiceCounter);
 			//			for (;;);
 		}
 		ResetIsrServiceCounter();
+		/* --------------------------------------------------------------------- */
 
-		ComputeFilteredMeasurements();
+		/* Process filtered measurements                                         */
+		/* --------------------------------------------------------------------- */
+		for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
+		{
+			xAdcMeasurementValueBuffer[ch] = xFilteredSampleFromIsr.channels[ch];
+		}
+		/* --------------------------------------------------------------------- */
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
 
 		ret = SJC_RET_OK;
 	}
 
-	return ret;
-}
-
-eSjcReturnType_t AnalogInterfaces_checkUpdateConversionTime(void)
-{
-	eSjcReturnType_t ret = (xIsrServiceCounter >= ANALOG_MEASUREMENT_ISR_TICKS) ? SJC_RET_OK : SJC_RET_NOK;
 	return ret;
 }
 
@@ -201,7 +228,6 @@ eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasu
 		xMeanSampleTimeObj = xSjcSampleTimeEmptyObj;
 
 		osSemaphoreRelease(xAnalogInterfaceSemprHandle);
-
 		ret = SJC_RET_OK;
 	}
 
@@ -210,10 +236,45 @@ eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasu
 
 void SJC_AnalogInterfaces_AdcConversionIsr(void)
 {
-	xAdcConversionBuffer[MOTOR_CURRENT_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1);
-	xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][xAdcConversionIndex] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2);
-	xAdcConversionBuffer[VREF_INT_CONV][xAdcConversionIndex++] = LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3);
+	float raw[CONVERSION_ORDER_SIZE];
+	raw[MOTOR_CURRENT_CONV] = ((float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1), LL_ADC_RESOLUTION_12B)) / 1000.0f;
+	raw[MOTOR_VOLTAGE_CONV] = ((float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2), LL_ADC_RESOLUTION_12B)) / 1000.0f;
+	raw[VREF_INT_CONV] = ((float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3), LL_ADC_RESOLUTION_12B)) / 1000.0f;
+
 	IncIsrServiceCounter();
+
+	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
+	{
+		float filtered = ExponentialFilter_update(&channel_filters[ch].exp, raw[ch]);
+		BoxFilter_add_sample(&channel_filters[ch].box, filtered);
+	}
+
+	xFilteredSampleFromIsr = SjcAdcFilteredSampleNullObj;
+
+	if (BoxFilter_ready(&channel_filters[0].box))
+	{
+		for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
+		{
+			xFilteredSampleFromIsr.channels[ch] = BoxFilter_get_average_and_reset(&channel_filters[ch].box);
+		}
+
+		if (xAdcUpdateTaskHandle != NULL)
+		{
+			BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+			vTaskNotifyGiveFromISR(xAdcUpdateTaskHandle, &xHigherPriorityTaskWoken);
+			portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+		}
+		else
+		{
+			DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Measurement task update handle is NULL!");
+		}
+	}
+}
+
+void AnalogInterfaces_registerUpdateTaskHandle(TaskHandle_t *handle)
+{
+	configASSERT(handle != NULL); // Safety check for null pointer
+	xAdcUpdateTaskHandle = *handle;
 }
 
 // ------------------------------------------------------------------- //
@@ -230,25 +291,25 @@ void ResetIsrServiceCounter(void)
 	xIsrServiceCounter = 0;
 }
 
-void ComputeFilteredMeasurements(void)
+void ADC_IRQHandler(void)
 {
-	float xAdcMeasurementValueBufferAux[3] = {0.0f, 0.0f, 0.0f};
-	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] *= CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO;
-	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] *= VOLTAGE_SENSOR_COMP_FILTER_MAINT_RATIO;
-	xAdcMeasurementValueBuffer[VREF_INT_CONV] *= VREF_INT_SENSOR_COMP_FILTER_MAINT_RATIO;
-
-
-	for (uint32_t i = 0; i < xAdcConversionIndex; i++)
+	if (LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
 	{
-		xAdcMeasurementValueBufferAux[MOTOR_CURRENT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_CURRENT_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
-		xAdcMeasurementValueBufferAux[MOTOR_VOLTAGE_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[MOTOR_VOLTAGE_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
-		xAdcMeasurementValueBufferAux[VREF_INT_CONV] += __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, xAdcConversionBuffer[VREF_INT_CONV][i], LL_ADC_RESOLUTION_12B) / (xAdcConversionIndex*1000.0f);
+		/* Clear flag ADC group injected end of sequence conversions */
+		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
+
+		SJC_AnalogInterfaces_AdcConversionIsr();
 	}
 
-	xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] += xAdcMeasurementValueBufferAux[MOTOR_CURRENT_CONV] * CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO;
-	xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] += xAdcMeasurementValueBufferAux[MOTOR_VOLTAGE_CONV] * VOLTAGE_SENSOR_COMP_FILTER_RENEW_RATIO;
-	xAdcMeasurementValueBuffer[VREF_INT_CONV] += xAdcMeasurementValueBuffer[VREF_INT_CONV] * VREF_INT_SENSOR_COMP_FILTER_RENEW_RATIO;
+	/* Check whether ADC group regular overrun caused the ADC interruption */
+	if (LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
+	{
+		/* Clear flag ADC group regular overrun */
+		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
 
-	xAdcConversionIndex = 0;
+		/* Call interruption treatment function */
+		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
+		Error_Handler();
+	}
 }
 // ------------------------------------------------------------------- //

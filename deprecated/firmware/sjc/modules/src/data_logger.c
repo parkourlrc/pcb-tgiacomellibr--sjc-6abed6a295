@@ -1,5 +1,5 @@
 /*
- * debug_output.c
+ * data_logger.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -76,7 +76,10 @@ int DataLogger_transmit(const char *format, ...)
 	uint32_t initial_index = (uDataBuffSize > 0) ? uDataBuffSize : 0;
 	initial_index += (DATA_LOGGER_BANK_1 == xDataLoggerBank) ? DATA_LOGGER_MID_BANK_INDEX : 0;
 
-	n = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
+	size_t bank_limit = DATA_LOGGER_MID_BANK_INDEX - (uDataBuffSize);
+	n = vsnprintf(&xDataLoggerBuff[initial_index], bank_limit, format, apx);
+
+//	n = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
 
 	va_end(apx);
 
@@ -99,20 +102,36 @@ int DataLogger_transmit(const char *format, ...)
 
 static void TransmitBuffer(void)
 {
-	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
+//	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
-	switch (xDataLoggerBank) {
-	case DATA_LOGGER_BANK_1:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-		xDataLoggerBank = DATA_LOGGER_BANK_0;
+//	switch (xDataLoggerBank) {
+//	case DATA_LOGGER_BANK_1:
+//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+//		xDataLoggerBank = DATA_LOGGER_BANK_0;
+//
+//		break;
+//	default:
+//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[0], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+//		xDataLoggerBank = DATA_LOGGER_BANK_1;
+//
+//		break;
+//	}
 
-		break;
-	default:
-		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[0], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-		xDataLoggerBank = DATA_LOGGER_BANK_1;
+    LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
-		break;
-	}
+    uint32_t base_addr = (xDataLoggerBank == DATA_LOGGER_BANK_1) ?
+        (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX] :
+        (uint32_t)&xDataLoggerBuff[0];
+
+    LL_DMA_ConfigAddresses(
+        DATA_LOGGER_DMA_INSTANCE,
+        DATA_LOGGER_DMA_STREAM,
+        base_addr,
+        LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE),
+        LL_DMA_DIRECTION_MEMORY_TO_PERIPH
+    );
+
+    xDataLoggerBank = (xDataLoggerBank == DATA_LOGGER_BANK_1) ? DATA_LOGGER_BANK_0 : DATA_LOGGER_BANK_1;
 
 	bSerialBusy = true;
 

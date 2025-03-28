@@ -5,12 +5,11 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include <modules/include/modbus_network.h>
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
+#include <modules/include/modbus_network.h>
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -20,9 +19,9 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
+#include "base/include/sjc.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
@@ -30,21 +29,17 @@
 #include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
-
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define TASK_NOTIFICATION_MAX_WAIT_TIME_MS				( (uint32_t ) 2U)
-#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT			( (uint32_t ) 3000UL)
+#define TASK_NOTIFICATION_MAX_WAIT_TIME_MS ((uint32_t)2U)
+#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT ((uint32_t)3000UL)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-typedef enum {
-	TASK_MEASUREMENT_STATE_UNINITIALIZED = 0,
-	TASK_MEASUREMENT_STATE_RUNNING
-} eSjcTaskMeasurementState_t;
 
-typedef enum {
+typedef enum
+{
 	SJC_MOVE_BW = 0,
 	SJC_MOVE_FW
 } eSjcMoveDirection_t;
@@ -57,7 +52,6 @@ static osTimerId_t xHeartbeatTimerId;
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 TaskHandle_t xControlAndMeasurementsTaskHandle;
-static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 
 static xSjcServoPidParameters_t JointControllerParameters = xSjcServoPidParametersEmptyObj;
 static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointControllerMeasurementsEmptyObj;
@@ -116,28 +110,29 @@ void ControllerMeasTaskApp(void *argument)
 	SJC_enableJointActuatorDriver();
 	SJC_enableJointActuatorOutput();
 
-	osDelay(SJC_TASK_INIT_DELAY);
-
 	xHeartbeatTimerId = osTimerNew(vHeartbeatTimerCallback, osTimerPeriodic, (void *)0, NULL);
 	configASSERT(xHeartbeatTimerId != NULL);
 	osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
 
+	osDelay(SJC_TASK_INIT_DELAY);
+
 	uint32_t ulNotificationValue = 0;
+
+	AnalogInterfaces_registerUpdateTaskHandle(&xControlAndMeasurementsTaskHandle);
 
 	AnalogInterfaces_enable();
 
-	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
-
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
 
-	/* Infinite loop */
-	for (;;) {
 
+	/* Infinite loop */
+	for (;;)
+	{
 		SJC_GetTime(SJC_TIME_MS, &TaskTic);
 
-		ulNotificationValue = ulTaskNotifyTake( pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS );
+		ulNotificationValue = ulTaskNotifyTake(pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS);
 
-		if( ulNotificationValue == 1 )
+		if (ulNotificationValue == 1)
 		{
 			AnalogInterfaces_updateConversionValues();
 
@@ -145,7 +140,7 @@ void ControllerMeasTaskApp(void *argument)
 		}
 		else
 		{
-			if (LL_TIM_IsEnabledCounter(PwmSignal_INSTANCE))
+			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 			{
 				DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 			}
@@ -153,7 +148,7 @@ void ControllerMeasTaskApp(void *argument)
 
 		SJC_GetTime(SJC_TIME_MS, &TaskToc);
 
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME, (TaskToc-TaskTic));
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME, (TaskToc - TaskTic));
 	}
 
 	AnalogInterfaces_disable();
@@ -175,7 +170,8 @@ static void RunControlLoop(void)
 
 		EnqueueLogData();
 
-		switch (ControlMode) {
+		switch (ControlMode)
+		{
 		case SJC_PULSE_FAST_EXCITATION:
 			JointMeasurements.ControlAction = ZERO_FLOAT;
 			RunTestSignal(INPUT_TYPE_PULSE_FAST);
@@ -237,7 +233,7 @@ static void RunControlLoop(void)
 
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME, DeltaT);
 		SJC_GetTime(SJC_TIME_MS, &ControlTaskToc);
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (ControlTaskToc-ControlTaskTic));
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (ControlTaskToc - ControlTaskTic));
 	}
 }
 
@@ -254,44 +250,6 @@ static bool CheckControlLoopCycle(void)
 	}
 }
 
-void ADC_IRQHandler(void)
-{
-	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group injected end of sequence conversions */
-		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
-
-		switch (xTaskState) {
-		case TASK_MEASUREMENT_STATE_RUNNING:
-			/* Call interruption treatment function */
-			SJC_AnalogInterfaces_AdcConversionIsr();
-
-			/* Dispatch conversion and filtering */
-			if (SJC_RET_OK == AnalogInterfaces_checkUpdateConversionTime())
-			{
-				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-				configASSERT( xControlAndMeasurementsTaskHandle != NULL );
-				vTaskNotifyGiveFromISR( xControlAndMeasurementsTaskHandle, &xHigherPriorityTaskWoken );
-				portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
-	/* Check whether ADC group regular overrun caused the ADC interruption */
-	if(LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group regular overrun */
-		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
-
-		/* Call interruption treatment function */
-		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
-		Error_Handler();
-	}
-}
-
 static void ControllerParametersUpdate(void)
 {
 	// Controller configs update
@@ -301,7 +259,8 @@ static void ControllerParametersUpdate(void)
 	SJC_getControlReference(&JointMeasurements.ControllerReference);
 }
 
-static void MeasurementsUpdate(void) {
+static void MeasurementsUpdate(void)
+{
 	// Electric variables update
 	SJC_getJointActuatorVoltage(&JointMeasurements.ActuatorVoltage);
 	SJC_getJointActuatorCurrentUnbiased(&JointMeasurements.ActuatorCurrent);
@@ -324,14 +283,16 @@ static void MeasurementsUpdate(void) {
 	//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
 }
 
-static void EndstopsCheck(void) {
+static void EndstopsCheck(void)
+{
 	uint32_t states;
 	SJC_readDigitalInputs(&states);
 	bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
 	bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
 	bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
 
-	if (true == bEndStopAPressed) {
+	if (true == bEndStopAPressed)
+	{
 		SJC_resetJointAngularDisplacement();
 	}
 
@@ -357,13 +318,13 @@ static void RunTestSignal(eSjcInputType_t type)
 
 	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
-		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
+		float time_factor = (4.0f / ControllerPeriodSpec); // From 4ms to 1ms
 		TestSignals_setConfig(type, time_factor);
 	}
 	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 	{
 		TestSignals_getValue(&xTestSignalValue);
-		JointMeasurements.ControlAction = JointMeasurements.ControllerReference*xTestSignalValue;
+		JointMeasurements.ControlAction = JointMeasurements.ControllerReference * xTestSignalValue;
 	}
 	else
 	{
@@ -377,12 +338,11 @@ void vHeartbeatTimerCallback(void *argument)
 	SJC_toggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 }
 
-
 static void EnqueueLogData(void)
 {
-	xQueueSend( xDataLoggerQueueHandle,
-				( void * ) &JointMeasurements,
-				( TickType_t ) 0 );
+	xQueueSend(xDataLoggerQueueHandle,
+			   (void *)&JointMeasurements,
+			   (TickType_t)0);
 }
 
 // ------------------------------------------------------------------- //
