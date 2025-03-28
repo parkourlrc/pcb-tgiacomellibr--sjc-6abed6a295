@@ -1,5 +1,5 @@
 /*
- * motor.h
+ * encoder.h
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
