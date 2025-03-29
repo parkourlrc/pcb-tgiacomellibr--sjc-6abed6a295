@@ -1,5 +1,18 @@
 #include "stdint.h"
 
+/**
+ * @brief Enumeration for selecting the ADC filtering mode.
+ */
+typedef enum
+{
+    ADC_FILTER_NONE = 0x00,         ///< No filtering, raw values used directly
+    ADC_FILTER_EXPONENTIAL = 0x01,  ///< Exponential filtering on each sample
+    ADC_FILTER_BOX = 0x02,          ///< Box filtering over a window
+    ADC_FILTER_EXP_THEN_BOX = 0x03, ///< Exponential filter then box filter
+    ADC_FILTER_BOX_THEN_EXP = 0x04, ///< Box filter then exponential filter
+    ADC_FILTER_MODE_SIZE
+} eSjcAdcFilterMode_t;
+
 typedef enum
 {
     SJC_RET_NOK = 0x0000,
@@ -21,13 +34,13 @@ typedef enum
 typedef enum
 {
     SJC_CONTROL_DISABLED = 0x0000,
-	SJC_OPEN_LOOP_CONTROL,
-	SJC_SPEED_CONTROL,
-	SJC_CURRENT_CONTROL,
-	SJC_PRBS_EXCITATION,
-	SJC_TRIANG_EXCITATION,
-	SJC_PULSE_FAST_EXCITATION,
-	SJC_PULSE_SLOW_EXCITATION
+    SJC_OPEN_LOOP_CONTROL,
+    SJC_SPEED_CONTROL,
+    SJC_CURRENT_CONTROL,
+    SJC_PRBS_EXCITATION,
+    SJC_TRIANG_EXCITATION,
+    SJC_PULSE_FAST_EXCITATION,
+    SJC_PULSE_SLOW_EXCITATION
 } eSjcControlMode_t;
 
 typedef struct
@@ -99,7 +112,7 @@ typedef struct
     float Ka;          // Back-EMF constant
     float update_rate; // Update frequency
 } xSjcControllerParameters_t;
-	
+
 typedef struct
 {
     uint16_t actuator_sensor_resolution;

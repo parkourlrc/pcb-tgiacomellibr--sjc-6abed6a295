@@ -7,9 +7,9 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "modules/include/modbus_network.h"
 #include "dma.h"
 #include "gpio.h"
+#include "modules/include/modbus_network.h"
 #include "usb_device.h"
 // ------------------------------------------------------------------- //
 
@@ -32,9 +32,9 @@
 #include "modules/include/encoder.h"
 #include "modules/include/motor_drive.h"
 #include "modules/include/motor_output.h"
-#include "modules/include/timeout_timer.h"
 #include "modules/include/pid_controller.h"
 #include "modules/include/pwm.h"
+#include "modules/include/timeout_timer.h"
 #include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
@@ -76,6 +76,7 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void);
 void Net_ExecuteControllerConfigsUpdateCmd(void);
 void Net_ExecuteDigitalOutputsUpdateCmd(void);
 void Net_ExecuteControllerParametersUpdateCmd(void);
+void Net_ExecuteAdcFilterModeUpdateCmd(void);
 
 // ------------------------------------------------------------------- //
 
@@ -268,7 +269,7 @@ eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config)
 
 eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config)
 {
-	xSjcControlConfigs.Rate = ( (uint32_t) (1000/SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)) );
+	xSjcControlConfigs.Rate = ((uint32_t)(1000 / SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)));
 
 	return SJC_RET_OK;
 }
@@ -315,7 +316,8 @@ eSjcReturnType_t SJC_computeControlAction(const float ControlError, const float 
 	return SJC_RET_OK;
 }
 
-void SJC_UpdateHoldingRegisters(void) {
+void SJC_UpdateHoldingRegisters(void)
+{
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
 	Net_ExecuteNetworkConfigsUpdateCmd();
@@ -323,9 +325,11 @@ void SJC_UpdateHoldingRegisters(void) {
 	Net_ExecuteActuatorConfigsUpdateCmd();
 	Net_ExecuteControllerConfigsUpdateCmd();
 	Net_ExecuteControllerParametersUpdateCmd();
+	Net_ExecuteAdcFilterModeUpdateCmd();
 }
 
-void SJC_UpdateInputRegisters(void) {
+void SJC_UpdateInputRegisters(void)
+{
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
 	Net_UpdateSensorsParametersRegisters();
@@ -403,6 +407,20 @@ eSjcReturnType_t SJC_getJointActuatorVoltage(float *voltage)
 eSjcReturnType_t SJC_setJointActuatorVoltage(const float voltage)
 {
 	MotorDrive_setOutputVoltage(voltage);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode)
+{
+	AnalogInterfaces_setFilterMode(mode);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_setAdcFilterCutoffFrequency(const float fc)
+{
+	AnalogInterfaces_setExponentialCutoffFrequency(fc);
 
 	return SJC_RET_OK;
 }
@@ -562,7 +580,7 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE + 1] = ui16ptr[0];
 
 	fAux = 0;
-//	SJC_GetJointActuatorCurrent(&fAux);
+	//	SJC_GetJointActuatorCurrent(&fAux);
 	SJC_getJointActuatorCurrentUnbiased(&fAux);
 	ui16ptr = ((uint16_t *)(&fAux));
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ui16ptr[1];
@@ -741,7 +759,7 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 	{
 		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
 		float base_voltage = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE] / 100.0f);
-		float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+		float voltage_limit = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE] / 100.0f);
 
 		MotorDrive_setBaseVoltage(base_voltage);
 		xSjcRange_t EffortLimits = {.Min = -voltage_limit, .Max = voltage_limit};
@@ -861,6 +879,31 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.KA);
 		DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
 #endif
+	}
+}
+
+void Net_ExecuteAdcFilterModeUpdateCmd(void)
+{
+	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] & ADC_FILTER_MODE_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] &= (~ADC_FILTER_MODE_UPDATE_MSK);
+
+		// Filter mode
+		uint16_t mode = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE];
+		SJC_setAdcFilterMode(mode);
+	}
+
+	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] & ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] &= (~ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK);
+
+		float fc;
+		uint16_t *ptr = (uint16_t *)(&fc);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY];
+
+		// Filter cutoff frequency
+		SJC_setAdcFilterCutoffFrequency(fc);
 	}
 }
 

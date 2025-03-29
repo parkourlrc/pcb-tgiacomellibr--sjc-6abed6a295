@@ -3,16 +3,16 @@
 #ifdef __cplusplus
 extern "C"
 {
-#include "errno.h"
-#include "unistd.h"
-#include "helpers.h"
 #include "data_masks.h"
+#include "errno.h"
+#include "helpers.h"
 #include "network_configs.h"
+#include "unistd.h"
 }
 #endif
 
-#include <iostream>
 #include <endian.h>
+#include <iostream>
 
 #define STD_WAIT_TIME_US 5UL
 
@@ -53,7 +53,8 @@ eSjcReturnType_t SjcInterface::connect(void)
         else
         {
             modbus_set_slave(ctx, this->address_);
-            modbus_set_response_timeout(ctx, 0, 10000);
+            modbus_rtu_set_serial_mode(ctx, MODBUS_RTU_RS485);
+            modbus_set_response_timeout(ctx, 0, 20000);
             return SJC_CONNECTED;
         }
     }
@@ -362,6 +363,43 @@ eSjcReturnType_t SjcInterface::setDigitalOutputsStates(const xSjcOutputsStates_t
     tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, DIGITAL_OUTPUTS_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::setAdcFilterMode(const eSjcAdcFilterMode_t mode)
+{
+    const int nb = 2;
+    uint16_t tab_reg[nb];
+
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_MODE_UPDATE, ADC_FILTER_MODE_UPDATE_OFFSET)] = ADC_FILTER_MODE_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_MODE, ADC_FILTER_MODE_UPDATE_OFFSET)] = mode;
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_MODE, nb, tab_reg))
+    {
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::setAdcFilterCutoffFrequency(const float fc)
+{
+    const int nb = 3;
+    uint16_t tab_reg[nb];
+
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE, ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_OFFSET)] = ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK;
+    compose_byte_array_from_float(fc, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY, ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_OFFSET)]);
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY, nb, tab_reg))
     {
 
         return SJC_RET_OK;

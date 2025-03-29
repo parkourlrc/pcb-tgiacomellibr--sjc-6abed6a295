@@ -4,8 +4,8 @@
 #ifdef __cplusplus
 extern "C"
 {
-#include "modbus/modbus.h"
 #include "data_structures.h"
+#include "modbus/modbus.h"
 }
 #endif
 
@@ -42,6 +42,9 @@ public:
 
     eSjcReturnType_t setDigitalOutputsStates(const xSjcOutputsStates_t config);
 
+    eSjcReturnType_t setAdcFilterMode(const eSjcAdcFilterMode_t mode);
+    eSjcReturnType_t setAdcFilterCutoffFrequency(const float fc);
+
 private:
     int address_;
     int baudrate_;
@@ -53,6 +56,5 @@ private:
     eSjcReturnType_t getInputRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table);
     eSjcReturnType_t setHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table);
     eSjcReturnType_t waitTime_us(const unsigned int wait_time_us);
-
 };
 #endif // _SJC_INTERFACE_H_

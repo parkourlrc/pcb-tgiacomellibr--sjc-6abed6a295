@@ -2,48 +2,7 @@
 #include <math.h>
 
 // -------------------------------------------------------------------
-// Exponential Filter
-// -------------------------------------------------------------------
-void ExponentialFilter_init(ExponentialFilter_t *filter, float fc, float fs)
-{
-    filter->fs = fs;
-    ExponentialFilter_set_cutoff(filter, fc);
-    filter->y_prev = 0.0f;
-}
-
-void ExponentialFilter_init_with_value(ExponentialFilter_t *filter, float fc, float fs, float initial_value)
-{
-    filter->fs = fs;
-    ExponentialFilter_set_cutoff(filter, fc);
-    filter->y_prev = initial_value;
-}
-
-void ExponentialFilter_reset(ExponentialFilter_t *filter)
-{
-    filter->y_prev = 0.0f;
-}
-
-void ExponentialFilter_set_cutoff(ExponentialFilter_t *filter, float fc)
-{
-    if (fc <= 0.0f || filter->fs <= 0.0f)
-    {
-        filter->alpha = 1.0f; // No filtering (instant response)
-        return;
-    }
-    float ts = 1.0f / filter->fs;
-    float tau = 1.0f / (2.0f * M_PI * fc);
-    filter->alpha = 1.0f - expf(-ts / tau);
-}
-
-float ExponentialFilter_update(ExponentialFilter_t *filter, float x)
-{
-    float y = filter->alpha * x + (1.0f - filter->alpha) * filter->y_prev;
-    filter->y_prev = y;
-    return y;
-}
-
-// -------------------------------------------------------------------
-// Box Filter (mean of N samples)
+// Box Filter Implementation
 // -------------------------------------------------------------------
 void BoxFilter_init(BoxFilter_t *filter, uint16_t window_size)
 {
@@ -74,4 +33,57 @@ float BoxFilter_get_average_and_reset(BoxFilter_t *filter)
     filter->sum = 0.0f;
     filter->count = 0;
     return avg;
+}
+
+// -------------------------------------------------------------------
+// Exponential Filter Implementation
+// -------------------------------------------------------------------
+void ExponentialFilter_init(ExponentialFilter_t *filter, float fc, float fs)
+{
+    filter->fs = fs;
+    ExponentialFilter_set_cutoff(filter, fc);
+    filter->y_prev = 0.0f;
+}
+
+void ExponentialFilter_init_with_value(ExponentialFilter_t *filter, float fc, float fs, float initial_value)
+{
+    filter->fs = fs;
+    ExponentialFilter_set_cutoff(filter, fc);
+    filter->y_prev = initial_value;
+}
+
+void ExponentialFilter_reset(ExponentialFilter_t *filter)
+{
+    filter->y_prev = 0.0f;
+}
+
+void ExponentialFilter_set_cutoff(ExponentialFilter_t *filter, float fc)
+{
+    filter->fc = fc;
+    filter->alpha = ExponentialFilter_compute_alpha(fc, filter->fs);
+}
+
+void ExponentialFilter_set_sampling_frequency(ExponentialFilter_t *filter, float fs)
+{
+    filter->fs = fs;
+    filter->alpha = ExponentialFilter_compute_alpha(filter->fc, fs);
+}
+
+float ExponentialFilter_compute_alpha(float fc, float fs)
+{
+    if (fc <= 0.0f || fs <= 0.0f)
+    {
+        return 1.0f; // No filtering (pass-through)
+    }
+
+    float ts = 1.0f / fs;
+    float tau = 1.0f / (2.0f * M_PI * fc);
+    return 1.0f - expf(-ts / tau);
+}
+
+float ExponentialFilter_update(ExponentialFilter_t *filter, float x)
+{
+    float y = filter->alpha * x + (1.0f - filter->alpha) * filter->y_prev;
+    filter->y_prev = y;
+    return y;
 }

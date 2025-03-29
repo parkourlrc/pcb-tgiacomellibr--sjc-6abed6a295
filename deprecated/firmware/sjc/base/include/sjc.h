@@ -9,6 +9,7 @@
 #define SJC__BASE__SJC_H_
 
 #include "system_types/include/types.h"
+#include "modules/include/analog_interfaces.h"
 
 void SJC_Init(void);
 void SJC_InitOsKernel(void);
@@ -43,6 +44,9 @@ eSjcReturnType_t SJC_getJointActuatorCurrentUnbiased(float *value);
 eSjcReturnType_t SJC_setJointActuatorCurrentBias(const float bias);
 eSjcReturnType_t SJC_getJointActuatorVoltage(float *voltage);
 eSjcReturnType_t SJC_setJointActuatorVoltage(const float voltage);
+
+eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode);
+eSjcReturnType_t SJC_setAdcFilterCutoffFrequency(const float fc);
 
 eSjcReturnType_t SJC_resetJointAngularDisplacement(void);
 eSjcReturnType_t SJC_getJointRelativeAndAngularDisplacement(const eSjcJoints_t joint, float *disp);

@@ -120,6 +120,12 @@ void ControllerMeasTaskApp(void *argument)
 
 	AnalogInterfaces_registerUpdateTaskHandle(&xControlAndMeasurementsTaskHandle);
 
+	AnalogInterfaces_setFilterMode(ADC_FILTER_EXPONENTIAL);
+//	AnalogInterfaces_setFilterMode(ADC_FILTER_EXP_THEN_BOX);
+//	AnalogInterfaces_setFilterMode(ADC_FILTER_BOX_THEN_EXP);
+
+	AnalogInterfaces_setExponentialCutoffFrequency(1000);
+
 	AnalogInterfaces_enable();
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");

@@ -40,7 +40,9 @@ static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-static int32_t read_timer_counter(eSjcJoints_t Joint);
+static inline int32_t read_encoder_counter_raw(eSjcJoints_t Joint);
+static inline xSjcEncoder_t *get_encoder_handle(eSjcJoints_t Joint);
+
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -76,13 +78,14 @@ void Encoder_init(void)
 
 void Encoder_reset(eSjcJoints_t Joint)
 {
-	if (IS_VALID_JOINT(Joint))
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
 	{
 		configASSERT(xEncoderInterfacesSemprHandle != NULL);
 		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 		{
-			LL_TIM_SetCounter(Encoder[Joint].Instance, 0);
-			Encoder[Joint].Counts = 0;
+			LL_TIM_SetCounter(enc->Instance, 0);
+			enc->Counts = 0;
 			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 		}
 	}
@@ -90,12 +93,13 @@ void Encoder_reset(eSjcJoints_t Joint)
 
 void Encoder_enable(eSjcJoints_t Joint)
 {
-	if (IS_VALID_JOINT(Joint))
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
 	{
 		configASSERT(xEncoderInterfacesSemprHandle != NULL);
 		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 		{
-			LL_TIM_EnableCounter(Encoder[Joint].Instance);
+			LL_TIM_EnableCounter(enc->Instance);
 			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 		}
 	}
@@ -103,12 +107,13 @@ void Encoder_enable(eSjcJoints_t Joint)
 
 void Encoder_disable(eSjcJoints_t Joint)
 {
-	if (IS_VALID_JOINT(Joint))
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
 	{
 		configASSERT(xEncoderInterfacesSemprHandle != NULL);
 		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 		{
-			LL_TIM_DisableCounter(Encoder[Joint].Instance);
+			LL_TIM_DisableCounter(enc->Instance);
 			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 		}
 	}
@@ -116,16 +121,23 @@ void Encoder_disable(eSjcJoints_t Joint)
 
 eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
 {
-	if ((!IS_VALID_JOINT(Joint)) || (counts == NULL))
+	if ((counts == NULL))
 	{
+		return SJC_RET_NOK;
+	}
+
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*counts = 0;
 		return SJC_RET_NOK;
 	}
 
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		Encoder[Joint].Counts = read_timer_counter(Joint);
-		*counts = Encoder[Joint].Counts;
+		enc->Counts = read_encoder_counter_raw(Joint);
+		*counts = enc->Counts;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 	}
 	return SJC_RET_OK;
@@ -133,16 +145,23 @@ eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
 
 eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
 {
-	if ((!IS_VALID_JOINT(Joint)) || (angular_dp == NULL))
+	if (angular_dp == NULL)
 	{
+		return SJC_RET_NOK;
+	}
+
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*angular_dp = 0.0f;
 		return SJC_RET_NOK;
 	}
 
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		Encoder[Joint].Counts = read_timer_counter(Joint);
-		*angular_dp = Encoder[Joint].Counts * Encoder[Joint].radians_per_quadrature_pulse;
+		enc->Counts = read_encoder_counter_raw(Joint);
+		*angular_dp = enc->Counts * enc->radians_per_quadrature_pulse;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 	}
 
@@ -151,15 +170,22 @@ eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angul
 
 eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 {
-	if ((!IS_VALID_JOINT(Joint)) || (resolution == NULL))
+	if (resolution == NULL)
 	{
+		return SJC_RET_NOK;
+	}
+
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*resolution = 0;
 		return SJC_RET_NOK;
 	}
 
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		*resolution = Encoder[Joint].Resolution_PPR;
+		*resolution = enc->Resolution_PPR;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 	}
 	return SJC_RET_OK;
@@ -167,7 +193,13 @@ eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 
 eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution)
 {
-	if ((!IS_VALID_JOINT(Joint)) || (resolution == 0))
+	if ((resolution == 0))
+	{
+		return SJC_RET_NOK;
+	}
+
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
 	{
 		return SJC_RET_NOK;
 	}
@@ -175,8 +207,8 @@ eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolu
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		Encoder[Joint].Resolution_PPR = resolution;
-		Encoder[Joint].radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * Encoder[Joint].Resolution_PPR);
+		enc->Resolution_PPR = resolution;
+		enc->radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * enc->Resolution_PPR);
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 	}
 	return SJC_RET_OK;
@@ -186,7 +218,7 @@ eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolu
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static int32_t read_timer_counter(eSjcJoints_t Joint)
+static inline int32_t read_encoder_counter_raw(eSjcJoints_t Joint)
 {
 	int32_t count = 0;
 
@@ -208,4 +240,12 @@ static int32_t read_timer_counter(eSjcJoints_t Joint)
 	return count;
 }
 
+static inline xSjcEncoder_t *get_encoder_handle(eSjcJoints_t Joint)
+{
+	if (!IS_VALID_JOINT(Joint))
+	{
+		return NULL;
+	}
+	return &Encoder[Joint];
+}
 // ------------------------------------------------------------------- //
