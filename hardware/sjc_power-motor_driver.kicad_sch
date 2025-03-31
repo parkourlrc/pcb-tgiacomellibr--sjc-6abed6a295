@@ -1658,63 +1658,6 @@
 			)
 			(symbol "IAUC100N04S6N028_1_0"
 				(pin passive line
-					(at 2.54 5.08 270)
-					(length 2.54)
-					(hide yes)
-					(name "D"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 5.08 270)
-					(length 2.54)
-					(hide yes)
-					(name "D"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 5.08 270)
-					(length 2.54)
-					(hide yes)
-					(name "D"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
 					(at 2.54 -5.08 90)
 					(length 2.54)
 					(hide yes)
@@ -5464,17 +5407,8 @@
 		(pin "5"
 			(uuid "b84812b3-f6ab-49c7-b0bd-0306075563a0")
 		)
-		(pin "7"
-			(uuid "685cc376-2ca5-480a-9155-6924d50ac9ff")
-		)
-		(pin "6"
-			(uuid "8b9a06c9-d031-43e5-8038-9a436a59d85b")
-		)
 		(pin "4"
 			(uuid "81e27be5-8af3-4687-bf73-3ee2bd0f410b")
-		)
-		(pin "8"
-			(uuid "81f70f87-19fb-4e20-a220-b684b9783a76")
 		)
 		(instances
 			(project "sjc_power"
@@ -7591,17 +7525,8 @@
 		(pin "4"
 			(uuid "d8d45e0e-f0fe-43ad-a670-0a8876e8f87f")
 		)
-		(pin "7"
-			(uuid "2178feb9-41e7-4b9a-96c8-b62f3d894932")
-		)
 		(pin "5"
 			(uuid "5f1b40b0-72ef-4cd3-9791-9cdb9b4c6578")
-		)
-		(pin "6"
-			(uuid "410dff8d-1bed-4cb2-86a1-4780bace90b6")
-		)
-		(pin "8"
-			(uuid "d97e89f1-45f8-4da3-b82b-69b12d6eb474")
 		)
 		(instances
 			(project "sjc_power"
@@ -8258,17 +8183,8 @@
 		(pin "3"
 			(uuid "9b654ff6-f62b-4921-951a-bc7e7ce63609")
 		)
-		(pin "7"
-			(uuid "fcab65af-b7cb-4511-9533-7c3db711d933")
-		)
-		(pin "6"
-			(uuid "64ba9441-944b-4095-a1fe-02454616d8d6")
-		)
 		(pin "5"
 			(uuid "4547bef7-8dc4-4b79-9e5f-1e1dcd6929e1")
-		)
-		(pin "8"
-			(uuid "e26000fa-76da-4b54-b3a7-9d120614e1c2")
 		)
 		(pin "4"
 			(uuid "8fc211d0-fb7a-4e34-ac3f-e8b48ede6012")
@@ -8788,17 +8704,8 @@
 		(pin "3"
 			(uuid "9623be61-1446-4199-ad39-6b3b9a39dd45")
 		)
-		(pin "8"
-			(uuid "4d106bac-bc36-4be3-8b41-cc8645ed19ea")
-		)
-		(pin "6"
-			(uuid "a7640736-af11-44cb-953f-c70dbec96b73")
-		)
 		(pin "4"
 			(uuid "b1ae5586-e1e4-4a91-b085-6aa05fbe9876")
-		)
-		(pin "7"
-			(uuid "9a20e47c-74f4-43fb-b5f1-c8851c36fa06")
 		)
 		(pin "5"
 			(uuid "9164731c-266c-4a47-b004-2c0b5a0553e9")

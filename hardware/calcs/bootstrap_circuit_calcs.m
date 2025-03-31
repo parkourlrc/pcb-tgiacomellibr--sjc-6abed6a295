@@ -2,163 +2,229 @@ clear all
 close all
 clc
 
+%% === Design Margins ===
+CB_margin      = 1.5;    % Bootstrap capacitor safety margin
+ripple_margin  = 0.7;    % Ripple vs spec threshold
+rc_margin      = 0.8;    % Max allowed RC time constant as fraction of T_Hmin
 
-% Operating conditions
-VCC = 12;
-Fsw = 20e3;
-D = 99/100;      % Percent value
-Dmin = 2/100;    %  1 %
-Dmax = (1-Dmin); % 99 %
-bs_rip = 6/100; % Maximum allowable ripple
+%% === Operating Conditions ===
+VCC = 12;               % Driver supply voltage [V]
+VS = 24;                % High-side supply (e.g., bus) [V]
+Fsw = 20e3;             % Switching frequency [Hz]
+Dmin = 2/100;           % Minimum duty cycle [%]
+Dmax = 1 - Dmin;        % Maximum duty cycle [%]
+D = Dmax;
+bs_rip = 5/100;         % Max allowable ripple (% of V_boot)
 
-a = sprintf('\n\r Bootstrap Circuit calcs:');
-disp(a)
+disp('Bootstrap Circuit Calculations');
 
-% N-Channel Mosfet: PSMN1R4-30YLD
-a = sprintf('\r - N-Channel Mosfet: %s', 'PSMN1R4-30YLD');
-disp(a)
-Rdson = 1.85e-3;
-Qgate = 27.6e-9;
-Q_G = Qgate;
-VGS_min = 4.5;
-VGS_th = 2.2; % Gate threshold voltage VGS
-IGSS = 100e-9; % Gate-source leakage current
-ILKGS = IGSS;
-SW_Ton = 23e-9;
-SW_Toff = 31.5e-9;
-SW_Tr = 28e-9;
-SW_Tf = 20e-9;
-SW_QGS = 7.2e-9;  % Gate to source charge
-SW_QGD = 8.5e-9;  % Gate to drain charge
-SW_CGD = 251e-12; % Reverse transfer capacitance (Crss)
-C_in = 3840e-12; % Input capacitance (Ciss)
-C_out = 1785e-12; % Output capacitance (Coss)
+%% === MOSFET Selection ===
+run('mosfet_params/IAUC100N04S6N028.m')
 
-% Driver: 2ED2184S06F (https://www.infineon.com/dgdl/Infineon-2ED2184-4-S06F-J-DataSheet-v02_32-EN.pdf?fileId=5546d4626cb27db2016cb8d76cf229fb)
-a = sprintf('\r - Half-bridge driver: %s', '2ED2184S06F');
-disp(a)
-ILK = 12.5e-6; % Offset Supply Leakage Current
-IQBS = 170e-6; % Quiescent VBS Supply Current
-IQCC = 550e-6; % Quiescent VCC Supply Current
-IPBS = 2*IQBS; % Operating VBS Supply Current
-IPCC = 2*IQCC; % Operating VCC Supply Current
-Q_LS = 1.2e-9;
-Tdt = 400e-9; % Dead time
-I_B = IPBS; % B is the maximum quiescent
-% supply current for the
-% high side driver
+%% === Gate Driver Parameters ===
+disp(' - Half-bridge driver: 2ED2184S06F');
+ILK   = 12.5e-6;
+IQBS  = 170e-6;
+IQCC  = 550e-6;
+Q_LS  = 1.2e-9;
+Tdt   = 400e-9;
 
-td_on = 840e-9; % Turn-on delay time
-td_off = 300e-9; % Turn-off delay time
-tr = 30e-9; % Rise time
-tf = 30e-9; % Fall time
+td_on = 840e-9;
+td_off = 300e-9;
+tr = 30e-9;
+tf = 30e-9;
 Icapability = 2.5;
 
-% Bootstrap diode: PMEG60T30ELR
-a = sprintf('\r - Bootstrap diode: %s', 'PMEG60T20ELR');
-disp(a)
-V_D = 0.62;
-ILK_D = 1.8e-6;
-V_R = 60;
+%% === Bootstrap Diode Parameters ===
+disp(' - Bootstrap diode: PMEG60T30ELR');
+V_D    = 0.62;
+ILK_D  = 1.8e-6;
+V_R    = 60;
+IFSM   = 60;
+D_Ptot = 0.68;
 
-% Bootstrap capacitor
-ILKCAP = 0; % Ceramic capacitor
+%% === Bootstrap Capacitor Calculation ===
+ILKCAP = 0;
 
-a = sprintf('\r - %s: %s', 'Operating conditions');
-disp(a)
-
-T = 1/Fsw;
-a = sprintf('\r   - Vcc: %.2f', VCC);
-disp(a)
-a = sprintf('\r   - Swithing frequency: %.2f', Fsw);
-disp(a)
-
-a = sprintf('\r   - Min. duty cycle: %.2f(%%)', Dmin*100);
-disp(a)
-a = sprintf('\r   - Maximum allowable ripple: %.2f(V)', bs_rip);
-disp(a)
-
-T_H = ( (1-D)/Fsw ) - Tdt; % On time of Q2
-T_L = (D/Fsw) + Tdt; % Off time of Q2
-
-T_Hmin = ( (1-Dmax)/Fsw ) - Tdt; % Minimum time Q2 is on
-T_Lmin = (Dmin/Fsw) + Tdt; % Minimum time Q2 is off
-%T_Lmax = (D/Fsw) + Tdt; % Maximum time Q2 is off
-T_Lmax = (Dmax/Fsw) + Tdt; % Maximum time Q2 is off
+T_Lmin = (Dmin / Fsw) + Tdt;
+T_Lmax = (Dmax / Fsw) + Tdt;
+T_Hmin = ((1 - Dmax) / Fsw) - Tdt;
 
 V_boot = VCC - V_D - VGS_min;
-dV_boot = bs_rip*V_boot;
+dV_boot = bs_rip * V_boot;
 
-I_LK = ILKCAP + ILKGS + IQBS + ILK + ILK_D;
-Q_CB = Q_G + (T_Lmax*I_LK) + Q_LS;
-C_B = Q_CB/dV_boot;
-a = sprintf('\r   - Calculated bootstrap capacitor: %.2f(nF)', C_B*1e9);
-disp(a)
-C_B = 1.2*round(C_B*10000e9)/10000e9;
-% C_B = 82e-9;
-C_B = max(C_B,82e-9);
-a = sprintf('\r   - *Specified bootstrap capacitor: %.2f(nF) <---', C_B*1e9);
-disp(a)
-dV = Q_CB/C_B;
+I_LK = ILKCAP + IGSS + IQBS + ILK + ILK_D;
+Q_CB = Qgate + (T_Hmin * I_LK) + Q_LS;
+C_Bnom = Q_CB / dV_boot;
+C_Braw = CB_margin * C_Bnom;
 
-R_B = T_Hmin/(4*C_B);
-a = sprintf('\r   - Calculated bootstrap resistor: %.2f(Ohm)', R_B);
-disp(a)
-R_B = round(10*R_B)/10;
-a = sprintf('\r   - *Specified bootstrap resistor: %.2f(Ohm) <---', R_B);
-disp(a)
-%R_B = 2
-I_avg = Q_CB/T_Hmin;
-a = sprintf('\r   - Average current on bootstrap capacitor: %.2f(A)', I_avg);
-disp(a)
-I_pk = (VCC-V_D)/R_B;
-a = sprintf('\r   - Peak current on bootstrap capacitor: %.2f(A)', I_pk);
-disp(a)
-VR_B = I_avg*R_B;
-a = sprintf('\r   - Average voltage drop on bootstrap resistor: %.2f(V)', VR_B);
-disp(a)
-VR_Bpk = I_pk*R_B;
-a = sprintf('\r   - Peak voltage drop on bootstrap resistor: %.2f(V)', VR_Bpk);
-disp(a)
-PR_B = R_B*(I_avg^2);
-a = sprintf('\r   - Average power dissipated by bootstrap resistor: %.2f(W)', PR_B);
-disp(a)
-PR_Bpk = R_B*(I_pk^2);
-a = sprintf('\r   - Peak power dissipated by bootstrap resistor: %.2f(W)', PR_Bpk);
-disp(a)
-deltaVBoot = Q_G/C_B;
-tau = R_B*C_B/Dmin;
-a = sprintf('\r   - Specified ripple voltage: %.2f(V)  <---', deltaVBoot);
-disp(a)
-a = sprintf('\r   - Bootstrap network time constant: %.2f(s)  <---', tau);
-disp(a)
+%% === Critical Low Duty Cycle Evaluation ===
+D_critical = Dmin;
+T_Hcrit = ((1 - D_critical)/Fsw) - Tdt;
+Q_CBcrit = Qgate + (T_Hcrit * I_LK) + Q_LS;
+C_Bcrit = CB_margin * Q_CBcrit / dV_boot;
 
-a = sprintf('\r   - Total bootstrap gate charge: %.2f(nC)', Q_CB*1e9);
-disp(a)
+% Choose the worst-case requirement
+CB_target = max(C_Braw, C_Bcrit);
 
-a = sprintf('\r   - DeltaVb: %.2f(V)', deltaVBoot);
-disp(a)
+% Commercial ceramic capacitor values (X7R, typical for 0805/1206/1210, 50V+)
+CB_commercial_values = [
+    10e-9; 22e-9; 33e-9; 47e-9; 68e-9; 82e-9;
+    100e-9; 150e-9; 220e-9; 330e-9; 470e-9; 680e-9;
+    1e-6; 1.5e-6; 2.2e-6; 3.3e-6; 4.7e-6; 6.8e-6
+    ];
 
+% Select the smallest commercial value ≥ CB_target
+idx = find(CB_commercial_values >= CB_target, 1, 'first');
+if isempty(idx)
+    warning('No commercial capacitor available ≥ required value. Using largest available.');
+    C_B = CB_commercial_values(end);
+else
+    C_B = CB_commercial_values(idx);
+end
 
+% Display capacitor selection
+disp([' - Calculated bootstrap capacitor (nominal): ', num2str(C_Bnom * 1e9), ' nF']);
+disp([' - Calculated bootstrap capacitor (with margin): ', num2str(C_Braw * 1e9), ' nF']);
+disp([' - C_B required for critical duty cycle (with margin): ', num2str(C_Bcrit * 1e9), ' nF']);
+disp([' - *Selected standard bootstrap capacitor: ', num2str(C_B * 1e9), ' nF <---']);
 
-% Drive capability
+%% === Voltage rating recommendation for C_B ===
+V_CB_applied = VCC;  % Differential voltage over C_B
+V_CB_required = 2 * V_CB_applied;
+disp([' - C_B actual applied voltage: ', num2str(V_CB_applied), ' V']);
+disp([' - Recommended C_B voltage rating: ≥ ', num2str(V_CB_required), ' V']);
+if V_CB_required > 50
+    disp('   → Suggest using MLCC rated for 63 V or 100 V.');
+end
 
-T_SWon_off = td_on
-I_GavSw = Q_G/T_SWon_off
+%% === Bootstrap Resistor Calculation ===
+R_B_min = T_Hmin / (4 * C_B);
+R_B_max = T_Hmin / (3 * C_B);
+R_B = round(1000 * ((R_B_min + R_B_max))) / 2000;
+disp([' - Calculated bootstrap resistor: ', num2str(R_B), ' Ohm']);
+if (R_B < 1)
+    R_B = max(R_B, 2);
+elseif (R_B < 2)
+    R_B = max(R_B, 3);
+end
+disp([' - *Specified bootstrap resistor: ', num2str(R_B), ' Ohm <---']);
 
-I_Src = 1.5*Q_G/tr
-I_Snk = 1.5*Q_G/tf
+%% === Ripple Verification ===
+deltaVBoot = Qgate / C_B;
+ripple_percent = deltaVBoot / V_boot * 100;
+disp([' - Target ripple voltage (spec): ', num2str(dV_boot), ' V']);
+disp([' - Resulting ripple voltage (calc): ', num2str(deltaVBoot), ' V']);
+disp([' - Ripple voltage (actual): ', num2str(ripple_percent), ' %']);
+if deltaVBoot > dV_boot
+    disp(' - Warning: Calculated ripple exceeds the maximum allowed value!');
+end
 
-I_Gavr = (SW_QGS + SW_QGD)/tr
-dVout_dt = 0.9e9;
-VGS_th_min = VGS_th
-R_Tot = (VCC-VGS_th_min)/(SW_CGD*dVout_dt)
+%% === RC Time Constant Check ===
+tau = R_B * C_B;
+if tau > rc_margin * T_Hmin
+    disp([' - Warning: Bootstrap RC time constant exceeds ', num2str(rc_margin*100), '% of T_Hmin.']);
+    if deltaVBoot < ripple_margin * dV_boot
+        disp('   → Ripple is significantly below target. Consider reducing C_B and/or R_B to improve recharge time.');
+    else
+        disp('   → Consider reducing R_B to improve recharge time.');
+        disp('   → Avoid reducing C_B unless ripple remains within limits.');
+    end
+end
 
-% On state gate resistor
-Rdrv_on = VCC/Icapability
-RG_on = R_Tot - Rdrv_on
-PR_on = RG_on*((I_avg)^2)
-% Off state gate resistor
-Rdrv_off = VCC/Icapability
-RG_off = (VGS_th_min/(SW_CGD*dVout_dt)) - Rdrv_off
-PR_off = RG_off*((I_avg)^2)
+%% === Current Calculations ===
+I_avg = Q_CB / T_Hmin;
+I_pk = (VCC - V_D) / R_B;
+
+disp([' - Average current from bootstrap capacitor: ', num2str(I_avg), ' A']);
+disp([' - Peak current from bootstrap capacitor: ', num2str(I_pk), ' A']);
+
+%% === Diode Check ===
+if I_pk > IFSM
+    disp(' - Warning: Peak current exceeds bootstrap diode surge rating!');
+end
+if V_R < (VCC + VS)
+    disp(' - Warning: Reverse voltage rating of diode may be insufficient!');
+end
+
+%% === Voltage Drops and Power Dissipation ===
+VR_B = I_avg * R_B;
+VR_Bpk = I_pk * R_B;
+disp([' - Voltage drop across R_B (avg): ', num2str(VR_B), ' V']);
+disp([' - Voltage drop across R_B (peak): ', num2str(VR_Bpk), ' V']);
+
+PR_B = R_B * I_avg^2;
+PR_Bpk = R_B * I_pk^2;
+disp([' - Power dissipation on R_B (avg): ', num2str(PR_B), ' W']);
+disp([' - Power dissipation on R_B (peak): ', num2str(PR_Bpk), ' W']);
+
+% Resistor power limit check
+RB_max_power = 1; % [W]
+if PR_B > RB_max_power
+    disp(' - Warning: Average power on R_B exceeds 1W resistor rating!');
+end
+
+P_diode_avg = V_D * I_avg;
+P_diode_pk = V_D * I_pk;
+disp([' - Bootstrap diode power dissipation (avg): ', num2str(P_diode_avg), ' W']);
+disp([' - Bootstrap diode power dissipation (peak): ', num2str(P_diode_pk), ' W']);
+if P_diode_avg > D_Ptot
+    disp(' - Warning: Diode average power exceeds thermal limit!');
+end
+
+%% === Gate Resistor Calculations ===
+T_SWon_off = td_on;
+I_GavSw = Qgate / T_SWon_off;
+I_Src = 1.5 * Qgate / tr;
+I_Snk = 1.5 * Qgate / tf;
+I_Gavr = (SW_QGS + SW_QGD) / tr;
+
+% Check driver capability
+if I_Src > Icapability
+    disp(' - Warning: Required source current exceeds driver capability!');
+end
+if I_Snk > Icapability
+    disp(' - Warning: Required sink current exceeds driver capability!');
+end
+
+dVout_dt = VCC / SW_Tf;
+Rdrv_on  = VCC / 2.5;
+Rdrv_off = VCC / 2.5;
+t_sw     = 100e-9;
+Ig_avg   = Qgate / t_sw;
+
+R_total = (VCC - VGS_th) / (SW_CGD * dVout_dt);
+RG_on = R_total - Rdrv_on;
+RG_off = (VGS_th / (SW_CGD * dVout_dt)) - Rdrv_off;
+
+if RG_on < 0
+    disp(' - Warning: RG_on calculated negative → set to zero.');
+    RG_on = 0;
+end
+if RG_off < 0
+    disp(' - Warning: RG_off calculated negative → set to zero.');
+    RG_off = 0;
+end
+
+disp([' - Gate-On resistor: ', num2str(RG_on), ' Ohm']);
+disp([' - Gate-Off resistor: ', num2str(RG_off), ' Ohm']);
+
+PR_on  = RG_on * I_avg^2;
+PR_off = RG_off * I_avg^2;
+
+disp([' - Power dissipation on RG_on: ', num2str(PR_on), ' W']);
+disp([' - Power dissipation on RG_off: ', num2str(PR_off), ' W']);
+
+%% === Driver Supply Decoupling Capacitance Suggestion ===
+Cdrv = 10 * I_pk * T_Hmin / VCC;
+disp([' - Suggested driver bulk capacitance: ', num2str(Cdrv * 1e6), ' uF']);
+
+%% === PCB Layout Recommendations ===
+disp(' ');
+disp('PCB Layout Recommendations:');
+disp(' - Place the bootstrap capacitor as close as possible to the driver IC.');
+disp(' - Use a low-ESR ceramic capacitor for the bootstrap capacitor.');
+disp(' - Minimize parasitic inductance in the bootstrap loop.');
+disp(' - Ensure the bootstrap diode is properly rated for reverse voltage and recovery time.');
+disp(' - Consider adding a small decoupling capacitor in parallel with C_B.');
+disp('Bootstrap Circuit Design Complete.');
