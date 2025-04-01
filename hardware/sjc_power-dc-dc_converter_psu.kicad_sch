@@ -2015,6 +2015,16 @@
 		)
 		(uuid "2cf99b5c-e349-42ab-b8bc-5e1be52bf0f4")
 	)
+	(text "Converter: LMR23625CFDDAR\nJLCPCB Part #: C2070635"
+		(exclude_from_sim no)
+		(at 118.11 51.308 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "907cdfb5-9635-4e0a-8ec8-22cab9c3447f")
+	)
 	(junction
 		(at 119.38 83.82)
 		(diameter 0)
@@ -4945,6 +4955,100 @@
 			(project "sjc_power"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
 					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 162.56 41.91 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "672574a9-3c08-4e3b-aeab-39361550bb57")
+		(property "Reference" "L2"
+			(at 162.814 39.878 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "6.8uH ±20% 5.7A"
+			(at 162.814 43.688 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "sjc:L_Vishay_IHLP-3232DZ-01"
+			(at 162.56 41.91 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 162.56 41.91 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Inductor, 6.8uH, ±20%, 5.7A, 15.2A, SMD 8.2x8.6mm"
+			(at 162.56 41.91 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Vishay Intertech"
+			(at 162.56 41.91 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "IHLP3232DZER6R8M01"
+			(at 162.56 41.91 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2051933"
+			(at 162.56 41.91 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "8662cea6-8abd-4968-8fc7-1dc259516a27")
+		)
+		(pin "1"
+			(uuid "784733b1-6082-46bb-9ea3-0c8b6bab0c78")
+		)
+		(instances
+			(project "sjc_power"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/b4e7a090-3f80-4e85-b025-49b981c40df5"
+					(reference "L2")
 					(unit 1)
 				)
 			)

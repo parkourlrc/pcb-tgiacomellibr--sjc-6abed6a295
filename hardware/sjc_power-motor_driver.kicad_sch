@@ -2223,7 +2223,7 @@
 		)
 		(uuid "73d5b5cf-202b-4055-a93d-27967c4efc39")
 	)
-	(text "TODO List:\n- Change power Mosfets\n- Recalculate bootstrap circuit"
+	(text "TODO List:\n- Recalculate bootstrap circuit"
 		(exclude_from_sim no)
 		(at 212.852 -10.668 0)
 		(effects
