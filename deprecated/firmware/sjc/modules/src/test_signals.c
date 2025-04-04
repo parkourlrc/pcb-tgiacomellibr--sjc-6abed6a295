@@ -12,8 +12,8 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "base/include/configs.h"
 #include "modules/include/test_signals.h"
+#include "base/include/configs.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -37,22 +37,22 @@ static float xSjcSignalValue = 0.0f;
 static uint32_t xSjcSignalCounter = 0;
 static uint32_t xSjcSignalRepeatCounter = 0;
 static uint32_t xSjcSeqCounter = 0;
-static int8_t xPrbsSeq[] = {-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1, 1,-1,-1,-1,
-		-1, 1,-1,-1,-1, 1, 1, 1, 1,-1, 1,-1,-1, 1, 1,-1,
-		-1, 1,-1,-1, 1,-1,-1,-1,-1, 1,-1, 1, 1, 1, 1,-1,
-		-1,-1, 1, 1,-1,-1, 1, 1, 1, 1,-1, 1, 1,-1, 1, 1,
-		 1,-1, 1,-1, 1,-1,-1,-1, 1,-1, 1,-1,-1,-1,-1, 1,
-		 1,-1, 1, 1,-1, 1,-1,-1,-1, 1, 1,-1,-1,-1, 1, 1,
-		 1, 1, 1, 1,-1,-1,-1, 1,-1,-1,-1, 1,-1, 1, 1,-1,
-		-1,-1,-1, 1,-1, 1,-1, 1, 1,-1, 1,-1, 1, 1, 1, 1,
-		 1, 1,-1, 1,-1, 1,-1, 1,-1, 1,-1,-1,-1,-1,-1, 1,
-		-1, 1,-1,-1, 1,-1, 1, 1, 1, 1, 1,-1,-1, 1,-1,-1,
-		-1, 1,-1,-1, 1,-1,-1, 1,-1, 1,-1,-1, 1, 1, 1, 1,
-		 1,-1, 1,-1,-1,-1, 1,-1,-1,-1,-1,-1, 1, 1, 1,-1,
-		-1,-1,-1, 1, 1,-1,-1, 1,-1, 1, 1,-1,-1, 1,-1, 1,
-		-1,-1,-1, 1, 1, 1,-1,-1, 1,-1, 1, 1, 1,-1, 1,-1,
-		-1,-1,-1,-1,-1,-1, 1,-1, 1, 1,-1, 1,-1,-1, 1, 1,
-		 1,-1, 1,-1, 1, 1,-1,-1, 1, 1, 1,-1,-1, 1, 1, 1};
+static int8_t xPrbsSeq[] = {-1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, 1, -1, -1, -1,
+							-1, 1, -1, -1, -1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, -1,
+							-1, 1, -1, -1, 1, -1, -1, -1, -1, 1, -1, 1, 1, 1, 1, -1,
+							-1, -1, 1, 1, -1, -1, 1, 1, 1, 1, -1, 1, 1, -1, 1, 1,
+							1, -1, 1, -1, 1, -1, -1, -1, 1, -1, 1, -1, -1, -1, -1, 1,
+							1, -1, 1, 1, -1, 1, -1, -1, -1, 1, 1, -1, -1, -1, 1, 1,
+							1, 1, 1, 1, -1, -1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1,
+							-1, -1, -1, 1, -1, 1, -1, 1, 1, -1, 1, -1, 1, 1, 1, 1,
+							1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, -1, -1, -1, -1, 1,
+							-1, 1, -1, -1, 1, -1, 1, 1, 1, 1, 1, -1, -1, 1, -1, -1,
+							-1, 1, -1, -1, 1, -1, -1, 1, -1, 1, -1, -1, 1, 1, 1, 1,
+							1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, -1, 1, 1, 1, -1,
+							-1, -1, -1, 1, 1, -1, -1, 1, -1, 1, 1, -1, -1, 1, -1, 1,
+							-1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, 1, 1, -1, 1, -1,
+							-1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, 1, 1,
+							1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, -1, -1, 1, 1, 1};
 const static int xPrbsSeqLen = sizeof(xPrbsSeq) / sizeof(xPrbsSeq[0]);
 // ------------------------------------------------------------------- //
 
@@ -142,62 +142,62 @@ eSjcReturnType_t TestSignals_getValue(float *value)
 		{
 
 		case INPUT_TYPE_TRIANG:
-			if (xSjcSignalCounter == 25*xSjcSignalTimeFactor)
+			if (xSjcSignalCounter == 25 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 75*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 75 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 125*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 125 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 175*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 175 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 225*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 225 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 275*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 275 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 325*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 325 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 375*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 375 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 425*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 425 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 475*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 475 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter == 500*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter == 500 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep *= -1;
 				xSjcSignalRepeatCounter++;
 			}
-			else if (xSjcSignalCounter >= 500*xSjcSignalTimeFactor)
+			else if (xSjcSignalCounter >= 500 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalStep = ZERO_FLOAT;
 				xSjcSignalValue = ZERO_FLOAT;
@@ -207,7 +207,7 @@ eSjcReturnType_t TestSignals_getValue(float *value)
 			break;
 
 		case INPUT_TYPE_PULSE_FAST:
-			if (xSjcSignalCounter == 37*xSjcSignalTimeFactor)
+			if (xSjcSignalCounter == 37 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalValue *= -1;
 				xSjcSignalCounter = 0;
@@ -222,7 +222,7 @@ eSjcReturnType_t TestSignals_getValue(float *value)
 			break;
 
 		case INPUT_TYPE_PULSE_SLOW:
-			if (xSjcSignalCounter == 75*xSjcSignalTimeFactor)
+			if (xSjcSignalCounter == 75 * xSjcSignalTimeFactor)
 			{
 				xSjcSignalValue *= -1;
 				xSjcSignalCounter = 0;

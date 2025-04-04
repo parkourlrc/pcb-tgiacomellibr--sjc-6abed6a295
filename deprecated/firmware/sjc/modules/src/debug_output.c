@@ -78,34 +78,32 @@ void DebugOutput_presentSystemInfo(void)
 	ModbusNetwork_getAddress(&xNetworkAddress);
 
 	DebugOutput_systemPrintf("\f\r\n"
-			"************************************************************"
-			"\r\n                      Crane Control"
-			"\r\n               Single Joint Control Board"
-			"\r\n                         (SJC)"
-			"\r\n************************************************************"
-			"\r\n\n Information: "
-			"\r\n - HW Version: %u.%u"
-			"\r\n - FW Version: %u.%u.%u (%u/%lu)"
-			"\r\n - O.S. Tick Rate: %lu kHz"
-			"\r\n - Network address: %lu"
-			"\r\n - Network baudrate: %lu bps"
-			"\r\n************************************************************\n\n",
-			SJC_HW_VERSION_MAJOR,
-			SJC_HW_VERSION_MINOR,
-			SJC_FW_VERSION_MAJOR,
-			SJC_FW_VERSION_MINOR,
-			SJC_FW_VERSION_PATCH,
-			SJC_FW_RELEASE_MONTH,
-			SJC_FW_RELEASE_YEAR,
-			(configTICK_RATE_HZ / 1000),
-			xNetworkAddress,
-			xBaudRate
-	);
+							 "************************************************************"
+							 "\r\n                      Crane Control"
+							 "\r\n               Single Joint Control Board"
+							 "\r\n                         (SJC)"
+							 "\r\n************************************************************"
+							 "\r\n\n Information: "
+							 "\r\n - HW Version: %u.%u"
+							 "\r\n - FW Version: %u.%u.%u (%u/%lu)"
+							 "\r\n - O.S. Tick Rate: %lu kHz"
+							 "\r\n - Network address: %lu"
+							 "\r\n - Network baudrate: %lu bps"
+							 "\r\n************************************************************\n\n",
+							 SJC_HW_VERSION_MAJOR,
+							 SJC_HW_VERSION_MINOR,
+							 SJC_FW_VERSION_MAJOR,
+							 SJC_FW_VERSION_MINOR,
+							 SJC_FW_VERSION_PATCH,
+							 SJC_FW_RELEASE_MONTH,
+							 SJC_FW_RELEASE_YEAR,
+							 (configTICK_RATE_HZ / 1000),
+							 xNetworkAddress,
+							 xBaudRate);
 }
 
 void DebugOutput_presentRuntimeStatistics(void)
 {
-
 }
 
 int DebugOutput_systemPrintf(const char *format, ...)
@@ -139,7 +137,8 @@ int DebugOutput_systemPrintf(const char *format, ...)
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-int _write(int fd, char *ptr, int len) {
+int _write(int fd, char *ptr, int len)
+{
 	if (xSystemDebugSemprHandle != NULL)
 	{
 		CDC_Transmit_FS((uint8_t *)(&ptr[0]), len);

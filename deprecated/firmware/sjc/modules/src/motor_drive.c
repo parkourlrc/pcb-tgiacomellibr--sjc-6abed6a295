@@ -13,9 +13,9 @@
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
+#include "modules/include/analog_interfaces.h"
 #include "modules/include/motor_drive.h"
 #include "modules/include/pwm.h"
-#include "modules/include/analog_interfaces.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //

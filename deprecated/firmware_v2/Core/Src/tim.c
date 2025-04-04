@@ -24,6 +24,8 @@
 
 /* USER CODE END 0 */
 
+TIM_HandleTypeDef htim11;
+
 /* TIM1 init function */
 void MX_TIM1_Init(void)
 {
@@ -41,8 +43,8 @@ void MX_TIM1_Init(void)
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
 
   /* TIM1 interrupt Init */
-  NVIC_SetPriority(TIM1_UP_TIM10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
-  NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+  NVIC_SetPriority(TIM1_TRG_COM_TIM11_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
+  NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
 
   /* USER CODE BEGIN TIM1_Init 1 */
 
@@ -248,34 +250,6 @@ void MX_TIM4_Init(void)
   /* USER CODE END TIM4_Init 2 */
 
 }
-/* TIM6 init function */
-void MX_TIM6_Init(void)
-{
-
-  /* USER CODE BEGIN TIM6_Init 0 */
-
-  /* USER CODE END TIM6_Init 0 */
-
-  LL_TIM_InitTypeDef TIM_InitStruct = {0};
-
-  /* Peripheral clock enable */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM6);
-
-  /* USER CODE BEGIN TIM6_Init 1 */
-
-  /* USER CODE END TIM6_Init 1 */
-  TIM_InitStruct.Prescaler = 8999;
-  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 65535;
-  LL_TIM_Init(TIM6, &TIM_InitStruct);
-  LL_TIM_EnableARRPreload(TIM6);
-  LL_TIM_SetTriggerOutput(TIM6, LL_TIM_TRGO_RESET);
-  LL_TIM_DisableMasterSlaveMode(TIM6);
-  /* USER CODE BEGIN TIM6_Init 2 */
-
-  /* USER CODE END TIM6_Init 2 */
-
-}
 /* TIM8 init function */
 void MX_TIM8_Init(void)
 {
@@ -334,36 +308,77 @@ void MX_TIM8_Init(void)
   /* USER CODE END TIM8_Init 2 */
 
 }
-/* TIM10 init function */
-void MX_TIM10_Init(void)
+/* TIM11 init function */
+void MX_TIM11_Init(void)
 {
 
-  /* USER CODE BEGIN TIM10_Init 0 */
+  /* USER CODE BEGIN TIM11_Init 0 */
 
-  /* USER CODE END TIM10_Init 0 */
+  /* USER CODE END TIM11_Init 0 */
 
-  LL_TIM_InitTypeDef TIM_InitStruct = {0};
+  /* USER CODE BEGIN TIM11_Init 1 */
 
-  /* Peripheral clock enable */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM10);
+  /* USER CODE END TIM11_Init 1 */
+  htim11.Instance = TIM11;
+  htim11.Init.Prescaler = 4499;
+  htim11.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim11.Init.Period = 65535;
+  htim11.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim11.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim11) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM11_Init 2 */
 
-  /* TIM10 interrupt Init */
-  NVIC_SetPriority(TIM1_UP_TIM10_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),5, 0));
-  NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
+  /* USER CODE END TIM11_Init 2 */
 
-  /* USER CODE BEGIN TIM10_Init 1 */
+}
 
-  /* USER CODE END TIM10_Init 1 */
-  TIM_InitStruct.Prescaler = 8999;
-  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 35;
-  TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
-  LL_TIM_Init(TIM10, &TIM_InitStruct);
-  LL_TIM_EnableARRPreload(TIM10);
-  /* USER CODE BEGIN TIM10_Init 2 */
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
+{
 
-  /* USER CODE END TIM10_Init 2 */
+  if(tim_baseHandle->Instance==TIM11)
+  {
+  /* USER CODE BEGIN TIM11_MspInit 0 */
 
+  /* USER CODE END TIM11_MspInit 0 */
+    /* TIM11 clock enable */
+    __HAL_RCC_TIM11_CLK_ENABLE();
+
+    /* TIM11 interrupt Init */
+    HAL_NVIC_SetPriority(TIM1_TRG_COM_TIM11_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(TIM1_TRG_COM_TIM11_IRQn);
+  /* USER CODE BEGIN TIM11_MspInit 1 */
+
+  /* USER CODE END TIM11_MspInit 1 */
+  }
+}
+
+void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
+{
+
+  if(tim_baseHandle->Instance==TIM11)
+  {
+  /* USER CODE BEGIN TIM11_MspDeInit 0 */
+
+  /* USER CODE END TIM11_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_TIM11_CLK_DISABLE();
+
+    /* TIM11 interrupt Deinit */
+  /* USER CODE BEGIN TIM11:TIM1_TRG_COM_TIM11_IRQn disable */
+    /**
+    * Uncomment the line below to disable the "TIM1_TRG_COM_TIM11_IRQn" interrupt
+    * Be aware, disabling shared interrupt may affect other IPs
+    */
+    /* HAL_NVIC_DisableIRQ(TIM1_TRG_COM_TIM11_IRQn); */
+  /* USER CODE END TIM11:TIM1_TRG_COM_TIM11_IRQn disable */
+
+  /* USER CODE BEGIN TIM11_MspDeInit 1 */
+
+  /* USER CODE END TIM11_MspDeInit 1 */
+  }
 }
 
 /* USER CODE BEGIN 1 */

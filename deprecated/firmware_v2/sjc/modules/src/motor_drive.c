@@ -12,9 +12,10 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "motor_drive.h"
-#include "pwm.h"
-#include "analog_interfaces.h"
+#include "base/include/configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/motor_drive.h"
+#include "modules/include/pwm.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -52,7 +53,7 @@ void MotorDrive_init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage)
 
 	MotorDrive_disable();
 
-	PWM_init(BaseFrequency);
+	PwmSignal_init(BaseFrequency);
 
 	MotorDrive_setBaseVoltage(BaseVoltage);
 
@@ -69,7 +70,7 @@ eSjcReturnType_t MotorDrive_getBaseVoltage(float *voltage)
 eSjcReturnType_t MotorDrive_setBaseVoltage(float voltage)
 {
 	MotorDrive.BaseVoltage = voltage;
-	MotorDrive.OutputVoltageRange.Max = PWM_getMaxDutyCycle() * MotorDrive.BaseVoltage;
+	MotorDrive.OutputVoltageRange.Max = PwmSignal_getMaxDutyCycle() * MotorDrive.BaseVoltage;
 	MotorDrive.OutputVoltageRange.Min = -MotorDrive.OutputVoltageRange.Max;
 
 	return SJC_RET_OK;
@@ -79,7 +80,7 @@ void MotorDrive_enable(void)
 {
 	LL_GPIO_ResetOutputPin(MotorDrive.DriveEnablePort.Port, MotorDrive.DriveEnablePort.Pin);
 
-	PWM_enable();
+	PwmSignal_enable();
 
 	MotorDrive_setOutputVoltage(ZERO_FLOAT);
 
@@ -90,7 +91,7 @@ void MotorDrive_disable(void)
 {
 	MotorDrive_setOutputVoltage(ZERO_FLOAT);
 
-	PWM_disable();
+	PwmSignal_disable();
 
 	LL_GPIO_SetOutputPin(MotorDrive.DriveEnablePort.Port, MotorDrive.DriveEnablePort.Pin);
 
@@ -111,13 +112,8 @@ eSjcReturnType_t MotorDrive_getPowerSupplyVoltage(float *voltage)
 
 eSjcReturnType_t MotorDrive_getOutputCurrent(float *current)
 {
-#if defined (SJC_CURRENT_SENSE_CONFIG_INTERNAL_25A)
-	return AnalogInterfaces_getAnalogConversion(SJC_INTERNAL_CURRENT_SENSOR_25A, current);
-#elif defined (SJC_CURRENT_SENSE_CONFIG_INTERNAL_16A)
-	return AnalogInterfaces_getAnalogConversion(SJC_INTERNAL_CURRENT_SENSOR_16A, current);
-#else
-	return AnalogInterfaces_getAnalogConversion(SJC_EXTERNAL_CURRENT_SENSOR, current);
-#endif
+	//	return AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+	return AnalogInterfaces_getAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
 }
 
 eSjcReturnType_t MotorDrive_getOutputVoltage(float *voltage)
@@ -133,7 +129,7 @@ eSjcReturnType_t MotorDrive_setOutputVoltage(const float voltage)
 
 	float xPwmDuty = (MotorDrive.OutputVoltage + MotorDrive.BaseVoltage) / (2.0 * MotorDrive.BaseVoltage);
 
-	PWM_setDutyCycle(xPwmDuty);
+	PwmSignal_setDutyCycle(xPwmDuty);
 
 	return SJC_RET_OK;
 }

@@ -8,10 +8,12 @@
 #ifndef SJC__MODULES__DEBUG_OUTPUT_H_
 #define SJC__MODULES__DEBUG_OUTPUT_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void DebugOutput_init(void);
 void DebugOutput_presentSystemInfo(void);
+void DebugOutput_presentRuntimeStatistics(void);
 int DebugOutput_systemPrintf(const char *format, ...);
+int DebugOutput_loggerPrintf(const char *format, ...);
 
 #endif /* SJC__MODULES__DEBUG_OUTPUT_H_ */

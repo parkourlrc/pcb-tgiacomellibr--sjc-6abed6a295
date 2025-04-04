@@ -7,9 +7,9 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "modules/include/modbus_network.h"
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
+#include "modules/include/modbus_network.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -19,9 +19,9 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "base/include/sjc.h"
 #include "base/include/configs.h"
 #include "base/include/network_configs.h"
+#include "base/include/sjc.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/debug_output.h"
 #include "tasks/include/task_common.h"
@@ -63,7 +63,7 @@ void NetworkTaskApp(void *argument)
 	}
 
 	DebugOutput_systemPrintf("\r\n[OS] Network task initiated!"
-								 "\r\n[OS] Modbus communication enabled!");
+							 "\r\n[OS] Modbus communication enabled!");
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -74,16 +74,14 @@ void NetworkTaskApp(void *argument)
 
 		SJC_GetTime(SJC_TIME_MS, &TaskTic);
 
-		//SJC_ProcessNetworkData();
+		// SJC_ProcessNetworkData();
 		SJC_ExecuteNetworkDaemon();
 		SJC_UpdateInputRegisters();
 		SJC_UpdateHoldingRegisters();
 
 		SJC_GetTime(SJC_TIME_MS, &TaskToc);
 
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc-TaskTic));
-
-
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc - TaskTic));
 
 		osDelayUntil(tick);
 	}

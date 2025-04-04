@@ -15,8 +15,7 @@
 
 // Hardware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
-//#define SJC_HW_VERSION_MAJOR 1U // Old pcb
-#define SJC_HW_VERSION_MAJOR 2U // Actual pcb layout
+#define SJC_HW_VERSION_MAJOR 2U
 #define SJC_HW_VERSION_MINOR 0U
 
 // Firmware info ------------------------------------------------------------------ //
@@ -29,9 +28,9 @@
 #define SJC_FW_RELEASE_YEAR 2024UL
 
 // Current sense mode ------------------------------------------------------------ //
-#define SJC_CURRENT_SENSE_CONFIG_EXTERNAL
-#define SJC_CURRENT_SENSE_CONFIG_INTERNAL_16A
-#define SJC_CURRENT_SENSE_CONFIG_INTERNAL_25A
+// #define SJC_CURRENT_SENSE_CONFIG_EXTERNAL
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_16A
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_25A
 
 // PWM Configs -------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -51,12 +50,13 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY ((uint32_t) 2000UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 1000UL)
-#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t) 1UL)
-#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t) 3UL)
-#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t) 250UL)
-#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t) 50UL)
+#define SJC_TASK_INIT_DELAY ((uint32_t)2000UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t)2000UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_CONTROL_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t)3UL)
+#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t)250UL)
+#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t)50UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -113,6 +113,7 @@
 #define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
 #endif
 
+
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_ADC_INSTANCE (ADC1)
@@ -131,25 +132,15 @@
 
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define ANALOG_FRONTED_GAIN 		( (float) (1100.0/(1100.0+560.0)) )
-#define ANALOG_CURRENT_SENSOR_VREF 	( (float) 2.5f )
-
-#define INA240_16A_GAIN				( (float) 50.0f )
-#define INA240_16A_SHUNT_RESISTANCE	( (float) (3.0e-3) )
-
-#define INA240_25A_GAIN				( (float) 50.0f )
-#define INA240_25A_SHUNT_RESISTANCE	( (float) (2.0e-3) )
-
-#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.8f)
-#define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO (1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO)
-
-// Deprecated
+#define ANALOG_CURRENT_SENSOR_VREF ((float)2.5f)
 #define ACS712_GAIN ((float)0.1f)
 #define ACS712_ANALOG_FRONTED_GAIN ((float)0.6667f)
 #define AD8418_GAIN ((float)20.0f)
 #define AD8418_SHUNT_RESISTANCE ((float)0.008f)
 #define AD8418_ANALOG_FRONTED_GAIN ((float)0.7907f)
 
+#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.7f)
+#define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO (1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO)
 
 // Voltage Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -184,7 +175,7 @@
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET HAL_NVIC_SystemReset
-#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t) 2UL)
+#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t)2UL)
 
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //

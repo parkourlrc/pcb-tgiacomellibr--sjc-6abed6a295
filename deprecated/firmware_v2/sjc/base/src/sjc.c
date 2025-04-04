@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------- //
 #include "dma.h"
 #include "gpio.h"
+#include "modules/include/modbus_network.h"
 #include "usb_device.h"
 // ------------------------------------------------------------------- //
 
@@ -20,22 +21,21 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
+#include "base/include/sjc.h"
+#include "system_types/include/helpers.h"
 
-#include "configs.h"
-#include "analog_interfaces.h"
-#include "data_logger.h"
-#include "debug_output.h"
-#include "digital_interfaces.h"
-#include "encoder.h"
-#include "helpers.h"
-#include "motor_drive.h"
-#include "motor_output.h"
-#include "network.h"
-#include "timeout_timer.h"
-#include "pid_controller.h"
-#include "pwm.h"
-#include "task_common.h"
+#include "base/include/configs.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/digital_interfaces.h"
+#include "modules/include/encoder.h"
+#include "modules/include/motor_drive.h"
+#include "modules/include/motor_output.h"
+#include "modules/include/pid_controller.h"
+#include "modules/include/pwm.h"
+#include "modules/include/timeout_timer.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -76,6 +76,7 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void);
 void Net_ExecuteControllerConfigsUpdateCmd(void);
 void Net_ExecuteDigitalOutputsUpdateCmd(void);
 void Net_ExecuteControllerParametersUpdateCmd(void);
+void Net_ExecuteAdcFilterModeUpdateCmd(void);
 
 // ------------------------------------------------------------------- //
 
@@ -92,8 +93,8 @@ void SJC_init(void)
 	MX_DMA_Init();
 
 	// Init USB and Serial debug devices
-	MX_USB_DEVICE_Init();
 	MX_USART3_UART_Init();
+	MX_USB_DEVICE_Init();
 
 	// Init Serial datalogger device
 	MX_UART5_Init();
@@ -105,25 +106,25 @@ void SJC_init(void)
 	MX_TIM3_Init();
 	MX_TIM8_Init();
 
-	// Init Modbus Network Serial and Timer
-	MX_TIM10_Init();
+	// Init Serial communication device
 	MX_USART2_UART_Init();
 
 	// Init ADC and Sample time check timer
 	MX_ADC1_Init();
 	MX_TIM4_Init();
+	fBiasCurrentValue = 0;
 
-	HAL_Delay(1000);
+	HAL_Delay(2000);
 
 	// SJC O.S. initialization
-	osKernelInitialize(); /* Call init function for freertos objects (in freertos.c) */
+	SJC_initOsKernel();
 	SJC_initOsObjects();
+	osDelay(2000);
 
-
-	// SJC Modules initialization
-	fBiasCurrentValue = 0;
+	// SJC version setup
 	SJC_setVersions();
 
+	// SJC Modules initialization
 	DataLogger_init();
 	DebugOutput_init();
 	AnalogInterfaces_init();
@@ -134,7 +135,7 @@ void SJC_init(void)
 	Encoder_enable(SJC_AUX_JOINT_B);
 	Encoder_enable(SJC_ACTUATOR_JOINT);
 
-	PidController_Init();
+	PidController_init();
 
 	xSjcControlConfigs.Mode = SJC_CURRENT_CALIBRATION;
 	xSjcControlConfigs.Rate = SJC_CONTROLLER_MAX_UPDATE_RATE_HZ;
@@ -142,15 +143,22 @@ void SJC_init(void)
 	MotorOutput_init();
 	MotorDrive_init(PWM_FREQ_20kHz, 24.0);
 
+	// SJC info
 	SJC_presentSystemInfo();
 
-	// SJC Threads initialization
+	// SJC O.S. tasks initialization
 	SJC_initOsThreads();
+}
+
+void SJC_initOsKernel(void)
+{
+	/* Init scheduler */
+	osKernelInitialize(); /* Call init function for freertos objects (in freertos.c) */
 }
 
 void SJC_initOsObjects(void)
 {
-	SJC_TaskCommon_initCommonObjects();
+	SJC_TaskCommon_initObjects();
 }
 
 void SJC_initOsThreads(void)
@@ -193,10 +201,10 @@ eSjcReturnType_t SJC_delay(const eSjcTimeType_t type, const uint32_t value)
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		Timer_delayMs(value);
+		TimeoutTimer_delayMs(value);
 		break;
 	case SJC_TIME_SEC:
-		Timer_delaySec(value);
+		TimeoutTimer_delaySec(value);
 		break;
 	default:
 		ret = SJC_RET_NOK;
@@ -207,18 +215,17 @@ eSjcReturnType_t SJC_delay(const eSjcTimeType_t type, const uint32_t value)
 
 eSjcReturnType_t SJC_getTime(const eSjcTimeType_t type, uint32_t *value)
 {
-	eSjcReturnType_t ret = SJC_RET_OK;
-
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		*value = Timer_getTimeMs();
+		*value = TimeoutTimer_getTimeMs();
 		break;
 	case SJC_TIME_SEC:
-		*value = Timer_getTimeSec();
+		*value = TimeoutTimer_getTimeSec();
 		break;
 	default:
-		ret = SJC_RET_NOK;
+		*value = 0;
+		return SJC_RET_NOK;
 		break;
 	}
 	return SJC_RET_OK;
@@ -232,10 +239,10 @@ eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t ti
 	switch (type)
 	{
 	case SJC_TIME_MS:
-		now = Timer_getTimeMs();
+		now = TimeoutTimer_getTimeMs();
 		break;
 	case SJC_TIME_SEC:
-		now = Timer_getTimeSec();
+		now = TimeoutTimer_getTimeSec();
 		break;
 	default:
 		now = 0;
@@ -284,7 +291,7 @@ eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config)
 
 eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config)
 {
-	xSjcControlConfigs.Rate = ( (uint32_t) (1000/SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)) );
+	xSjcControlConfigs.Rate = ((uint32_t)(1000 / SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)));
 
 	return SJC_RET_OK;
 }
@@ -331,7 +338,8 @@ eSjcReturnType_t SJC_computeControlAction(const float ControlError, const float 
 	return SJC_RET_OK;
 }
 
-void SJC_updateHoldingRegisters(void) {
+void SJC_updateHoldingRegisters(void)
+{
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
 	Net_ExecuteNetworkConfigsUpdateCmd();
@@ -339,9 +347,11 @@ void SJC_updateHoldingRegisters(void) {
 	Net_ExecuteActuatorConfigsUpdateCmd();
 	Net_ExecuteControllerConfigsUpdateCmd();
 	Net_ExecuteControllerParametersUpdateCmd();
+	Net_ExecuteAdcFilterModeUpdateCmd();
 }
 
-void SJC_updateInputRegisters(void) {
+void SJC_updateInputRegisters(void)
+{
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
 	Net_UpdateSensorsParametersRegisters();
@@ -351,24 +361,19 @@ void SJC_updateInputRegisters(void) {
 
 void SJC_executeNetworkDaemon(void)
 {
-	Network_update();
-}
-
-void SJC_processNetworkData(void)
-{
-	Network_processReceivedData();
+	ModbusNetwork_update();
 }
 
 eSjcReturnType_t SJC_enableAdc(void)
 {
-	AnalogInterfaces_measurementEnable();
+	AnalogInterfaces_enable();
 
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_disableAdc(void)
 {
-	AnalogInterfaces_measurementDisable();
+	AnalogInterfaces_disable();
 
 	return SJC_RET_OK;
 }
@@ -423,6 +428,20 @@ eSjcReturnType_t SJC_setJointActuatorVoltage(const float voltage)
 	return SJC_RET_OK;
 }
 
+eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode)
+{
+	AnalogInterfaces_setFilterMode(mode);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_setAdcFilterCutoffFrequency(const float fc)
+{
+	AnalogInterfaces_setExponentialCutoffFrequency(fc);
+
+	return SJC_RET_OK;
+}
+
 eSjcReturnType_t SJC_resetJointAngularDisplacement(void)
 {
 	Encoder_reset(SJC_ACTUATOR_JOINT);
@@ -457,7 +476,7 @@ eSjcReturnType_t SJC_getJointRelativeAngularDisplacement(const eSjcJoints_t join
 
 eSjcReturnType_t SJC_getJointActuatorPwmFrequency(uint32_t *freq)
 {
-	*freq = PWM_getFrequency();
+	*freq = PwmSignal_getFrequency();
 
 	return SJC_RET_OK;
 }
@@ -532,7 +551,7 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	float fAux;
 	uint16_t ui16Aux;
 	uint32_t ui32Aux;
-	uint32_t uptime = Timer_getTimeMs();
+	uint32_t uptime = TimeoutTimer_getTimeMs();
 	uint16_t *ui16ptr = ((uint16_t *)(&uptime));
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME + 1] = ui16ptr[0];
@@ -578,14 +597,14 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE + 1] = ui16ptr[0];
 
 	fAux = 0;
-//	SJC_getJointActuatorCurrent(&fAux);
+	//	SJC_GetJointActuatorCurrent(&fAux);
 	SJC_getJointActuatorCurrentUnbiased(&fAux);
 	ui16ptr = ((uint16_t *)(&fAux));
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT + 1] = ui16ptr[0];
 
 	bool state;
-	SJC_getJointActuatorDriverState(&state);
+	SJC_getJointActuatorOutputState(&state);
 	usRegInputBuf[REG_INPUT_ACTUATOR_STATE] = state;
 
 	ui32Aux = 0;
@@ -612,7 +631,7 @@ void Net_UpdateNetworkParametersRegisters(void)
 	uint16_t xSlaveAddress;
 	uint32_t xBaudRate;
 	char xParity;
-	Network_getParameters(&xSlaveAddress, &xBaudRate, &xParity);
+	ModbusNetwork_getParameters(&xSlaveAddress, &xBaudRate, &xParity);
 
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
 	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
@@ -726,25 +745,25 @@ void Net_ExecuteControllerConfigsUpdateCmd(void)
 		SJC_setControlMode(usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE]);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller reference: %f", reference);
+		DebugOutput_printf("\r\n[NetCmd] Controller reference: %f", reference);
 
 		switch (xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode)
 		{
 		case SJC_OPEN_LOOP_CONTROL:
-			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Open loop");
+			DebugOutput_printf("\r\n[NetCmd] Controller mode: Open loop");
 			break;
 		case SJC_PRBS_EXCITATION:
-			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: PRBS Excitation");
+			DebugOutput_printf("\r\n[NetCmd] Controller mode: PRBS Excitation");
 			break;
 		case SJC_SPEED_CONTROL:
-			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Speed control");
+			DebugOutput_printf("\r\n[NetCmd] Controller mode: Speed control");
 			break;
 		case SJC_CURRENT_CONTROL:
-			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
+			DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
 			break;
 
 		default: // SJC_CONTROL_DISABLED
-			SJC_DebugOutput_printf("\r\n[NetCmd] Controller mode: Control disabled");
+			DebugOutput_printf("\r\n[NetCmd] Controller mode: Control disabled");
 			break;
 		}
 #endif
@@ -757,7 +776,7 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 	{
 		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
 		float base_voltage = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE] / 100.0f);
-		float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+		float voltage_limit = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE] / 100.0f);
 
 		MotorDrive_setBaseVoltage(base_voltage);
 		xSjcRange_t EffortLimits = {.Min = -voltage_limit, .Max = voltage_limit};
@@ -775,10 +794,10 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 		 */
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator base voltage: %f V", MotorDrive_getBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive));
-		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator voltage limit: %f V", MotorDrive_getVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
-		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator current limit: %f A", MotorDrive_getCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
-		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator speed limit: %f rd/s", MotorDrive_getSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+		DebugOutput_printf("\r\n[NetCmd] Actuator base voltage: %f V", MotorDrive_getBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive));
+		DebugOutput_printf("\r\n[NetCmd] Actuator voltage limit: %f V", MotorDrive_GetVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+		DebugOutput_printf("\r\n[NetCmd] Actuator current limit: %f A", MotorDrive_GetCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
+		DebugOutput_printf("\r\n[NetCmd] Actuator speed limit: %f rd/s", MotorDrive_GetSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
 #endif
 	}
 }
@@ -801,9 +820,9 @@ void Net_ExecuteNetworkConfigsUpdateCmd(void)
 		config.Address = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_ADDRESS];
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		SJC_DebugOutput_printf("\r\n[NetCmd] Network address: %u", config.Address);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Network parity: %c", config.Parity);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Network baudrate: %lu bps", config.Baudrate);
+		DebugOutput_printf("\r\n[NetCmd] Network address: %u", config.Address);
+		DebugOutput_printf("\r\n[NetCmd] Network parity: %c", config.Parity);
+		DebugOutput_printf("\r\n[NetCmd] Network baudrate: %lu bps", config.Baudrate);
 #endif
 
 		// Write to flash
@@ -824,9 +843,9 @@ void Net_ExecuteSensorsConfigsUpdateCmd(void)
 		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR]);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		SJC_DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
-		SJC_DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Actuator encoder res.: %u ppr", xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
+		DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
+		DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR);
+		DebugOutput_printf("\r\n[NetCmd] Actuator encoder res.: %u ppr", xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
 #endif
 	}
 }
@@ -870,13 +889,38 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 		SJC_setControlUpdateRateHz(control_rate);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f", params.Kp);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f", params.Ki);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f", params.Kd);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.KT);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.KA);
-		SJC_DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
+		DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f", params.Kp);
+		DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f", params.Ki);
+		DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f", params.Kd);
+		DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.KT);
+		DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.KA);
+		DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
 #endif
+	}
+}
+
+void Net_ExecuteAdcFilterModeUpdateCmd(void)
+{
+	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] & ADC_FILTER_MODE_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] &= (~ADC_FILTER_MODE_UPDATE_MSK);
+
+		// Filter mode
+		uint16_t mode = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE];
+		SJC_setAdcFilterMode(mode);
+	}
+
+	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] & ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] &= (~ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK);
+
+		float fc;
+		uint16_t *ptr = (uint16_t *)(&fc);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY];
+
+		// Filter cutoff frequency
+		SJC_setAdcFilterCutoffFrequency(fc);
 	}
 }
 

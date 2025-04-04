@@ -10,7 +10,7 @@
 
 // System includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+#include "stm32f446xx.h"
 // ------------------------------------------------------------------- //
 
 // Definitions and enumerations -------------------------------------- //
@@ -86,10 +86,8 @@ typedef enum
 
 typedef enum
 {
-	SJC_INTERNAL_CURRENT_SENSOR_16A = 0,
-	SJC_INTERNAL_CURRENT_SENSOR_25A,
-	SJC_EXTERNAL_CURRENT_SENSOR,
-	SJC_CURRENT_SENSOR_AD8418_V1,
+	SJC_CURRENT_SENSOR_STD = 0,
+	SJC_CURRENT_SENSOR_AUX,
 	SJC_VOLTAGE_SENSOR,
 	SJC_ANALOG_SENSOR_SIZE
 } eSjcAnalogSensorType_t;
@@ -100,11 +98,9 @@ typedef enum
 	SJC_JOINT_SWITCH_B,
 	SJC_ISOLATED_INPUT_A,
 	SJC_ISOLATED_INPUT_B,
-#if SJC_HW_VERSION_MAJOR > 1
 	SJC_NET_ADDR_A_INPUT,
 	SJC_NET_ADDR_B_INPUT,
 	SJC_NET_ADDR_C_INPUT,
-#endif
 	SJC_DIGITAL_INPUTS_SIZE
 } eSjcDigitalInputs_t;
 

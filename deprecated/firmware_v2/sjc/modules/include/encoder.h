@@ -1,5 +1,5 @@
 /*
- * motor.h
+ * encoder.h
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__ENCODER_H_
 #define SJC__MODULES__ENCODER_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void Encoder_init(void);
 void Encoder_reset(eSjcJoints_t Joint);

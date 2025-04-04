@@ -10,7 +10,8 @@
 
 #include "system_types/include/types.h"
 
-typedef enum {
+typedef enum
+{
 	TIME_LOG_CONTROLLER_RUNTIME = 0,
 	TIME_LOG_CONTROLLER_SAMPLE_TIME,
 	TIME_LOG_MEASUREMENTS_RUNTIME,
@@ -20,7 +21,8 @@ typedef enum {
 	TIME_LOG_FUNCTIONS_NAME_SIZE,
 } eTimeLogFunctionList_t;
 
-typedef enum {
+typedef enum
+{
 	TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK = 0,
 	TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK,
 	TASK_HIGH_WTM_INFO_NETWORK_TASK,
@@ -28,7 +30,8 @@ typedef enum {
 	TASK_HIGH_WTM_LIST_SIZE
 } eTaskHighWaterMarkInfoList_t;
 
-typedef struct {
+typedef struct
+{
 	uint32_t Ts_ms;
 	uint32_t Idx;
 } TaskTimeMeasurement_t;

@@ -68,7 +68,8 @@ void TimeoutTimer_delaySec(uint32_t delayInSec)
 		; // This comparison tolerates overflow
 }
 
-uint32_t TimeoutTimer_timeoutCheckMs(uint32_t delayInMs, uint32_t seed) {
+uint32_t TimeoutTimer_timeoutCheckMs(uint32_t delayInMs, uint32_t seed)
+{
 	uint32_t compval = delayInMs;
 	return (!((_GetTick() - seed) < compval)); // This comparison tolerates overflow
 }

@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__DC_MOTOR_OUTPUT_H_
 #define SJC__MODULES__DC_MOTOR_OUTPUT_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void MotorOutput_init(void);
 void MotorOutput_enable(void);

@@ -7,19 +7,19 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "adc.h"
+
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "encoder.h"
-
-#include "debug_output.h"
+#include "modules/include/encoder.h"
+#include "base/include/configs.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+#define IS_VALID_JOINT(Joint) ((Joint) < SJC_JOINTS_SIZE)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -40,6 +40,8 @@ static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
+static inline int32_t read_encoder_counter_raw(eSjcJoints_t Joint);
+static inline xSjcEncoder_t *get_encoder_handle(eSjcJoints_t Joint);
 
 // ------------------------------------------------------------------- //
 
@@ -47,6 +49,8 @@ static xSjcEncoder_t Encoder[SJC_JOINTS_SIZE];
 // ------------------------------------------------------------------- //
 void Encoder_init(void)
 {
+	memset(Encoder, 0, sizeof(Encoder));
+
 	xEncoderInterfacesSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &EncoderInterfacesSemaphore_attributes);
 
 	if (xEncoderInterfacesSemprHandle == NULL)
@@ -62,88 +66,151 @@ void Encoder_init(void)
 	Encoder[SJC_AUX_JOINT_A].Instance = SJC_AUX_JOINT_A_TIMER_INSTANCE;
 	Encoder[SJC_AUX_JOINT_B].Instance = SJC_AUX_JOINT_B_TIMER_INSTANCE;
 
-	Encoder[SJC_ACTUATOR_JOINT].Counts = 0;
-	Encoder[SJC_AUX_JOINT_A].Counts = 0;
-	Encoder[SJC_AUX_JOINT_B].Counts = 0;
+	for (uint8_t i = 0; i < SJC_JOINTS_SIZE; i++)
+	{
+		Encoder[i].Counts = 0;
+		Encoder[i].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
+		Encoder[i].radians_per_quadrature_pulse = 1.0f;
 
-	Encoder[SJC_ACTUATOR_JOINT].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
-	Encoder[SJC_AUX_JOINT_A].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
-	Encoder[SJC_AUX_JOINT_B].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
-
-	Encoder[SJC_ACTUATOR_JOINT].radians_per_quadrature_pulse = 1.0f;
-	Encoder[SJC_AUX_JOINT_A].radians_per_quadrature_pulse = 1.0f;
-	Encoder[SJC_AUX_JOINT_B].radians_per_quadrature_pulse = 1.0f;
-
-	Encoder_reset(SJC_ACTUATOR_JOINT);
-	Encoder_reset(SJC_AUX_JOINT_A);
-	Encoder_reset(SJC_AUX_JOINT_B);
+		Encoder_reset(i);
+	}
 }
 
 void Encoder_reset(eSjcJoints_t Joint)
 {
-	LL_TIM_SetCounter(Encoder[Joint].Instance, 0);
-	Encoder[Joint].Counts = 0;
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
+	{
+		configASSERT(xEncoderInterfacesSemprHandle != NULL);
+		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+		{
+			LL_TIM_SetCounter(enc->Instance, 0);
+			enc->Counts = 0;
+			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		}
+	}
 }
 
 void Encoder_enable(eSjcJoints_t Joint)
 {
-	LL_TIM_EnableCounter(Encoder[Joint].Instance);
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
+	{
+		configASSERT(xEncoderInterfacesSemprHandle != NULL);
+		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+		{
+			LL_TIM_EnableCounter(enc->Instance);
+			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		}
+	}
 }
 
 void Encoder_disable(eSjcJoints_t Joint)
 {
-	LL_TIM_DisableCounter(Encoder[Joint].Instance);
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc != NULL)
+	{
+		configASSERT(xEncoderInterfacesSemprHandle != NULL);
+		if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+		{
+			LL_TIM_DisableCounter(enc->Instance);
+			osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		}
+	}
 }
 
 eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
 {
-	eSjcReturnType_t ret = SJC_RET_NOK;
+	if ((counts == NULL))
+	{
+		return SJC_RET_NOK;
+	}
 
-	Encoder[Joint].Counts = LL_TIM_GetCounter(Encoder[Joint].Instance);
-	*counts = Encoder[Joint].Counts;
-	ret = SJC_RET_OK;
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*counts = 0;
+		return SJC_RET_NOK;
+	}
 
-	return ret;
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
+	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	{
+		enc->Counts = read_encoder_counter_raw(Joint);
+		*counts = enc->Counts;
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+	}
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
 {
-	eSjcReturnType_t ret = SJC_RET_NOK;
-
-	configASSERT(xEncoderInterfacesSemprHandle != NULL);
-
-	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	if (angular_dp == NULL)
 	{
-		ret = SJC_RET_OK;
-
-		switch (Joint)
-		{
-		case SJC_ACTUATOR_JOINT:
-			Encoder[Joint].Counts = ((int32_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
-			break;
-		default:
-			Encoder[Joint].Counts = ((int16_t)LL_TIM_GetCounter(Encoder[Joint].Instance));
-			break;
-		}
-		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
-		*angular_dp = Encoder[Joint].Counts * Encoder[Joint].radians_per_quadrature_pulse;
+		return SJC_RET_NOK;
 	}
 
-	return ret;
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*angular_dp = 0.0f;
+		return SJC_RET_NOK;
+	}
+
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
+	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	{
+		enc->Counts = read_encoder_counter_raw(Joint);
+		*angular_dp = enc->Counts * enc->radians_per_quadrature_pulse;
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+	}
+
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 {
-	*resolution = Encoder[Joint].Resolution_PPR;
+	if (resolution == NULL)
+	{
+		return SJC_RET_NOK;
+	}
 
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		*resolution = 0;
+		return SJC_RET_NOK;
+	}
+
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
+	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	{
+		*resolution = enc->Resolution_PPR;
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+	}
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution)
 {
-	Encoder[Joint].Resolution_PPR = resolution;
-	Encoder[Joint].radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * Encoder[Joint].Resolution_PPR);
+	if ((resolution == 0))
+	{
+		return SJC_RET_NOK;
+	}
 
+	xSjcEncoder_t *enc = get_encoder_handle(Joint);
+	if (enc == NULL)
+	{
+		return SJC_RET_NOK;
+	}
+
+	configASSERT(xEncoderInterfacesSemprHandle != NULL);
+	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
+	{
+		enc->Resolution_PPR = resolution;
+		enc->radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * enc->Resolution_PPR);
+		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+	}
 	return SJC_RET_OK;
 }
 
@@ -151,5 +218,34 @@ eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolu
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
+static inline int32_t read_encoder_counter_raw(eSjcJoints_t Joint)
+{
+	int32_t count = 0;
 
+	if (!IS_VALID_JOINT(Joint))
+	{
+		return 0;
+	}
+
+	switch (Joint)
+	{
+	case SJC_ACTUATOR_JOINT:
+		count = (int32_t)LL_TIM_GetCounter(Encoder[Joint].Instance);
+		break;
+	default:
+		count = (int16_t)LL_TIM_GetCounter(Encoder[Joint].Instance);
+		break;
+	}
+
+	return count;
+}
+
+static inline xSjcEncoder_t *get_encoder_handle(eSjcJoints_t Joint)
+{
+	if (!IS_VALID_JOINT(Joint))
+	{
+		return NULL;
+	}
+	return &Encoder[Joint];
+}
 // ------------------------------------------------------------------- //

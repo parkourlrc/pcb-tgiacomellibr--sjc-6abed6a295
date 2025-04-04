@@ -12,8 +12,8 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "base/include/configs.h"
 #include "modules/include/pid_controller.h"
+#include "base/include/configs.h"
 
 // ------------------------------------------------------------------- //
 
@@ -61,11 +61,11 @@ float PidController_compute(const float ControllerError, const float dt)
 	xPidController.ControlAction += xPidController.Errors.Derivative * xPidController.Parameters.Kd;
 
 	float TempIntegralError = xPidController.Errors.Integral + (xPidController.Errors.ActualError * dt);
-	float TempIntegralAction = TempIntegralError*xPidController.Parameters.Ki;
+	float TempIntegralAction = TempIntegralError * xPidController.Parameters.Ki;
 
-	float TempControlAction = xPidController.ControlAction + (TempIntegralError*xPidController.Parameters.Ki);
+	float TempControlAction = xPidController.ControlAction + (TempIntegralError * xPidController.Parameters.Ki);
 
-	bool bErrorConditionalIntegration = !( ( TempControlAction < xPidControllerEffortLimits.Min ) || ( TempControlAction > xPidControllerEffortLimits.Max ) );
+	bool bErrorConditionalIntegration = !((TempControlAction < xPidControllerEffortLimits.Min) || (TempControlAction > xPidControllerEffortLimits.Max));
 
 	if (true == bErrorConditionalIntegration)
 	{
@@ -73,7 +73,6 @@ float PidController_compute(const float ControllerError, const float dt)
 	}
 
 	xPidController.ControlAction += TempIntegralAction;
-
 
 	return xPidController.ControlAction;
 }

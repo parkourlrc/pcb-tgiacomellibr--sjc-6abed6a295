@@ -95,11 +95,11 @@
 //
 //	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 //
-//	TestSignals_init();
+//	TestSignals_Init();
 //
-//	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
+//	DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 //
-//	SJC_enableJointActuatorDriver();
+//	SJC_enableJointActuatorOutput();
 //
 //	osDelay(SJC_CURRENT_OFFSET_DELAY);
 //
@@ -112,7 +112,7 @@
 //	{
 //		tick += pdMS_TO_TICKS(ControllerPeriodSpec);
 //
-//		SJC_getTime(SJC_TIME_MS, &TaskTic);
+//		SJC_GetTime(SJC_TIME_MS, &TaskTic);
 //
 //		ControllerParametersUpdate();
 //
@@ -143,12 +143,12 @@
 //
 //		case SJC_CURRENT_CONTROL:
 //			ControllerError = ControllerReference - ActuatorCurrent;
-//			SJC_computeControlAction(ControllerError, ControlTs, &ControlAction);
+//			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
 //			break;
 //
 //		case SJC_SPEED_CONTROL:
 //			ControllerError = ControllerReference - ActuatorSpeed;
-//			SJC_computeControlAction(ControllerError, ControlTs, &ControlAction);
+//			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
 //			break;
 //
 //		case SJC_OPEN_LOOP_CONTROL:
@@ -164,39 +164,39 @@
 //		// ------------------------------------------------------------------- //
 //		EndstopsCheck();
 //
-//		SJC_getTime(SJC_TIME_MS, &TaskToc);
+//		SJC_GetTime(SJC_TIME_MS, &TaskToc);
 //
 //		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (TaskToc-TaskTic));
 //
 //		osDelayUntil(tick);
 //	}
 //
-//	SJC_setJointActuatorVoltage(ZERO_FLOAT);
-//	SJC_disableJointActuatorDriver();
+//	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+//	SJC_disableJointActuatorOutput();
 //}
 //
 //static void ControllerParametersUpdate(void)
 //{
 //	// Controller configs update
-//	SJC_getControlMode(&ControlMode);
-//	SJC_getControlUpdatePeriodMs(&ControllerPeriodSpec);
-//	SJC_getControlReference(&ControllerReference);
+//	SJC_GetControlMode(&ControlMode);
+//	SJC_GetControlUpdatePeriodMs(&ControllerPeriodSpec);
+//	SJC_GetControlReference(&ControllerReference);
 //}
 //
 //static void MeasurementsUpdate(void) {
 //	// Electric variables update
-//	SJC_getJointActuatorVoltage(&ActuatorVoltage);
-////	SJC_getJointActuatorCurrent(&ActuatorCurrent);
-//	SJC_getJointActuatorCurrentUnbiased(&ActuatorCurrent);
-//	SJC_getJointActuatorPowerSupplyVoltage(&SystemVoltage);
+//	SJC_GetJointActuatorVoltage(&ActuatorVoltage);
+////	SJC_GetJointActuatorCurrent(&ActuatorCurrent);
+//	SJC_GetJointActuatorCurrentUnbiased(&ActuatorCurrent);
+//	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
 //
 //	// Actuated joint calcs
-//	SJC_getJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, ActuatorDisplacement);
+//	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, ActuatorDisplacement);
 //	ActuatorDisplacement += ActuatorRelativeDisplacement;
 //
 //	uint32_t Dt = 1000;
-//	SJC_getElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
-//	SJC_getTime(SJC_TIME_MS, &Timestamp);
+//	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
+//	SJC_GetTime(SJC_TIME_MS, &Timestamp);
 //
 //	ControlTs = ((float) Dt) * 1.0e-3; // Convert miliseconds to seconds
 //
@@ -204,19 +204,19 @@
 //	ActuatorSpeedRpm = ActuatorSpeed * (30.0f / M_PI);
 //
 //	// Passive joints calcs
-//	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
-//	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
+//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
+//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
 //}
 //
 //static void EndstopsCheck(void) {
 //	uint32_t states;
-//	SJC_readDigitalInputs(&states);
+//	SJC_ReadDigitalInputs(&states);
 //	bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
 //	bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
 //	bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
 //
 //	if (true == bEndStopAPressed) {
-//		SJC_resetJointAngularDisplacement();
+//		SJC_ResetJointAngularDisplacement();
 //	}
 //
 //	eSjcMoveDirection_t xActualMoveDirection = (ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
@@ -226,35 +226,35 @@
 //	bNextMoveAllowed |= ((true == bEndStopBPressed) && (xActualMoveDirection == SJC_MOVE_BW));
 //
 //	if (true == bNextMoveAllowed) {
-//		SJC_setJointActuatorVoltage(ControlAction);
+//		SJC_SetJointActuatorVoltage(ControlAction);
 //	} else {
-//		SJC_setJointActuatorVoltage(ZERO_FLOAT);
+//		SJC_SetJointActuatorVoltage(ZERO_FLOAT);
 //	}
 //}
 //
 //static void PublishLogData(void)
 //{
-//	SJC_DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+//	DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
 //}
 //
 //static void RunTestSignal(eSjcInputType_t type)
 //{
-//	TestSignals_getState(&xTestSignalState);
+//	TestSignals_GetState(&xTestSignalState);
 //
 //	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 //	{
 //		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
-//		TestSignals_setConfig(type, time_factor);
+//		TestSignals_SetConfig(type, time_factor);
 //	}
 //	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 //	{
-//		TestSignals_getValue(&xTestSignalValue);
+//		TestSignals_GetValue(&xTestSignalValue);
 //		ControlAction = ControllerReference*xTestSignalValue;
 //	}
 //	else
 //	{
-//		TestSignals_reset();
-//		SJC_setControlMode(SJC_CONTROL_DISABLED);
+//		TestSignals_Reset();
+//		SJC_SetControlMode(SJC_CONTROL_DISABLED);
 //	}
 //}
 //

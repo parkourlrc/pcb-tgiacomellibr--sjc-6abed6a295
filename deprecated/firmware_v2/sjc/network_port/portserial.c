@@ -1,9 +1,9 @@
 #include "port.h"
 #include "main.h"
-#include "configs.h"
+#include "base/include/configs.h"
 #include "dma.h"
 #include "cmsis_os2.h"
-#include "debug_output.h"
+#include "modules/include/debug_output.h"
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbport.h"

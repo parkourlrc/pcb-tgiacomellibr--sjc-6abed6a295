@@ -12,8 +12,8 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "base/include/configs.h"
 #include "modules/include/digital_interfaces.h"
+#include "base/include/configs.h"
 #include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 

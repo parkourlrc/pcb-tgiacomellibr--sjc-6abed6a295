@@ -26,13 +26,13 @@
 #include "main.h"
 #include "tim.h"
 #include "usart.h"
-#include "types.h"
-#include "network_configs.h"
 #include "cmsis_os.h"
 
 #include "assert.h"
 #include "inttypes.h"
 
+#include "base/include/network_configs.h"
+#include "system_types/include/types.h"
 /* ----------------------- Platform structures -------------------------------*/
 typedef enum
 {
@@ -70,9 +70,6 @@ typedef int32_t LONG;
 #ifndef FALSE
 #define FALSE 0
 #endif
-
-#define MODBUS_TIMER_INSTANCE TIM10
-#define MODBUS_SERIAL_INSTANCE USART2
 
 /* ----------------------- Prototypes ---------------------------------------*/
 // void vMBPortSetWithinException(BOOL bInException);

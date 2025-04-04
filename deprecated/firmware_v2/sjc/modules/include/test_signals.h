@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__TEST_SIGNALS_H_
 #define SJC__MODULES__TEST_SIGNALS_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void TestSignals_init(void);
 void TestSignals_reset(void);

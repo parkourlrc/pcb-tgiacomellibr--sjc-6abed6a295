@@ -5,12 +5,12 @@
  *      Author: tiago
  */
 
-#ifndef SJC__MODULES__PID_CONTROLLER_H_
-#define SJC__MODULES__PID_CONTROLLER_H_
+#ifndef SJC__MODULES__PID_CONTROLLER_H
+#define SJC__MODULES__PID_CONTROLLER_H
 
-#include "types.h"
+#include "system_types/include/types.h"
 
-void PidController_Init();
+void PidController_init();
 
 float PidController_compute(const float ControllerError, const float dt);
 float PidController_getError(void);

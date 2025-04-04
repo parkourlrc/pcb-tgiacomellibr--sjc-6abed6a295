@@ -29,6 +29,7 @@
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
+typedef StaticTask_t osStaticThreadDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -47,11 +48,16 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
+/* Definitions for mainTask */
+osThreadId_t mainTaskHandle;
+uint32_t MainTaskBuffer[ 128 ];
+osStaticThreadDef_t MainTaskControlBlock;
+const osThreadAttr_t mainTask_attributes = {
+  .name = "mainTask",
+  .cb_mem = &MainTaskControlBlock,
+  .cb_size = sizeof(MainTaskControlBlock),
+  .stack_mem = &MainTaskBuffer[0],
+  .stack_size = sizeof(MainTaskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
 
@@ -60,8 +66,9 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
+void MainTaskApp(void *argument);
 
+extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /* Hook prototypes */
@@ -118,8 +125,8 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of mainTask */
+  mainTaskHandle = osThreadNew(MainTaskApp, NULL, &mainTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -131,22 +138,24 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_MainTaskApp */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the MainTask thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_MainTaskApp */
+__weak void MainTaskApp(void *argument)
 {
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN MainTaskApp */
+
   /* Infinite loop */
-  for(;;)
-  {
-	  osDelay(1000);
-  }
-  /* USER CODE END StartDefaultTask */
+	for(;;)
+	{
+		osDelay(100000);
+	}
+	return;
+  /* USER CODE END MainTaskApp */
 }
 
 /* Private application code --------------------------------------------------*/

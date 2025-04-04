@@ -110,7 +110,22 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 
 eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress)
 {
-	return xNetworkParameters.Address;
+#if SJC_HW_VERSION_MAJOR > 1
+	bool addr_a, addr_b, addr_c;
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_A_INPUT, &addr_a);
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_B_INPUT, &addr_b);
+	DigitalInterfaces_readInputState(SJC_NET_ADDR_C_INPUT, &addr_c);
+
+	*xAddress = (addr_c << 2) | (addr_b << 1) | addr_a;
+	if (*xAddress == 0)
+	{
+		*xAddress = 247;
+	}
+#else
+	*xAddress = NETWORK_BASE_ADRESS;
+#endif
+
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate)
@@ -168,7 +183,6 @@ void ModbusNetwork_update(void)
 
 void ModbusNetwork_processReceivedData(void)
 {
-
 }
 
 eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)

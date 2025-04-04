@@ -8,7 +8,7 @@
 #ifndef SJC__MODULES__DIGITAL_INTERFACES_H_
 #define SJC__MODULES__DIGITAL_INTERFACES_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
 void DigitalInterfaces_init(void);
 

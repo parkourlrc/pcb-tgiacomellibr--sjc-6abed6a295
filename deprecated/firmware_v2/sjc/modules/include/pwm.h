@@ -5,21 +5,21 @@
  *      Author: tiago
  */
 
-#ifndef SJC__MODULES__PWM_H_
-#define SJC__MODULES__PWM_H_
+#ifndef SJC__MODULES__PWM_SIGNAL_H
+#define SJC__MODULES__PWM_SIGNAL_H
 
-#include "types.h"
+#include "system_types/include/types.h"
 
-void PWM_init(const eSjcPwmBaseFreq_t BaseFrequency);
-void PWM_enable(void);
-void PWM_disable(void);
+void PwmSignal_init(const eSjcPwmBaseFreq_t BaseFrequency);
+void PwmSignal_enable(void);
+void PwmSignal_disable(void);
 
-float PWM_getMinDutyCycle(void);
-float PWM_getMaxDutyCycle(void);
-float PWM_getDutyCycle(void);
-eSjcReturnType_t PWM_setDutyCycle(const float duty);
+float PwmSignal_getMinDutyCycle(void);
+float PwmSignal_getMaxDutyCycle(void);
+float PwmSignal_getDutyCycle(void);
+eSjcReturnType_t PwmSignal_setDutyCycle(const float duty);
 
-uint32_t PWM_getFrequency(void);
-uint32_t PWM_setFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
+uint32_t PwmSignal_getFrequency(void);
+uint32_t PwmSignal_setFrequency(const eSjcPwmBaseFreq_t BaseFrequency);
 
-#endif /* MOTOR_H_ */
+#endif /* SJC__MODULES__PWM_SIGNAL_H */

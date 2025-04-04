@@ -12,7 +12,7 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "timeout_timer.h"
+#include "modules/include/timeout_timer.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -38,21 +38,21 @@ static __inline uint32_t _GetTick(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void Timer_init(void)
+void TimeoutTimer_init(void)
 {
 }
 
-uint32_t Timer_getTimeMs(void)
+uint32_t TimeoutTimer_getTimeMs(void)
 {
 	return (_GetTick());
 }
 
-uint32_t Timer_getTimeSec(void)
+uint32_t TimeoutTimer_getTimeSec(void)
 {
 	return (_GetTick() / 1000);
 }
 
-void Timer_delayMs(uint32_t delayInMs)
+void TimeoutTimer_delayMs(uint32_t delayInMs)
 {
 	uint32_t compval = delayInMs;
 	uint32_t start = _GetTick();
@@ -60,7 +60,7 @@ void Timer_delayMs(uint32_t delayInMs)
 		; // This comparison tolerates overflow
 }
 
-void Timer_delaySec(uint32_t delayInSec)
+void TimeoutTimer_delaySec(uint32_t delayInSec)
 {
 	uint32_t compval = delayInSec * 1000;
 	uint32_t start = _GetTick();
@@ -68,13 +68,13 @@ void Timer_delaySec(uint32_t delayInSec)
 		; // This comparison tolerates overflow
 }
 
-uint32_t Timer_timeoutCheckMs(uint32_t delayInMs, uint32_t seed)
+uint32_t TimeoutTimer_timeoutCheckMs(uint32_t delayInMs, uint32_t seed)
 {
 	uint32_t compval = delayInMs;
 	return (!((_GetTick() - seed) < compval)); // This comparison tolerates overflow
 }
 
-uint32_t Timer_timeoutCheckSec(uint32_t delayInSec, uint32_t seed)
+uint32_t TimeoutTimer_timeoutCheckSec(uint32_t delayInSec, uint32_t seed)
 {
 	uint32_t compval = delayInSec * 1000;
 	return (!((_GetTick() - seed) < compval)); // This comparison tolerates overflow

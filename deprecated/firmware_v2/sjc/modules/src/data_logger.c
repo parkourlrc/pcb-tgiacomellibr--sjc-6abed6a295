@@ -1,5 +1,5 @@
 /*
- * debug_output.c
+ * data_logger.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -7,32 +7,31 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "usart.h"
 #include "cmsis_os.h"
-#include "usbd_cdc.h"
-#include "usbd_cdc_if.h"
+#include "usart.h"
 // ------------------------------------------------------------------- //
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "data_logger.h"
-
-#include "debug_output.h"
+#include "base/include/configs.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#define DATA_LOGGER_SERIAL_INSTANCE 						UART5
-#define DATA_LOGGER_DMA_INSTANCE 							DMA1
-#define DATA_LOGGER_DMA_STREAM 								LL_DMA_STREAM_7
-#define DATA_LOGGER_BUFF_SIZE 								(2048UL)
-#define DATA_LOGGER_MID_BANK_INDEX 							(DATA_LOGGER_BUFF_SIZE/2)
-#define MIN_TRANSMIT_BURST_SIZE								(DATA_LOGGER_MID_BANK_INDEX/2)
+#define DATA_LOGGER_SERIAL_INSTANCE USART3
+#define DATA_LOGGER_DMA_INSTANCE DMA1
+#define DATA_LOGGER_DMA_STREAM LL_DMA_STREAM_3
+#define DATA_LOGGER_BUFF_SIZE (2048UL)
+#define DATA_LOGGER_MID_BANK_INDEX (DATA_LOGGER_BUFF_SIZE / 2)
+#define MIN_TRANSMIT_BURST_SIZE (DATA_LOGGER_MID_BANK_INDEX / 2)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
-typedef enum {
+typedef enum
+{
 	DATA_LOGGER_BANK_0 = 0,
 	DATA_LOGGER_BANK_1,
 	DATA_LOGGER_BANK_SIZE
@@ -52,7 +51,7 @@ volatile bool bSerialBusy = false;
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-//static int serial_write(char *ptr, int len);
+// static int serial_write(char *ptr, int len);
 static void TransmitBuffer(void);
 // ------------------------------------------------------------------- //
 
@@ -60,16 +59,16 @@ static void TransmitBuffer(void);
 // ------------------------------------------------------------------- //
 void DataLogger_init(void)
 {
-//	  LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-//
-//	  LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
-//
-//	  LL_USART_EnableDMAReq_TX(DATA_LOGGER_SERIAL_INSTANCE);
+	LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-	  bSerialBusy = false;
+	LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
+
+	LL_USART_EnableDMAReq_TX(DATA_LOGGER_SERIAL_INSTANCE);
+
+	bSerialBusy = false;
 }
 
-int DataLogger_transmitData(const char *format, ...)
+int DataLogger_transmit(const char *format, ...)
 {
 	va_list apx;
 	int n = 0;
@@ -78,7 +77,10 @@ int DataLogger_transmitData(const char *format, ...)
 	uint32_t initial_index = (uDataBuffSize > 0) ? uDataBuffSize : 0;
 	initial_index += (DATA_LOGGER_BANK_1 == xDataLoggerBank) ? DATA_LOGGER_MID_BANK_INDEX : 0;
 
-	n = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
+	size_t bank_limit = DATA_LOGGER_MID_BANK_INDEX - (uDataBuffSize);
+	n = vsnprintf(&xDataLoggerBuff[initial_index], bank_limit, format, apx);
+
+	//	n = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_BUFF_SIZE, format, apx);
 
 	va_end(apx);
 
@@ -101,85 +103,59 @@ int DataLogger_transmitData(const char *format, ...)
 
 static void TransmitBuffer(void)
 {
+	//	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 
-	CDC_Transmit_FS((uint8_t *)(&xDataLoggerBuff[0]), uDataBuffSize);
+	//	switch (xDataLoggerBank) {
+	//	case DATA_LOGGER_BANK_1:
+	//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	//		xDataLoggerBank = DATA_LOGGER_BANK_0;
+	//
+	//		break;
+	//	default:
+	//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[0], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	//		xDataLoggerBank = DATA_LOGGER_BANK_1;
+	//
+	//		break;
+	//	}
 
+	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
+
+	uint32_t base_addr = (xDataLoggerBank == DATA_LOGGER_BANK_1) ? (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX] : (uint32_t)&xDataLoggerBuff[0];
+
+	LL_DMA_ConfigAddresses(
+		DATA_LOGGER_DMA_INSTANCE,
+		DATA_LOGGER_DMA_STREAM,
+		base_addr,
+		LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE),
+		LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+
+	xDataLoggerBank = (xDataLoggerBank == DATA_LOGGER_BANK_1) ? DATA_LOGGER_BANK_0 : DATA_LOGGER_BANK_1;
+
+	bSerialBusy = true;
+
+	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uDataBuffSize));
 	uDataBuffSize = 0;
-	bSerialBusy = false;
+
+	LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_HT3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
+	LL_DMA_ClearFlag_FE3(DATA_LOGGER_DMA_INSTANCE);
+
+	LL_DMA_EnableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 }
 
-//static void TransmitBuffer(void)
-//{
-////	LL_DMA_DisableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
-//
-//	switch (xDataLoggerBank) {
-//	case DATA_LOGGER_BANK_1:
-//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[DATA_LOGGER_MID_BANK_INDEX], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-//		xDataLoggerBank = DATA_LOGGER_BANK_0;
-//
-//		break;
-//	default:
-//		LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff[0], LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-//		xDataLoggerBank = DATA_LOGGER_BANK_1;
-//
-//		break;
-//	}
-//
-////	bSerialBusy = true;
-//
-////	LL_DMA_SetDataLength(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uDataBuffSize));
-//	uDataBuffSize = 0;
-//
-////	LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
-////	LL_DMA_ClearFlag_HT3(DATA_LOGGER_DMA_INSTANCE);
-////	LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
-////	LL_DMA_ClearFlag_FE3(DATA_LOGGER_DMA_INSTANCE);
-////
-////	LL_DMA_EnableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
-//}
+void DMA1_Stream3_IRQHandler(void)
+{
+	/* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
+	if (LL_DMA_IsActiveFlag_TC3(DATA_LOGGER_DMA_INSTANCE) == 1)
+	{
+		LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
+		bSerialBusy = false;
+	}
+	/* USER CODE END DMA1_Stream3_IRQn 0 */
 
-//void UART5_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN UART5_IRQn 0 */
-//	if (LL_USART_IsActiveFlag_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE))
-//	{
-//		LL_USART_ClearFlag_RXNE(DEBUG_OUTPUT_SERIAL_INSTANCE);
-//		bDebugOutputSerialBusy = false;
-//	}
-//
-//	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
-//	{
-//		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
-//		bDebugOutputSerialBusy = false;
-//	}
-//  /* USER CODE END UART5_IRQn 0 */
-//  /* USER CODE BEGIN UART5_IRQn 1 */
-//
-//  /* USER CODE END UART5_IRQn 1 */
-//}
-//
-//void DMA1_Stream7_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA1_Stream7_IRQn 0 */
-//
-//  /* USER CODE END DMA1_Stream7_IRQn 0 */
-//
-//  /* USER CODE BEGIN DMA1_Stream7_IRQn 1 */
-//
-//  /* USER CODE END DMA1_Stream7_IRQn 1 */
-//}
+	/* USER CODE BEGIN DMA1_Stream3_IRQn 1 */
 
-//void DMA1_Stream3_IRQHandler(void)
-//{
-//  /* USER CODE BEGIN DMA1_Stream3_IRQn 0 */
-//	if( LL_DMA_IsActiveFlag_TC3(DATA_LOGGER_DMA_INSTANCE) == 1){
-//		LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
-//		bSerialBusy = false;
-//	}
-//  /* USER CODE END DMA1_Stream3_IRQn 0 */
-//
-//  /* USER CODE BEGIN DMA1_Stream3_IRQn 1 */
-//
-//  /* USER CODE END DMA1_Stream3_IRQn 1 */
-//}
+	/* USER CODE END DMA1_Stream3_IRQn 1 */
+}
 // ------------------------------------------------------------------- //

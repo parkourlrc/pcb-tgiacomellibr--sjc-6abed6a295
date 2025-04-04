@@ -7,6 +7,7 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include "modules/include/modbus_network.h"
 #include "main.h"
 // ------------------------------------------------------------------- //
 
@@ -18,11 +19,9 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "network.h"
-
-#include "debug_output.h"
-#include "network_configs.h"
-#include "digital_interfaces.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -52,12 +51,12 @@ static xSjcNetworkConfig_t xNetworkParameters;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t Network_init(const uint32_t xSlaveAddress)
+eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 {
 	eMBErrorCode eStatus;
 
 	xNetworkParameters.Address = xSlaveAddress;
-	Network_getBaudRate(&xNetworkParameters.Baudrate);
+	ModbusNetwork_getBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
 	if (MB_ENOERR != (eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity)))
@@ -76,7 +75,7 @@ eSjcReturnType_t Network_init(const uint32_t xSlaveAddress)
 
 	//	if( MB_ENOERR != ( eStatus = eMBSetSlaveID( 0x34, TRUE, ucSlaveID, 3 ) ) )
 	//	{
-	//		DebugOutput_systemPrintf("\r\n[OS] Modbus slave address not set...");
+	//		DebugOutput_SystemPrintf("\r\n[OS] Modbus slave address not set...");
 	//		/* Can not set slave id. Check arguments */
 	//		return SJC_RET_NOK;
 	//	}
@@ -109,7 +108,7 @@ eSjcReturnType_t Network_init(const uint32_t xSlaveAddress)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t Network_getAddress(uint32_t *xAddress)
+eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress)
 {
 #if SJC_HW_VERSION_MAJOR > 1
 	bool addr_a, addr_b, addr_c;
@@ -129,7 +128,7 @@ eSjcReturnType_t Network_getAddress(uint32_t *xAddress)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t Network_getBaudRate(uint32_t *xBaudRate)
+eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate)
 {
 	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
 
@@ -177,17 +176,12 @@ eSjcReturnType_t Network_getBaudRate(uint32_t *xBaudRate)
 	return SJC_RET_OK;
 }
 
-void Network_update(void)
+void ModbusNetwork_update(void)
 {
 	(void)eMBPoll();
 }
 
-void Network_processReceivedData(void)
-{
-
-}
-
-eSjcReturnType_t Network_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
+eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
 {
 	*xSlaveAddress = xNetworkParameters.Address;
 	*xBaudRate = xNetworkParameters.Baudrate;

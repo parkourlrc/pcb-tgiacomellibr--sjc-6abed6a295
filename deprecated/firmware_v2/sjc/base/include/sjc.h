@@ -8,9 +8,11 @@
 #ifndef SJC__BASE__SJC_H_
 #define SJC__BASE__SJC_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
+#include "modules/include/analog_interfaces.h"
 
 void SJC_init(void);
+void SJC_initOsKernel(void);
 void SJC_initOsObjects(void);
 void SJC_initOsThreads(void);
 void SJC_presentSystemInfo(void);
@@ -21,7 +23,6 @@ eSjcReturnType_t SJC_getTime(const eSjcTimeType_t type, uint32_t *value);
 eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value);
 
 void SJC_executeNetworkDaemon(void);
-void SJC_processNetworkData(void);
 void SJC_updateHoldingRegisters(void);
 void SJC_updateInputRegisters(void);
 
@@ -44,6 +45,9 @@ eSjcReturnType_t SJC_getJointActuatorCurrentUnbiased(float *value);
 eSjcReturnType_t SJC_setJointActuatorCurrentBias(const float bias);
 eSjcReturnType_t SJC_getJointActuatorVoltage(float *voltage);
 eSjcReturnType_t SJC_setJointActuatorVoltage(const float voltage);
+
+eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode);
+eSjcReturnType_t SJC_setAdcFilterCutoffFrequency(const float fc);
 
 eSjcReturnType_t SJC_resetJointAngularDisplacement(void);
 eSjcReturnType_t SJC_getJointRelativeAndAngularDisplacement(const eSjcJoints_t joint, float *disp);
