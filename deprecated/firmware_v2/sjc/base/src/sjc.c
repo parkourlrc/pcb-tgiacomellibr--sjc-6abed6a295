@@ -114,12 +114,11 @@ void SJC_init(void)
 	MX_TIM4_Init();
 	fBiasCurrentValue = 0;
 
-	HAL_Delay(2000);
+	HAL_Delay(5000);
 
 	// SJC O.S. initialization
 	SJC_initOsKernel();
 	SJC_initOsObjects();
-	osDelay(2000);
 
 	// SJC version setup
 	SJC_setVersions();
@@ -142,9 +141,6 @@ void SJC_init(void)
 
 	MotorOutput_init();
 	MotorDrive_init(PWM_FREQ_20kHz, 24.0);
-
-	// SJC info
-	SJC_presentSystemInfo();
 
 	// SJC O.S. tasks initialization
 	SJC_initOsThreads();

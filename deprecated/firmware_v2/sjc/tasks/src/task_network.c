@@ -66,6 +66,9 @@ void NetworkTaskApp(void *argument)
 		SJC_SYSTEM_RESET();
 	}
 
+	// SJC info
+	SJC_presentSystemInfo();
+
 	DebugOutput_systemPrintf("\r\n[OS] Network task initiated!"
 							 "\r\n[OS] Modbus communication enabled!");
 

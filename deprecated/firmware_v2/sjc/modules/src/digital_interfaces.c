@@ -86,6 +86,20 @@ void DigitalInterfaces_init(void)
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Type = SJC_DIGITAL_OUTPUT_PORT;
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Pin = SJC_HEARTBEAT_OUTPUT_PIN;
 	xDigitalOutputInterfaces[SJC_HEARTBEAT_OUTPUT].Port = SJC_HEARTBEAT_OUTPUT_PORT;
+
+#if SJC_HW_VERSION_MAJOR > 1
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Pin = SJC_NET_ADDR_A_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_A_INPUT].Port = SJC_NET_ADDR_A_INPUT_PORT;
+
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Pin = SJC_NET_ADDR_B_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_B_INPUT].Port = SJC_NET_ADDR_B_INPUT_PORT;
+
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Type = SJC_DIGITAL_INPUT_PORT;
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Pin = SJC_NET_ADDR_C_INPUT_PIN;
+	xDigitalInputInterfaces[SJC_NET_ADDR_C_INPUT].Port = SJC_NET_ADDR_C_INPUT_PORT;
+#endif
 }
 
 eSjcReturnType_t DigitalInterfaces_readInputState(const eSjcDigitalInputs_t input, bool *state)
