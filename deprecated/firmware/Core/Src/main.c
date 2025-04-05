@@ -93,7 +93,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
-  SJC_Init();
+  SJC_init();
   /* USER CODE END 2 */
 
   /* Init scheduler */

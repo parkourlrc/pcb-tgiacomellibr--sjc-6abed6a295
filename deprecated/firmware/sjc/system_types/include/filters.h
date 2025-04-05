@@ -3,16 +3,16 @@
 
 #include <stdint.h>
 
-#define BOX_FILTER_MAX_SIZE 64  ///< Maximum window size for Box Filter
+#define BOX_FILTER_MAX_SIZE 64 ///< Maximum window size for Box Filter
 
 // -------------------------------------------------------------------
 // Box Filter Data Structure
 // -------------------------------------------------------------------
 typedef struct
 {
-    float sum;               ///< Accumulated sum of samples
-    uint16_t count;          ///< Current number of samples
-    uint16_t window_size;    ///< Maximum number of samples to average
+    float sum;            ///< Accumulated sum of samples
+    uint16_t count;       ///< Current number of samples
+    uint16_t window_size; ///< Maximum number of samples to average
 } BoxFilter_t;
 
 // -------------------------------------------------------------------
@@ -20,10 +20,10 @@ typedef struct
 // -------------------------------------------------------------------
 typedef struct
 {
-    float alpha;   ///< Filter coefficient (0 < alpha <= 1)
-    float y_prev;  ///< Last output value
-    float fs;      ///< Sampling frequency in Hz
-    float fc;      ///< Cutoff frequency in Hz
+    float alpha;  ///< Filter coefficient (0 < alpha <= 1)
+    float y_prev; ///< Last output value
+    float fs;     ///< Sampling frequency in Hz
+    float fc;     ///< Cutoff frequency in Hz
 } ExponentialFilter_t;
 
 // -------------------------------------------------------------------

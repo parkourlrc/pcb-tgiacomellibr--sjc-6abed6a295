@@ -54,6 +54,7 @@ extern volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
 extern volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
 static xSjcControlConfigs_t xSjcControlConfigs = xSjcControlConfigsEmptyObj;
+static bool bSjcControlModeUpdated = true;
 
 static float fBiasCurrentValue = 0;
 // ------------------------------------------------------------------- //
@@ -82,9 +83,10 @@ void Net_ExecuteAdcFilterModeUpdateCmd(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_Init(void)
+void SJC_init(void)
 {
 	// SJC Peripheral initialization
+
 	// Init all board GPIOs
 	MX_GPIO_Init();
 
@@ -92,11 +94,13 @@ void SJC_Init(void)
 	MX_DMA_Init();
 
 	// Init USB and Serial debug devices
-	MX_USB_DEVICE_Init();
 	MX_USART3_UART_Init();
+	MX_USB_DEVICE_Init();
 
-	// Init Serial communication device
-	MX_USART2_UART_Init();
+#if SJC_HW_VERSION_MAJOR > 1
+	// Init Serial datalogger device
+	MX_UART5_Init();
+#endif
 
 	// Init Joint PWM and Encoders
 	MX_TIM1_Init();
@@ -105,14 +109,24 @@ void SJC_Init(void)
 	MX_TIM3_Init();
 	MX_TIM8_Init();
 
+	// Init Serial communication device
+	MX_USART2_UART_Init();
+
 	// Init ADC and Sample time check timer
 	MX_ADC1_Init();
 	MX_TIM4_Init();
 	fBiasCurrentValue = 0;
 
-	// SJC Modules initialization
-	SJC_SetVersions();
+	HAL_Delay(1000);
 
+	// SJC O.S. initialization
+	SJC_initOsKernel();
+	SJC_initOsObjects();
+
+	// SJC version setup
+	SJC_setVersions();
+
+	// SJC Modules initialization
 	DataLogger_init();
 	DebugOutput_init();
 	AnalogInterfaces_init();
@@ -125,24 +139,31 @@ void SJC_Init(void)
 
 	PidController_init();
 
-	xSjcControlConfigs.Mode = SJC_CURRENT_CALIBRATION;
+	xSjcControlConfigs.Mode = SJC_CONTROL_DISABLED;
 	xSjcControlConfigs.Rate = SJC_CONTROLLER_MAX_UPDATE_RATE_HZ;
 
 	MotorOutput_init();
 	MotorDrive_init(PWM_FREQ_20kHz, 24.0);
 
-	SJC_InitOsKernel();
+	// SJC O.S. tasks initialization
+	SJC_initOsThreads();
 }
 
-void SJC_InitOsKernel(void)
+void SJC_initOsKernel(void)
 {
 	/* Init scheduler */
 	osKernelInitialize(); /* Call init function for freertos objects (in freertos.c) */
+}
 
-	osDelay(3000);
+void SJC_initOsObjects(void)
+{
+	SJC_TaskCommon_initObjects();
+}
 
+void SJC_initOsThreads(void)
+{
 	/* Init Startup Tasks */
-	SJC_TaskCommon_Init();
+	SJC_TaskCommon_initThreads();
 
 	/* Start scheduler */
 	osKernelStart();
@@ -152,12 +173,12 @@ void SJC_InitOsKernel(void)
 	}
 }
 
-void SJC_PresentSystemInfo(void)
+void SJC_presentSystemInfo(void)
 {
 	DebugOutput_presentSystemInfo();
 }
 
-eSjcReturnType_t SJC_SetVersions(void)
+eSjcReturnType_t SJC_setVersions(void)
 {
 	usRegInputBuf[REG_INPUT_HW_VERSION] = SJC_HW_VERSION_MAJOR << 8 | SJC_HW_VERSION_MINOR;
 
@@ -167,7 +188,7 @@ eSjcReturnType_t SJC_SetVersions(void)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value)
+eSjcReturnType_t SJC_delay(const eSjcTimeType_t type, const uint32_t value)
 {
 	eSjcReturnType_t ret = SJC_RET_OK;
 
@@ -191,7 +212,7 @@ eSjcReturnType_t SJC_Delay(const eSjcTimeType_t type, const uint32_t value)
 	return ret;
 }
 
-eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
+eSjcReturnType_t SJC_getTime(const eSjcTimeType_t type, uint32_t *value)
 {
 	switch (type)
 	{
@@ -209,7 +230,7 @@ eSjcReturnType_t SJC_GetTime(const eSjcTimeType_t type, uint32_t *value)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_GetElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value)
+eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value)
 {
 	eSjcReturnType_t ret = SJC_RET_OK;
 	uint32_t now;
@@ -241,9 +262,20 @@ eSjcReturnType_t SJC_getControlMode(eSjcControlMode_t *config)
 
 eSjcReturnType_t SJC_setControlMode(const eSjcControlMode_t config)
 {
-	xSjcControlConfigs.Mode = config;
+	if (config < SJC_CONTROL_MODE_SIZE)
+	{
+		if (SJC_ANALOG_CALIBRATION)
+		{
+			SJC_setJointActuatorVoltage(ZERO_FLOAT);
+		}
+		xSjcControlConfigs.Mode = config;
 
-	return SJC_RET_OK;
+		bSjcControlModeUpdated = true;
+
+		return SJC_RET_OK;
+	}
+
+	return SJC_RET_NOK;
 }
 
 eSjcReturnType_t SJC_getControlUpdateRateHz(float *config)
@@ -270,6 +302,15 @@ eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config)
 eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config)
 {
 	xSjcControlConfigs.Rate = ((uint32_t)(1000 / SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)));
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_isControlModeUpdated(bool *state)
+{
+	*state = bSjcControlModeUpdated;
+
+	bSjcControlModeUpdated = false;
 
 	return SJC_RET_OK;
 }
@@ -316,7 +357,7 @@ eSjcReturnType_t SJC_computeControlAction(const float ControlError, const float 
 	return SJC_RET_OK;
 }
 
-void SJC_UpdateHoldingRegisters(void)
+void SJC_updateHoldingRegisters(void)
 {
 	Net_ExecuteSystemConfigsUpdateCmd();
 	Net_ExecuteDigitalOutputsUpdateCmd();
@@ -328,7 +369,7 @@ void SJC_UpdateHoldingRegisters(void)
 	Net_ExecuteAdcFilterModeUpdateCmd();
 }
 
-void SJC_UpdateInputRegisters(void)
+void SJC_updateInputRegisters(void)
 {
 	Net_UpdateRuntimeInfoRegisters();
 	Net_UpdateNetworkParametersRegisters();
@@ -337,14 +378,9 @@ void SJC_UpdateInputRegisters(void)
 	Net_UpdateControllerParametersRegisters();
 }
 
-void SJC_ExecuteNetworkDaemon(void)
+void SJC_executeNetworkDaemon(void)
 {
 	ModbusNetwork_update();
-}
-
-void SJC_ProcessNetworkData(void)
-{
-	ModbusNetwork_processReceivedData();
 }
 
 eSjcReturnType_t SJC_enableAdc(void)
@@ -411,16 +447,9 @@ eSjcReturnType_t SJC_setJointActuatorVoltage(const float voltage)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode)
+eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode, const float fc)
 {
-	AnalogInterfaces_setFilterMode(mode);
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_setAdcFilterCutoffFrequency(const float fc)
-{
-	AnalogInterfaces_setExponentialCutoffFrequency(fc);
+	AnalogInterfaces_setFilterMode(mode, fc);
 
 	return SJC_RET_OK;
 }
@@ -884,26 +913,21 @@ void Net_ExecuteControllerParametersUpdateCmd(void)
 
 void Net_ExecuteAdcFilterModeUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] & ADC_FILTER_MODE_UPDATE_MSK)
+	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_UPDATE] & ADC_FILTER_CONFIG_UPDATE_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE_UPDATE] &= (~ADC_FILTER_MODE_UPDATE_MSK);
+		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_UPDATE] &= (~ADC_FILTER_CONFIG_UPDATE_MSK);
 
 		// Filter mode
-		uint16_t mode = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_MODE];
-		SJC_setAdcFilterMode(mode);
-	}
+		uint16_t mode = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_MODE];
 
-	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] & ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK)
-	{
-		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE] &= (~ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK);
-
+		// Filter cuttoff frequency
 		float fc;
 		uint16_t *ptr = (uint16_t *)(&fc);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY];
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY];
 
-		// Filter cutoff frequency
-		SJC_setAdcFilterCutoffFrequency(fc);
+		SJC_setAdcFilterMode(mode, fc);
+		SJC_setControlMode(SJC_ANALOG_CALIBRATION);
 	}
 }
 

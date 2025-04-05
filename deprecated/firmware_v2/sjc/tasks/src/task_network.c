@@ -58,10 +58,14 @@ static uint32_t TaskTic, TaskToc;
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
+#if SJC_HW_VERSION_MAJOR > 1
 	uint32_t xNetworkAdress = 0;
 	ModbusNetwork_getAddress(&xNetworkAdress);
 
 	if (SJC_RET_NOK == ModbusNetwork_init(xNetworkAdress))
+#else
+	if (SJC_RET_NOK == ModbusNetwork_init(NETWORK_BASE_ADRESS))
+#endif
 	{
 		SJC_SYSTEM_RESET();
 	}

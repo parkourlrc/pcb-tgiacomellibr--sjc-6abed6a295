@@ -42,8 +42,7 @@ public:
 
     eSjcReturnType_t setDigitalOutputsStates(const xSjcOutputsStates_t config);
 
-    eSjcReturnType_t setAdcFilterMode(const eSjcAdcFilterMode_t mode);
-    eSjcReturnType_t setAdcFilterCutoffFrequency(const float fc);
+    eSjcReturnType_t setAdcFilterMode(const eSjcAdcFilterMode_t mode, const float cutoff_frequency = 0.0f);
 
 private:
     int address_;

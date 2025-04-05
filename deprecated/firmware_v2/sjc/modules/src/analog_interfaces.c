@@ -227,8 +227,11 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType
 			*value /= (AD8418_SHUNT_RESISTANCE * AD8418_GAIN);
 			break;
 		case SJC_CURRENT_SENSOR_AUX:
-			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
-			*value /= ACS712_GAIN;
+//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+//			*value /= ACS712_GAIN;
+			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]-(1.6566);
+			*value /= (0.066265);
+
 			break;
 		case SJC_VOLTAGE_SENSOR:
 			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] * VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;

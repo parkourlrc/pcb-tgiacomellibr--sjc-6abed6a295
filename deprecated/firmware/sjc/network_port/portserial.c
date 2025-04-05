@@ -9,7 +9,7 @@
 #include "mbport.h"
 
 /* ----------------------- Static variables ---------------------------------*/
-
+static volatile uint8_t rx_data = 0;
 
 /* ----------------------- Defines ------------------------------------------*/
 
@@ -44,7 +44,6 @@ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
 	{
 		/* start serial transmit */
 		pxMBFrameCBTransmitterEmpty();
-		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 	else
 	{
@@ -81,39 +80,39 @@ BOOL xMBPortSerialPutBytes(volatile UCHAR *ucByte, USHORT usSize)
 	LL_DMA_ClearFlag_TC6(MODBUS_SERIAL_DMA_INSTANCE);
 	LL_DMA_ClearFlag_FE6(MODBUS_SERIAL_DMA_INSTANCE);
 
+	// Limpa TC antes de escutar
+	LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
+
 	LL_DMA_EnableStream(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM);
+
+	// Só agora ativa interrupção por TC
+	LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 
 	return TRUE;
 }
 
 BOOL xMBPortSerialGetByte(CHAR *pucByte)
 {
-	*pucByte = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
+	*pucByte = rx_data;
 	return TRUE;
 }
 
 void USART2_IRQHandler(void)
 {
-	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE))
+	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) && LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE))
 	{
+		// Real RXNE clearing happens here:
+		rx_data = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
+
 		LL_USART_ClearFlag_RXNE(MODBUS_SERIAL_INSTANCE);
+//		DebugOutput_systemPrintf("Byte recebido na UART\n");
 		pxMBFrameCBByteReceived();
 	}
 
-	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
+	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) && LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
 	{
 		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
+//		DebugOutput_systemPrintf("Transmissão concluída na UART\n");
 		pxMBFrameCBTransmitterEmpty();
 	}
-}
-
-void MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 0 */
-
-  /* USER CODE END MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 0 */
-
-  /* USER CODE BEGIN MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 1 */
-
-  /* USER CODE END MODBUS_SERIAL_DMA_INSTANCE_Stream6_IRQn 1 */
 }

@@ -50,9 +50,9 @@ StaticTask_t NetworkTaskControlBlock;
 // StaticTask_t MeasurementsTaskControlBlock;
 StaticTask_t ControllerAndMeasurementsTaskControlBlock;
 
-uint32_t WatchdogTaskBuffer[256];
+uint32_t WatchdogTaskBuffer[512];
 uint32_t DataLoggerTaskBuffer[2048];
-uint32_t NetworkTaskBuffer[2048];
+uint32_t NetworkTaskBuffer[3072];
 // uint32_t ControllerTaskBuffer[ 3072 ];
 // uint32_t MeasurementsTaskBuffer[ 256 ];
 uint32_t ControllerAndMeasurementsTaskBuffer[4096];
@@ -87,24 +87,6 @@ const osThreadAttr_t NetworkTask_attributes = {
 	.priority = (osPriority_t)osPriorityAboveNormal7,
 };
 
-// const osThreadAttr_t ControllerTask_attributes = {
-//		.name = "ControllerTask",
-//		.cb_mem = &ControllerTaskControlBlock,
-//		.cb_size = sizeof(ControllerTaskControlBlock),
-//		.stack_mem = &ControllerTaskBuffer[0],
-//		.stack_size = sizeof(ControllerTaskBuffer),
-//		.priority = (osPriority_t) osPriorityRealtime,
-// };
-//
-// const osThreadAttr_t MeasurementsTask_attributes = {
-//		.name = "AnalogMeasTask",
-//		.cb_mem = &MeasurementsTaskControlBlock,
-//		.cb_size = sizeof(MeasurementsTaskControlBlock),
-//		.stack_mem = &MeasurementsTaskBuffer[0],
-//		.stack_size = sizeof(MeasurementsTaskBuffer),
-//		.priority = (osPriority_t) osPriorityRealtime7,
-// };
-
 const osThreadAttr_t ControllerAndMeasurementsTask_attributes = {
 	.name = "ControlMeasTask",
 	.cb_mem = &ControllerAndMeasurementsTaskControlBlock,
@@ -131,12 +113,23 @@ extern void LoggerTaskApp(void *argument);
 // extern void MeasurementsTaskApp(void *argument);
 extern void ControllerMeasTaskApp(void *argument);
 
+eSjcReturnType_t InitOsObjects(void);
 eSjcReturnType_t InitOsThreads(void);
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_TaskCommon_Init(void)
+void SJC_TaskCommon_initObjects(void)
+{
+	/* Init Startup Objects */
+	if (SJC_RET_NOK == InitOsObjects())
+	{
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Kernel initialization failed! Resetting...!");
+		SJC_SYSTEM_RESET();
+	}
+}
+
+void SJC_TaskCommon_initThreads(void)
 {
 	/* Init Startup Tasks */
 	if (SJC_RET_NOK == InitOsThreads())
@@ -175,70 +168,63 @@ uint32_t SJC_TaskCommon_GetHighWaterMarkInfo(const eTaskHighWaterMarkInfoList_t 
 
 void SJC_TaskCommon_UpdateHighWaterMarkInfo(void)
 {
-	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK] = uxTaskGetStackHighWaterMark(ControllerAndMeasurementsTaskHandle);
-	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK] = uxTaskGetStackHighWaterMark(DataLoggerTaskHandle);
 	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_NETWORK_TASK] = uxTaskGetStackHighWaterMark(NetworkTaskHandle);
 	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_WATCHDOG_TASK] = uxTaskGetStackHighWaterMark(WatchdogTaskHandle);
+	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_DATA_LOGGER_TASK] = uxTaskGetStackHighWaterMark(DataLoggerTaskHandle);
+	xTaskHighWaterMarkMeasurements[TASK_HIGH_WTM_INFO_CONTROLLER_MEAS_TASK] = uxTaskGetStackHighWaterMark(ControllerAndMeasurementsTaskHandle);
 }
 
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eSjcReturnType_t InitOsThreads(void)
+eSjcReturnType_t InitOsObjects(void)
 {
 	// Shared queues creation
-
 	xDataLoggerQueueHandle = xQueueCreateStatic(DATA_LOGGER_QUEUE_LENGTH,
 												DATA_LOGGER_ITEM_SIZE,
 												ucDataLoggerQueueStorageArea,
 												&xDataLoggerStaticQueue);
 
-	configASSERT(xDataLoggerQueueHandle);
+	if (NULL == xDataLoggerQueueHandle)
+	{
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Datalogger queue not initiated...");
+		return SJC_RET_NOK;
+	}
 
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t InitOsThreads(void)
+{
 	// Tasks creation
-	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
-	DataLoggerTaskHandle = osThreadNew(DataLoggerTaskApp, NULL, &DataLoggerTask_attributes);
 	NetworkTaskHandle = osThreadNew(NetworkTaskApp, NULL, &NetworkTask_attributes);
-	//	ControllerTaskHandle = osThreadNew(ControllerTaskApp, NULL, &ControllerTask_attributes);
-	//	MeasurementsTaskHandle = osThreadNew(MeasurementsTaskApp, NULL, &MeasurementsTask_attributes);
-	ControllerAndMeasurementsTaskHandle = osThreadNew(ControllerMeasTaskApp, NULL, &ControllerAndMeasurementsTask_attributes);
-
 	if (NULL == NetworkTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Network task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	DataLoggerTaskHandle = osThreadNew(DataLoggerTaskApp, NULL, &DataLoggerTask_attributes);
 	if (NULL == DataLoggerTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Data logger task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	WatchdogTaskHandle = osThreadNew(WatchdogTaskApp, NULL, &WatchdogTask_attributes);
 	if (NULL == WatchdogTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Watchdog task not initiated...");
 		return SJC_RET_NOK;
 	}
 
+	ControllerAndMeasurementsTaskHandle = osThreadNew(ControllerMeasTaskApp, NULL, &ControllerAndMeasurementsTask_attributes);
 	if (NULL == ControllerAndMeasurementsTaskHandle)
 	{
 		DebugOutput_systemPrintf("\r\n[OS FAULT] Controller and measurements task not initiated...");
 		return SJC_RET_NOK;
 	}
-
-	//	if (NULL == ControllerTaskHandle)
-	//	{
-	//		DebugOutput_SystemPrintf("\r\n[OS FAULT] Joint controller task not initiated...");
-	//		return SJC_RET_NOK;
-	//	}
-	//
-	//	if (NULL == MeasurementsTaskHandle)
-	//	{
-	//		DebugOutput_SystemPrintf("\r\n[OS FAULT] Analog measurements task not initiated...");
-	//		return SJC_RET_NOK;
-	//	}
 
 	return SJC_RET_OK;
 }

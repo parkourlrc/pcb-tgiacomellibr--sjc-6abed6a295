@@ -373,35 +373,17 @@ eSjcReturnType_t SjcInterface::setDigitalOutputsStates(const xSjcOutputsStates_t
     }
 }
 
-eSjcReturnType_t SjcInterface::setAdcFilterMode(const eSjcAdcFilterMode_t mode)
+eSjcReturnType_t SjcInterface::setAdcFilterMode(const eSjcAdcFilterMode_t mode, const float cutoff_frequency)
 {
-    const int nb = 2;
+    const int nb = 4;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_MODE_UPDATE, ADC_FILTER_MODE_UPDATE_OFFSET)] = ADC_FILTER_MODE_UPDATE_MSK;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_MODE, ADC_FILTER_MODE_UPDATE_OFFSET)] = mode;
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_MODE, ADC_FILTER_CONFIG_UPDATE_OFFSET)] = mode;
+    compose_byte_array_from_float(cutoff_frequency, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY, ADC_FILTER_CONFIG_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_UPDATE, ADC_FILTER_CONFIG_UPDATE_OFFSET)] = ADC_FILTER_CONFIG_UPDATE_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_MODE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_CONFIG_MODE, nb, tab_reg))
     {
-        return SJC_RET_OK;
-    }
-    else
-    {
-        return SJC_RET_NOK;
-    }
-}
-
-eSjcReturnType_t SjcInterface::setAdcFilterCutoffFrequency(const float fc)
-{
-    const int nb = 3;
-    uint16_t tab_reg[nb];
-
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY_UPDATE, ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_OFFSET)] = ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_MSK;
-    compose_byte_array_from_float(fc, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY, ADC_FILTER_CUTOFF_FREQUENCY_UPDATE_OFFSET)]);
-
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_CUTOFF_FREQUENCY, nb, tab_reg))
-    {
-
         return SJC_RET_OK;
     }
     else

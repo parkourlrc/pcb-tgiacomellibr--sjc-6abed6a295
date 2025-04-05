@@ -15,6 +15,5 @@ eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress);
 eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate);
 eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity);
 void ModbusNetwork_update(void);
-void ModbusNetwork_processReceivedData(void);
 
 #endif /* MOTOR_H_ */

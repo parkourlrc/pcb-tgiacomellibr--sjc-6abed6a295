@@ -81,7 +81,7 @@ void WatchdogTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS);
 
-		SJC_GetTime(SJC_TIME_MS, &TaskTic);
+		SJC_getTime(SJC_TIME_MS, &TaskTic);
 
 		switch (xWatchdogState)
 		{
@@ -128,7 +128,7 @@ void WatchdogTaskApp(void *argument)
 			break;
 		}
 
-		SJC_GetTime(SJC_TIME_MS, &TaskToc);
+		SJC_getTime(SJC_TIME_MS, &TaskToc);
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc - TaskTic));
 
 		osDelayUntil(tick);
@@ -136,37 +136,4 @@ void WatchdogTaskApp(void *argument)
 	/* USER CODE END MainTaskApp */
 }
 
-// void configureTimerForRunTimeStats(void)
-//{
-//	MX_TIM6_Init();
-//
-//	ulHighFrequencyTimerTicks = 0;
-//
-//	LL_TIM_SetCounter(TIM6, 0);
-//	LL_TIM_EnableIT_UPDATE(TIM6);
-//	LL_TIM_EnableCounter(TIM6);
-// }
-
-// unsigned long getRunTimeCounterValue(void)
-//{
-//	return osKernelGetTickCount();
-// }
-
-// void TIM6_DAC_IRQHandler(void)
-//{
-//	if (LL_TIM_IsActiveFlag_UPDATE(TIM6) & LL_TIM_IsEnabledIT_UPDATE(TIM6))
-//	{
-//		LL_TIM_ClearFlag_UPDATE(TIM6);
-//		ulHighFrequencyTimerTicks++;
-//	}
-// }
-
-// void TIM6_DAC_IRQHandler(void)
-//{
-//	if (LL_TIM_IsActiveFlag_UPDATE(TIM6) & LL_TIM_IsEnabledIT_UPDATE(TIM6))
-//	{
-//		LL_TIM_ClearFlag_UPDATE(TIM6);
-//		ulHighFrequencyTimerTicks++;
-//	}
-// }
 //  ------------------------------------------------------------------- //

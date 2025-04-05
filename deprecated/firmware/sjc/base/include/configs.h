@@ -15,7 +15,7 @@
 
 // Hardware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
-#define SJC_HW_VERSION_MAJOR 1U // First PCB layout
+#define SJC_HW_VERSION_MAJOR 1U
 #define SJC_HW_VERSION_MINOR 0U
 
 // Firmware info ------------------------------------------------------------------ //
@@ -70,10 +70,10 @@
 
 // Actuator Configs --------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-// #if SJC_HW_VERSION_MAJOR > 1
-// #define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_DRIVER_nEN_Pin
-// #define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_DRIVER_nEN_GPIO_Port
-// #endif
+#if SJC_HW_VERSION_MAJOR > 1
+#define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_DRIVER_nEN_Pin
+#define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_DRIVER_nEN_GPIO_Port
+#endif
 
 #define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PORT V_MOTOR_nEN_GPIO_Port
 #define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PIN V_MOTOR_nEN_Pin
@@ -103,15 +103,16 @@
 #define SJC_ISOLATED_INPUT_A_PORT GP_ISO_IN_A_GPIO_Port
 #define SJC_ISOLATED_INPUT_B_PORT GP_ISO_IN_B_GPIO_Port
 
-// #if SJC_HW_VERSION_MAJOR > 1
-// #define SJC_NET_ADDR_A_INPUT_PIN NET_ADDR_A_Pin
-// #define SJC_NET_ADDR_B_INPUT_PIN NET_ADDR_B_Pin
-// #define SJC_NET_ADDR_C_INPUT_PIN NET_ADDR_C_Pin
+#if SJC_HW_VERSION_MAJOR > 1
+#define SJC_NET_ADDR_A_INPUT_PIN NET_ADDR_A_Pin
+#define SJC_NET_ADDR_B_INPUT_PIN NET_ADDR_B_Pin
+#define SJC_NET_ADDR_C_INPUT_PIN NET_ADDR_C_Pin
 
-// #define SJC_NET_ADDR_A_INPUT_PORT NET_ADDR_A_GPIO_Port
-// #define SJC_NET_ADDR_B_INPUT_PORT NET_ADDR_B_GPIO_Port
-// #define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
-// #endif
+#define SJC_NET_ADDR_A_INPUT_PORT NET_ADDR_A_GPIO_Port
+#define SJC_NET_ADDR_B_INPUT_PORT NET_ADDR_B_GPIO_Port
+#define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
+#endif
+
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //

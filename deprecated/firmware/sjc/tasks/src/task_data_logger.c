@@ -67,11 +67,11 @@ void DataLoggerTaskApp(void *argument)
 	{
 		if (xQueueReceive(xDataLoggerQueueHandle, &xQueueMsg, pdMS_TO_TICKS(portMAX_DELAY)) == pdPASS)
 		{
-			SJC_GetTime(SJC_TIME_MS, &TaskTic);
+			SJC_getTime(SJC_TIME_MS, &TaskTic);
 
 			TransmitLogData(xQueueMsg);
 
-			SJC_GetTime(SJC_TIME_MS, &TaskToc);
+			SJC_getTime(SJC_TIME_MS, &TaskToc);
 
 			SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc - TaskTic));
 		}

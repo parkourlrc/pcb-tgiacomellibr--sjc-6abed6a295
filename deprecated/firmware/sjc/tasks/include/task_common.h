@@ -37,7 +37,8 @@ typedef struct
 } TaskTimeMeasurement_t;
 static const TaskTimeMeasurement_t TaskTimeMeasurementEmptyObj = {0};
 
-void SJC_TaskCommon_Init(void);
+void SJC_TaskCommon_initObjects(void);
+void SJC_TaskCommon_initThreads(void);
 
 float SJC_TaskCommon_GetTimeMeasurement(const eTimeLogFunctionList_t time_log_fcn);
 void SJC_TaskCommon_SetTimeMeasurement(const eTimeLogFunctionList_t time_log_fcn, const uint32_t time);

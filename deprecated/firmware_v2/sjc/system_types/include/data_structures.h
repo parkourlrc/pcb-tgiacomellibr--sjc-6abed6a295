@@ -11,6 +11,7 @@
 // System includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "stm32f446xx.h"
+#include "base/include/configs.h"
 // ------------------------------------------------------------------- //
 
 // Definitions and enumerations -------------------------------------- //
@@ -98,9 +99,11 @@ typedef enum
 	SJC_JOINT_SWITCH_B,
 	SJC_ISOLATED_INPUT_A,
 	SJC_ISOLATED_INPUT_B,
+#if SJC_HW_VERSION_MAJOR > 1
 	SJC_NET_ADDR_A_INPUT,
 	SJC_NET_ADDR_B_INPUT,
 	SJC_NET_ADDR_C_INPUT,
+#endif
 	SJC_DIGITAL_INPUTS_SIZE
 } eSjcDigitalInputs_t;
 
