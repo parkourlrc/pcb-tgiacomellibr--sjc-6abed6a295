@@ -216,7 +216,7 @@ static void RunControlLoop(void)
 		{
 			JointMeasurements.ControlAction = ZERO_FLOAT;
 
-			if (control_mode_updated_)
+			if ((control_mode_updated_) && (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx))
 			{
 				control_mode_updated_ = false;
 				CurrentBiasMeasurementIdx = 0;
@@ -232,7 +232,8 @@ static void RunControlLoop(void)
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
 				CurrentBias /= CurrentBiasMeasurementIdx;
 				SJC_setJointActuatorCurrentBias(CurrentBias);
-				DataLogger_transmit("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
+				DataLogger_transmit("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
+				DebugOutput_systemPrintf("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
 				SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
 				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);

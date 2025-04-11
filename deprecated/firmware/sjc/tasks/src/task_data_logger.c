@@ -49,6 +49,7 @@ static uint32_t TaskTic, TaskToc;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
+void InitLogTerminal(void);
 void TransmitLogData(const xSjcJointControllerMeasurements_t data);
 // ------------------------------------------------------------------- //
 
@@ -61,6 +62,7 @@ void DataLoggerTaskApp(void *argument)
 	xSjcJointControllerMeasurements_t xQueueMsg = xSjcJointControllerMeasurementsEmptyObj;
 
 	DebugOutput_systemPrintf("\r\n[OS] Data logger task initiated!");
+	InitLogTerminal();
 
 	/* Infinite loop */
 	for (;;)
@@ -77,6 +79,11 @@ void DataLoggerTaskApp(void *argument)
 		}
 	}
 	/* USER CODE END MainTaskApp */
+}
+
+void InitLogTerminal(void)
+{
+	DataLogger_transmit("\n\n\n\r%%%%Timestamp, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorDisplacement, ActuatorSpeedRpm, ControllerReference, ControllerError");
 }
 
 void TransmitLogData(const xSjcJointControllerMeasurements_t Log)

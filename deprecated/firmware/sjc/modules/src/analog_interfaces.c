@@ -149,18 +149,18 @@ void AnalogInterfaces_setFilterMode(const eSjcAdcFilterMode_t mode, const float 
 	{
 		xAdcFilterMode = mode;
 
-		DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter mode: %u", mode);
+		DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter mode: %u", mode);
 
 		if ((xAdcFilterMode == ADC_FILTER_EXPONENTIAL) || (xAdcFilterMode == ADC_FILTER_EXP_THEN_BOX) || (xAdcFilterMode == ADC_FILTER_BOX_THEN_EXP))
 		{
 			float fs = (xAdcFilterMode == ADC_FILTER_BOX_THEN_EXP) ? ANALOG_MEASUREMENT_ISR_FREQUENCY : ANALOG_IFACE_ISR_FREQUENCY;
-			DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter sampling frequency: %.2f Hz", fs);
+			DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter sampling frequency: %.2f Hz", fs);
 			for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
 			{
 				ExponentialFilter_set_sampling_frequency(&channel_filters[ch].exp, fs);
 				ExponentialFilter_set_cutoff(&channel_filters[ch].exp, fc);
 			}
-			DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter cutoff frequency: %.2f Hz", fc);
+			DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter cutoff frequency: %.2f Hz", fc);
 		}
 	}
 	else
