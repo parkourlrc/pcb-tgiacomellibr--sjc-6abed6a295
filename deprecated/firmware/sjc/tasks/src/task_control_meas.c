@@ -9,7 +9,6 @@
 // ------------------------------------------------------------------- //
 #include "cmsis_os.h"
 #include "main.h"
-#include <modules/include/modbus_network.h>
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -25,8 +24,11 @@
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
+#include "modules/include/debug_output.h"
 #include "modules/include/test_signals.h"
 #include "tasks/include/task_common.h"
+
+#include "modules/include/discrete_controller.h"
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
@@ -127,6 +129,12 @@ void ControllerMeasTaskApp(void *argument)
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
 
+	/*
+	 * Discrete controller tests
+	 */
+	DiscreteController_init();
+	DiscreteController_setOutputLimits(-24.0f, 24.0f);
+
 	/* Infinite loop */
 	for (;;)
 	{
@@ -195,8 +203,9 @@ static void RunControlLoop(void)
 			break;
 
 		case SJC_CURRENT_CONTROL:
-			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
-			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+//			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
+//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
 			break;
 
 		case SJC_SPEED_CONTROL:
