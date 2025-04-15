@@ -257,7 +257,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 90.17) (xy 138.43 90.17)
+			(xy 74.93 88.9) (xy 138.43 88.9)
 		)
 		(stroke
 			(width 0)
@@ -277,7 +277,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 85.09) (xy 138.43 85.09)
+			(xy 74.93 83.82) (xy 138.43 83.82)
 		)
 		(stroke
 			(width 0)
@@ -287,7 +287,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 97.79) (xy 138.43 97.79)
+			(xy 74.93 96.52) (xy 138.43 96.52)
 		)
 		(stroke
 			(width 0)
@@ -347,7 +347,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 80.01) (xy 138.43 80.01)
+			(xy 74.93 78.74) (xy 138.43 78.74)
 		)
 		(stroke
 			(width 0)
@@ -357,7 +357,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 77.47) (xy 138.43 77.47)
+			(xy 74.93 76.2) (xy 138.43 76.2)
 		)
 		(stroke
 			(width 0)
@@ -407,7 +407,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 82.55) (xy 138.43 82.55)
+			(xy 74.93 81.28) (xy 138.43 81.28)
 		)
 		(stroke
 			(width 0)
@@ -447,7 +447,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 100.33) (xy 138.43 100.33)
+			(xy 74.93 99.06) (xy 138.43 99.06)
 		)
 		(stroke
 			(width 0)
@@ -477,7 +477,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 92.71) (xy 138.43 92.71)
+			(xy 74.93 91.44) (xy 138.43 91.44)
 		)
 		(stroke
 			(width 0)
@@ -537,7 +537,7 @@
 	)
 	(symbol
 		(lib_id "Graphic:Logo_Open_Hardware_Small")
-		(at 276.86 173.99 0)
+		(at 274.32 175.26 0)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -546,7 +546,7 @@
 		(fields_autoplaced yes)
 		(uuid "2b7ef822-2381-4a25-a1c8-7298c2980939")
 		(property "Reference" "SYM1"
-			(at 276.86 167.005 0)
+			(at 274.32 168.275 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -555,7 +555,7 @@
 			)
 		)
 		(property "Value" "Logo_Open_Hardware_Small"
-			(at 276.86 179.705 0)
+			(at 274.32 180.975 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -564,7 +564,7 @@
 			)
 		)
 		(property "Footprint" "Symbol:OSHW-Logo2_9.8x8mm_SilkScreen"
-			(at 276.86 173.99 0)
+			(at 274.32 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -573,7 +573,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 276.86 173.99 0)
+			(at 274.32 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -582,7 +582,7 @@
 			)
 		)
 		(property "Description" "Open Hardware logo, small"
-			(at 276.86 173.99 0)
+			(at 274.32 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -601,7 +601,8 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 278.13 157.48 270)
+		(at 260.35 172.72 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -609,7 +610,7 @@
 		(dnp no)
 		(uuid "a948f5fb-f19a-4d40-96dd-65d10372d9da")
 		(property "Reference" "H3"
-			(at 280.67 158.115 90)
+			(at 257.81 173.355 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -618,7 +619,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 276.225 160.02 0)
+			(at 262.255 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -628,7 +629,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
-			(at 278.13 157.48 0)
+			(at 260.35 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -637,7 +638,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 278.13 157.48 0)
+			(at 260.35 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -646,7 +647,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 278.13 157.48 0)
+			(at 260.35 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -665,7 +666,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 273.05 162.56 90)
+		(at 247.65 177.8 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -674,7 +675,7 @@
 		(dnp no)
 		(uuid "d2bbca8b-b550-4a67-9bc7-87f1a4d3fba5")
 		(property "Reference" "H2"
-			(at 270.51 163.195 90)
+			(at 245.11 178.435 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -683,7 +684,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 274.955 165.1 0)
+			(at 249.555 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -693,7 +694,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
-			(at 273.05 162.56 0)
+			(at 247.65 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -702,7 +703,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 273.05 162.56 0)
+			(at 247.65 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -711,7 +712,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 273.05 162.56 0)
+			(at 247.65 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -730,7 +731,8 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 278.13 162.56 270)
+		(at 260.35 177.8 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
 		(in_bom no)
@@ -738,7 +740,7 @@
 		(dnp no)
 		(uuid "f3a49953-1277-4a4d-9458-51efdb683352")
 		(property "Reference" "H4"
-			(at 280.67 163.195 90)
+			(at 257.81 178.435 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -747,7 +749,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 276.225 165.1 0)
+			(at 262.255 180.34 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -757,7 +759,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
-			(at 278.13 162.56 0)
+			(at 260.35 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -766,7 +768,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 278.13 162.56 0)
+			(at 260.35 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -775,7 +777,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 278.13 162.56 0)
+			(at 260.35 177.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -794,7 +796,7 @@
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole")
-		(at 273.05 157.48 90)
+		(at 247.65 172.72 90)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim yes)
@@ -803,7 +805,7 @@
 		(dnp no)
 		(uuid "fea881cf-9d7c-43b7-99cc-fda8b18cecb6")
 		(property "Reference" "H1"
-			(at 270.51 158.115 90)
+			(at 245.11 173.355 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -812,7 +814,7 @@
 			)
 		)
 		(property "Value" "MountingHole"
-			(at 274.955 160.02 0)
+			(at 249.555 175.26 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -822,7 +824,7 @@
 			)
 		)
 		(property "Footprint" "MountingHole:MountingHole_3.2mm_M3_ISO7380"
-			(at 273.05 157.48 0)
+			(at 247.65 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -831,7 +833,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 273.05 157.48 0)
+			(at 247.65 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -840,7 +842,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 273.05 157.48 0)
+			(at 247.65 172.72 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1200,7 +1202,7 @@
 			)
 		)
 		(pin "JOINT_ENC_A" output
-			(at 138.43 77.47 180)
+			(at 138.43 76.2 180)
 			(uuid "ac513aab-7fd8-47d6-826f-af32ad464dae")
 			(effects
 				(font
@@ -1210,7 +1212,7 @@
 			)
 		)
 		(pin "JOINT_ENC_B" output
-			(at 138.43 80.01 180)
+			(at 138.43 78.74 180)
 			(uuid "d68b862d-010e-4f02-a0b5-ad184e47aaa5")
 			(effects
 				(font
@@ -1220,7 +1222,7 @@
 			)
 		)
 		(pin "JOINT_SW_A" output
-			(at 138.43 82.55 180)
+			(at 138.43 81.28 180)
 			(uuid "3ab5d4ee-418f-4934-8670-16631eab1795")
 			(effects
 				(font
@@ -1230,7 +1232,7 @@
 			)
 		)
 		(pin "JOINT_SW_B" output
-			(at 138.43 85.09 180)
+			(at 138.43 83.82 180)
 			(uuid "637b6928-b0ee-4d5a-a7a4-fe93f593794a")
 			(effects
 				(font
@@ -1240,7 +1242,7 @@
 			)
 		)
 		(pin "AUX2_ENC_B" output
-			(at 138.43 92.71 180)
+			(at 138.43 91.44 180)
 			(uuid "dfd7ee78-fde5-4b17-8ae8-c6cbc988eca6")
 			(effects
 				(font
@@ -1250,7 +1252,7 @@
 			)
 		)
 		(pin "AUX2_ENC_A" output
-			(at 138.43 90.17 180)
+			(at 138.43 88.9 180)
 			(uuid "0a36f6ee-d549-424a-aa83-cc60bbdee20d")
 			(effects
 				(font
@@ -1260,7 +1262,7 @@
 			)
 		)
 		(pin "AUX1_ENC_B" output
-			(at 138.43 100.33 180)
+			(at 138.43 99.06 180)
 			(uuid "48a10535-c619-4c6c-a3e6-9c099b9691e0")
 			(effects
 				(font
@@ -1270,7 +1272,7 @@
 			)
 		)
 		(pin "AUX1_ENC_A" output
-			(at 138.43 97.79 180)
+			(at 138.43 96.52 180)
 			(uuid "4847d48e-e853-4ee5-826a-e90c50914b6e")
 			(effects
 				(font
@@ -1372,7 +1374,7 @@
 			)
 		)
 		(pin "JOINT_ENC_CH2" input
-			(at 74.93 80.01 0)
+			(at 74.93 78.74 0)
 			(uuid "d54a3902-32f5-45b5-a920-8a5f54661dd8")
 			(effects
 				(font
@@ -1382,7 +1384,7 @@
 			)
 		)
 		(pin "JOINT_ENC_CH1" input
-			(at 74.93 77.47 0)
+			(at 74.93 76.2 0)
 			(uuid "a1f0f464-045c-4071-9b43-68b7548b9b36")
 			(effects
 				(font
@@ -1392,7 +1394,7 @@
 			)
 		)
 		(pin "AUX1_ENC_CH1" input
-			(at 74.93 97.79 0)
+			(at 74.93 96.52 0)
 			(uuid "54bc3929-512b-4bbd-9369-11538334b1e7")
 			(effects
 				(font
@@ -1402,7 +1404,7 @@
 			)
 		)
 		(pin "AUX1_ENC_CH2" input
-			(at 74.93 100.33 0)
+			(at 74.93 99.06 0)
 			(uuid "5477bc7a-a298-4ecc-a0b1-7c18f2c10d89")
 			(effects
 				(font
@@ -1412,7 +1414,7 @@
 			)
 		)
 		(pin "AUX2_ENC_CH2" input
-			(at 74.93 92.71 0)
+			(at 74.93 91.44 0)
 			(uuid "8b909ef7-7c70-476d-b8a7-a689a466216f")
 			(effects
 				(font
@@ -1422,7 +1424,7 @@
 			)
 		)
 		(pin "AUX2_ENC_CH1" input
-			(at 74.93 90.17 0)
+			(at 74.93 88.9 0)
 			(uuid "f49bb7b1-0dcf-476b-8b42-ace0947d12f2")
 			(effects
 				(font
@@ -1472,7 +1474,7 @@
 			)
 		)
 		(pin "JOINT_SW_L" input
-			(at 74.93 82.55 0)
+			(at 74.93 81.28 0)
 			(uuid "e2376be5-7f8f-4696-ba61-0022b18bbc55")
 			(effects
 				(font
@@ -1482,7 +1484,7 @@
 			)
 		)
 		(pin "JOINT_SW_R" input
-			(at 74.93 85.09 0)
+			(at 74.93 83.82 0)
 			(uuid "a8cad783-b713-4196-ae6f-33cf9f4c4dea")
 			(effects
 				(font

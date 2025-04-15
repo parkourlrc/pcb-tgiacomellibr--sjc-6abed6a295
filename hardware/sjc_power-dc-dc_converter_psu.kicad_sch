@@ -4118,7 +4118,7 @@
 			)
 		)
 		(property "Value" "DC Output"
-			(at 260.35 140.208 90)
+			(at 260.096 138.684 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4126,7 +4126,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_AMASS:AMASS_XT30UPB-F_1x02_P5.0mm_Vertical"
+		(property "Footprint" "TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-3-2-5.08_1x02_P5.08mm_Horizontal"
 			(at 262.89 133.35 0)
 			(effects
 				(font
@@ -4145,6 +4145,33 @@
 			)
 		)
 		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 262.89 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "DIBO"
+			(at 262.89 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "DB128V-5.08-2P-GN-S"
+			(at 262.89 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C2915639"
 			(at 262.89 133.35 0)
 			(effects
 				(font

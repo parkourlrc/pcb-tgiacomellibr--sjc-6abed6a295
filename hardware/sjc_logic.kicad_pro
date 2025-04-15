@@ -857,6 +857,9 @@
       "Net-(D11-K)": [
         "DRV_HV"
       ],
+      "Net-(D2-A)": [
+        "DRV_LV"
+      ],
       "Net-(D3-A)": [
         "DRV_LV"
       ],

@@ -17134,7 +17134,7 @@
 			(pin input line
 				(at -7.62 2.54 0)
 				(length 2.54)
-				(name "IN1+"
+				(name "+"
 					(effects
 						(font
 							(size 0.9906 0.9906)
@@ -17152,7 +17152,7 @@
 			(pin input line
 				(at -7.62 -2.54 0)
 				(length 2.54)
-				(name "IN1-"
+				(name "-"
 					(effects
 						(font
 							(size 0.9906 0.9906)
@@ -17168,7 +17168,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 5.08 270)
+				(at -2.54 6.35 270)
 				(length 2.54)
 				(name "V+"
 					(effects
@@ -17186,7 +17186,7 @@
 				)
 			)
 			(pin power_in line
-				(at 0 -5.08 90)
+				(at -2.54 -6.35 90)
 				(length 2.54)
 				(name "V-"
 					(effects
@@ -17206,7 +17206,7 @@
 			(pin output line
 				(at 7.62 0 180)
 				(length 2.54)
-				(name "OUT1"
+				(name "~"
 					(effects
 						(font
 							(size 0.9906 0.9906)
@@ -17240,7 +17240,7 @@
 			(pin input line
 				(at -7.62 2.54 0)
 				(length 2.54)
-				(name "IN2+"
+				(name "+"
 					(effects
 						(font
 							(size 0.9906 0.9906)
@@ -17258,7 +17258,7 @@
 			(pin input line
 				(at -7.62 -2.54 0)
 				(length 2.54)
-				(name "IN2-"
+				(name "-"
 					(effects
 						(font
 							(size 0.9906 0.9906)
@@ -17276,7 +17276,7 @@
 			(pin output line
 				(at 7.62 0 180)
 				(length 2.54)
-				(name "OUT2"
+				(name "~"
 					(effects
 						(font
 							(size 0.9906 0.9906)

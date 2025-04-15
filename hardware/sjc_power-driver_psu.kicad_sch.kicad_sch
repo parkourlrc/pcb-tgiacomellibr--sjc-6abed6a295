@@ -1838,7 +1838,7 @@
 		(uuid "3d86f335-9d28-4f25-b68e-cdc48c670c3e")
 	)
 	(junction
-		(at 120.65 123.19)
+		(at 120.65 118.11)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4642a66c-816b-47e7-aa8a-cb5b522693de")
@@ -1856,7 +1856,7 @@
 		(uuid "773e161f-7914-4d16-9042-171b4f2163d9")
 	)
 	(junction
-		(at 110.49 111.76)
+		(at 110.49 106.68)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "867393c2-b820-4f25-9cb5-aaf96c818ebc")
@@ -1917,7 +1917,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 123.19) (xy 120.65 123.19)
+			(xy 110.49 118.11) (xy 120.65 118.11)
 		)
 		(stroke
 			(width 0)
@@ -1927,7 +1927,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 119.38) (xy 110.49 123.19)
+			(xy 110.49 114.3) (xy 110.49 118.11)
 		)
 		(stroke
 			(width 0)
@@ -1947,7 +1947,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 116.84) (xy 120.65 123.19)
+			(xy 120.65 111.76) (xy 120.65 118.11)
 		)
 		(stroke
 			(width 0)
@@ -1977,7 +1977,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 111.76) (xy 110.49 114.3)
+			(xy 110.49 106.68) (xy 110.49 109.22)
 		)
 		(stroke
 			(width 0)
@@ -2008,7 +2008,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 123.19) (xy 120.65 127)
+			(xy 120.65 118.11) (xy 120.65 121.92)
 		)
 		(stroke
 			(width 0)
@@ -2088,7 +2088,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 87.63) (xy 120.65 106.68)
+			(xy 120.65 87.63) (xy 120.65 101.6)
 		)
 		(stroke
 			(width 0)
@@ -2220,6 +2220,16 @@
 	)
 	(wire
 		(pts
+			(xy 97.79 106.68) (xy 102.87 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9249f6a2-aa4f-42e0-aa59-5300840ff12d")
+	)
+	(wire
+		(pts
 			(xy 167.64 83.82) (xy 167.64 93.98)
 		)
 		(stroke
@@ -2320,7 +2330,7 @@
 	)
 	(wire
 		(pts
-			(xy 110.49 111.76) (xy 113.03 111.76)
+			(xy 110.49 106.68) (xy 113.03 106.68)
 		)
 		(stroke
 			(width 0)
@@ -2392,7 +2402,7 @@
 	)
 	(wire
 		(pts
-			(xy 107.95 111.76) (xy 110.49 111.76)
+			(xy 107.95 106.68) (xy 110.49 106.68)
 		)
 		(stroke
 			(width 0)
@@ -2410,18 +2420,8 @@
 		)
 		(uuid "f415b7f0-2f9f-45db-bf08-cff3309c03d7")
 	)
-	(wire
-		(pts
-			(xy 88.9 111.76) (xy 102.87 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fbc5c2b7-707d-4eed-b708-ed0910e1f25c")
-	)
 	(label "DRIVER_~{EN}"
-		(at 120.65 97.79 270)
+		(at 120.65 92.71 270)
 		(effects
 			(font
 				(size 1 1)
@@ -2432,7 +2432,7 @@
 	)
 	(hierarchical_label "DRIVER_PSU_EN"
 		(shape input)
-		(at 88.9 111.76 180)
+		(at 97.79 106.68 180)
 		(effects
 			(font
 				(size 1 1)
@@ -2444,7 +2444,7 @@
 	(netclass_flag ""
 		(length 2.54)
 		(shape round)
-		(at 110.49 111.76 0)
+		(at 110.49 106.68 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2454,7 +2454,7 @@
 		)
 		(uuid "0a0278cd-07c0-4f7c-9884-4c8e14a33c48")
 		(property "Netclass" "DRV_HV"
-			(at 111.1885 109.22 0)
+			(at 111.1885 104.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2538,7 +2538,7 @@
 	)
 	(symbol
 		(lib_id "sjc_semiconductors:NDS7002A")
-		(at 118.11 111.76 0)
+		(at 118.11 106.68 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -2546,7 +2546,7 @@
 		(dnp no)
 		(uuid "0bcb3815-6c83-4cf7-9058-965cbc90e7e3")
 		(property "Reference" "Q6"
-			(at 123.19 111.125 0)
+			(at 123.19 106.045 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2555,7 +2555,7 @@
 			)
 		)
 		(property "Value" "NDS7002A"
-			(at 123.19 113.03 0)
+			(at 123.19 107.95 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2564,7 +2564,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23"
-			(at 129.54 117.475 0)
+			(at 129.54 112.395 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2575,7 +2575,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pdf/datasheet/nds7002a-d.pdf"
-			(at 124.46 115.57 0)
+			(at 124.46 110.49 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2585,7 +2585,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 118.11 111.76 0)
+			(at 118.11 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2594,7 +2594,7 @@
 			)
 		)
 		(property "MF" "onsemi"
-			(at 130.81 123.19 0)
+			(at 130.81 118.11 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2603,7 +2603,7 @@
 			)
 		)
 		(property "PN" "NDS7002A"
-			(at 132.08 121.92 0)
+			(at 132.08 116.84 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2612,7 +2612,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C74715"
-			(at 132.08 125.73 0)
+			(at 132.08 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2640,7 +2640,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 105.41 111.76 270)
+		(at 105.41 106.68 270)
 		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
@@ -2649,7 +2649,7 @@
 		(dnp no)
 		(uuid "114d4238-ec99-44eb-8540-100780153cd6")
 		(property "Reference" "R14"
-			(at 105.41 109.855 90)
+			(at 105.41 104.775 90)
 			(effects
 				(font
 					(size 1 1)
@@ -2657,7 +2657,7 @@
 			)
 		)
 		(property "Value" "1k 1%"
-			(at 105.41 113.665 90)
+			(at 105.41 108.585 90)
 			(effects
 				(font
 					(size 1 1)
@@ -2665,7 +2665,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 105.41 111.76 0)
+			(at 105.41 106.68 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2674,7 +2674,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 105.41 111.76 0)
+			(at 105.41 106.68 0)
 			(effects
 				(font
 					(size 1 1)
@@ -2683,7 +2683,7 @@
 			)
 		)
 		(property "Description" "Resistor, 1.0 kOhms, ±1%, 1/10W, SMD 0603"
-			(at 105.41 111.76 90)
+			(at 105.41 106.68 90)
 			(effects
 				(font
 					(size 1 1)
@@ -2692,7 +2692,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 105.41 111.76 90)
+			(at 105.41 106.68 90)
 			(effects
 				(font
 					(size 1 1)
@@ -2701,7 +2701,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-071KL"
-			(at 105.41 111.76 90)
+			(at 105.41 106.68 90)
 			(effects
 				(font
 					(size 1 1)
@@ -2710,7 +2710,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C22548"
-			(at 105.41 111.76 0)
+			(at 105.41 106.68 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3162,7 +3162,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 120.65 127 0)
+		(at 120.65 121.92 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3170,7 +3170,7 @@
 		(dnp no)
 		(uuid "60b5b700-e2a9-4569-9bcc-06761ebc3dc6")
 		(property "Reference" "#PWR024"
-			(at 120.65 133.35 0)
+			(at 120.65 128.27 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3179,7 +3179,7 @@
 			)
 		)
 		(property "Value" "DRIVER_GND"
-			(at 120.65 130.81 0)
+			(at 120.65 125.73 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3187,7 +3187,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 127 0)
+			(at 120.65 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3196,7 +3196,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 127 0)
+			(at 120.65 121.92 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3205,7 +3205,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 120.65 127 0)
+			(at 120.65 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3521,7 +3521,7 @@
 	)
 	(symbol
 		(lib_id "Device:R_Small_US")
-		(at 110.49 116.84 180)
+		(at 110.49 111.76 180)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -3529,7 +3529,7 @@
 		(dnp no)
 		(uuid "8ac16da2-cca2-43b4-bee8-e796631d2f1e")
 		(property "Reference" "R15"
-			(at 108.585 116.84 90)
+			(at 108.585 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3537,7 +3537,7 @@
 			)
 		)
 		(property "Value" "100k 1%"
-			(at 112.395 116.84 90)
+			(at 112.395 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3545,7 +3545,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
-			(at 110.49 116.84 0)
+			(at 110.49 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3554,7 +3554,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 110.49 116.84 0)
+			(at 110.49 111.76 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3563,7 +3563,7 @@
 			)
 		)
 		(property "Description" "Resistor, 100k Ohms, ±1%, 1/10W, SMD 0603"
-			(at 110.49 116.84 90)
+			(at 110.49 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3572,7 +3572,7 @@
 			)
 		)
 		(property "MF" "YAGEO"
-			(at 110.49 116.84 90)
+			(at 110.49 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3581,7 +3581,7 @@
 			)
 		)
 		(property "PN" "RC0603FR-07100KL"
-			(at 110.49 116.84 90)
+			(at 110.49 111.76 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3590,7 +3590,7 @@
 			)
 		)
 		(property "JLCPCB Part #" "C14675"
-			(at 110.49 116.84 0)
+			(at 110.49 111.76 0)
 			(effects
 				(font
 					(size 1.27 1.27)
