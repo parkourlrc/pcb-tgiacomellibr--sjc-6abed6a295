@@ -60,6 +60,7 @@ static eSjcControlMode_t ControlMode;
 static uint32_t ControllerPeriodSpec = 1000;
 static float ControlTs = 0;
 static uint32_t DeltaT = 0;
+static bool control_mode_updated_ = false;
 
 static float ActuatorSpeed = 0;
 static float ActuatorRelativeDisplacement = 0;
@@ -120,13 +121,9 @@ void ControllerMeasTaskApp(void *argument)
 
 	AnalogInterfaces_registerUpdateTaskHandle(&xControlAndMeasurementsTaskHandle);
 
-	AnalogInterfaces_setFilterMode(ADC_FILTER_EXPONENTIAL);
-	//	AnalogInterfaces_setFilterMode(ADC_FILTER_EXP_THEN_BOX);
-	//	AnalogInterfaces_setFilterMode(ADC_FILTER_BOX_THEN_EXP);
-
-	AnalogInterfaces_setExponentialCutoffFrequency(1000);
-
 	AnalogInterfaces_enable();
+
+	SJC_setControlMode(SJC_ANALOG_CALIBRATION);
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
 
@@ -216,20 +213,32 @@ static void RunControlLoop(void)
 			break;
 
 		default: // SJC_CURRENT_CALIBRATION
+		{
+			JointMeasurements.ControlAction = ZERO_FLOAT;
+
+			if (control_mode_updated_)
+			{
+				control_mode_updated_ = false;
+				CurrentBiasMeasurementIdx = 0;
+				osTimerStop(xHeartbeatTimerId);
+				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
+			}
 			SJC_getJointActuatorCurrent(&CurrentMeasurementAux);
 			CurrentBias += CurrentMeasurementAux;
 			CurrentBiasMeasurementIdx++;
+
 			if (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx)
 			{
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
 				CurrentBias /= CurrentBiasMeasurementIdx;
 				SJC_setJointActuatorCurrentBias(CurrentBias);
-				DataLogger_transmit("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
+				DebugOutput_systemPrintf("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
 				SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
 				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
 			}
-			break;
+		}
+		break;
 		}
 
 		// End stop ---------------------------------------------------------- //
@@ -259,6 +268,7 @@ static void ControllerParametersUpdate(void)
 {
 	// Controller configs update
 	SJC_getControlMode(&ControlMode);
+	SJC_isControlModeUpdated(&control_mode_updated_);
 	SJC_getControlUpdatePeriodMs(&ControllerPeriodSpec);
 	SJC_getControlParameters(&JointControllerParameters);
 	SJC_getControlReference(&JointMeasurements.ControllerReference);

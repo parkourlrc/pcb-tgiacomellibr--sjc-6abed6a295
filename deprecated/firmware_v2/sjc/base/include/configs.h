@@ -15,7 +15,7 @@
 
 // Hardware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
-#define SJC_HW_VERSION_MAJOR 1U
+#define SJC_HW_VERSION_MAJOR 2U
 #define SJC_HW_VERSION_MINOR 0U
 
 // Firmware info ------------------------------------------------------------------ //
@@ -133,8 +133,14 @@
 // Current Sensor ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define ANALOG_CURRENT_SENSOR_VREF ((float)2.5f)
+
 #define ACS712_GAIN ((float)0.1f)
+#if SJC_HW_VERSION_MAJOR > 1
+#define ACS712_ANALOG_FRONTED_GAIN ((float)0.6627f)
+#else
 #define ACS712_ANALOG_FRONTED_GAIN ((float)0.6667f)
+#endif
+
 #define AD8418_GAIN ((float)20.0f)
 #define AD8418_SHUNT_RESISTANCE ((float)0.008f)
 #define AD8418_ANALOG_FRONTED_GAIN ((float)0.7907f)

@@ -81,14 +81,9 @@ extern "C"
     /**
      * @brief Sets the ADC filtering mode dynamically at runtime.
      * @param[in] mode Filtering mode to be applied.
-     */
-    void AnalogInterfaces_setFilterMode(eSjcAdcFilterMode_t mode);
-
-    /**
-     * @brief Sets the exponential filter cutoff frequency for all channels.
      * @param[in] fc Cutoff frequency in Hz.
      */
-    void AnalogInterfaces_setExponentialCutoffFrequency(float fc);
+    void AnalogInterfaces_setFilterMode(const eSjcAdcFilterMode_t mode, const float fc);
 
 #ifdef __cplusplus
 }

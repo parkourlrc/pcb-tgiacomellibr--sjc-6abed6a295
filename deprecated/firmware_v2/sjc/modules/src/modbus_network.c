@@ -73,12 +73,6 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 		pxMBFrameCBByteReceived();
 	} while (xMBInitCount++ < MODBUS_USART_INIT_COUNT);
 
-	//	if( MB_ENOERR != ( eStatus = eMBSetSlaveID( 0x34, TRUE, ucSlaveID, 3 ) ) )
-	//	{
-	//		DebugOutput_SystemPrintf("\r\n[OS] Modbus slave address not set...");
-	//		/* Can not set slave id. Check arguments */
-	//		return SJC_RET_NOK;
-	//	}
 
 	if (MB_ENOERR != (eStatus = eMBEnable()))
 	{

@@ -50,9 +50,9 @@ StaticTask_t NetworkTaskControlBlock;
 // StaticTask_t MeasurementsTaskControlBlock;
 StaticTask_t ControllerAndMeasurementsTaskControlBlock;
 
-uint32_t WatchdogTaskBuffer[256];
+uint32_t WatchdogTaskBuffer[512];
 uint32_t DataLoggerTaskBuffer[2048];
-uint32_t NetworkTaskBuffer[2048];
+uint32_t NetworkTaskBuffer[3072];
 // uint32_t ControllerTaskBuffer[ 3072 ];
 // uint32_t MeasurementsTaskBuffer[ 256 ];
 uint32_t ControllerAndMeasurementsTaskBuffer[4096];

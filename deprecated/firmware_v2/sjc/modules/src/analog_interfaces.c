@@ -125,7 +125,7 @@ void AnalogInterfaces_init(void)
 		LL_TIM_EnableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 	}
 
-	AnalogInterfaces_setFilterMode(ADC_FILTER_NONE);
+	AnalogInterfaces_setFilterMode(ADC_FILTER_NONE, ANALOG_MEASUREMENT_ISR_FREQUENCY);
 }
 
 void AnalogInterfaces_enable(void)
@@ -143,37 +143,29 @@ void AnalogInterfaces_disable(void)
 	LL_ADC_DisableIT_JEOS(SJC_ADC_INSTANCE);
 }
 
-void AnalogInterfaces_setFilterMode(eSjcAdcFilterMode_t mode)
+void AnalogInterfaces_setFilterMode(const eSjcAdcFilterMode_t mode, const float fc)
 {
 	if (mode < ADC_FILTER_MODE_SIZE)
 	{
 		xAdcFilterMode = mode;
 
-		DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter mode: %u", mode);
+		DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter mode: %u", mode);
 
 		if ((xAdcFilterMode == ADC_FILTER_EXPONENTIAL) || (xAdcFilterMode == ADC_FILTER_EXP_THEN_BOX) || (xAdcFilterMode == ADC_FILTER_BOX_THEN_EXP))
 		{
 			float fs = (xAdcFilterMode == ADC_FILTER_BOX_THEN_EXP) ? ANALOG_MEASUREMENT_ISR_FREQUENCY : ANALOG_IFACE_ISR_FREQUENCY;
-			DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter sampling frequency: %.2f Hz", fs);
+			DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter sampling frequency: %.2f Hz", fs);
 			for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
 			{
 				ExponentialFilter_set_sampling_frequency(&channel_filters[ch].exp, fs);
+				ExponentialFilter_set_cutoff(&channel_filters[ch].exp, fc);
 			}
+			DebugOutput_systemPrintf("\r\n[SJC] ADC Digital filter cutoff frequency: %.2f Hz", fc);
 		}
 	}
 	else
 	{
 		xAdcFilterMode = ADC_FILTER_NONE;
-	}
-}
-
-void AnalogInterfaces_setExponentialCutoffFrequency(float fc)
-{
-	DebugOutput_systemPrintf("\r\n[OS] ADC Digital filter cutoff frequency: %.2f Hz", fc);
-
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		ExponentialFilter_set_cutoff(&channel_filters[ch].exp, fc);
 	}
 }
 
@@ -227,11 +219,8 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType
 			*value /= (AD8418_SHUNT_RESISTANCE * AD8418_GAIN);
 			break;
 		case SJC_CURRENT_SENSOR_AUX:
-//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
-//			*value /= ACS712_GAIN;
-			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]-(1.6566);
-			*value /= (0.066265);
-
+			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+			*value /= ACS712_GAIN;
 			break;
 		case SJC_VOLTAGE_SENSOR:
 			*value = xAdcMeasurementValueBuffer[MOTOR_VOLTAGE_CONV] * VOLTAGE_SENSOR_RESISTIVE_CONDITIONER_GAIN;
