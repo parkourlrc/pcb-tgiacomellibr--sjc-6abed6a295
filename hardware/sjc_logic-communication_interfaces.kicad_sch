@@ -7267,7 +7267,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0446fedb-cb16-4b43-8a43-15cf405f6e20")
-		(property "Reference" "R104"
+		(property "Reference" "R108"
 			(at 232.41 112.522 90)
 			(effects
 				(font
@@ -7346,7 +7346,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R104")
+					(reference "R108")
 					(unit 1)
 				)
 			)
@@ -7492,7 +7492,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "11f1e534-198b-4a8e-bf8a-22b2a8e6eff0")
-		(property "Reference" "C70"
+		(property "Reference" "C72"
 			(at 255.27 99.06 90)
 			(effects
 				(font
@@ -7571,7 +7571,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C70")
+					(reference "C72")
 					(unit 1)
 				)
 			)
@@ -7586,7 +7586,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "11f38eb9-1dff-4168-a86c-eed6b6b84663")
-		(property "Reference" "C63"
+		(property "Reference" "C65"
 			(at 102.87 180.34 90)
 			(effects
 				(font
@@ -7665,7 +7665,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C63")
+					(reference "C65")
 					(unit 1)
 				)
 			)
@@ -7747,7 +7747,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1a16f573-19ae-4b28-ad1c-406f873e2149")
-		(property "Reference" "U21"
+		(property "Reference" "U22"
 			(at 113.284 128.524 0)
 			(effects
 				(font
@@ -7840,7 +7840,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U21")
+					(reference "U22")
 					(unit 1)
 				)
 			)
@@ -7855,7 +7855,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1a26c769-65ec-4ec7-9459-31c963f76774")
-		(property "Reference" "C55"
+		(property "Reference" "C57"
 			(at 33.02 38.1 90)
 			(effects
 				(font
@@ -7934,7 +7934,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C55")
+					(reference "C57")
 					(unit 1)
 				)
 			)
@@ -8014,7 +8014,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "234d5efb-96b5-4fa9-be34-43b930bf5c51")
-		(property "Reference" "U18"
+		(property "Reference" "U19"
 			(at 48.514 128.524 0)
 			(effects
 				(font
@@ -8107,7 +8107,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U18")
+					(reference "U19")
 					(unit 1)
 				)
 			)
@@ -8122,7 +8122,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "249f5d99-820e-48a5-9da7-b0e170d0d5d0")
-		(property "Reference" "C64"
+		(property "Reference" "C66"
 			(at 120.65 99.06 90)
 			(effects
 				(font
@@ -8201,7 +8201,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C64")
+					(reference "C66")
 					(unit 1)
 				)
 			)
@@ -8216,7 +8216,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2547c0ea-d930-4f83-b2cf-060181e99b8f")
-		(property "Reference" "C60"
+		(property "Reference" "C62"
 			(at 78.74 38.1 90)
 			(effects
 				(font
@@ -8295,7 +8295,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C60")
+					(reference "C62")
 					(unit 1)
 				)
 			)
@@ -8310,7 +8310,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "25ed7649-2e7f-45e0-b5e1-71039dcb2658")
-		(property "Reference" "C62"
+		(property "Reference" "C64"
 			(at 95.25 180.34 90)
 			(effects
 				(font
@@ -8389,7 +8389,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C62")
+					(reference "C64")
 					(unit 1)
 				)
 			)
@@ -8405,7 +8405,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2971b90a-3523-4ab1-9b2c-e21432429272")
-		(property "Reference" "R91"
+		(property "Reference" "R95"
 			(at 74.168 60.452 90)
 			(effects
 				(font
@@ -8487,7 +8487,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R91")
+					(reference "R95")
 					(unit 1)
 				)
 			)
@@ -8502,7 +8502,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "2cec674d-b501-470f-a07f-86080e5fa3fe")
-		(property "Reference" "C65"
+		(property "Reference" "C67"
 			(at 162.56 40.64 90)
 			(effects
 				(font
@@ -8581,7 +8581,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C65")
+					(reference "C67")
 					(unit 1)
 				)
 			)
@@ -8693,7 +8693,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "31966515-4ec7-42a1-9397-825cab464236")
-		(property "Reference" "C67"
+		(property "Reference" "C69"
 			(at 187.96 99.06 90)
 			(effects
 				(font
@@ -8772,7 +8772,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C67")
+					(reference "C69")
 					(unit 1)
 				)
 			)
@@ -8951,7 +8951,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3ac0f9a2-0f1c-4957-9627-93bfae76f6ab")
-		(property "Reference" "R101"
+		(property "Reference" "R105"
 			(at 195.58 120.142 90)
 			(effects
 				(font
@@ -9030,7 +9030,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R101")
+					(reference "R105")
 					(unit 1)
 				)
 			)
@@ -9046,7 +9046,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "3c5c7e1b-a882-4ab6-a895-b47f0ad54439")
-		(property "Reference" "R95"
+		(property "Reference" "R99"
 			(at 97.79 120.142 90)
 			(effects
 				(font
@@ -9125,7 +9125,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R95")
+					(reference "R99")
 					(unit 1)
 				)
 			)
@@ -9206,7 +9206,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "41cfea9f-6b28-47ad-b6a1-8a28c0baa3a4")
-		(property "Reference" "U22"
+		(property "Reference" "U23"
 			(at 180.594 128.524 0)
 			(effects
 				(font
@@ -9299,7 +9299,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U22")
+					(reference "U23")
 					(unit 1)
 				)
 			)
@@ -9314,7 +9314,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "448576ef-5552-40cb-8df2-500f72a920fa")
-		(property "Reference" "C61"
+		(property "Reference" "C63"
 			(at 78.74 45.72 90)
 			(effects
 				(font
@@ -9393,7 +9393,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C61")
+					(reference "C63")
 					(unit 1)
 				)
 			)
@@ -9583,7 +9583,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "4cb74c0c-94e4-4f2e-bd52-77202287eb39")
-		(property "Reference" "LD11"
+		(property "Reference" "LD12"
 			(at 265.43 119.38 0)
 			(effects
 				(font
@@ -9665,7 +9665,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "LD11")
+					(reference "LD12")
 					(unit 1)
 				)
 			)
@@ -9681,7 +9681,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "51acca4c-3eb5-4ec1-bf46-87b793be2c80")
-		(property "Reference" "R100"
+		(property "Reference" "R104"
 			(at 165.1 120.142 90)
 			(effects
 				(font
@@ -9760,7 +9760,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R100")
+					(reference "R104")
 					(unit 1)
 				)
 			)
@@ -9776,7 +9776,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "52488e7f-4c3c-407a-8c17-3ad3504baec9")
-		(property "Reference" "R89"
+		(property "Reference" "R93"
 			(at 63.5 112.522 90)
 			(effects
 				(font
@@ -9855,7 +9855,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R89")
+					(reference "R93")
 					(unit 1)
 				)
 			)
@@ -9938,7 +9938,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5a0b46bf-4d99-49bc-b0a9-f691eb82c137")
-		(property "Reference" "#FLG05"
+		(property "Reference" "#FLG01"
 			(at 123.19 174.625 0)
 			(effects
 				(font
@@ -9989,7 +9989,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "#FLG05")
+					(reference "#FLG01")
 					(unit 1)
 				)
 			)
@@ -10070,7 +10070,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "5bfed5d0-c2d2-41e4-811b-bbbd922bde79")
-		(property "Reference" "C66"
+		(property "Reference" "C68"
 			(at 162.56 48.26 90)
 			(effects
 				(font
@@ -10149,7 +10149,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C66")
+					(reference "C68")
 					(unit 1)
 				)
 			)
@@ -10165,7 +10165,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "632632b2-0f9f-4d28-9f8a-42be57f6f9b9")
-		(property "Reference" "R106"
+		(property "Reference" "R110"
 			(at 262.89 112.522 90)
 			(effects
 				(font
@@ -10244,7 +10244,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R106")
+					(reference "R110")
 					(unit 1)
 				)
 			)
@@ -10260,7 +10260,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6611dec5-fbb6-43aa-a5aa-e5e28acc3ffc")
-		(property "Reference" "R92"
+		(property "Reference" "R96"
 			(at 74.168 68.072 90)
 			(effects
 				(font
@@ -10342,7 +10342,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R92")
+					(reference "R96")
 					(unit 1)
 				)
 			)
@@ -10358,7 +10358,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "66d63b6c-1682-46b0-97e7-b8728718e2c3")
-		(property "Reference" "R90"
+		(property "Reference" "R94"
 			(at 63.5 120.142 90)
 			(effects
 				(font
@@ -10437,7 +10437,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R90")
+					(reference "R94")
 					(unit 1)
 				)
 			)
@@ -10517,7 +10517,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6bdd19cc-f0c1-477a-84f8-ae1fc2e983bc")
-		(property "Reference" "C69"
+		(property "Reference" "C71"
 			(at 208.28 48.26 90)
 			(effects
 				(font
@@ -10596,7 +10596,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C69")
+					(reference "C71")
 					(unit 1)
 				)
 			)
@@ -10611,7 +10611,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6fd04ee7-cf95-43e7-b14a-d2c83f5d4998")
-		(property "Reference" "R107"
+		(property "Reference" "R111"
 			(at 273.05 119.38 90)
 			(effects
 				(font
@@ -10690,7 +10690,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R107")
+					(reference "R111")
 					(unit 1)
 				)
 			)
@@ -10771,7 +10771,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "734bb48a-189c-4124-9bd3-404eb006cd3a")
-		(property "Reference" "LD9"
+		(property "Reference" "LD10"
 			(at 130.81 111.76 0)
 			(effects
 				(font
@@ -10853,7 +10853,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "LD9")
+					(reference "LD10")
 					(unit 1)
 				)
 			)
@@ -10935,7 +10935,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "74cb23dd-b53f-4430-81da-fdea377ba3ff")
-		(property "Reference" "U19"
+		(property "Reference" "U20"
 			(at 55.88 53.594 0)
 			(effects
 				(font
@@ -11056,7 +11056,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U19")
+					(reference "U20")
 					(unit 1)
 				)
 			)
@@ -11138,7 +11138,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "761a79d1-1733-450c-9281-0573c1017d83")
-		(property "Reference" "R96"
+		(property "Reference" "R100"
 			(at 110.49 173.99 90)
 			(effects
 				(font
@@ -11217,7 +11217,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R96")
+					(reference "R100")
 					(unit 1)
 				)
 			)
@@ -11299,7 +11299,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "7d560996-a5fc-43eb-8be1-cf54aaeed0fe")
-		(property "Reference" "R94"
+		(property "Reference" "R98"
 			(at 97.79 112.522 90)
 			(effects
 				(font
@@ -11378,7 +11378,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R94")
+					(reference "R98")
 					(unit 1)
 				)
 			)
@@ -11458,7 +11458,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "858f75e1-8179-450d-9013-b692714c9a18")
-		(property "Reference" "U23"
+		(property "Reference" "U24"
 			(at 185.42 54.864 0)
 			(effects
 				(font
@@ -11556,7 +11556,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U23")
+					(reference "U24")
 					(unit 1)
 				)
 			)
@@ -11637,7 +11637,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "863a3c8b-e81b-44c7-953e-066c37e230cf")
-		(property "Reference" "C58"
+		(property "Reference" "C60"
 			(at 57.15 180.34 90)
 			(effects
 				(font
@@ -11716,7 +11716,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C58")
+					(reference "C60")
 					(unit 1)
 				)
 			)
@@ -11732,7 +11732,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "87b26387-ecdc-4005-8a31-7c2d9a639613")
-		(property "Reference" "R97"
+		(property "Reference" "R101"
 			(at 128.27 120.142 90)
 			(effects
 				(font
@@ -11811,7 +11811,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R97")
+					(reference "R101")
 					(unit 1)
 				)
 			)
@@ -11957,7 +11957,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "938b94a4-35c0-4f3b-add9-5199beca2838")
-		(property "Reference" "R105"
+		(property "Reference" "R109"
 			(at 232.41 120.142 90)
 			(effects
 				(font
@@ -12036,7 +12036,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R105")
+					(reference "R109")
 					(unit 1)
 				)
 			)
@@ -12051,7 +12051,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "95dec31b-221c-40b2-aaf7-9844f4e45102")
-		(property "Reference" "C68"
+		(property "Reference" "C70"
 			(at 208.28 40.64 90)
 			(effects
 				(font
@@ -12130,7 +12130,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C68")
+					(reference "C70")
 					(unit 1)
 				)
 			)
@@ -12145,7 +12145,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "996adcd9-20c0-485b-8046-1d00cdabff86")
-		(property "Reference" "U20"
+		(property "Reference" "U21"
 			(at 82.55 161.925 0)
 			(effects
 				(font
@@ -12227,7 +12227,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U20")
+					(reference "U21")
 					(unit 1)
 				)
 			)
@@ -12242,7 +12242,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "9b9b3018-fa65-4747-9fb4-70995cd1d987")
-		(property "Reference" "LD10"
+		(property "Reference" "LD11"
 			(at 198.12 111.76 0)
 			(effects
 				(font
@@ -12324,7 +12324,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "LD10")
+					(reference "LD11")
 					(unit 1)
 				)
 			)
@@ -12536,7 +12536,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a12dadcf-ad9e-4fa4-869d-0e83b91539dd")
-		(property "Reference" "R103"
+		(property "Reference" "R107"
 			(at 205.74 111.76 90)
 			(effects
 				(font
@@ -12615,7 +12615,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R103")
+					(reference "R107")
 					(unit 1)
 				)
 			)
@@ -12857,7 +12857,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a8599d1c-f275-4310-9f1f-0bc781a86955")
-		(property "Reference" "R87"
+		(property "Reference" "R91"
 			(at 33.02 112.522 90)
 			(effects
 				(font
@@ -12936,7 +12936,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R87")
+					(reference "R91")
 					(unit 1)
 				)
 			)
@@ -12951,7 +12951,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a88871a2-363f-42a4-94a5-8743a2ccf502")
-		(property "Reference" "C57"
+		(property "Reference" "C59"
 			(at 55.88 99.06 90)
 			(effects
 				(font
@@ -13030,7 +13030,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C57")
+					(reference "C59")
 					(unit 1)
 				)
 			)
@@ -13046,7 +13046,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a9a90e59-6118-4630-9c1c-5557ceacd44b")
-		(property "Reference" "R93"
+		(property "Reference" "R97"
 			(at 85.598 79.502 90)
 			(effects
 				(font
@@ -13127,7 +13127,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R93")
+					(reference "R97")
 					(unit 1)
 				)
 			)
@@ -13143,7 +13143,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "abbb60fb-17c0-4aad-bcdf-79811714fd0a")
-		(property "Reference" "#FLG06"
+		(property "Reference" "#FLG02"
 			(at 130.81 168.275 0)
 			(effects
 				(font
@@ -13194,7 +13194,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "#FLG06")
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)
@@ -13209,7 +13209,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ac56cc1c-dcc5-4665-a251-dba224bfd83e")
-		(property "Reference" "R98"
+		(property "Reference" "R102"
 			(at 138.43 111.76 90)
 			(effects
 				(font
@@ -13288,7 +13288,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R98")
+					(reference "R102")
 					(unit 1)
 				)
 			)
@@ -13794,7 +13794,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b7ab9abd-593f-4233-bdcd-c24e939c8c4a")
-		(property "Reference" "R102"
+		(property "Reference" "R106"
 			(at 203.962 73.152 90)
 			(effects
 				(font
@@ -13875,7 +13875,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R102")
+					(reference "R106")
 					(unit 1)
 				)
 			)
@@ -14021,7 +14021,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "be61f768-37b3-49c1-bc33-32cef525404f")
-		(property "Reference" "C59"
+		(property "Reference" "C61"
 			(at 64.77 180.34 90)
 			(effects
 				(font
@@ -14100,7 +14100,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C59")
+					(reference "C61")
 					(unit 1)
 				)
 			)
@@ -14211,7 +14211,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "cb9f8b77-4849-49ae-a996-56e440b831cf")
-		(property "Reference" "C56"
+		(property "Reference" "C58"
 			(at 33.02 45.72 90)
 			(effects
 				(font
@@ -14290,7 +14290,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "C56")
+					(reference "C58")
 					(unit 1)
 				)
 			)
@@ -14305,7 +14305,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d042bd73-e2f9-4721-a7d8-fdfd6b8ae5d7")
-		(property "Reference" "U24"
+		(property "Reference" "U25"
 			(at 247.904 128.524 0)
 			(effects
 				(font
@@ -14398,7 +14398,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "U24")
+					(reference "U25")
 					(unit 1)
 				)
 			)
@@ -14480,7 +14480,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "d5c898b6-a489-4129-bc7a-843a2cbdea67")
-		(property "Reference" "R88"
+		(property "Reference" "R92"
 			(at 33.02 120.142 90)
 			(effects
 				(font
@@ -14559,7 +14559,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R88")
+					(reference "R92")
 					(unit 1)
 				)
 			)
@@ -14672,7 +14672,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "ebc963dc-927d-457b-bdd2-7467b30327f2")
-		(property "Reference" "R99"
+		(property "Reference" "R103"
 			(at 165.1 112.522 90)
 			(effects
 				(font
@@ -14751,7 +14751,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "R99")
+					(reference "R103")
 					(unit 1)
 				)
 			)
@@ -14996,7 +14996,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "fecffd7f-9a18-4012-bf18-d2fbaca7cdd1")
-		(property "Reference" "LD8"
+		(property "Reference" "LD9"
 			(at 110.998 184.404 0)
 			(effects
 				(font
@@ -15078,7 +15078,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/2a2d87e6-4c9b-4686-99ad-cc9cc88e17ae"
-					(reference "LD8")
+					(reference "LD9")
 					(unit 1)
 				)
 			)
