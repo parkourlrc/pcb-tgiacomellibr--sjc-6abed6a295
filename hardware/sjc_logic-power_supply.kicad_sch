@@ -756,6 +756,132 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:NetTie_2"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "NT"
+				(at 0 1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "NetTie_2"
+				(at 0 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Net tie, 2 pins"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "net tie short"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "Net*Tie*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "NetTie_2_0_1"
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "NetTie_2_1_1"
+				(pin passive line
+					(at -2.54 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Device:Polyfuse_Small"
 			(pin_numbers
 				(hide yes)
@@ -3032,6 +3158,18 @@
 			(embedded_fonts no)
 		)
 	)
+	(rectangle
+		(start 177.8 121.92)
+		(end 281.94 162.56)
+		(stroke
+			(width 0.2)
+			(type dash)
+		)
+		(fill
+			(type none)
+		)
+		(uuid b8a8031d-edcf-4e42-9303-0343d853874f)
+	)
 	(text "Power scheme"
 		(exclude_from_sim no)
 		(at 13.97 21.59 0)
@@ -3044,6 +3182,19 @@
 			(justify left bottom)
 		)
 		(uuid "c7f20fa7-ce34-46c8-83b0-44788a827eab")
+	)
+	(text "Power flags"
+		(exclude_from_sim no)
+		(at 180.34 127 0)
+		(effects
+			(font
+				(size 2 2)
+				(thickness 2.54)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "e9a37822-4ce1-4b40-afdd-4264d033f716")
 	)
 	(junction
 		(at 111.76 83.82)
@@ -3100,6 +3251,12 @@
 		(uuid "5267a407-6592-4b08-99b8-ea1c86eaf82a")
 	)
 	(junction
+		(at 64.77 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "581492ef-c31f-49aa-815e-8290ff6f0d0e")
+	)
+	(junction
 		(at 77.47 68.58)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3124,10 +3281,38 @@
 		(uuid "ad21d0d7-97e9-4122-98c8-18e03c56eb53")
 	)
 	(junction
+		(at 80.01 137.16)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b937380d-40a5-4f5b-a54d-9ab3bd5ed79b")
+	)
+	(junction
 		(at 121.92 55.88)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d967baa0-45e0-4c6e-b690-4a2d50edbae6")
+	)
+	(junction
+		(at 80.01 154.94)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f79bc110-e5c1-448f-9189-bc9c76635b3d")
+	)
+	(junction
+		(at 64.77 154.94)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fd082c67-f75e-475b-8d13-08ddbc1aba11")
+	)
+	(wire
+		(pts
+			(xy 80.01 154.94) (xy 80.01 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "044c8985-84f8-4564-b68d-04207344b161")
 	)
 	(wire
 		(pts
@@ -3151,7 +3336,27 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 142.24) (xy 262.89 144.78)
+			(xy 69.85 154.94) (xy 64.77 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b789706-6ca4-4cb1-afec-9b6ae89aec37")
+	)
+	(wire
+		(pts
+			(xy 64.77 134.62) (xy 64.77 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d0b98c6-c2fc-4f24-8736-2b0c21ea504d")
+	)
+	(wire
+		(pts
+			(xy 228.6 142.24) (xy 231.14 142.24)
 		)
 		(stroke
 			(width 0)
@@ -3181,7 +3386,7 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 110.49) (xy 60.96 110.49)
+			(xy 179.07 59.69) (xy 187.96 59.69)
 		)
 		(stroke
 			(width 0)
@@ -3231,7 +3436,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 142.24) (xy 212.09 144.78)
+			(xy 228.6 157.48) (xy 231.14 157.48)
 		)
 		(stroke
 			(width 0)
@@ -3261,7 +3466,7 @@
 	)
 	(wire
 		(pts
-			(xy 250.19 142.24) (xy 250.19 144.78)
+			(xy 228.6 129.54) (xy 231.14 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3271,7 +3476,7 @@
 	)
 	(wire
 		(pts
-			(xy 275.59 142.24) (xy 275.59 144.78)
+			(xy 228.6 144.78) (xy 231.14 144.78)
 		)
 		(stroke
 			(width 0)
@@ -3281,13 +3486,23 @@
 	)
 	(wire
 		(pts
-			(xy 262.89 154.94) (xy 262.89 157.48)
+			(xy 238.76 144.78) (xy 241.3 144.78)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "417e196f-c40b-4548-b623-d2e6a92bc457")
+	)
+	(wire
+		(pts
+			(xy 74.93 154.94) (xy 80.01 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "425c4ca5-d9c3-4c92-9135-d20ef1ad2844")
 	)
 	(wire
 		(pts
@@ -3298,6 +3513,26 @@
 			(type default)
 		)
 		(uuid "43acd564-b50c-4c09-9ef2-9b30fc4b2656")
+	)
+	(wire
+		(pts
+			(xy 64.77 154.94) (xy 64.77 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "515195bd-0a12-41d8-93d4-bbeae236362b")
+	)
+	(wire
+		(pts
+			(xy 97.79 154.94) (xy 92.71 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5323fe6a-03d3-47c3-b524-bdfb4812c942")
 	)
 	(wire
 		(pts
@@ -3371,6 +3606,26 @@
 	)
 	(wire
 		(pts
+			(xy 64.77 137.16) (xy 64.77 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d79b9be-c23d-44d0-a81b-1fd9b6de90fd")
+	)
+	(wire
+		(pts
+			(xy 107.95 137.16) (xy 107.95 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "71f1160e-07f2-454a-9638-e18eb51d885f")
+	)
+	(wire
+		(pts
 			(xy 149.86 53.34) (xy 149.86 55.88)
 		)
 		(stroke
@@ -3401,6 +3656,26 @@
 	)
 	(wire
 		(pts
+			(xy 64.77 137.16) (xy 69.85 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7be9c6bc-3e8a-43a5-b222-b96f33493f92")
+	)
+	(wire
+		(pts
+			(xy 64.77 148.59) (xy 64.77 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c296de0-a010-4fd6-94d4-ff6c521268a8")
+	)
+	(wire
+		(pts
 			(xy 132.08 71.12) (xy 132.08 83.82)
 		)
 		(stroke
@@ -3411,7 +3686,7 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 154.94) (xy 237.49 157.48)
+			(xy 238.76 134.62) (xy 241.3 134.62)
 		)
 		(stroke
 			(width 0)
@@ -3431,13 +3706,23 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 157.48) (xy 194.31 154.94)
+			(xy 241.3 142.24) (xy 238.76 142.24)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "8aecc8d4-77f9-409f-94ff-2f1befab0c31")
+	)
+	(wire
+		(pts
+			(xy 74.93 137.16) (xy 80.01 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92c5ccb7-9de9-40f5-bd8b-4a23453f3032")
 	)
 	(wire
 		(pts
@@ -3451,7 +3736,7 @@
 	)
 	(wire
 		(pts
-			(xy 194.31 142.24) (xy 194.31 144.78)
+			(xy 228.6 152.4) (xy 231.14 152.4)
 		)
 		(stroke
 			(width 0)
@@ -3461,7 +3746,7 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 100.33) (xy 52.07 104.14)
+			(xy 179.07 49.53) (xy 179.07 53.34)
 		)
 		(stroke
 			(width 0)
@@ -3471,7 +3756,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 154.94) (xy 224.79 157.48)
+			(xy 238.76 129.54) (xy 241.3 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3492,7 +3777,7 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 110.49) (xy 52.07 114.3)
+			(xy 179.07 59.69) (xy 179.07 63.5)
 		)
 		(stroke
 			(width 0)
@@ -3532,7 +3817,7 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 138.43) (xy 52.07 142.24)
+			(xy 179.07 87.63) (xy 179.07 91.44)
 		)
 		(stroke
 			(width 0)
@@ -3542,7 +3827,7 @@
 	)
 	(wire
 		(pts
-			(xy 212.09 154.94) (xy 212.09 157.48)
+			(xy 228.6 160.02) (xy 231.14 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3552,7 +3837,7 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 132.08) (xy 52.07 132.08)
+			(xy 187.96 81.28) (xy 179.07 81.28)
 		)
 		(stroke
 			(width 0)
@@ -3582,6 +3867,16 @@
 	)
 	(wire
 		(pts
+			(xy 107.95 154.94) (xy 102.87 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "becd1415-b7d0-4452-8f07-fdd5447c5f53")
+	)
+	(wire
+		(pts
 			(xy 77.47 55.88) (xy 77.47 58.42)
 		)
 		(stroke
@@ -3589,6 +3884,16 @@
 			(type default)
 		)
 		(uuid "c3a25886-0448-47c0-a4a6-6e7bf069e69b")
+	)
+	(wire
+		(pts
+			(xy 107.95 137.16) (xy 102.87 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5334721-9b36-4242-8af9-a324fa4d1cf0")
 	)
 	(wire
 		(pts
@@ -3612,7 +3917,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 128.27) (xy 52.07 132.08)
+			(xy 92.71 137.16) (xy 97.79 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cd02fb43-dbd5-478e-9317-be618945eaf9")
+	)
+	(wire
+		(pts
+			(xy 179.07 77.47) (xy 179.07 81.28)
 		)
 		(stroke
 			(width 0)
@@ -3622,7 +3937,27 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 138.43) (xy 60.96 138.43)
+			(xy 92.71 137.16) (xy 92.71 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d22cb00f-1aa4-4fc3-a054-9039408db5b0")
+	)
+	(wire
+		(pts
+			(xy 107.95 154.94) (xy 107.95 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2ca7859-c187-4ffe-a9e4-dc894fb3a1fb")
+	)
+	(wire
+		(pts
+			(xy 179.07 87.63) (xy 187.96 87.63)
 		)
 		(stroke
 			(width 0)
@@ -3632,7 +3967,7 @@
 	)
 	(wire
 		(pts
-			(xy 60.96 104.14) (xy 52.07 104.14)
+			(xy 187.96 53.34) (xy 179.07 53.34)
 		)
 		(stroke
 			(width 0)
@@ -3642,7 +3977,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 157.48) (xy 176.53 154.94)
+			(xy 241.3 137.16) (xy 238.76 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3672,6 +4007,16 @@
 	)
 	(wire
 		(pts
+			(xy 80.01 148.59) (xy 80.01 154.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de6dde9c-7b8a-4c3d-92a1-a50876f683aa")
+	)
+	(wire
+		(pts
 			(xy 132.08 83.82) (xy 138.43 83.82)
 		)
 		(stroke
@@ -3682,7 +4027,7 @@
 	)
 	(wire
 		(pts
-			(xy 275.59 154.94) (xy 275.59 157.48)
+			(xy 238.76 149.86) (xy 241.3 149.86)
 		)
 		(stroke
 			(width 0)
@@ -3712,6 +4057,16 @@
 	)
 	(wire
 		(pts
+			(xy 92.71 154.94) (xy 92.71 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e44ab5d9-b106-4fa9-b4db-c467e281dcf0")
+	)
+	(wire
+		(pts
 			(xy 68.58 68.58) (xy 68.58 73.66)
 		)
 		(stroke
@@ -3722,13 +4077,33 @@
 	)
 	(wire
 		(pts
-			(xy 237.49 142.24) (xy 237.49 144.78)
+			(xy 80.01 134.62) (xy 80.01 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eac98ef4-ac79-433a-a2fc-7b24f85e78df")
+	)
+	(wire
+		(pts
+			(xy 228.6 134.62) (xy 231.14 134.62)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "eb2b246b-3c33-4be3-a5f9-41da140079b0")
+	)
+	(wire
+		(pts
+			(xy 80.01 137.16) (xy 80.01 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec09fb04-9148-4dce-a9d3-f863b5bf47c9")
 	)
 	(wire
 		(pts
@@ -3762,7 +4137,7 @@
 	)
 	(wire
 		(pts
-			(xy 224.79 142.24) (xy 224.79 144.78)
+			(xy 228.6 137.16) (xy 231.14 137.16)
 		)
 		(stroke
 			(width 0)
@@ -3782,7 +4157,7 @@
 	)
 	(wire
 		(pts
-			(xy 176.53 142.24) (xy 176.53 144.78)
+			(xy 228.6 149.86) (xy 231.14 149.86)
 		)
 		(stroke
 			(width 0)
@@ -3792,15 +4167,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 194.31 142.24 0)
+		(at 228.6 152.4 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "00cd190c-3f48-415e-8931-32f2b4b28e23")
-		(property "Reference" "#PWR0187"
-			(at 196.85 140.97 0)
+		(property "Reference" "#PWR0189"
+			(at 227.33 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3809,7 +4184,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN_RECT"
-			(at 194.31 138.684 0)
+			(at 217.678 152.4 90)
 			(effects
 				(font
 					(size 1 1)
@@ -3817,7 +4192,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 142.24 0)
+			(at 228.6 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3826,7 +4201,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194.31 142.24 0)
+			(at 228.6 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -3835,7 +4210,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 194.31 142.24 0)
+			(at 228.6 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -3849,7 +4224,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0187")
+					(reference "#PWR0189")
 					(unit 1)
 				)
 			)
@@ -3864,7 +4239,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "067cb420-454b-43c0-8025-ca8d3fd8c902")
-		(property "Reference" "Q4"
+		(property "Reference" "Q3"
 			(at 68.58 50.8 0)
 			(effects
 				(font
@@ -3955,7 +4330,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "Q4")
+					(reference "Q3")
 					(unit 1)
 				)
 			)
@@ -3970,7 +4345,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "0b384d6b-fd78-45ee-9bad-b3eb8921d908")
-		(property "Reference" "C76"
+		(property "Reference" "C73"
 			(at 119.38 68.58 90)
 			(effects
 				(font
@@ -4049,7 +4424,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C76")
+					(reference "C73")
 					(unit 1)
 				)
 			)
@@ -4057,15 +4432,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 212.09 154.94 0)
+		(at 228.6 160.02 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "0d8b1ef6-716b-44fa-a464-9c9e22d703af")
-		(property "Reference" "#PWR0190"
-			(at 214.63 153.67 0)
+		(property "Reference" "#PWR0191"
+			(at 227.33 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4074,7 +4449,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN_FILT"
-			(at 212.09 151.384 0)
+			(at 218.186 160.02 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4082,7 +4457,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 212.09 154.94 0)
+			(at 228.6 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4091,7 +4466,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 212.09 154.94 0)
+			(at 228.6 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4100,7 +4475,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 212.09 154.94 0)
+			(at 228.6 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4114,7 +4489,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0190")
+					(reference "#PWR0191")
 					(unit 1)
 				)
 			)
@@ -4123,7 +4498,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_5")
 		(lib_id "power:PWR_FLAG")
-		(at 212.09 144.78 180)
+		(at 231.14 157.48 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4131,8 +4506,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0e055e89-2ee4-4e1d-b4c1-371c8c472ff7")
-		(property "Reference" "#FLG07"
-			(at 212.09 146.685 0)
+		(property "Reference" "#FLG010"
+			(at 233.045 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4141,7 +4516,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 212.09 148.59 0)
+			(at 234.95 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4150,7 +4525,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 212.09 144.78 0)
+			(at 231.14 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4159,7 +4534,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 212.09 144.78 0)
+			(at 231.14 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4168,7 +4543,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 212.09 144.78 0)
+			(at 231.14 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4182,23 +4557,39 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG07")
+					(reference "#FLG010")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id "sjc_power:+3V3A")
-		(at 275.59 142.24 0)
+		(lib_id "Device:FerriteBead_Small")
+		(at 72.39 154.94 270)
 		(unit 1)
 		(exclude_from_sim no)
-		(in_bom no)
-		(on_board no)
+		(in_bom yes)
+		(on_board yes)
 		(dnp no)
-		(uuid "1aeabc2d-f9a5-46da-9f66-b362cd9fdc86")
-		(property "Reference" "#PWR0198"
-			(at 278.13 143.51 0)
+		(uuid "1577a5d3-e657-40f3-9409-66d2ec0f1f68")
+		(property "Reference" "FB4"
+			(at 72.39 152.4 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "220R 3A"
+			(at 72.39 157.988 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.05x1.20mm_HandSolder"
+			(at 72.39 153.162 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4206,8 +4597,87 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "+3V3_SENSE"
-			(at 275.59 138.43 0)
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/emc/emc/beads/catalog/beads_commercial_power_mpz2012_en.pdf?ref_disty=mouser"
+			(at 72.39 154.94 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Ferrite Bead, 3A, 40mΩ DC Resistance,  220Ω@100MHz, SMD 0805"
+			(at 72.39 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "TDK"
+			(at 72.39 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "MPZ2012S221AT000"
+			(at 72.39 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C76818"
+			(at 72.39 154.94 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fda8e2c1-5cbd-4257-976b-8c08ac4df93d")
+		)
+		(pin "2"
+			(uuid "4e259170-1e3b-4f74-b415-8ea3ed849820")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "FB4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+3V3")
+		(at 64.77 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1793f7bb-b2ba-443f-818a-673c0151da38")
+		(property "Reference" "#PWR0166"
+			(at 64.77 138.43 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 64.77 130.81 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4215,7 +4685,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 270.51 138.43 0)
+			(at 64.77 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4224,7 +4694,140 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 270.51 138.43 0)
+			(at 64.77 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 64.77 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "76b7794d-11e2-4535-9282-304641262bf2")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0166")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:NetTie_2")
+		(at 100.33 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "18b3bb09-1fbb-45b6-9fbb-535166488174")
+		(property "Reference" "NT1"
+			(at 100.33 135.89 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 100.33 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
+			(at 100.33 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 100.33 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "6e1b4ce7-de0b-4363-abcf-0a33fe93971a")
+		)
+		(pin "2"
+			(uuid "c992a1cb-6fc6-4836-85ce-99146559a0ff")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "NT1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+3V3A")
+		(at 228.6 144.78 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "1aeabc2d-f9a5-46da-9f66-b362cd9fdc86")
+		(property "Reference" "#PWR0187"
+			(at 229.87 142.24 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3_SENSE"
+			(at 220.98 144.78 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 224.79 149.86 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 224.79 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4233,7 +4836,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3A\""
-			(at 275.59 142.24 0)
+			(at 228.6 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4247,7 +4850,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0198")
+					(reference "#PWR0187")
 					(unit 1)
 				)
 			)
@@ -4255,15 +4858,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND")
-		(at 237.49 157.48 0)
+		(at 241.3 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "1dc2e72e-8074-4cd6-aa30-64f7bcd915dd")
-		(property "Reference" "#PWR0194"
-			(at 237.49 163.83 0)
+		(property "Reference" "#PWR0192"
+			(at 247.65 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4272,7 +4875,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 237.49 161.29 0)
+			(at 245.872 129.54 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4280,7 +4883,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 237.49 157.48 0)
+			(at 241.3 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4289,7 +4892,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 237.49 157.48 0)
+			(at 241.3 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4298,7 +4901,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 237.49 157.48 0)
+			(at 241.3 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4312,7 +4915,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0194")
+					(reference "#PWR0192")
 					(unit 1)
 				)
 			)
@@ -4327,7 +4930,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "1dd2fdfb-1d77-4817-9a59-0db32f468573")
-		(property "Reference" "FB7"
+		(property "Reference" "FB5"
 			(at 140.97 53.34 90)
 			(effects
 				(font
@@ -4406,7 +5009,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "FB7")
+					(reference "FB5")
 					(unit 1)
 				)
 			)
@@ -4415,7 +5018,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_4")
 		(lib_id "power:PWR_FLAG")
-		(at 176.53 154.94 0)
+		(at 238.76 134.62 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4423,8 +5026,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1e4de784-190b-420d-81a6-e4d18b130436")
-		(property "Reference" "#FLG04"
-			(at 176.53 153.035 0)
+		(property "Reference" "#FLG013"
+			(at 236.855 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4433,7 +5036,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 176.53 151.13 0)
+			(at 234.95 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4442,7 +5045,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 154.94 0)
+			(at 238.76 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4451,7 +5054,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 176.53 154.94 0)
+			(at 238.76 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4460,7 +5063,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 176.53 154.94 0)
+			(at 238.76 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4474,7 +5077,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG04")
+					(reference "#FLG013")
 					(unit 1)
 				)
 			)
@@ -4577,7 +5180,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:PGND")
-		(at 52.07 114.3 0)
+		(at 179.07 63.5 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -4585,8 +5188,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "294d0ba8-7ee6-4ece-aa5d-49a453dc6c8a")
-		(property "Reference" "#PWR0176"
-			(at 52.07 120.65 0)
+		(property "Reference" "#PWR0180"
+			(at 179.07 69.85 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4595,7 +5198,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_GND_FILT"
-			(at 52.07 118.11 0)
+			(at 179.07 67.31 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4603,7 +5206,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 52.07 114.3 0)
+			(at 179.07 63.5 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4612,7 +5215,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 114.3 0)
+			(at 179.07 63.5 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4621,7 +5224,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"PGND\" , reference supply ground"
-			(at 52.07 114.3 0)
+			(at 179.07 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4635,7 +5238,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0176")
+					(reference "#PWR0180")
 					(unit 1)
 				)
 			)
@@ -4643,15 +5246,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GNDA")
-		(at 224.79 157.48 0)
+		(at 241.3 134.62 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "2ad05d6e-3960-47ce-bd99-954251238d12")
-		(property "Reference" "#PWR0192"
-			(at 222.25 156.21 0)
+		(property "Reference" "#PWR0193"
+			(at 240.03 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4660,7 +5263,7 @@
 			)
 		)
 		(property "Value" "GNDA"
-			(at 224.79 161.29 0)
+			(at 246.38 134.62 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4668,7 +5271,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 224.79 157.48 0)
+			(at 241.3 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4677,7 +5280,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 224.79 157.48 0)
+			(at 241.3 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4686,7 +5289,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 224.79 157.48 0)
+			(at 241.3 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4700,7 +5303,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0192")
+					(reference "#PWR0193")
 					(unit 1)
 				)
 			)
@@ -4708,15 +5311,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GND_OSC")
-		(at 262.89 157.48 0)
+		(at 241.3 137.16 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "2ccce506-5321-452b-b961-6256727d423b")
-		(property "Reference" "#PWR0197"
-			(at 262.89 163.83 0)
+		(property "Reference" "#PWR0194"
+			(at 247.65 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4725,7 +5328,7 @@
 			)
 		)
 		(property "Value" "GND_OSC"
-			(at 262.89 161.29 0)
+			(at 247.904 137.16 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4733,7 +5336,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 262.89 157.48 0)
+			(at 241.3 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4742,7 +5345,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 262.89 157.48 0)
+			(at 241.3 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4751,7 +5354,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 262.89 157.48 0)
+			(at 241.3 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4765,7 +5368,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0197")
+					(reference "#PWR0194")
 					(unit 1)
 				)
 			)
@@ -4773,15 +5376,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 52.07 100.33 0)
+		(at 179.07 49.53 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "2e79d603-fa2b-4a72-9069-c42555c90613")
-		(property "Reference" "#PWR0175"
-			(at 54.61 99.06 0)
+		(property "Reference" "#PWR0179"
+			(at 181.61 48.26 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4790,7 +5393,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN_FILT"
-			(at 52.07 96.774 0)
+			(at 179.07 45.974 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4798,7 +5401,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 52.07 100.33 0)
+			(at 179.07 49.53 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4807,7 +5410,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 100.33 0)
+			(at 179.07 49.53 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4816,7 +5419,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 52.07 100.33 0)
+			(at 179.07 49.53 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4830,7 +5433,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0175")
+					(reference "#PWR0179")
 					(unit 1)
 				)
 			)
@@ -4838,15 +5441,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 52.07 128.27 0)
+		(at 179.07 77.47 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "3148b89c-bd93-4715-a1de-91f81bbec4f4")
-		(property "Reference" "#PWR0177"
-			(at 54.61 127 0)
+		(property "Reference" "#PWR0181"
+			(at 181.61 76.2 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4855,7 +5458,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN_FILT"
-			(at 52.07 124.714 0)
+			(at 179.07 73.914 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4863,7 +5466,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 52.07 128.27 0)
+			(at 179.07 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4872,7 +5475,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 128.27 0)
+			(at 179.07 77.47 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4881,7 +5484,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 52.07 128.27 0)
+			(at 179.07 77.47 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4895,7 +5498,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0177")
+					(reference "#PWR0181")
 					(unit 1)
 				)
 			)
@@ -4903,15 +5506,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:GNDA")
-		(at 275.59 157.48 0)
+		(at 241.3 142.24 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "33c926ef-4dd4-404e-ac76-1398ae739c5b")
-		(property "Reference" "#PWR0199"
-			(at 273.05 156.21 0)
+		(property "Reference" "#PWR0195"
+			(at 240.03 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4920,7 +5523,7 @@
 			)
 		)
 		(property "Value" "GND_SENSE"
-			(at 275.59 161.29 0)
+			(at 248.666 142.24 90)
 			(effects
 				(font
 					(size 1 1)
@@ -4928,7 +5531,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 275.59 157.48 0)
+			(at 241.3 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4937,7 +5540,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 275.59 157.48 0)
+			(at 241.3 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4946,7 +5549,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GNDA\" , ground"
-			(at 275.59 157.48 0)
+			(at 241.3 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4960,7 +5563,138 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0199")
+					(reference "#PWR0195")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 92.71 157.48 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "3b61a751-0182-4ece-a113-2bd44047ad64")
+		(property "Reference" "#PWR0172"
+			(at 92.71 163.83 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 92.71 161.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 92.71 157.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f0ea1db7-456c-46ab-907c-3d0e51d02e2f")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0172")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+3V3A")
+		(at 80.01 134.62 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "3d426e8f-454a-4f6c-a218-b47e097a63ce")
+		(property "Reference" "#PWR0168"
+			(at 82.55 135.89 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3_SENSE"
+			(at 80.01 131.318 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 74.93 130.81 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 74.93 130.81 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3A\""
+			(at 80.01 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8ae97fa7-f19e-4e03-9108-c16a5e3b5bba")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0168")
 					(unit 1)
 				)
 			)
@@ -4969,7 +5703,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_6")
 		(lib_id "power:PWR_FLAG")
-		(at 212.09 157.48 180)
+		(at 231.14 160.02 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4977,8 +5711,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3eb9f9b1-74bf-4140-9176-6df120b9f5b4")
-		(property "Reference" "#FLG08"
-			(at 212.09 159.385 0)
+		(property "Reference" "#FLG011"
+			(at 233.045 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4987,7 +5721,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 212.09 161.29 0)
+			(at 234.95 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -4996,7 +5730,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 212.09 157.48 0)
+			(at 231.14 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5005,7 +5739,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 212.09 157.48 0)
+			(at 231.14 160.02 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5014,7 +5748,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 212.09 157.48 0)
+			(at 231.14 160.02 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5028,7 +5762,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG08")
+					(reference "#FLG011")
 					(unit 1)
 				)
 			)
@@ -5043,7 +5777,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "433a8ece-78dd-47ee-b16b-e63eb7b6f8a1")
-		(property "Reference" "R113"
+		(property "Reference" "R117"
 			(at 130.175 68.58 90)
 			(effects
 				(font
@@ -5122,7 +5856,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R113")
+					(reference "R117")
 					(unit 1)
 				)
 			)
@@ -5138,7 +5872,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "46c1fc43-605d-41de-862c-e792da707720")
-		(property "Reference" "J12"
+		(property "Reference" "J10"
 			(at 49.53 53.594 0)
 			(effects
 				(font
@@ -5219,7 +5953,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "J12")
+					(reference "J10")
 					(unit 1)
 				)
 			)
@@ -5234,7 +5968,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "47300ff9-c4e7-4004-9468-dce78d88e90d")
-		(property "Reference" "#PWR0184"
+		(property "Reference" "#PWR0178"
 			(at 149.86 92.71 0)
 			(effects
 				(font
@@ -5284,7 +6018,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0184")
+					(reference "#PWR0178")
 					(unit 1)
 				)
 			)
@@ -5292,15 +6026,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 212.09 142.24 0)
+		(at 228.6 157.48 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "4af2acba-5058-404d-b7e6-2eee71ac569f")
-		(property "Reference" "#PWR0189"
-			(at 214.63 140.97 0)
+		(property "Reference" "#PWR0190"
+			(at 227.33 154.94 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5309,7 +6043,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN_FUSE"
-			(at 212.09 138.684 0)
+			(at 217.678 157.48 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5317,7 +6051,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 212.09 142.24 0)
+			(at 228.6 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5326,7 +6060,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 212.09 142.24 0)
+			(at 228.6 157.48 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5335,7 +6069,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 212.09 142.24 0)
+			(at 228.6 157.48 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5349,7 +6083,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0189")
+					(reference "#PWR0190")
 					(unit 1)
 				)
 			)
@@ -5357,15 +6091,16 @@
 	)
 	(symbol
 		(lib_id "power:+5V")
-		(at 250.19 142.24 0)
+		(at 228.6 129.54 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "51e96f59-979f-41c8-aa64-df9f3d83bd62")
-		(property "Reference" "#PWR0195"
-			(at 250.19 146.05 0)
+		(property "Reference" "#PWR0183"
+			(at 232.41 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5374,7 +6109,7 @@
 			)
 		)
 		(property "Value" "+5V"
-			(at 250.19 138.43 0)
+			(at 223.774 129.54 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5382,7 +6117,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 250.19 142.24 0)
+			(at 228.6 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5391,7 +6126,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 250.19 142.24 0)
+			(at 228.6 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5400,7 +6135,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 250.19 142.24 0)
+			(at 228.6 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5414,7 +6149,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0195")
+					(reference "#PWR0183")
 					(unit 1)
 				)
 			)
@@ -5422,15 +6157,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+12V")
-		(at 176.53 142.24 0)
+		(at 228.6 149.86 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "5488a47a-6edb-46d5-901d-52ef542fedbe")
-		(property "Reference" "#PWR0185"
-			(at 179.07 140.97 0)
+		(property "Reference" "#PWR0188"
+			(at 227.33 147.32 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5439,7 +6174,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_VIN"
-			(at 176.53 138.684 0)
+			(at 219.71 149.86 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5447,7 +6182,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 142.24 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5456,7 +6191,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 142.24 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5465,7 +6200,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 176.53 142.24 0)
+			(at 228.6 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5479,7 +6214,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0185")
+					(reference "#PWR0188")
 					(unit 1)
 				)
 			)
@@ -5488,7 +6223,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_1")
 		(lib_id "power:PWR_FLAG")
-		(at 224.79 144.78 180)
+		(at 231.14 137.16 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5496,8 +6231,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5a57dd1f-c938-4cdb-b74f-5b3af104f2bb")
-		(property "Reference" "#FLG09"
-			(at 224.79 146.685 0)
+		(property "Reference" "#FLG05"
+			(at 233.045 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5506,7 +6241,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 224.79 148.59 0)
+			(at 234.95 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5515,7 +6250,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 224.79 144.78 0)
+			(at 231.14 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5524,7 +6259,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 224.79 144.78 0)
+			(at 231.14 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5533,7 +6268,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 224.79 144.78 0)
+			(at 231.14 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5547,7 +6282,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG09")
+					(reference "#FLG05")
 					(unit 1)
 				)
 			)
@@ -5556,7 +6291,8 @@
 	(symbol
 		(lib_name "PWR_FLAG_6")
 		(lib_id "power:PWR_FLAG")
-		(at 250.19 144.78 180)
+		(at 231.14 129.54 270)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5564,8 +6300,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "63613701-bac1-47bc-9ffd-214d4f9d1991")
-		(property "Reference" "#FLG013"
-			(at 250.19 146.685 0)
+		(property "Reference" "#FLG03"
+			(at 233.045 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5574,7 +6310,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 250.19 148.59 0)
+			(at 234.95 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5583,7 +6319,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 250.19 144.78 0)
+			(at 231.14 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5592,7 +6328,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 250.19 144.78 0)
+			(at 231.14 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5601,7 +6337,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 250.19 144.78 0)
+			(at 231.14 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5615,7 +6351,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG013")
+					(reference "#FLG03")
 					(unit 1)
 				)
 			)
@@ -5623,7 +6359,7 @@
 	)
 	(symbol
 		(lib_id "sjc_power:PGND")
-		(at 52.07 142.24 0)
+		(at 179.07 91.44 0)
 		(mirror y)
 		(unit 1)
 		(exclude_from_sim no)
@@ -5631,8 +6367,8 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6896324d-ac55-4453-9491-b0e69e7ce554")
-		(property "Reference" "#PWR0178"
-			(at 52.07 148.59 0)
+		(property "Reference" "#PWR0182"
+			(at 179.07 97.79 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5641,7 +6377,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_GND_FILT"
-			(at 52.07 146.05 0)
+			(at 179.07 95.25 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5649,7 +6385,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 52.07 142.24 0)
+			(at 179.07 91.44 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5658,7 +6394,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 52.07 142.24 0)
+			(at 179.07 91.44 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5667,7 +6403,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"PGND\" , reference supply ground"
-			(at 52.07 142.24 0)
+			(at 179.07 91.44 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5681,7 +6417,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0178")
+					(reference "#PWR0182")
 					(unit 1)
 				)
 			)
@@ -5689,15 +6425,16 @@
 	)
 	(symbol
 		(lib_id "sjc_power:PGND")
-		(at 194.31 157.48 0)
+		(at 241.3 149.86 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "69309614-73dc-4e23-b34e-29f03217e5cf")
-		(property "Reference" "#PWR0188"
-			(at 194.31 163.83 0)
+		(property "Reference" "#PWR0197"
+			(at 247.65 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5706,7 +6443,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_GND_FILT"
-			(at 194.31 161.29 0)
+			(at 252.222 149.86 90)
 			(effects
 				(font
 					(size 1 1)
@@ -5714,7 +6451,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 157.48 0)
+			(at 241.3 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5723,7 +6460,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 194.31 157.48 0)
+			(at 241.3 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -5732,7 +6469,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"PGND\" , reference supply ground"
-			(at 194.31 157.48 0)
+			(at 241.3 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5746,7 +6483,101 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0188")
+					(reference "#PWR0197")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 64.77 146.05 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "6b51bc7a-163b-4149-94d9-4670d9b77831")
+		(property "Reference" "C68"
+			(at 62.23 146.05 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "1uF 10% 50V"
+			(at 67.31 146.05 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 64.77 146.05 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 146.05 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 1uF, ±10%, X7R, 50V, SMD 1206"
+			(at 64.77 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Samsung Electro-Mechanics"
+			(at 64.77 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CL31B105KBHNNNE"
+			(at 64.77 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C1848"
+			(at 64.77 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d2cc9310-0f23-4b35-8775-b901f36034a5")
+		)
+		(pin "2"
+			(uuid "caa75ab7-ecfe-49fd-954b-493af0592655")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "C68")
 					(unit 1)
 				)
 			)
@@ -5761,7 +6592,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "6dd9d8fb-fd39-495f-89bd-249d0507f559")
-		(property "Reference" "#PWR0180"
+		(property "Reference" "#PWR0170"
 			(at 88.9 52.07 0)
 			(effects
 				(font
@@ -5811,7 +6642,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0180")
+					(reference "#PWR0170")
 					(unit 1)
 				)
 			)
@@ -5826,7 +6657,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "6dfb07a5-002c-4abb-a02a-452548ae996a")
-		(property "Reference" "R112"
+		(property "Reference" "R116"
 			(at 66.04 76.2 90)
 			(effects
 				(font
@@ -5905,7 +6736,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "R112")
+					(reference "R116")
 					(unit 1)
 				)
 			)
@@ -5920,7 +6751,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "740553be-a6a9-477f-87c8-1a55ebffa907")
-		(property "Reference" "C73"
+		(property "Reference" "C70"
 			(at 83.82 62.23 90)
 			(effects
 				(font
@@ -5999,7 +6830,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C73")
+					(reference "C70")
 					(unit 1)
 				)
 			)
@@ -6007,16 +6838,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+3V3_OSC")
-		(at 262.89 142.24 0)
+		(at 228.6 142.24 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "740f6104-013d-4dfa-aa56-e26d5cbf5150")
-		(property "Reference" "#PWR0196"
-			(at 262.89 146.05 0)
+		(property "Reference" "#PWR0186"
+			(at 232.41 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6025,7 +6855,7 @@
 			)
 		)
 		(property "Value" "+3V3_OSC"
-			(at 262.89 138.43 0)
+			(at 221.742 142.24 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6033,7 +6863,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 262.89 142.24 0)
+			(at 228.6 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6042,7 +6872,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 262.89 142.24 0)
+			(at 228.6 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6051,7 +6881,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 262.89 142.24 0)
+			(at 228.6 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6065,7 +6895,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0196")
+					(reference "#PWR0186")
 					(unit 1)
 				)
 			)
@@ -6080,7 +6910,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "76991393-10ed-4530-af34-6ae7fa673cc0")
-		(property "Reference" "C75"
+		(property "Reference" "C72"
 			(at 108.204 70.612 90)
 			(effects
 				(font
@@ -6161,7 +6991,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C75")
+					(reference "C72")
 					(unit 1)
 				)
 			)
@@ -6169,15 +6999,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+3V3A")
-		(at 224.79 142.24 0)
+		(at 228.6 137.16 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom no)
 		(on_board no)
 		(dnp no)
 		(uuid "77155a99-9035-4b7b-84f2-9694f66a4fec")
-		(property "Reference" "#PWR0191"
-			(at 227.33 143.51 0)
+		(property "Reference" "#PWR0185"
+			(at 229.87 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6186,7 +7016,7 @@
 			)
 		)
 		(property "Value" "+3V3A"
-			(at 224.79 138.43 0)
+			(at 223.012 137.16 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6194,7 +7024,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 219.71 138.43 0)
+			(at 224.79 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6203,7 +7033,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 219.71 138.43 0)
+			(at 224.79 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6212,7 +7042,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 224.79 142.24 0)
+			(at 228.6 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6226,7 +7056,205 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0191")
+					(reference "#PWR0185")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+3V3_OSC")
+		(at 107.95 134.62 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "869feb50-7ca1-420c-8544-ea3db5659b1f")
+		(property "Reference" "#PWR0173"
+			(at 107.95 138.43 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3_OSC"
+			(at 107.95 130.81 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 107.95 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 107.95 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 107.95 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ca4d0a58-8afb-4fcd-9be3-0c46bee7f665")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0173")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GNDA")
+		(at 80.01 157.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(uuid "8ca846ee-3406-4061-bce6-d4b1cd5a7b77")
+		(property "Reference" "#PWR0169"
+			(at 77.47 156.21 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND_SENSE"
+			(at 80.01 161.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 80.01 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 80.01 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GNDA\" , ground"
+			(at 80.01 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "231d5109-122b-4e5b-b6d9-b6efbd35c92f")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0169")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND_OSC")
+		(at 107.95 157.48 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8cfdf726-9946-4d8d-b3f7-617e739fcd6c")
+		(property "Reference" "#PWR0174"
+			(at 107.95 163.83 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND_OSC"
+			(at 107.95 161.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 107.95 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 107.95 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 107.95 157.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dacb98c6-dd40-45ab-903d-cfcb2e4d45c2")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0174")
 					(unit 1)
 				)
 			)
@@ -6235,7 +7263,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_6")
 		(lib_id "power:PWR_FLAG")
-		(at 237.49 144.78 180)
+		(at 231.14 134.62 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6243,8 +7271,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "92149b53-f3cc-4e7e-b241-eeba16e6aab6")
-		(property "Reference" "#FLG011"
-			(at 237.49 146.685 0)
+		(property "Reference" "#FLG04"
+			(at 233.045 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6253,7 +7281,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 237.49 148.59 0)
+			(at 234.95 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6262,7 +7290,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 237.49 144.78 0)
+			(at 231.14 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6271,7 +7299,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 237.49 144.78 0)
+			(at 231.14 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6280,7 +7308,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 237.49 144.78 0)
+			(at 231.14 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6294,7 +7322,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG011")
+					(reference "#FLG04")
 					(unit 1)
 				)
 			)
@@ -6303,7 +7331,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_6")
 		(lib_id "power:PWR_FLAG")
-		(at 262.89 144.78 180)
+		(at 231.14 142.24 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6311,8 +7339,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "94594af0-3ffd-4e51-9e9e-092ce0ebc976")
-		(property "Reference" "#FLG014"
-			(at 262.89 146.685 0)
+		(property "Reference" "#FLG06"
+			(at 233.045 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6321,7 +7349,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 262.89 148.59 0)
+			(at 234.95 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6330,7 +7358,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 262.89 144.78 0)
+			(at 231.14 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6339,7 +7367,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 262.89 144.78 0)
+			(at 231.14 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6348,7 +7376,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 262.89 144.78 0)
+			(at 231.14 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6362,7 +7390,101 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG014")
+					(reference "#FLG06")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C_Small")
+		(at 80.01 146.05 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9b38b8f6-94ff-4e70-b95a-dabc6b108935")
+		(property "Reference" "C69"
+			(at 77.47 146.05 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "10uF 10% 50V"
+			(at 82.804 146.05 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+			(at 80.01 146.05 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 80.01 146.05 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Capacitor, 10uF, ±10%, X5R, 50V, SMD 1206"
+			(at 80.01 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Samsung Electro-Mechanics"
+			(at 80.01 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "CL31A106KBHNNNE"
+			(at 80.01 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C13585"
+			(at 80.01 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "55b0d5ec-6b45-4367-9d12-c8c5272be77e")
+		)
+		(pin "2"
+			(uuid "9c0b6656-ffab-4c5a-a637-94290d973201")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "C69")
 					(unit 1)
 				)
 			)
@@ -6371,8 +7493,8 @@
 	(symbol
 		(lib_name "PWR_FLAG_8")
 		(lib_id "power:PWR_FLAG")
-		(at 262.89 154.94 0)
-		(mirror y)
+		(at 238.76 144.78 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6380,8 +7502,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a5799618-bf98-44b0-be71-755cdd8dd770")
-		(property "Reference" "#FLG015"
-			(at 262.89 153.035 0)
+		(property "Reference" "#FLG016"
+			(at 236.855 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6390,7 +7512,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 262.89 151.13 0)
+			(at 234.95 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6399,7 +7521,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 262.89 154.94 0)
+			(at 238.76 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6408,7 +7530,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 262.89 154.94 0)
+			(at 238.76 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6417,7 +7539,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 262.89 154.94 0)
+			(at 238.76 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6431,7 +7553,74 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG015")
+					(reference "#FLG016")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:+3V3")
+		(at 92.71 134.62 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a720d91f-6054-42bf-9a38-ccc1f37a45e4")
+		(property "Reference" "#PWR0171"
+			(at 92.71 138.43 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 92.71 130.81 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 92.71 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 92.71 134.62 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 92.71 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ce304634-24ef-4b1a-bdf4-df81875f0d90")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0171")
 					(unit 1)
 				)
 			)
@@ -6440,8 +7629,8 @@
 	(symbol
 		(lib_name "PWR_FLAG_8")
 		(lib_id "power:PWR_FLAG")
-		(at 275.59 154.94 0)
-		(mirror y)
+		(at 238.76 149.86 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6450,7 +7639,7 @@
 		(fields_autoplaced yes)
 		(uuid "a9975e80-4b0e-476d-86e3-deb289f65307")
 		(property "Reference" "#FLG017"
-			(at 275.59 153.035 0)
+			(at 236.855 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6459,7 +7648,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 275.59 151.13 0)
+			(at 234.95 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6468,7 +7657,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 275.59 154.94 0)
+			(at 238.76 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6477,7 +7666,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 275.59 154.94 0)
+			(at 238.76 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6486,7 +7675,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 275.59 154.94 0)
+			(at 238.76 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6515,7 +7704,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "b2b71972-9c55-419e-9130-4b0b694b9069")
-		(property "Reference" "C74"
+		(property "Reference" "C71"
 			(at 98.044 70.612 90)
 			(effects
 				(font
@@ -6596,7 +7785,72 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "C74")
+					(reference "C71")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "sjc_power:GND")
+		(at 64.77 157.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b61930ea-f342-4e6d-8f1e-901bbc8d4197")
+		(property "Reference" "#PWR0167"
+			(at 64.77 163.83 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 64.77 161.29 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 64.77 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 64.77 157.48 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 64.77 157.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "68ba06ef-9178-44b8-90b8-d1fd09563b5c")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "#PWR0167")
 					(unit 1)
 				)
 			)
@@ -6605,7 +7859,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_7")
 		(lib_id "power:PWR_FLAG")
-		(at 194.31 154.94 0)
+		(at 238.76 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6613,8 +7867,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b9615943-808d-4ec7-91d9-db186ab208b5")
-		(property "Reference" "#FLG06"
-			(at 194.31 153.035 0)
+		(property "Reference" "#FLG012"
+			(at 236.855 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6623,7 +7877,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 194.31 151.13 0)
+			(at 234.95 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6632,7 +7886,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 154.94 0)
+			(at 238.76 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6641,7 +7895,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 194.31 154.94 0)
+			(at 238.76 129.54 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6650,7 +7904,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 194.31 154.94 0)
+			(at 238.76 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6664,7 +7918,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG06")
+					(reference "#FLG012")
 					(unit 1)
 				)
 			)
@@ -6673,7 +7927,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_7")
 		(lib_id "power:PWR_FLAG")
-		(at 176.53 144.78 180)
+		(at 231.14 149.86 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -6681,8 +7935,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bc1d6d1f-daa4-4eb5-95c2-b0c96b41a278")
-		(property "Reference" "#FLG03"
-			(at 176.53 146.685 0)
+		(property "Reference" "#FLG08"
+			(at 233.045 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6691,7 +7945,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 176.53 148.59 0)
+			(at 234.95 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6700,7 +7954,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 144.78 0)
+			(at 231.14 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6709,7 +7963,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 176.53 144.78 0)
+			(at 231.14 149.86 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6718,7 +7972,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 176.53 144.78 0)
+			(at 231.14 149.86 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6732,7 +7986,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG03")
+					(reference "#FLG08")
 					(unit 1)
 				)
 			)
@@ -6740,16 +7994,15 @@
 	)
 	(symbol
 		(lib_id "sjc_power:+3V3")
-		(at 237.49 142.24 0)
+		(at 228.6 134.62 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "c03352cc-28ba-4585-bb7a-82280d42205f")
-		(property "Reference" "#PWR0193"
-			(at 237.49 146.05 0)
+		(property "Reference" "#PWR0184"
+			(at 232.41 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6758,7 +8011,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 237.49 138.43 0)
+			(at 223.52 134.62 90)
 			(effects
 				(font
 					(size 1 1)
@@ -6766,7 +8019,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 237.49 142.24 0)
+			(at 228.6 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6775,7 +8028,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 237.49 142.24 0)
+			(at 228.6 134.62 0)
 			(effects
 				(font
 					(size 1 1)
@@ -6784,7 +8037,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 237.49 142.24 0)
+			(at 228.6 134.62 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6798,7 +8051,101 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0193")
+					(reference "#PWR0184")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:FerriteBead_Small")
+		(at 72.39 137.16 270)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c0863715-bc7b-477b-ab81-19b4321e5055")
+		(property "Reference" "FB3"
+			(at 72.39 134.62 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "220R 3A"
+			(at 72.39 140.208 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Footprint" "Inductor_SMD:L_0805_2012Metric_Pad1.05x1.20mm_HandSolder"
+			(at 72.39 135.382 90)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://product.tdk.com/system/files/dam/doc/product/emc/emc/beads/catalog/beads_commercial_power_mpz2012_en.pdf?ref_disty=mouser"
+			(at 72.39 137.16 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Ferrite Bead, 3A, 40mΩ DC Resistance,  220Ω@100MHz, SMD 0805"
+			(at 72.39 137.16 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "TDK"
+			(at 72.39 137.16 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "PN" "MPZ2012S221AT000"
+			(at 72.39 137.16 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "JLCPCB Part #" "C76818"
+			(at 72.39 137.16 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e89a0bc-4aab-4a97-ac81-155e89231879")
+		)
+		(pin "2"
+			(uuid "d122e983-781b-40f3-87b6-fa14dd22caa2")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "FB3")
 					(unit 1)
 				)
 			)
@@ -6813,7 +8160,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "c091a639-8909-4595-9025-4254347e74cd")
-		(property "Reference" "#PWR0181"
+		(property "Reference" "#PWR0175"
 			(at 114.3 52.07 0)
 			(effects
 				(font
@@ -6863,7 +8210,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0181")
+					(reference "#PWR0175")
 					(unit 1)
 				)
 			)
@@ -6878,7 +8225,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "c1b04972-579f-4733-ab69-0891f0acd19f")
-		(property "Reference" "#PWR0182"
+		(property "Reference" "#PWR0176"
 			(at 111.76 92.71 0)
 			(effects
 				(font
@@ -6928,7 +8275,7 @@
 		(instances
 			(project ""
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0182")
+					(reference "#PWR0176")
 					(unit 1)
 				)
 			)
@@ -7033,8 +8380,8 @@
 	(symbol
 		(lib_name "PWR_FLAG_8")
 		(lib_id "power:PWR_FLAG")
-		(at 224.79 154.94 0)
-		(mirror y)
+		(at 238.76 142.24 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7042,8 +8389,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c5c8b9e7-9977-43ab-8f4c-75303a7ec3c5")
-		(property "Reference" "#FLG010"
-			(at 224.79 153.035 0)
+		(property "Reference" "#FLG015"
+			(at 236.855 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7052,7 +8399,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 224.79 151.13 0)
+			(at 234.95 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7061,7 +8408,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 224.79 154.94 0)
+			(at 238.76 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7070,7 +8417,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 224.79 154.94 0)
+			(at 238.76 142.24 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7079,7 +8426,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 224.79 154.94 0)
+			(at 238.76 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7093,7 +8440,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG010")
+					(reference "#FLG015")
 					(unit 1)
 				)
 			)
@@ -7101,15 +8448,16 @@
 	)
 	(symbol
 		(lib_id "sjc_power:PGND")
-		(at 176.53 157.48 0)
+		(at 241.3 144.78 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
 		(uuid "c6726943-c199-4d65-9e0a-15130aa2d810")
-		(property "Reference" "#PWR0186"
-			(at 176.53 163.83 0)
+		(property "Reference" "#PWR0196"
+			(at 247.65 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7118,7 +8466,7 @@
 			)
 		)
 		(property "Value" "LOGIC_PSU_GND"
-			(at 176.53 161.29 0)
+			(at 250.444 144.78 90)
 			(effects
 				(font
 					(size 1 1)
@@ -7126,7 +8474,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 176.53 157.48 0)
+			(at 241.3 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7135,7 +8483,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 176.53 157.48 0)
+			(at 241.3 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7144,7 +8492,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"PGND\" , reference supply ground"
-			(at 176.53 157.48 0)
+			(at 241.3 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7158,7 +8506,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0186")
+					(reference "#PWR0196")
 					(unit 1)
 				)
 			)
@@ -7167,7 +8515,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_4")
 		(lib_id "power:PWR_FLAG")
-		(at 194.31 144.78 180)
+		(at 231.14 152.4 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7175,8 +8523,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c77a9057-77ca-42b8-af42-2a32170b4fe3")
-		(property "Reference" "#FLG05"
-			(at 194.31 146.685 0)
+		(property "Reference" "#FLG09"
+			(at 233.045 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7185,7 +8533,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 194.31 148.59 0)
+			(at 234.95 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7194,7 +8542,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 194.31 144.78 0)
+			(at 231.14 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7203,7 +8551,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 194.31 144.78 0)
+			(at 231.14 152.4 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7212,7 +8560,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 194.31 144.78 0)
+			(at 231.14 152.4 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7226,7 +8574,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG05")
+					(reference "#FLG09")
 					(unit 1)
 				)
 			)
@@ -7235,7 +8583,7 @@
 	(symbol
 		(lib_name "PWR_FLAG_6")
 		(lib_id "power:PWR_FLAG")
-		(at 275.59 144.78 180)
+		(at 231.14 144.78 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7243,8 +8591,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c8c7df23-1743-4f72-9c9c-5da063ad5f51")
-		(property "Reference" "#FLG016"
-			(at 275.59 146.685 0)
+		(property "Reference" "#FLG07"
+			(at 233.045 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7253,7 +8601,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 275.59 148.59 0)
+			(at 234.95 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7262,7 +8610,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 275.59 144.78 0)
+			(at 231.14 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7271,7 +8619,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 275.59 144.78 0)
+			(at 231.14 144.78 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7280,7 +8628,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 275.59 144.78 0)
+			(at 231.14 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7294,7 +8642,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG016")
+					(reference "#FLG07")
 					(unit 1)
 				)
 			)
@@ -7303,8 +8651,8 @@
 	(symbol
 		(lib_name "PWR_FLAG_8")
 		(lib_id "power:PWR_FLAG")
-		(at 237.49 154.94 0)
-		(mirror y)
+		(at 238.76 137.16 90)
+		(mirror x)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7312,8 +8660,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d33c657a-b2e6-4dfe-a413-8369371d7e8d")
-		(property "Reference" "#FLG012"
-			(at 237.49 153.035 0)
+		(property "Reference" "#FLG014"
+			(at 236.855 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7322,7 +8670,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 237.49 151.13 0)
+			(at 234.95 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7331,7 +8679,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 237.49 154.94 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7340,7 +8688,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 237.49 154.94 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1 1)
@@ -7349,7 +8697,7 @@
 			)
 		)
 		(property "Description" "Special symbol for telling ERC where power comes from"
-			(at 237.49 154.94 0)
+			(at 238.76 137.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7363,7 +8711,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#FLG012")
+					(reference "#FLG014")
 					(unit 1)
 				)
 			)
@@ -7378,7 +8726,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "e6179e8c-290d-4392-b233-7caaa8fbcbbc")
-		(property "Reference" "FB8"
+		(property "Reference" "FB6"
 			(at 140.97 81.28 90)
 			(effects
 				(font
@@ -7457,7 +8805,75 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "FB8")
+					(reference "FB6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:NetTie_2")
+		(at 100.33 154.94 180)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "ed62f891-d31f-4a4b-9d9f-fab0b9898f2b")
+		(property "Reference" "NT2"
+			(at 100.33 156.21 0)
+			(effects
+				(font
+					(size 1 1)
+				)
+			)
+		)
+		(property "Value" "~"
+			(at 100.33 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "NetTie:NetTie-2_SMD_Pad0.5mm"
+			(at 100.33 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 100.33 154.94 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "5e189d91-219e-4edf-af27-17ac5e56b325")
+		)
+		(pin "2"
+			(uuid "f3a6312f-eb7d-49be-9511-22b3c205c191")
+		)
+		(instances
+			(project "sjc_logic"
+				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
+					(reference "NT2")
 					(unit 1)
 				)
 			)
@@ -7472,7 +8888,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "f3549839-5434-4a57-930e-f91c41659f39")
-		(property "Reference" "#PWR0183"
+		(property "Reference" "#PWR0177"
 			(at 152.4 52.07 0)
 			(effects
 				(font
@@ -7522,7 +8938,7 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0183")
+					(reference "#PWR0177")
 					(unit 1)
 				)
 			)
@@ -7537,7 +8953,7 @@
 		(on_board no)
 		(dnp no)
 		(uuid "f6ea96ed-900c-461b-8c54-8bcc33bddbb3")
-		(property "Reference" "#PWR0179"
+		(property "Reference" "#PWR0165"
 			(at 59.69 52.07 0)
 			(effects
 				(font
@@ -7587,14 +9003,14 @@
 		(instances
 			(project "sjc_logic"
 				(path "/9538e4ed-27e6-4c37-b989-9859dc0d49e8/56e592f0-95f9-46d7-b6c2-cca53a0a6ad3"
-					(reference "#PWR0179")
+					(reference "#PWR0165")
 					(unit 1)
 				)
 			)
 		)
 	)
 	(sheet
-		(at 60.96 100.33)
+		(at 187.96 49.53)
 		(size 21.59 13.97)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7610,7 +9026,7 @@
 		)
 		(uuid "86cfe570-51ff-4724-9fac-fe0e5addee15")
 		(property "Sheetname" "3V3 Power Supply"
-			(at 60.96 99.6184 0)
+			(at 187.96 48.8184 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7619,7 +9035,7 @@
 			)
 		)
 		(property "Sheetfile" "sjc_logic-3V3_psu.kicad_sch"
-			(at 60.96 114.8846 0)
+			(at 187.96 64.0846 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7629,7 +9045,7 @@
 			)
 		)
 		(pin "REG_VIN" bidirectional
-			(at 60.96 104.14 180)
+			(at 187.96 53.34 180)
 			(uuid "cb6e7359-62f4-4719-a942-14ddf0833f56")
 			(effects
 				(font
@@ -7639,7 +9055,7 @@
 			)
 		)
 		(pin "REG_GND" bidirectional
-			(at 60.96 110.49 180)
+			(at 187.96 59.69 180)
 			(uuid "5ab88eee-7d62-40d8-9ab8-31d5e77c38c2")
 			(effects
 				(font
@@ -7657,7 +9073,7 @@
 		)
 	)
 	(sheet
-		(at 60.96 128.27)
+		(at 187.96 77.47)
 		(size 21.59 13.97)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7673,7 +9089,7 @@
 		)
 		(uuid "ee824d76-dfaa-4473-8434-fee5051703a8")
 		(property "Sheetname" "5V Power Supply"
-			(at 60.96 127.5584 0)
+			(at 187.96 76.7584 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7682,7 +9098,7 @@
 			)
 		)
 		(property "Sheetfile" "sjc_logic-5V_psu.kicad_sch"
-			(at 60.96 142.8246 0)
+			(at 187.96 92.0246 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7692,7 +9108,7 @@
 			)
 		)
 		(pin "REG_VIN" bidirectional
-			(at 60.96 132.08 180)
+			(at 187.96 81.28 180)
 			(uuid "d61f55fb-ab35-4626-96d4-fa47b1c01358")
 			(effects
 				(font
@@ -7702,7 +9118,7 @@
 			)
 		)
 		(pin "REG_GND" bidirectional
-			(at 60.96 138.43 180)
+			(at 187.96 87.63 180)
 			(uuid "944a96a7-6683-4ed0-9ad0-5a5cad19f6b9")
 			(effects
 				(font

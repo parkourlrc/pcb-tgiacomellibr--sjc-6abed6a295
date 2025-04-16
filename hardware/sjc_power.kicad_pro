@@ -794,6 +794,9 @@
       "Net-(C14-Pad2)": [
         "PWR"
       ],
+      "Net-(C15-Pad2)": [
+        "PWR"
+      ],
       "Net-(C180-Pad2)": [
         "PWR"
       ],
@@ -945,6 +948,9 @@
         "PWR"
       ],
       "Net-(LD12-K)": [
+        "PWR"
+      ],
+      "Net-(LD2-A)": [
         "PWR"
       ],
       "Net-(LD2-K)": [
@@ -1152,6 +1158,9 @@
         "DRV_HV"
       ],
       "Net-(U7-VB)": [
+        "DRV_HV"
+      ],
+      "Net-(U8-VB)": [
         "DRV_HV"
       ],
       "Net-(U9-VB)": [
