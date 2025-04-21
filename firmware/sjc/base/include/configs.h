@@ -13,6 +13,11 @@
 #include "adc.h"
 #include "tim.h"
 
+// Hardware info ------------------------------------------------------------------ //
+// -------------------------------------------------------------------------------- //
+#define SJC_HW_VERSION_MAJOR 1U
+#define SJC_HW_VERSION_MINOR 0U
+
 // Firmware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
 #define SJC_FW_VERSION_MAJOR 1U
@@ -22,8 +27,10 @@
 #define SJC_FW_RELEASE_MONTH 04U
 #define SJC_FW_RELEASE_YEAR 2024UL
 
-#define SJC_HW_VERSION_MAJOR 1U
-#define SJC_HW_VERSION_MINOR 0U
+// Current sense mode ------------------------------------------------------------ //
+// #define SJC_CURRENT_SENSE_CONFIG_EXTERNAL
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_16A
+// #define SJC_CURRENT_SENSE_CONFIG_INTERNAL_25A
 
 // PWM Configs -------------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -43,12 +50,13 @@
 
 // Runtime Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_TASK_INIT_DELAY ((uint32_t) 2000UL)
-#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t) 2000UL)
-#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t) 1UL)
-#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t) 3UL)
-#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t) 250UL)
-#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t) 50UL)
+#define SJC_TASK_INIT_DELAY ((uint32_t)2000UL)
+#define SJC_DEBUG_TASK_UPDATE_PERIOD_MS ((uint32_t)2000UL)
+#define SJC_DATA_LOGGER_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_CONTROL_TASK_UPDATE_PERIOD_MS ((uint32_t)1UL)
+#define SJC_NETWORK_TASK_UPDATE_PERIOD_MS ((uint32_t)3UL)
+#define SJC_HEARTBEAT_CALLBACK_PERIOD_MS ((uint32_t)250UL)
+#define SJC_HEARTBEAT_CALIBRATION_PERIOD_MS ((uint32_t)50UL)
 
 // Controller Configs ------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
@@ -62,8 +70,13 @@
 
 // Actuator Configs --------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_nEN_GPIO_Port
-#define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_nEN_Pin
+#if SJC_HW_VERSION_MAJOR > 1
+#define SJC_ACTUATOR_DRIVER_ENABLE_PIN V_MOTOR_DRIVER_nEN_Pin
+#define SJC_ACTUATOR_DRIVER_ENABLE_PORT V_MOTOR_DRIVER_nEN_GPIO_Port
+#endif
+
+#define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PORT V_MOTOR_nEN_GPIO_Port
+#define SJC_ACTUATOR_POWER_OUTPUT_ENABLE_PIN V_MOTOR_nEN_Pin
 
 #define SJC_ACTUATOR_LIMIT_MAX_SPEED ((float)10000.0f)
 #define SJC_ACTUATOR_LIMIT_MAX_CURRENT ((float)50.0f)
@@ -90,6 +103,17 @@
 #define SJC_ISOLATED_INPUT_A_PORT GP_ISO_IN_A_GPIO_Port
 #define SJC_ISOLATED_INPUT_B_PORT GP_ISO_IN_B_GPIO_Port
 
+#if SJC_HW_VERSION_MAJOR > 1
+#define SJC_NET_ADDR_A_INPUT_PIN NET_ADDR_A_Pin
+#define SJC_NET_ADDR_B_INPUT_PIN NET_ADDR_B_Pin
+#define SJC_NET_ADDR_C_INPUT_PIN NET_ADDR_C_Pin
+
+#define SJC_NET_ADDR_A_INPUT_PORT NET_ADDR_A_GPIO_Port
+#define SJC_NET_ADDR_B_INPUT_PORT NET_ADDR_B_GPIO_Port
+#define SJC_NET_ADDR_C_INPUT_PORT NET_ADDR_C_GPIO_Port
+#endif
+
+
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_ADC_INSTANCE (ADC1)
@@ -115,7 +139,7 @@
 #define AD8418_SHUNT_RESISTANCE ((float)0.008f)
 #define AD8418_ANALOG_FRONTED_GAIN ((float)0.7907f)
 
-#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.8f)
+#define CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO ((float)0.7f)
 #define CURRENT_SENSOR_COMP_FILTER_MAINT_RATIO (1.0f - CURRENT_SENSOR_COMP_FILTER_RENEW_RATIO)
 
 // Voltage Sensor ----------------------------------------------------------------- //
@@ -143,13 +167,15 @@
 // Modbus Communication ----------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define MODBUS_SERIAL_INSTANCE USART2
+#define MODBUS_SERIAL_DMA_INSTANCE DMA1
+#define MODBUS_SERIAL_DMA_STREAM LL_DMA_STREAM_6
 #define MODBUS_SET_RX_MODE() LL_GPIO_ResetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 #define MODBUS_SET_TX_MODE() LL_GPIO_SetOutputPin(RS485_DE_GPIO_Port, RS485_DE_Pin)
 
 // System Configs ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
 #define SJC_SYSTEM_RESET HAL_NVIC_SystemReset
-#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t) 2UL)
+#define SJC_HARDWARE_ACCESS_WAIT_TIME_MS ((uint32_t)2UL)
 
 // Debug Configs ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //

@@ -1,15 +1,15 @@
 #include "port.h"
 #include "main.h"
-#include "configs.h"
+#include "base/include/configs.h"
 #include "dma.h"
 #include "cmsis_os2.h"
-#include "debug_output.h"
+#include "modules/include/debug_output.h"
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbport.h"
 
 /* ----------------------- Static variables ---------------------------------*/
-
+static volatile uint8_t rx_data = 0;
 
 /* ----------------------- Defines ------------------------------------------*/
 
@@ -17,8 +17,9 @@
 
 /* ----------------------- Start implementation -----------------------------*/
 BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
-					   eMBParity eParity)
+		eMBParity eParity)
 {
+	// Init Serial communication device
 	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
 
 	return TRUE;
@@ -43,7 +44,6 @@ void vMBPortSerialEnable(BOOL xRxEnable, BOOL xTxEnable)
 	{
 		/* start serial transmit */
 		pxMBFrameCBTransmitterEmpty();
-		LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 	}
 	else
 	{
@@ -69,39 +69,50 @@ BOOL xMBPortSerialPutByte(CHAR ucByte)
 
 BOOL xMBPortSerialPutBytes(volatile UCHAR *ucByte, USHORT usSize)
 {
-	LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_6);
+	LL_DMA_DisableStream(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM);
 
-	LL_DMA_ConfigAddresses(DMA1, LL_DMA_STREAM_6, (uint32_t)&ucByte[0], LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
+	LL_DMA_ConfigAddresses(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM, (uint32_t)&ucByte[0], LL_USART_DMA_GetRegAddr(MODBUS_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 
-	LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_6, usSize);
+	LL_DMA_SetDataLength(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM, usSize);
 
-	LL_DMA_ClearFlag_TE6(DMA1);
-	LL_DMA_ClearFlag_HT6(DMA1);
-	LL_DMA_ClearFlag_TC6(DMA1);
-	LL_DMA_ClearFlag_FE6(DMA1);
+	LL_DMA_ClearFlag_TE6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_HT6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_TC6(MODBUS_SERIAL_DMA_INSTANCE);
+	LL_DMA_ClearFlag_FE6(MODBUS_SERIAL_DMA_INSTANCE);
 
-	LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_6);
+	// Limpa TC antes de escutar
+	LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
+
+	LL_DMA_EnableStream(MODBUS_SERIAL_DMA_INSTANCE, MODBUS_SERIAL_DMA_STREAM);
+
+	// Só agora ativa interrupção por TC
+	LL_USART_EnableIT_TC(MODBUS_SERIAL_INSTANCE);
 
 	return TRUE;
 }
 
 BOOL xMBPortSerialGetByte(CHAR *pucByte)
 {
-	*pucByte = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
+	*pucByte = rx_data;
 	return TRUE;
 }
 
 void USART2_IRQHandler(void)
 {
-	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE))
+	if (LL_USART_IsActiveFlag_RXNE(MODBUS_SERIAL_INSTANCE) && LL_USART_IsEnabledIT_RXNE(MODBUS_SERIAL_INSTANCE))
 	{
+		// Real RXNE clearing happens here:
+		rx_data = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
+
 		LL_USART_ClearFlag_RXNE(MODBUS_SERIAL_INSTANCE);
+//		DebugOutput_systemPrintf("Byte recebido na UART\n");
 		pxMBFrameCBByteReceived();
 	}
 
-	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) & LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
+	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) && LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
 	{
 		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
+//		DebugOutput_systemPrintf("Transmissão concluída na UART\n");
 		pxMBFrameCBTransmitterEmpty();
 	}
 }

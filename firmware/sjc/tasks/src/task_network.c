@@ -7,8 +7,9 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
+#include "modules/include/modbus_network.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -18,14 +19,12 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
-#include "configs.h"
-#include "network.h"
-#include "analog_interfaces.h"
-#include "debug_output.h"
-#include "network_configs.h"
-#include "task_common.h"
-
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "base/include/sjc.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/debug_output.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
@@ -55,16 +54,27 @@ static uint32_t TaskTic, TaskToc;
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
+
 void NetworkTaskApp(void *argument)
 {
 	/* USER CODE BEGIN NetworkTaskApp */
-	if (SJC_RET_NOK == SJC_Network_Init(NETWORK_BASE_ADRESS))
+#if SJC_HW_VERSION_MAJOR > 1
+	uint32_t xNetworkAdress = 0;
+	ModbusNetwork_getAddress(&xNetworkAdress);
+
+	if (SJC_RET_NOK == ModbusNetwork_init(xNetworkAdress))
+#else
+	if (SJC_RET_NOK == ModbusNetwork_init(NETWORK_BASE_ADRESS))
+#endif
 	{
 		SJC_SYSTEM_RESET();
 	}
 
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Network task initiated!"
-								 "\r\n[OS] Modbus communication enabled!");
+	// SJC info
+	SJC_presentSystemInfo();
+
+	DebugOutput_systemPrintf("\r\n[OS] Network task initiated!"
+							 "\r\n[OS] Modbus communication enabled!");
 
 	uint32_t tick = osKernelGetTickCount();
 
@@ -73,22 +83,18 @@ void NetworkTaskApp(void *argument)
 	{
 		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
 
-		SJC_GetTime(SJC_TIME_MS, &TaskTic);
+		SJC_getTime(SJC_TIME_MS, &TaskTic);
 
-		//SJC_ProcessNetworkData();
-		SJC_ExecuteNetworkDaemon();
-		SJC_UpdateInputRegisters();
-		SJC_UpdateHoldingRegisters();
+		SJC_executeNetworkDaemon();
+		SJC_updateInputRegisters();
+		SJC_updateHoldingRegisters();
 
-		SJC_GetTime(SJC_TIME_MS, &TaskToc);
+		SJC_getTime(SJC_TIME_MS, &TaskToc);
 
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc-TaskTic));
-
-
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc - TaskTic));
 
 		osDelayUntil(tick);
 	}
 	/* USER CODE END MainTaskApp */
 }
-
 // ------------------------------------------------------------------- //

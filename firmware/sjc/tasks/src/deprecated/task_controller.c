@@ -95,11 +95,11 @@
 //
 //	xControlTaskHandle = xTaskGetCurrentTaskHandle();
 //
-//	SJC_TestSignals_Init();
+//	TestSignals_Init();
 //
-//	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
+//	DebugOutput_SystemPrintf("\r\n[OS] Controller task initiated!");
 //
-//	SJC_EnableJointActuators();
+//	SJC_enableJointActuatorOutput();
 //
 //	osDelay(SJC_CURRENT_OFFSET_DELAY);
 //
@@ -172,7 +172,7 @@
 //	}
 //
 //	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
-//	SJC_DisableJointActuators();
+//	SJC_disableJointActuatorOutput();
 //}
 //
 //static void ControllerParametersUpdate(void)
@@ -234,26 +234,26 @@
 //
 //static void PublishLogData(void)
 //{
-//	SJC_DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+//	DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
 //}
 //
 //static void RunTestSignal(eSjcInputType_t type)
 //{
-//	SJC_TestSignals_GetState(&xTestSignalState);
+//	TestSignals_GetState(&xTestSignalState);
 //
 //	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 //	{
 //		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
-//		SJC_TestSignals_SetConfig(type, time_factor);
+//		TestSignals_SetConfig(type, time_factor);
 //	}
 //	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 //	{
-//		SJC_TestSignals_GetValue(&xTestSignalValue);
+//		TestSignals_GetValue(&xTestSignalValue);
 //		ControlAction = ControllerReference*xTestSignalValue;
 //	}
 //	else
 //	{
-//		SJC_TestSignals_Reset();
+//		TestSignals_Reset();
 //		SJC_SetControlMode(SJC_CONTROL_DISABLED);
 //	}
 //}

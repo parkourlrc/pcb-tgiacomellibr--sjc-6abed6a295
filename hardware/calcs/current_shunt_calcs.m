@@ -54,7 +54,7 @@ if (plot_on > 0)
   title('ACS 712 current transfer function')
   xlabel('I (A)');
   ylabel('Viout (V)');
-endif
+end
 
 %% AD8418 calcs
 % ---------------------------------------------------------------------------- %
@@ -107,7 +107,7 @@ if (plot_on > 0)
   title('AD8418 current transfer function')
   xlabel('I (A)');
   ylabel('Viout (V)');
-endif
+end
 
 %% Frequency filter
 % (2nd order + 1st order) Butterworth filter

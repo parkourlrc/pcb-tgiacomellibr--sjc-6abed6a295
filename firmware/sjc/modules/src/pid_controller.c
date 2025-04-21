@@ -12,9 +12,9 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "pid_controller.h"
+#include "modules/include/pid_controller.h"
+#include "base/include/configs.h"
 
-#include "configs.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -42,7 +42,7 @@ void reset_parameters(void);
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_PidController_Init(void)
+void PidController_init(void)
 {
 
 	xPidController.Reference = 0;
@@ -51,7 +51,7 @@ void SJC_PidController_Init(void)
 	reset_parameters();
 }
 
-float SJC_PidController_Compute(const float ControllerError, const float dt)
+float PidController_compute(const float ControllerError, const float dt)
 {
 	xPidController.Errors.PrevError = xPidController.Errors.ActualError;
 	xPidController.Errors.ActualError = ControllerError;
@@ -61,11 +61,11 @@ float SJC_PidController_Compute(const float ControllerError, const float dt)
 	xPidController.ControlAction += xPidController.Errors.Derivative * xPidController.Parameters.Kd;
 
 	float TempIntegralError = xPidController.Errors.Integral + (xPidController.Errors.ActualError * dt);
-	float TempIntegralAction = TempIntegralError*xPidController.Parameters.Ki;
+	float TempIntegralAction = TempIntegralError * xPidController.Parameters.Ki;
 
-	float TempControlAction = xPidController.ControlAction + (TempIntegralError*xPidController.Parameters.Ki);
+	float TempControlAction = xPidController.ControlAction + (TempIntegralError * xPidController.Parameters.Ki);
 
-	bool bErrorConditionalIntegration = !( ( TempControlAction < xPidControllerEffortLimits.Min ) || ( TempControlAction > xPidControllerEffortLimits.Max ) );
+	bool bErrorConditionalIntegration = !((TempControlAction < xPidControllerEffortLimits.Min) || (TempControlAction > xPidControllerEffortLimits.Max));
 
 	if (true == bErrorConditionalIntegration)
 	{
@@ -74,42 +74,41 @@ float SJC_PidController_Compute(const float ControllerError, const float dt)
 
 	xPidController.ControlAction += TempIntegralAction;
 
-
 	return xPidController.ControlAction;
 }
 
-float SJC_PidController_GetError(void)
+float PidController_getError(void)
 {
 	return xPidController.Errors.ActualError;
 }
 
-float SJC_PidController_GetReference(void)
+float PidController_getReference(void)
 {
 	return xPidController.Reference;
 }
 
-void SJC_PidController_SetReference(const float reference)
+void PidController_setReference(const float reference)
 {
 	xPidController.Reference = reference;
 }
 
-xSjcRange_t SJC_PidController_GetActuatorEffortLimits(void)
+xSjcRange_t PidController_getActuatorEffortLimits(void)
 {
 	return xPidControllerEffortLimits;
 }
 
-void SJC_PidController_SetActuatorEffortLimits(const xSjcRange_t limits)
+void PidController_setActuatorEffortLimits(const xSjcRange_t limits)
 {
 	xPidControllerEffortLimits.Min = limits.Min;
 	xPidControllerEffortLimits.Max = limits.Max;
 }
 
-xSjcServoPidParameters_t SJC_PidController_GetControlParameters(void)
+xSjcServoPidParameters_t PidController_getControlParameters(void)
 {
 	return xPidController.Parameters;
 }
 
-void SJC_PidController_SetControlParameters(const xSjcServoPidParameters_t Parameters)
+void PidController_setControlParameters(const xSjcServoPidParameters_t Parameters)
 {
 	xPidController.Parameters = Parameters;
 }

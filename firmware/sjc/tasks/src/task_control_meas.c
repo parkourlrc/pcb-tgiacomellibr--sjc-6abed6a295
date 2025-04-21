@@ -5,11 +5,10 @@
  *      Author: tiago
  */
 
-
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -19,33 +18,30 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
-#include "configs.h"
-#include "network.h"
-#include "data_logger.h"
-#include "task_common.h"
-#include "test_signals.h"
-#include "debug_output.h"
-#include "network_configs.h"
-#include "analog_interfaces.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "base/include/sjc.h"
+#include "modules/include/analog_interfaces.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/debug_output.h"
+#include "modules/include/test_signals.h"
+#include "tasks/include/task_common.h"
 
+#include "modules/include/discrete_controller.h"
 // ------------------------------------------------------------------- //
-
 
 // Task defines ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#define TASK_NOTIFICATION_MAX_WAIT_TIME_MS				( (uint32_t ) 2U)
-#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT			( (uint32_t ) 3000UL)
+#define TASK_NOTIFICATION_MAX_WAIT_TIME_MS ((uint32_t)2U)
+#define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT ((uint32_t)3000UL)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
 // ------------------------------------------------------------------- //
-typedef enum {
-	TASK_MEASUREMENT_STATE_UNINITIALIZED = 0,
-	TASK_MEASUREMENT_STATE_RUNNING
-} eSjcTaskMeasurementState_t;
 
-typedef enum {
+typedef enum
+{
 	SJC_MOVE_BW = 0,
 	SJC_MOVE_FW
 } eSjcMoveDirection_t;
@@ -58,7 +54,6 @@ static osTimerId_t xHeartbeatTimerId;
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 TaskHandle_t xControlAndMeasurementsTaskHandle;
-static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 
 static xSjcServoPidParameters_t JointControllerParameters = xSjcServoPidParametersEmptyObj;
 static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointControllerMeasurementsEmptyObj;
@@ -67,6 +62,7 @@ static eSjcControlMode_t ControlMode;
 static uint32_t ControllerPeriodSpec = 1000;
 static float ControlTs = 0;
 static uint32_t DeltaT = 0;
+static bool control_mode_updated_ = false;
 
 static float ActuatorSpeed = 0;
 static float ActuatorRelativeDisplacement = 0;
@@ -81,13 +77,6 @@ static uint32_t ControllerCycleCounter;
 static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
-
-static float ui, ud, up, uitemp;
-static float k = 0.0;//0.99; //0.9969;
-static float p1 = 1.0;
-static float p2 = 0.9920;
-static float z1 = 0.099;
-static float z2 = -0.0895;
 
 // ------------------------------------------------------------------- //
 
@@ -119,34 +108,43 @@ void ControllerMeasTaskApp(void *argument)
 
 	xControlAndMeasurementsTaskHandle = xTaskGetCurrentTaskHandle();
 
-	SJC_TestSignals_Init();
+	TestSignals_init();
 
-	SJC_EnableJointActuators();
-
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Controller and measurements task initiated!");
-
+	SJC_enableJointActuatorDriver();
+	SJC_enableJointActuatorOutput();
 
 	xHeartbeatTimerId = osTimerNew(vHeartbeatTimerCallback, osTimerPeriodic, (void *)0, NULL);
 	configASSERT(xHeartbeatTimerId != NULL);
 	osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
 
+	osDelay(SJC_TASK_INIT_DELAY);
 
 	uint32_t ulNotificationValue = 0;
 
-	SJC_AnalogInterfaces_MeasurementEnable();
+	AnalogInterfaces_registerUpdateTaskHandle(&xControlAndMeasurementsTaskHandle);
 
-	xTaskState = TASK_MEASUREMENT_STATE_RUNNING;
+	AnalogInterfaces_enable();
+
+	SJC_setControlMode(SJC_ANALOG_CALIBRATION);
+
+	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
+
+	/*
+	 * Discrete controller tests
+	 */
+	DiscreteController_init();
+	DiscreteController_setOutputLimits(-24.0f, 24.0f);
 
 	/* Infinite loop */
-	for (;;) {
+	for (;;)
+	{
+		SJC_getTime(SJC_TIME_MS, &TaskTic);
 
-		SJC_GetTime(SJC_TIME_MS, &TaskTic);
+		ulNotificationValue = ulTaskNotifyTake(pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS);
 
-		ulNotificationValue = ulTaskNotifyTake( pdTRUE, TASK_NOTIFICATION_MAX_WAIT_TIME_MS );
-
-		if( ulNotificationValue == 1 )
+		if (ulNotificationValue == 1)
 		{
-			SJC_AnalogInterfaces_UpdateConversionValues();
+			AnalogInterfaces_updateConversionValues();
 
 			RunControlLoop();
 		}
@@ -154,18 +152,19 @@ void ControllerMeasTaskApp(void *argument)
 		{
 			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 			{
-				SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
+				DebugOutput_systemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 			}
 		}
 
-		SJC_GetTime(SJC_TIME_MS, &TaskToc);
+		SJC_getTime(SJC_TIME_MS, &TaskToc);
 
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME, (TaskToc-TaskTic));
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME, (TaskToc - TaskTic));
 	}
 
-	SJC_AnalogInterfaces_MeasurementDisable();
-	SJC_SetJointActuatorVoltage(ZERO_FLOAT);
-	SJC_DisableJointActuators();
+	AnalogInterfaces_disable();
+	SJC_setJointActuatorVoltage(ZERO_FLOAT);
+	SJC_disableJointActuatorOutput();
+	SJC_disableJointActuatorDriver();
 	/* USER CODE END MainTaskApp */
 }
 
@@ -173,7 +172,7 @@ static void RunControlLoop(void)
 {
 	if (true == CheckControlLoopCycle())
 	{
-		SJC_GetTime(SJC_TIME_MS, &ControlTaskTic);
+		SJC_getTime(SJC_TIME_MS, &ControlTaskTic);
 
 		ControllerParametersUpdate();
 
@@ -181,7 +180,8 @@ static void RunControlLoop(void)
 
 		EnqueueLogData();
 
-		switch (ControlMode) {
+		switch (ControlMode)
+		{
 		case SJC_PULSE_FAST_EXCITATION:
 			JointMeasurements.ControlAction = ZERO_FLOAT;
 			RunTestSignal(INPUT_TYPE_PULSE_FAST);
@@ -203,28 +203,14 @@ static void RunControlLoop(void)
 			break;
 
 		case SJC_CURRENT_CONTROL:
-			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
-			SJC_ComputeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
-
-//			up = k*JointMeasurements.ControllerError;
-//			ud *= p2;
-//			ud += z2*JointMeasurements.ControllerError;
-//			uitemp = p1*ui + (z1*JointMeasurements.ControllerError);
-//
-//
-////			ud = 0;
-//
-//			if (fabs(up + ud + uitemp) < 23.52)
-//			{
-//				ui = uitemp;
-//			}
-//
-//			JointMeasurements.ControlAction = up + ui + ud;
+//			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
+//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
 			break;
 
 		case SJC_SPEED_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - ActuatorSpeed;
-			SJC_ComputeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
@@ -236,20 +222,33 @@ static void RunControlLoop(void)
 			break;
 
 		default: // SJC_CURRENT_CALIBRATION
-			SJC_GetJointActuatorCurrent(&CurrentMeasurementAux);
+		{
+			JointMeasurements.ControlAction = ZERO_FLOAT;
+
+			if ((control_mode_updated_) && (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx))
+			{
+				control_mode_updated_ = false;
+				CurrentBiasMeasurementIdx = 0;
+				osTimerStop(xHeartbeatTimerId);
+				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
+			}
+			SJC_getJointActuatorCurrent(&CurrentMeasurementAux);
 			CurrentBias += CurrentMeasurementAux;
 			CurrentBiasMeasurementIdx++;
+
 			if (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx)
 			{
+				SJC_setControlMode(SJC_CONTROL_DISABLED);
 				CurrentBias /= CurrentBiasMeasurementIdx;
-				SJC_SetJointActuatorCurrentBias(CurrentBias);
-				SJC_SetControlMode(SJC_CONTROL_DISABLED);
-				SJC_SetControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
+				SJC_setJointActuatorCurrentBias(CurrentBias);
+				DataLogger_transmit("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
+				DebugOutput_systemPrintf("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
+				SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
 				osTimerStop(xHeartbeatTimerId);
 				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
-				SJC_DataLogger_Transmit("\n\n\r[SJC] Estimated current bias: %.3f\n", CurrentBias);
 			}
-			break;
+		}
+		break;
 		}
 
 		// End stop ---------------------------------------------------------- //
@@ -257,8 +256,8 @@ static void RunControlLoop(void)
 		EndstopsCheck();
 
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME, DeltaT);
-		SJC_GetTime(SJC_TIME_MS, &ControlTaskToc);
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (ControlTaskToc-ControlTaskTic));
+		SJC_getTime(SJC_TIME_MS, &ControlTaskToc);
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (ControlTaskToc - ControlTaskTic));
 	}
 }
 
@@ -275,64 +274,28 @@ static bool CheckControlLoopCycle(void)
 	}
 }
 
-void ADC_IRQHandler(void)
-{
-	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group injected end of sequence conversions */
-		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
-
-		switch (xTaskState) {
-		case TASK_MEASUREMENT_STATE_RUNNING:
-			/* Call interruption treatment function */
-			SJC_AnalogInterfaces_AdcConversionIsr();
-
-			/* Dispatch conversion and filtering */
-			if (SJC_RET_OK == SJC_AnalogInterfaces_CheckUpdateConversionTime())
-			{
-				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-				configASSERT( xControlAndMeasurementsTaskHandle != NULL );
-				vTaskNotifyGiveFromISR( xControlAndMeasurementsTaskHandle, &xHigherPriorityTaskWoken );
-				portYIELD_FROM_ISR( xHigherPriorityTaskWoken );
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
-	/* Check whether ADC group regular overrun caused the ADC interruption */
-	if(LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
-	{
-		/* Clear flag ADC group regular overrun */
-		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
-
-		/* Call interruption treatment function */
-		SJC_DebugOutput_SystemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
-		Error_Handler();
-	}
-}
-
 static void ControllerParametersUpdate(void)
 {
 	// Controller configs update
-	SJC_GetControlMode(&ControlMode);
-	SJC_GetControlUpdatePeriodMs(&ControllerPeriodSpec);
-	SJC_GetControlParameters(&JointControllerParameters);
-	SJC_GetControlReference(&JointMeasurements.ControllerReference);
+	SJC_getControlMode(&ControlMode);
+	SJC_isControlModeUpdated(&control_mode_updated_);
+	SJC_getControlUpdatePeriodMs(&ControllerPeriodSpec);
+	SJC_getControlParameters(&JointControllerParameters);
+	SJC_getControlReference(&JointMeasurements.ControllerReference);
 }
 
-static void MeasurementsUpdate(void) {
+static void MeasurementsUpdate(void)
+{
 	// Electric variables update
-	SJC_GetJointActuatorVoltage(&JointMeasurements.ActuatorVoltage);
-	SJC_GetJointActuatorCurrentUnbiased(&JointMeasurements.ActuatorCurrent);
-	SJC_GetJointActuatorPowerSupplyVoltage(&JointMeasurements.SystemVoltage);
+	SJC_getJointActuatorVoltage(&JointMeasurements.ActuatorVoltage);
+	SJC_getJointActuatorCurrentUnbiased(&JointMeasurements.ActuatorCurrent);
+	SJC_getJointActuatorPowerSupplyVoltage(&JointMeasurements.SystemVoltage);
 
 	// Actuated joint calcs
-	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, JointMeasurements.ActuatorDisplacement);
+	SJC_getJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, JointMeasurements.ActuatorDisplacement);
 	JointMeasurements.ActuatorDisplacement += ActuatorRelativeDisplacement;
 
-	SJC_GetElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp, &DeltaT);
+	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp, &DeltaT);
 	JointMeasurements.Timestamp += DeltaT;
 
 	ControlTs = DeltaT * 1.0e-3; // Convert miliseconds to seconds
@@ -345,15 +308,17 @@ static void MeasurementsUpdate(void) {
 	//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
 }
 
-static void EndstopsCheck(void) {
+static void EndstopsCheck(void)
+{
 	uint32_t states;
-	SJC_ReadDigitalInputs(&states);
+	SJC_readDigitalInputs(&states);
 	bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
 	bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
 	bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
 
-	if (true == bEndStopAPressed) {
-		SJC_ResetJointAngularDisplacement();
+	if (true == bEndStopAPressed)
+	{
+		SJC_resetJointAngularDisplacement();
 	}
 
 	eSjcMoveDirection_t xActualMoveDirection = (JointMeasurements.ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
@@ -364,46 +329,45 @@ static void EndstopsCheck(void) {
 
 	if (true == bNextMoveAllowed)
 	{
-		SJC_SetJointActuatorVoltage(JointMeasurements.ControlAction);
+		SJC_setJointActuatorVoltage(JointMeasurements.ControlAction);
 	}
 	else
 	{
-		SJC_SetJointActuatorVoltage(ZERO_FLOAT);
+		SJC_setJointActuatorVoltage(ZERO_FLOAT);
 	}
 }
 
 static void RunTestSignal(eSjcInputType_t type)
 {
-	SJC_TestSignals_GetState(&xTestSignalState);
+	TestSignals_getState(&xTestSignalState);
 
 	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
-		float time_factor = (4.0f/ControllerPeriodSpec); // From 4ms to 1ms
-		SJC_TestSignals_SetConfig(type, time_factor);
+		float time_factor = (4.0f / ControllerPeriodSpec); // From 4ms to 1ms
+		TestSignals_setConfig(type, time_factor);
 	}
 	else if (INPUT_SIGNAL_STATE_RUNNING == xTestSignalState)
 	{
-		SJC_TestSignals_GetValue(&xTestSignalValue);
-		JointMeasurements.ControlAction = JointMeasurements.ControllerReference*xTestSignalValue;
+		TestSignals_getValue(&xTestSignalValue);
+		JointMeasurements.ControlAction = JointMeasurements.ControllerReference * xTestSignalValue;
 	}
 	else
 	{
-		SJC_TestSignals_Reset();
-		SJC_SetControlMode(SJC_CONTROL_DISABLED);
+		TestSignals_reset();
+		SJC_setControlMode(SJC_CONTROL_DISABLED);
 	}
 }
 
 void vHeartbeatTimerCallback(void *argument)
 {
-	SJC_ToggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+	SJC_toggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
 }
-
 
 static void EnqueueLogData(void)
 {
-	xQueueSend( xDataLoggerQueueHandle,
-				( void * ) &JointMeasurements,
-				( TickType_t ) 0 );
+	xQueueSend(xDataLoggerQueueHandle,
+			   (void *)&JointMeasurements,
+			   (TickType_t)0);
 }
 
 // ------------------------------------------------------------------- //

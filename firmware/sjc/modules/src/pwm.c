@@ -12,10 +12,10 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "pwm.h"
+#include "modules/include/pwm.h"
+#include "base/include/configs.h"
+#include "system_types/include/helpers.h"
 
-#include "configs.h"
-#include "helpers.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -41,9 +41,9 @@ static xSjcActuatorPwm_t Pwm;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-void SJC_PWM_Init(const eSjcPwmBaseFreq_t BaseFrequency)
+void PwmSignal_init(const eSjcPwmBaseFreq_t BaseFrequency)
 {
-	SJC_PWM_SetFrequency(BaseFrequency);
+	PwmSignal_setFrequency(BaseFrequency);
 
 	Pwm.DutyRange.Max = SJC_PWM_MAX_DUTY_CYCLE;
 	Pwm.DutyRange.Min = SJC_PWM_MIN_DUTY_CYCLE;
@@ -56,7 +56,7 @@ void SJC_PWM_Init(const eSjcPwmBaseFreq_t BaseFrequency)
 	Pwm.TimerConfig.RightChannelComp = SJC_PWM_RIGHT_COMPLEMENTARY_CHANNEL;
 }
 
-void SJC_PWM_Enable(void)
+void PwmSignal_enable(void)
 {
 	LL_TIM_CC_EnableChannel(Pwm.TimerConfig.Instance, Pwm.TimerConfig.LeftChannel);
 	LL_TIM_CC_EnableChannel(Pwm.TimerConfig.Instance, Pwm.TimerConfig.RightChannel);
@@ -68,7 +68,7 @@ void SJC_PWM_Enable(void)
 	LL_TIM_EnableAllOutputs(Pwm.TimerConfig.Instance);
 }
 
-void SJC_PWM_Disable(void)
+void PwmSignal_disable(void)
 {
 	LL_TIM_DisableAllOutputs(SJC_PWM_INSTANCE);
 	LL_TIM_DisableCounter(SJC_PWM_INSTANCE);
@@ -80,38 +80,39 @@ void SJC_PWM_Disable(void)
 	LL_TIM_CC_DisableChannel(Pwm.TimerConfig.Instance, Pwm.TimerConfig.RightChannelComp);
 }
 
-float SJC_PWM_GetDutyCycle(void)
+float PwmSignal_getDutyCycle(void)
 {
 	return Pwm.DutyCycle;
 }
 
-float SJC_PWM_GetMinDutyCycle(void)
+float PwmSignal_getMinDutyCycle(void)
 {
 	return Pwm.DutyRange.Min;
 }
 
-float SJC_PWM_GetMaxDutyCycle(void)
+float PwmSignal_getMaxDutyCycle(void)
 {
 	return Pwm.DutyRange.Max;
 }
 
-eSjcReturnType_t SJC_PWM_SetDutyCycle(const float duty)
+eSjcReturnType_t PwmSignal_setDutyCycle(const float duty)
 {
 	Pwm.DutyCycle = SJC_Helpers_RealClamp(duty, Pwm.DutyRange.Min, Pwm.DutyRange.Max);
 	Pwm.DutyCount = ((uint32_t)(Pwm.DutyCycle * Pwm.TimerConfig.CountPeriod));
 
 	LL_TIM_OC_SetCompareCH1(Pwm.TimerConfig.Instance, Pwm.DutyCount);
-	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, (Pwm.TimerConfig.CountPeriod - Pwm.DutyCount));
+	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, Pwm.DutyCount);
+	//	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, (Pwm.TimerConfig.CountPeriod - Pwm.DutyCount));
 
 	return SJC_RET_OK;
 }
 
-uint32_t SJC_PWM_GetFrequency(void)
+uint32_t PwmSignal_getFrequency(void)
 {
 	return Pwm.Frequency;
 }
 
-uint32_t SJC_PWM_SetFrequency(const eSjcPwmBaseFreq_t BaseFrequency)
+uint32_t PwmSignal_setFrequency(const eSjcPwmBaseFreq_t BaseFrequency)
 {
 	switch (BaseFrequency)
 	{

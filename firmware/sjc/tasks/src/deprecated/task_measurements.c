@@ -36,18 +36,18 @@
 //
 //// Task data structures ---------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//typedef enum {
+// typedef enum {
 //	TASK_MEASUREMENT_STATE_UNINITIALIZED = 0,
 //	TASK_MEASUREMENT_STATE_RUNNING
-//} eSjcTaskMeasurementState_t;
+// } eSjcTaskMeasurementState_t;
 //// ------------------------------------------------------------------- //
 //
 //// Task variables ---------------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//TaskHandle_t xMeasurementsTaskHandle;
-//static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
+// TaskHandle_t xMeasurementsTaskHandle;
+// static eSjcTaskMeasurementState_t xTaskState = TASK_MEASUREMENT_STATE_UNINITIALIZED;
 //
-//static uint32_t TaskTic, TaskToc;
+// static uint32_t TaskTic, TaskToc;
 //// ------------------------------------------------------------------- //
 //
 //// Private function prototypes --------------------------------------- //
@@ -62,7 +62,7 @@
 //
 //// Private functions ------------------------------------------------- //
 //// ------------------------------------------------------------------- //
-//void MeasurementsTaskApp(void *argument)
+// void MeasurementsTaskApp(void *argument)
 //{
 //	/* USER CODE BEGIN MeasurementsTaskApp */
 //
@@ -70,9 +70,9 @@
 //
 //	xMeasurementsTaskHandle = xTaskGetCurrentTaskHandle();
 //
-//	SJC_DebugOutput_SystemPrintf("\r\n[OS] Analog measurements task initiated!");
+//	DebugOutput_SystemPrintf("\r\n[OS] Analog measurements task initiated!");
 //
-//	SJC_AnalogInterfaces_MeasurementEnable();
+//	AnalogInterfaces_MeasurementEnable();
 //
 //	uint32_t ulNotificationValue = 0;
 //
@@ -89,13 +89,13 @@
 //
 //		if( ulNotificationValue == 1 )
 //		{
-//			SJC_AnalogInterfaces_UpdateConversionValues();
+//			AnalogInterfaces_UpdateConversionValues();
 //		}
 //		else
 //		{
 //			if (LL_TIM_IsEnabledCounter(SJC_PWM_INSTANCE))
 //			{
-//				SJC_DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
+//				DebugOutput_SystemPrintf("\n\n\n\r[OS FAULT] ADC Task notification error");
 //			}
 //		}
 //
@@ -104,11 +104,11 @@
 //		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_MEASUREMENTS_RUNTIME, (TaskToc-TaskTic));
 //	}
 //
-//	SJC_AnalogInterfaces_MeasurementDisable();
+//	AnalogInterfaces_MeasurementDisable();
 //	/* USER CODE END MainTaskApp */
 //}
 //
-//void ADC_IRQHandler(void)
+// void ADC_IRQHandler(void)
 //{
 //	if(LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
 //	{
@@ -121,7 +121,7 @@
 //			SJC_AnalogInterfaces_AdcConversionIsr();
 //
 //			/* Dispatch conversion and filtering */
-//			if (SJC_RET_OK == SJC_AnalogInterfaces_CheckUpdateConversionTime())
+//			if (SJC_RET_OK == AnalogInterfaces_CheckUpdateConversionTime())
 //			{
 //				BaseType_t xHigherPriorityTaskWoken = pdFALSE;
 //				configASSERT( xMeasurementsTaskHandle != NULL );
@@ -141,7 +141,7 @@
 //		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
 //
 //		/* Call interruption treatment function */
-//		SJC_DebugOutput_SystemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
+//		DebugOutput_SystemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
 //		Error_Handler();
 //	}
 //}

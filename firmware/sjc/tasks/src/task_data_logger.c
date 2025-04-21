@@ -7,8 +7,9 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "main.h"
 #include "cmsis_os.h"
+#include "main.h"
+#include "modules/include/modbus_network.h"
 // ------------------------------------------------------------------- //
 
 // NETWORK includes -------------------------------------------------- //
@@ -18,11 +19,12 @@
 
 // Task includes ----------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "sjc.h"
-#include "configs.h"
-#include "data_logger.h"
-#include "debug_output.h"
-#include "task_common.h"
+#include "base/include/configs.h"
+#include "base/include/network_configs.h"
+#include "base/include/sjc.h"
+#include "modules/include/data_logger.h"
+#include "modules/include/debug_output.h"
+#include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
@@ -47,6 +49,7 @@ static uint32_t TaskTic, TaskToc;
 
 // Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
+void InitLogTerminal(void);
 void TransmitLogData(const xSjcJointControllerMeasurements_t data);
 // ------------------------------------------------------------------- //
 
@@ -58,35 +61,41 @@ void DataLoggerTaskApp(void *argument)
 
 	xSjcJointControllerMeasurements_t xQueueMsg = xSjcJointControllerMeasurementsEmptyObj;
 
-	SJC_DebugOutput_SystemPrintf("\r\n[OS] Data logger task initiated!");
-
+	DebugOutput_systemPrintf("\r\n[OS] Data logger task initiated!");
+	InitLogTerminal();
 
 	/* Infinite loop */
 	for (;;)
 	{
 		if (xQueueReceive(xDataLoggerQueueHandle, &xQueueMsg, pdMS_TO_TICKS(portMAX_DELAY)) == pdPASS)
 		{
-			SJC_GetTime(SJC_TIME_MS, &TaskTic);
+			SJC_getTime(SJC_TIME_MS, &TaskTic);
 
 			TransmitLogData(xQueueMsg);
 
-			SJC_GetTime(SJC_TIME_MS, &TaskToc);
+			SJC_getTime(SJC_TIME_MS, &TaskToc);
 
-			SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc-TaskTic));				}
+			SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc - TaskTic));
+		}
 	}
 	/* USER CODE END MainTaskApp */
 }
 
+void InitLogTerminal(void)
+{
+	DataLogger_transmit("\n\n\n\r%%%%Timestamp, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorDisplacement, ActuatorSpeedRpm, ControllerReference, ControllerError");
+}
+
 void TransmitLogData(const xSjcJointControllerMeasurements_t Log)
 {
-	SJC_DataLogger_Transmit("\r\n%lu, %.2f, %.2f, %.2f, %.4f, %.3f, %.3f, %.3f",
-				Log.Timestamp,
-				Log.ActuatorCurrent,
-				Log.ActuatorVoltage,
-				Log.SystemVoltage,
-				Log.ActuatorDisplacement,
-				Log.ActuatorSpeedRpm,
-				Log.ControllerReference,
-				Log.ControllerError);
+	DataLogger_transmit("\r\n%lu, %.2f, %.2f, %.2f, %.4f, %.3f, %.3f, %.3f",
+						Log.Timestamp,
+						Log.ActuatorCurrent,
+						Log.ActuatorVoltage,
+						Log.SystemVoltage,
+						Log.ActuatorDisplacement,
+						Log.ActuatorSpeedRpm,
+						Log.ControllerReference,
+						Log.ControllerError);
 }
 //  ------------------------------------------------------------------- //

@@ -8,16 +8,16 @@
 #ifndef SJC__MODULES__TIMEOUT_TIMER_H_
 #define SJC__MODULES__TIMEOUT_TIMER_H_
 
-#include "types.h"
+#include "system_types/include/types.h"
 
-void SJC_Timer_Init(void);
-uint32_t SJC_Timer_GetTimeMs(void);
-uint32_t SJC_Timer_GetTimeSec(void);
+void TimeoutTimer_init(void);
+uint32_t TimeoutTimer_getTimeMs(void);
+uint32_t TimeoutTimer_getTimeSec(void);
 
-void SJC_Timer_DelayMs(uint32_t delayInMs);
-void SJC_Timer_DelaySec(uint32_t delayInSec);
+void TimeoutTimer_delayMs(uint32_t delayInMs);
+void TimeoutTimer_delaySec(uint32_t delayInSec);
 
-uint32_t SJC_Timer_TimeoutCheckMs(uint32_t delayInMs, uint32_t seed);
-uint32_t SJC_Timer_TimeoutCheckSec(uint32_t delayInSec, uint32_t seed);
+uint32_t TimeoutTimer_timeoutCheckMs(uint32_t delayInMs, uint32_t seed);
+uint32_t TimeoutTimer_timeoutCheckSec(uint32_t delayInSec, uint32_t seed);
 
 #endif /* MOTOR_H_ */

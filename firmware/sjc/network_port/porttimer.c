@@ -1,5 +1,6 @@
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"
+#include "stm32f4xx_ll_tim.h"
 
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
@@ -54,3 +55,18 @@ void prvvMBTimerIRQHandler(void)
 {
 	pxMBPortCBTimerExpired();
 }
+
+void TIM1_TRG_COM_TIM11_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM11_IRQn 0 */
+	if (LL_TIM_IsActiveFlag_UPDATE(TIM11) & LL_TIM_IsEnabledIT_UPDATE(TIM11))
+	{
+		LL_TIM_ClearFlag_UPDATE(TIM11);
+		prvvMBTimerIRQHandler();
+	}
+  /* USER CODE END TIM1_TRG_COM_TIM11_IRQn 0 */
+  /* USER CODE BEGIN TIM1_TRG_COM_TIM11_IRQn 1 */
+
+  /* USER CODE END TIM1_TRG_COM_TIM11_IRQn 1 */
+}
+

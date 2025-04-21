@@ -11,6 +11,7 @@
 // System includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "stm32f446xx.h"
+#include "base/include/configs.h"
 // ------------------------------------------------------------------- //
 
 // Definitions and enumerations -------------------------------------- //
@@ -63,7 +64,8 @@ typedef enum
 	SJC_TRIANG_EXCITATION,
 	SJC_PULSE_FAST_EXCITATION,
 	SJC_PULSE_SLOW_EXCITATION,
-	SJC_CURRENT_CALIBRATION,
+	SJC_ANALOG_CALIBRATION,
+	SJC_CONTROL_MODE_SIZE
 } eSjcControlMode_t;
 
 typedef enum
@@ -98,6 +100,11 @@ typedef enum
 	SJC_JOINT_SWITCH_B,
 	SJC_ISOLATED_INPUT_A,
 	SJC_ISOLATED_INPUT_B,
+#if SJC_HW_VERSION_MAJOR > 1
+	SJC_NET_ADDR_A_INPUT,
+	SJC_NET_ADDR_B_INPUT,
+	SJC_NET_ADDR_C_INPUT,
+#endif
 	SJC_DIGITAL_INPUTS_SIZE
 } eSjcDigitalInputs_t;
 
@@ -215,6 +222,12 @@ typedef struct
 	xSjcRange_t OutputVoltageRange;
 	xSjcDigitalPort_t DriveEnablePort;
 } xSjcMotorDrive_t;
+
+typedef struct
+{
+	bool State;
+	xSjcDigitalPort_t OutputEnablePort;
+} xSjcMotorOutput_t;
 
 typedef struct
 {
