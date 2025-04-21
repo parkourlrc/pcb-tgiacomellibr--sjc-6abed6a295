@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2025 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -27,7 +27,20 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32h7xx_hal.h"
+#include "stm32f4xx_hal.h"
+
+#include "stm32f4xx_ll_adc.h"
+#include "stm32f4xx_ll_dma.h"
+#include "stm32f4xx_ll_rcc.h"
+#include "stm32f4xx_ll_bus.h"
+#include "stm32f4xx_ll_system.h"
+#include "stm32f4xx_ll_exti.h"
+#include "stm32f4xx_ll_cortex.h"
+#include "stm32f4xx_ll_utils.h"
+#include "stm32f4xx_ll_pwr.h"
+#include "stm32f4xx_ll_tim.h"
+#include "stm32f4xx_ll_usart.h"
+#include "stm32f4xx_ll_gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -49,8 +62,6 @@ extern "C" {
 
 /* USER CODE END EM */
 
-void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
-
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -59,58 +70,54 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define JOINT_SW_R_Pin GPIO_PIN_0
-#define JOINT_SW_R_GPIO_Port GPIOC
-#define JOINT_SW_L_Pin GPIO_PIN_1
+#define GP_OUT_B_Pin LL_GPIO_PIN_14
+#define GP_OUT_B_GPIO_Port GPIOC
+#define GP_OUT_A_Pin LL_GPIO_PIN_15
+#define GP_OUT_A_GPIO_Port GPIOC
+#define GP_ISO_IN_A_Pin LL_GPIO_PIN_0
+#define GP_ISO_IN_A_GPIO_Port GPIOC
+#define GP_ISO_IN_B_Pin LL_GPIO_PIN_1
+#define GP_ISO_IN_B_GPIO_Port GPIOC
+#define JOINT_SW_L_Pin LL_GPIO_PIN_2
 #define JOINT_SW_L_GPIO_Port GPIOC
-#define JOINT_ENC_CH1_Pin GPIO_PIN_0
-#define JOINT_ENC_CH1_GPIO_Port GPIOA
-#define JOINT_ENC_CH2_Pin GPIO_PIN_1
-#define JOINT_ENC_CH2_GPIO_Port GPIOA
-#define AUX1_ENC_CH2_Pin GPIO_PIN_6
-#define AUX1_ENC_CH2_GPIO_Port GPIOA
-#define AUX1_ENC_CH1_Pin GPIO_PIN_7
+#define JOINT_SW_R_Pin LL_GPIO_PIN_3
+#define JOINT_SW_R_GPIO_Port GPIOC
+#define RS485_TX_Pin LL_GPIO_PIN_2
+#define RS485_TX_GPIO_Port GPIOA
+#define RS485_RX_Pin LL_GPIO_PIN_3
+#define RS485_RX_GPIO_Port GPIOA
+#define RS485_DE_Pin LL_GPIO_PIN_4
+#define RS485_DE_GPIO_Port GPIOA
+#define AUX1_ENC_CH1_Pin LL_GPIO_PIN_6
 #define AUX1_ENC_CH1_GPIO_Port GPIOA
-#define L_MOT_LO_Pin GPIO_PIN_0
+#define AUX1_ENC_CH2_Pin LL_GPIO_PIN_7
+#define AUX1_ENC_CH2_GPIO_Port GPIOA
+#define CURRENT_SIGNAL_FILT2_Pin LL_GPIO_PIN_4
+#define CURRENT_SIGNAL_FILT2_GPIO_Port GPIOC
+#define MOTOR_INPUT_VOLTAGE_SIG_Pin LL_GPIO_PIN_5
+#define MOTOR_INPUT_VOLTAGE_SIG_GPIO_Port GPIOC
+#define CURRENT_SIGNAL_FILT_Pin LL_GPIO_PIN_0
+#define CURRENT_SIGNAL_FILT_GPIO_Port GPIOB
+#define R_MOT_LO_Pin LL_GPIO_PIN_1
+#define R_MOT_LO_GPIO_Port GPIOB
+#define L_MOT_LO_Pin LL_GPIO_PIN_13
 #define L_MOT_LO_GPIO_Port GPIOB
-#define R_MOT_LO_Pin GPIO_PIN_8
-#define R_MOT_LO_GPIO_Port GPIOE
-#define R_MOT_HI_Pin GPIO_PIN_9
-#define R_MOT_HI_GPIO_Port GPIOE
-#define MotorDriver_EN_Pin GPIO_PIN_10
-#define MotorDriver_EN_GPIO_Port GPIOE
-#define L_MOT_HI_Pin GPIO_PIN_11
-#define L_MOT_HI_GPIO_Port GPIOE
-#define MotorDriverPSU_EN_Pin GPIO_PIN_12
-#define MotorDriverPSU_EN_GPIO_Port GPIOE
-#define MotorPSU_EN_Pin GPIO_PIN_13
-#define MotorPSU_EN_GPIO_Port GPIOE
-#define COM_485_TX_Pin GPIO_PIN_10
-#define COM_485_TX_GPIO_Port GPIOB
-#define COM_485_RX_Pin GPIO_PIN_11
-#define COM_485_RX_GPIO_Port GPIOB
-#define AUX_USART_RX_Pin GPIO_PIN_12
-#define AUX_USART_RX_GPIO_Port GPIOB
-#define AUX_USART_TX_Pin GPIO_PIN_13
-#define AUX_USART_TX_GPIO_Port GPIOB
-#define COM_485_DE_Pin GPIO_PIN_14
-#define COM_485_DE_GPIO_Port GPIOB
-#define COM_485_ACT_Pin GPIO_PIN_15
-#define COM_485_ACT_GPIO_Port GPIOB
-#define AUX2_ENC_CH1_Pin GPIO_PIN_12
-#define AUX2_ENC_CH1_GPIO_Port GPIOD
-#define AUX2_ENC_CH2_Pin GPIO_PIN_13
-#define AUX2_ENC_CH2_GPIO_Port GPIOD
-#define FDCAN_ACT_Pin GPIO_PIN_10
-#define FDCAN_ACT_GPIO_Port GPIOA
-#define DEBUG_USART_TX_Pin GPIO_PIN_10
+#define AUX2_ENC_CH1_Pin LL_GPIO_PIN_6
+#define AUX2_ENC_CH1_GPIO_Port GPIOC
+#define AUX2_ENC_CH2_Pin LL_GPIO_PIN_7
+#define AUX2_ENC_CH2_GPIO_Port GPIOC
+#define L_MOT_HI_Pin LL_GPIO_PIN_8
+#define L_MOT_HI_GPIO_Port GPIOA
+#define R_MOT_HI_Pin LL_GPIO_PIN_10
+#define R_MOT_HI_GPIO_Port GPIOA
+#define DEBUG_USART_TX_Pin LL_GPIO_PIN_10
 #define DEBUG_USART_TX_GPIO_Port GPIOC
-#define DEBUG_USART_RX_Pin GPIO_PIN_11
+#define DEBUG_USART_RX_Pin LL_GPIO_PIN_11
 #define DEBUG_USART_RX_GPIO_Port GPIOC
-#define GP_OUT_A_Pin GPIO_PIN_0
-#define GP_OUT_A_GPIO_Port GPIOE
-#define GP_OUT_B_Pin GPIO_PIN_1
-#define GP_OUT_B_GPIO_Port GPIOE
+#define SYS_HEARTBEAT_Pin LL_GPIO_PIN_12
+#define SYS_HEARTBEAT_GPIO_Port GPIOC
+#define V_MOTOR_nEN_Pin LL_GPIO_PIN_5
+#define V_MOTOR_nEN_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -1,7 +1,0 @@
-Parâmetro,Valor
-Tempo mínimo Q2 ON (s),4.000000000000004e-07
-Tempo máximo Q2 OFF (s),4.96e-05
-Capacitor de Bootstrap (µF),0.08430933333333335
-Resistor de Bootstrap (Ω),1.5814777327935237
-Corrente Média de Carga (A),0.15807999999999986
-Corrente de Pico do Diodo (A),8.852479999999993
