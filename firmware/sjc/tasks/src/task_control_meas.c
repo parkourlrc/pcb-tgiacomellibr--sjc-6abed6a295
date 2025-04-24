@@ -29,6 +29,8 @@
 #include "tasks/include/task_common.h"
 
 #include "modules/include/discrete_controller.h"
+#include "modules/include/lqi_controller.h"
+
 // ------------------------------------------------------------------- //
 
 // Task defines ------------------------------------------------------ //
@@ -59,6 +61,7 @@ static xSjcServoPidParameters_t JointControllerParameters = xSjcServoPidParamete
 static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointControllerMeasurementsEmptyObj;
 
 static eSjcControlMode_t ControlMode;
+static eSjcControlMode_t LastControlMode;
 static uint32_t ControllerPeriodSpec = 1000;
 static float ControlTs = 0;
 static uint32_t DeltaT = 0;
@@ -78,6 +81,8 @@ static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
+
+static uint32_t lqi_cycle = 0;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -126,14 +131,43 @@ void ControllerMeasTaskApp(void *argument)
 	AnalogInterfaces_enable();
 
 	SJC_setControlMode(SJC_ANALOG_CALIBRATION);
+	LastControlMode = SJC_CONTROL_DISABLED;
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
 
 	/*
 	 * Discrete controller tests
 	 */
-	DiscreteController_init();
-	DiscreteController_setOutputLimits(-24.0f, 24.0f);
+//	DiscreteController_init();
+
+	// (1) Configura limites de saída (por exemplo, tensão saturada do atuador)
+//	DiscreteController_setOutputLimits(-24.0f, 24.0f);
+
+	// (2) Ajusta o ganho de anti-windup (comece com 1.0f ou experimente 1/B0)
+//	DiscreteController_setAntiWindupGain(0.1);  // ou 1.0f / B0, se quiser experimentar
+
+	/*
+	 * LQI controller tests
+	 */
+	LqiControllerParams_t params = {
+	        .Ad = {
+	            {0.9954f, 0.0008969f},
+	            {-8.9360f, 0.7996f}
+	        },
+	        .Bd = {4.651e-07f, 0.0008969f},
+	        .Cd = {918.4f, 220.3f},
+
+	        .Kx = {-7562.4f, 2000.0f},
+	        .Ki = 50.0f,
+	        .Kw = 3.0f,
+
+	        .alpha = 1.0f - expf(-2.0f * 3.1415926f * 200.0f * 0.001f), // fc = 80 Hz, Ts = 1 ms
+	        .u_min = -24.0f,
+	        .u_max =  24.0f
+	    };
+
+	    LqiController_init(&params);
+	    LqiController_setSaturation(-24.0f, 24.0f);
 
 	/* Infinite loop */
 	for (;;)
@@ -203,9 +237,12 @@ static void RunControlLoop(void)
 			break;
 
 		case SJC_CURRENT_CONTROL:
-//			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
+			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
 //			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
-			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
+
+//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
+			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
+			DebugOutput_systemPrintf("\n\r[LQI] Actuator voltage: %.3f", JointMeasurements.ControlAction);
 			break;
 
 		case SJC_SPEED_CONTROL:
@@ -227,7 +264,6 @@ static void RunControlLoop(void)
 
 			if ((control_mode_updated_) && (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx))
 			{
-				control_mode_updated_ = false;
 				CurrentBiasMeasurementIdx = 0;
 				osTimerStop(xHeartbeatTimerId);
 				osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
@@ -278,7 +314,16 @@ static void ControllerParametersUpdate(void)
 {
 	// Controller configs update
 	SJC_getControlMode(&ControlMode);
-	SJC_isControlModeUpdated(&control_mode_updated_);
+	if (LastControlMode == ControlMode)
+	{
+		control_mode_updated_ = false;
+	}
+	else
+	{
+		control_mode_updated_ = true;
+	}
+	LastControlMode = ControlMode;
+
 	SJC_getControlUpdatePeriodMs(&ControllerPeriodSpec);
 	SJC_getControlParameters(&JointControllerParameters);
 	SJC_getControlReference(&JointMeasurements.ControllerReference);

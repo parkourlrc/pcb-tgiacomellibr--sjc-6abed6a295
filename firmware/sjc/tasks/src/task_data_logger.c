@@ -83,12 +83,12 @@ void DataLoggerTaskApp(void *argument)
 
 void InitLogTerminal(void)
 {
-	DataLogger_transmit("\n\n\n\r%%%%Timestamp, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorDisplacement, ActuatorSpeedRpm, ControllerReference, ControllerError");
+	DataLogger_transmit("\n\n\n\r%%Timestamp, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorDisplacement, ActuatorSpeedRpm, ControllerReference, ControllerError");
 }
 
 void TransmitLogData(const xSjcJointControllerMeasurements_t Log)
 {
-	DataLogger_transmit("\r\n%lu, %.2f, %.2f, %.2f, %.4f, %.3f, %.3f, %.3f",
+	DataLogger_transmit("\r\n%lu, %.3f, %.2f, %.2f, %.4f, %.3f, %.3f, %.4f",
 						Log.Timestamp,
 						Log.ActuatorCurrent,
 						Log.ActuatorVoltage,

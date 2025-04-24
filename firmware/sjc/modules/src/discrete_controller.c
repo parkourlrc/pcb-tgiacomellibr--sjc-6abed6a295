@@ -19,11 +19,16 @@
 #include <stdbool.h>
 
 // === Controller coefficients (Direct Form II) ===
-#define B0  0.0050725f
-#define B1  0.0005424f
-#define B2 -0.0045301f
-#define A1 -1.9952f
-#define A2  0.9952f
+//#define B0  0.0050725f
+//#define B1  0.0005424f
+//#define B2 -0.0045301f
+//#define A1 -1.9952f
+//#define A2  0.9952f
+#define B0 1.200000000000001f
+#define B1 -2.100000000000002f
+#define B2 0.918000000000001f
+#define A1 -1.970000000000000f
+#define A2 0.970000000000000f
 
 // === Controller state structure ===
 static struct {
@@ -111,3 +116,131 @@ void DiscreteController_updateParameters(void)
 {
     // Optional: Implement runtime update of coefficients if needed
 }
+
+void DiscreteController_setAntiWindupGain(float k_aw)
+{
+//    xDiscController.k_aw = k_aw;
+}
+
+
+///**
+// * @file controller.c
+// * @brief Discrete controller implementation with anti-windup (back-calculation).
+// *
+// * Implements a second-order discrete-time controller using Direct Form II structure.
+// * Includes anti-windup strategy using back-calculation to limit integrator windup.
+// *
+// * Cd(z) = 0.0050725 * (z - 0.9093)(z + 1) / ((z - 0.9952)(z - 1))
+// *
+// * Author: Tiago
+// * Date: Apr 23, 2025
+// */
+//
+//#include "modules/include/discrete_controller.h"
+//#include <stdbool.h>
+//
+//// === Controller coefficients (Direct Form II) ===
+//#define B0 1.200000000000001f
+//#define B1 -2.100000000000002f
+//#define B2 0.918000000000001f
+//#define A1 -1.970000000000000f
+//#define A2 0.970000000000000f
+//
+//// === Controller state structure ===
+//static struct {
+//    float e[3];           ///< Error history
+//    float u[3];           ///< Output history
+//    float u_min;          ///< Minimum control effort
+//    float u_max;          ///< Maximum control effort
+//    float k_aw;           ///< Anti-windup gain for back-calculation
+//} xDiscController = {
+//    .e = {0.0f, 0.0f, 0.0f},
+//    .u = {0.0f, 0.0f, 0.0f},
+//    .u_min = -24.0f,
+//    .u_max = 24.0f,
+//    .k_aw = 1.0f  // Default anti-windup gain
+//};
+//
+//void DiscreteController_init(void)
+//{
+//    for (int i = 0; i < 3; ++i) {
+//        xDiscController.e[i] = 0.0f;
+//        xDiscController.u[i] = 0.0f;
+//    }
+//}
+//
+//float DiscreteController_compute(const float reference, const float measurement)
+//{
+//    float error = reference - measurement;
+//
+//    // Compute raw control output
+//    float control =
+//        B0 * error +
+//        B1 * xDiscController.e[0] +
+//        B2 * xDiscController.e[1] -
+//        A1 * xDiscController.u[0] -
+//        A2 * xDiscController.u[1];
+//
+//    // Saturate control
+//    float saturated_control = control;
+//    bool saturated = false;
+//
+//    if (control > xDiscController.u_max) {
+//        saturated_control = xDiscController.u_max;
+//        saturated = true;
+//    } else if (control < xDiscController.u_min) {
+//        saturated_control = xDiscController.u_min;
+//        saturated = true;
+//    }
+//
+//    // Update control output history
+//    xDiscController.u[1] = xDiscController.u[0];
+//    xDiscController.u[0] = saturated_control;
+//
+//    // Anti-windup via back-calculation
+//    float error_correction = xDiscController.k_aw * (saturated_control - control);
+//    float corrected_error = error + error_correction;
+//
+//    // Update error history with corrected error
+//    xDiscController.e[2] = xDiscController.e[1];
+//    xDiscController.e[1] = xDiscController.e[0];
+//    xDiscController.e[0] = corrected_error;
+//
+//    return xDiscController.u[0];
+//}
+//
+//float DiscreteController_getOutput(void)
+//{
+//    return xDiscController.u[0];
+//}
+//
+//void DiscreteController_reset(void)
+//{
+//    for (int i = 0; i < 3; ++i) {
+//        xDiscController.e[i] = 0.0f;
+//        xDiscController.u[i] = 0.0f;
+//    }
+//}
+//
+//void DiscreteController_setOutputLimits(float min, float max)
+//{
+//    xDiscController.u_min = min;
+//    xDiscController.u_max = max;
+//}
+//
+//void DiscreteController_getOutputLimits(float *min, float *max)
+//{
+//    if (min) *min = xDiscController.u_min;
+//    if (max) *max = xDiscController.u_max;
+//}
+//
+//void DiscreteController_setAntiWindupGain(float k_aw)
+//{
+//    xDiscController.k_aw = k_aw;
+//}
+//
+//void DiscreteController_updateParameters(void)
+//{
+//    // Optional: Implement runtime update of coefficients if needed
+//}
+

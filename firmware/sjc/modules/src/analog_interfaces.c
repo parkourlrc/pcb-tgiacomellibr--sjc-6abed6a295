@@ -125,7 +125,7 @@ void AnalogInterfaces_init(void)
 		LL_TIM_EnableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 	}
 
-	AnalogInterfaces_setFilterMode(ADC_FILTER_NONE, ANALOG_MEASUREMENT_ISR_FREQUENCY);
+	AnalogInterfaces_setFilterMode(ADC_FILTER_EXP_THEN_BOX, 50);
 }
 
 void AnalogInterfaces_enable(void)
