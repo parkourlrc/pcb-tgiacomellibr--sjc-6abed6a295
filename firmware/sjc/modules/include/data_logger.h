@@ -12,5 +12,6 @@
 
 void DataLogger_init(void);
 int DataLogger_transmit(const char *format, ...);
+int DataLogger_printf(const char *format, ...);
 
 #endif /* SJC__MODULES__DATA_LOGGER_H_ */

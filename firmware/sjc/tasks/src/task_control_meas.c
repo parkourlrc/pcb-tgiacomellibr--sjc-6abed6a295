@@ -24,7 +24,6 @@
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
-#include "modules/include/debug_output.h"
 #include "modules/include/test_signals.h"
 #include "tasks/include/task_common.h"
 
@@ -81,8 +80,6 @@ static float CurrentBias = 0.0f;
 static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
-
-static uint32_t lqi_cycle = 0;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -138,36 +135,39 @@ void ControllerMeasTaskApp(void *argument)
 	/*
 	 * Discrete controller tests
 	 */
-//	DiscreteController_init();
+	//	DiscreteController_init();
 
 	// (1) Configura limites de saída (por exemplo, tensão saturada do atuador)
-//	DiscreteController_setOutputLimits(-24.0f, 24.0f);
+	DiscreteController_setOutputLimits(-24.0f, 24.0f);
 
 	// (2) Ajusta o ganho de anti-windup (comece com 1.0f ou experimente 1/B0)
-//	DiscreteController_setAntiWindupGain(0.1);  // ou 1.0f / B0, se quiser experimentar
+	DiscreteController_setAntiWindupGain(0.1);  // ou 1.0f / B0, se quiser experimentar
 
 	/*
 	 * LQI controller tests
 	 */
-	LqiControllerParams_t params = {
-	        .Ad = {
-	            {0.9954f, 0.0008969f},
-	            {-8.9360f, 0.7996f}
-	        },
-	        .Bd = {4.651e-07f, 0.0008969f},
-	        .Cd = {918.4f, 220.3f},
-
-	        .Kx = {-7562.4f, 2000.0f},
-	        .Ki = 50.0f,
-	        .Kw = 3.0f,
-
-	        .alpha = 1.0f - expf(-2.0f * 3.1415926f * 200.0f * 0.001f), // fc = 80 Hz, Ts = 1 ms
-	        .u_min = -24.0f,
-	        .u_max =  24.0f
-	    };
-
-	    LqiController_init(&params);
-	    LqiController_setSaturation(-24.0f, 24.0f);
+//	float cutoff_freq = 80;
+//	float Kx[2] = {-7604.1397f, 104.8081f};
+//	float Ki = -0.1864f;
+//	float Kw = 1.54f;
+//
+//		LqiControllerParams_t params = {
+//			.Ad = {
+//				{0.9954f, 0.0008969f},
+//				{-8.9360f, 0.7996f}},
+//			.Bd = {4.651e-07f, 0.0008969f},
+//			.Cd = {918.4f, 220.3f},
+//			.Kx[0] = Kx[0],
+//			.Kx[1] = Kx[1],
+//			.Ki = Ki,
+//			.Kw = Kw,
+//
+//			.alpha = 1.0f - expf(-2.0f * 3.1415926f * cutoff_freq * 0.001f), // fc = 80 Hz, Ts = 1 ms
+//			.u_min = -24.0f,
+//			.u_max = 24.0f};
+//
+//	LqiController_init(&params);
+//	LqiController_setSaturation(-24.0f, 24.0f);
 
 	/* Infinite loop */
 	for (;;)
@@ -238,11 +238,10 @@ static void RunControlLoop(void)
 
 		case SJC_CURRENT_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
-//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
 
-//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
-			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
-			DebugOutput_systemPrintf("\n\r[LQI] Actuator voltage: %.3f", JointMeasurements.ControlAction);
+			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
+//			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
 			break;
 
 		case SJC_SPEED_CONTROL:

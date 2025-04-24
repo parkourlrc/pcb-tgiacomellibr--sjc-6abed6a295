@@ -116,7 +116,8 @@
 
 // Analog Sensors ----------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_ADC_INSTANCE (ADC1)
+#define SJC_ADC_CURRENT_INSTANCE (ADC2)
+#define SJC_ADC_VOLTAGE_INSTANCE (ADC1)
 #define SJC_ADC_DMA_INSTANCE DMA2
 #define SJC_ADC_DMA_STREAM LL_DMA_STREAM_0
 #define SJC_ADC_CHECK_TIMER_INSTANCE TIM4

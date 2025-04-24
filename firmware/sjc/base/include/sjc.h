@@ -67,7 +67,6 @@ eSjcReturnType_t SJC_getControlUpdateRateHz(float *config);
 eSjcReturnType_t SJC_setControlUpdateRateHz(const float config);
 eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config);
 eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config);
-eSjcReturnType_t SJC_isControlModeUpdated(bool *state);
 
 eSjcReturnType_t SJC_getControlError(float *controller_error);
 eSjcReturnType_t SJC_getControlReference(float *reference);

@@ -118,7 +118,7 @@
 //		switch (xTaskState) {
 //		case TASK_MEASUREMENT_STATE_RUNNING:
 //			/* Call interruption treatment function */
-//			SJC_AnalogInterfaces_AdcConversionIsr();
+//			SJC_AnalogInterfaces_Adc2ConversionIsr();
 //
 //			/* Dispatch conversion and filtering */
 //			if (SJC_RET_OK == AnalogInterfaces_CheckUpdateConversionTime())

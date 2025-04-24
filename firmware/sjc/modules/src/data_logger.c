@@ -7,6 +7,8 @@
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
+#include <stdint.h>
+
 #include "cmsis_os.h"
 #include "usart.h"
 // ------------------------------------------------------------------- //
@@ -41,6 +43,7 @@ typedef enum
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static char xDataLoggerBuff[DATA_LOGGER_BUFF_SIZE];
+static char xDataLoggerBuffDbg[512];
 
 static uint32_t uDataBuffSize = 0;
 
@@ -95,6 +98,29 @@ int DataLogger_transmit(const char *format, ...)
 	}
 
 	return n;
+}
+
+int DataLogger_printf(const char *format, ...)
+{
+
+		va_list apx;
+		int n = 0;
+		va_start(apx, format);
+		n = vsnprintf(xDataLoggerBuffDbg, sizeof(xDataLoggerBuffDbg)-1, format, apx);
+		va_end(apx);
+
+		if (n > 0)
+		{
+			for (int i = 0; i < n; i++)
+			{
+				LL_USART_TransmitData8(DATA_LOGGER_SERIAL_INSTANCE, xDataLoggerBuffDbg[i]);
+				while (!LL_USART_IsActiveFlag_TXE(DATA_LOGGER_SERIAL_INSTANCE));
+			}
+			return n;
+		}
+
+		return -1;
+
 }
 // ------------------------------------------------------------------- //
 

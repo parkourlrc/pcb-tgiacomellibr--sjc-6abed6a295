@@ -54,7 +54,6 @@ extern volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
 extern volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
 
 static xSjcControlConfigs_t xSjcControlConfigs = xSjcControlConfigsEmptyObj;
-static bool bSjcControlModeUpdated = true;
 
 static float fBiasCurrentValue = 0;
 // ------------------------------------------------------------------- //
@@ -264,13 +263,11 @@ eSjcReturnType_t SJC_setControlMode(const eSjcControlMode_t config)
 {
 	if (config < SJC_CONTROL_MODE_SIZE)
 	{
-		if (SJC_ANALOG_CALIBRATION)
+		if (config == SJC_ANALOG_CALIBRATION)
 		{
 			SJC_setJointActuatorVoltage(ZERO_FLOAT);
 		}
 		xSjcControlConfigs.Mode = config;
-
-		bSjcControlModeUpdated = true;
 
 		return SJC_RET_OK;
 	}
@@ -302,15 +299,6 @@ eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config)
 eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config)
 {
 	xSjcControlConfigs.Rate = ((uint32_t)(1000 / SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)));
-
-	return SJC_RET_OK;
-}
-
-eSjcReturnType_t SJC_isControlModeUpdated(bool *state)
-{
-	*state = bSjcControlModeUpdated;
-
-	bSjcControlModeUpdated = false;
 
 	return SJC_RET_OK;
 }

@@ -66,10 +66,16 @@ extern "C"
     eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value);
 
     /**
-     * @brief ISR handler to process ADC injected conversion results.
+     * @brief ISR handler to process ADC1 injected conversion results.
      *        Must be called from ADC_IRQHandler when JEOS is triggered.
      */
-    void SJC_AnalogInterfaces_AdcConversionIsr(void);
+    void SJC_AnalogInterfaces_Adc1ConversionIsr(void);
+
+    /**
+         * @brief ISR handler to process ADC2 injected conversion results.
+         *        Must be called from ADC_IRQHandler when JEOS is triggered.
+         */
+    void SJC_AnalogInterfaces_Adc2ConversionIsr(void);
 
     /**
      * @brief Registers a task handle that should be notified from the ISR

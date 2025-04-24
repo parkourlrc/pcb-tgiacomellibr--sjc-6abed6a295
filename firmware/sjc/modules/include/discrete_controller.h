@@ -60,6 +60,7 @@ void DiscreteController_setOutputLimits(float min, float max);
  */
 void DiscreteController_getOutputLimits(float *min, float *max);
 
+void DiscreteController_setAntiWindupGain(float k_aw);
 /**
  * @brief Updates the controller parameters dynamically (optional).
  */

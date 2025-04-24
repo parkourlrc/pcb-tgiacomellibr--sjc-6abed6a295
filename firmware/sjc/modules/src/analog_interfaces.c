@@ -74,29 +74,31 @@ static xSjcMeanSampleTimeMeasurement_t xMeanSampleTimeObj = xSjcSampleTimeEmptyO
 static volatile uint32_t xIsrServiceCounter = 0;
 static volatile uint32_t xFilterWindowTickCounter = 0;
 
-static eSjcAdcFilterMode_t xAdcFilterMode = ADC_FILTER_EXPONENTIAL;
+static eSjcAdcFilterMode_t xAdcFilterMode = ADC_FILTER_EXP_THEN_BOX;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
-static void filter_none(const float *raw);
-static void filter_exponential(const float *raw);
-static void filter_box(const float *raw);
-static void filter_exp_then_box(const float *raw);
-static void filter_box_then_exp(const float *raw);
+static void filter_none(uint8_t ch);
+static void filter_exponential(uint8_t ch);
+static void filter_box(uint8_t ch);
+static void filter_exp_then_box(uint8_t ch);
+static void filter_box_then_exp(uint8_t ch);
 
 // Helpers
 static void IncIsrServiceCounter(void) { xIsrServiceCounter++; }
 static void ResetIsrServiceCounter(void) { xIsrServiceCounter = 0; }
 
 // Function pointer table
-static const void (*filter_function_table[])(const float *) = {
+static void (*const filter_function_table[])(uint8_t) = {
 	[ADC_FILTER_NONE] = filter_none,
 	[ADC_FILTER_EXPONENTIAL] = filter_exponential,
 	[ADC_FILTER_BOX] = filter_box,
 	[ADC_FILTER_EXP_THEN_BOX] = filter_exp_then_box,
 	[ADC_FILTER_BOX_THEN_EXP] = filter_box_then_exp,
 };
+
+float raw[CONVERSION_ORDER_SIZE] = {0.0f, 0.0f, 0.0f};
 // ------------------------------------------------------------------- //
 
 // Public functions -------------------------------------------------- //
@@ -125,22 +127,28 @@ void AnalogInterfaces_init(void)
 		LL_TIM_EnableCounter(SJC_ADC_CHECK_TIMER_INSTANCE);
 	}
 
-	AnalogInterfaces_setFilterMode(ADC_FILTER_EXP_THEN_BOX, 50);
+	AnalogInterfaces_setFilterMode(ADC_FILTER_EXP_THEN_BOX, 100);
 }
 
 void AnalogInterfaces_enable(void)
 {
-	LL_ADC_EnableIT_OVR(SJC_ADC_INSTANCE);
-	LL_ADC_EnableIT_JEOS(SJC_ADC_INSTANCE);
-	LL_ADC_Enable(SJC_ADC_INSTANCE);
+	LL_ADC_EnableIT_OVR(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_EnableIT_OVR(SJC_ADC_VOLTAGE_INSTANCE);
+	LL_ADC_EnableIT_JEOS(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_EnableIT_JEOS(SJC_ADC_VOLTAGE_INSTANCE);
+	LL_ADC_Enable(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_Enable(SJC_ADC_VOLTAGE_INSTANCE);
 	ResetIsrServiceCounter();
 }
 
 void AnalogInterfaces_disable(void)
 {
-	LL_ADC_Disable(SJC_ADC_INSTANCE);
-	LL_ADC_DisableIT_OVR(SJC_ADC_INSTANCE);
-	LL_ADC_DisableIT_JEOS(SJC_ADC_INSTANCE);
+	LL_ADC_Disable(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_Disable(SJC_ADC_VOLTAGE_INSTANCE);
+	LL_ADC_DisableIT_OVR(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_DisableIT_OVR(SJC_ADC_VOLTAGE_INSTANCE);
+	LL_ADC_DisableIT_JEOS(SJC_ADC_CURRENT_INSTANCE);
+	LL_ADC_DisableIT_JEOS(SJC_ADC_VOLTAGE_INSTANCE);
 }
 
 void AnalogInterfaces_setFilterMode(const eSjcAdcFilterMode_t mode, const float fc)
@@ -219,9 +227,9 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType
 			*value /= (AD8418_SHUNT_RESISTANCE * AD8418_GAIN);
 			break;
 		case SJC_CURRENT_SENSOR_AUX:
-//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
-//			*value /= ACS712_GAIN;
-			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV]-(1.6566);
+			//			*value = (xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] / ACS712_ANALOG_FRONTED_GAIN) - ANALOG_CURRENT_SENSOR_VREF;
+			//			*value /= ACS712_GAIN;
+			*value = xAdcMeasurementValueBuffer[MOTOR_CURRENT_CONV] - (1.6566);
 			*value /= (0.066265);
 
 			break;
@@ -269,23 +277,32 @@ void AnalogInterfaces_registerUpdateTaskHandle(TaskHandle_t *handle)
 	xAdcUpdateTaskHandle = *handle;
 }
 
-void SJC_AnalogInterfaces_AdcConversionIsr(void)
+void SJC_AnalogInterfaces_Adc1ConversionIsr(void)
 {
-	float raw[CONVERSION_ORDER_SIZE];
-	raw[MOTOR_CURRENT_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_1), LL_ADC_RESOLUTION_12B) / 1000.0f;
-	raw[MOTOR_VOLTAGE_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_2), LL_ADC_RESOLUTION_12B) / 1000.0f;
-	raw[VREF_INT_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_INSTANCE, LL_ADC_INJ_RANK_3), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[VREF_INT_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_VOLTAGE_INSTANCE, LL_ADC_INJ_RANK_1), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[VREF_INT_CONV] += (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_VOLTAGE_INSTANCE, LL_ADC_INJ_RANK_2), LL_ADC_RESOLUTION_12B) / 1000.0f;
+
+	raw[MOTOR_VOLTAGE_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_VOLTAGE_INSTANCE, LL_ADC_INJ_RANK_3), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[MOTOR_VOLTAGE_CONV] += (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_VOLTAGE_INSTANCE, LL_ADC_INJ_RANK_4), LL_ADC_RESOLUTION_12B) / 1000.0f;
+
+	raw[VREF_INT_CONV] /= 2.0f;
+	raw[MOTOR_VOLTAGE_CONV] /= 2.0f;
+
+	filter_function_table[xAdcFilterMode](VREF_INT_CONV);
+	filter_function_table[xAdcFilterMode](MOTOR_VOLTAGE_CONV);
+}
+
+void SJC_AnalogInterfaces_Adc2ConversionIsr(void)
+{
+	raw[MOTOR_CURRENT_CONV] = (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_CURRENT_INSTANCE, LL_ADC_INJ_RANK_1), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[MOTOR_CURRENT_CONV] += (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_CURRENT_INSTANCE, LL_ADC_INJ_RANK_2), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[MOTOR_CURRENT_CONV] += (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_CURRENT_INSTANCE, LL_ADC_INJ_RANK_3), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[MOTOR_CURRENT_CONV] += (float)__LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, LL_ADC_INJ_ReadConversionData12(SJC_ADC_CURRENT_INSTANCE, LL_ADC_INJ_RANK_4), LL_ADC_RESOLUTION_12B) / 1000.0f;
+	raw[MOTOR_CURRENT_CONV] /= 4.0f;
 
 	IncIsrServiceCounter();
 
-	if (xAdcFilterMode < ADC_FILTER_MODE_SIZE)
-	{
-		filter_function_table[xAdcFilterMode](raw);
-	}
-	else
-	{
-		filter_none(raw);
-	}
+	filter_function_table[xAdcFilterMode](MOTOR_CURRENT_CONV);
 
 	if (++xFilterWindowTickCounter >= ANALOG_MEASUREMENT_ISR_TICKS)
 	{
@@ -310,90 +327,78 @@ void SJC_AnalogInterfaces_AdcConversionIsr(void)
 // ------------------------------------------------------------------- //
 void ADC_IRQHandler(void)
 {
-	if (LL_ADC_IsActiveFlag_JEOS(SJC_ADC_INSTANCE) != 0)
+	if (LL_ADC_IsActiveFlag_JEOS(SJC_ADC_CURRENT_INSTANCE) != 0)
 	{
 		/* Clear flag ADC group injected end of sequence conversions */
-		LL_ADC_ClearFlag_JEOS(SJC_ADC_INSTANCE);
+		LL_ADC_ClearFlag_JEOS(SJC_ADC_CURRENT_INSTANCE);
 
-		SJC_AnalogInterfaces_AdcConversionIsr();
+		SJC_AnalogInterfaces_Adc2ConversionIsr();
+	}
+
+	if (LL_ADC_IsActiveFlag_JEOS(SJC_ADC_VOLTAGE_INSTANCE) != 0)
+	{
+		/* Clear flag ADC group injected end of sequence conversions */
+		LL_ADC_ClearFlag_JEOS(SJC_ADC_VOLTAGE_INSTANCE);
+
+		SJC_AnalogInterfaces_Adc1ConversionIsr();
 	}
 
 	/* Check whether ADC group regular overrun caused the ADC interruption */
-	if (LL_ADC_IsActiveFlag_OVR(SJC_ADC_INSTANCE) != 0)
+	if (LL_ADC_IsActiveFlag_OVR(SJC_ADC_CURRENT_INSTANCE) != 0)
 	{
 		/* Clear flag ADC group regular overrun */
-		LL_ADC_ClearFlag_OVR(SJC_ADC_INSTANCE);
+		LL_ADC_ClearFlag_OVR(SJC_ADC_CURRENT_INSTANCE);
 
 		/* Call interruption treatment function */
-		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC Overrun!\n");
+		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC2 Overrun!\n");
 		Error_Handler();
 	}
+
+	if (LL_ADC_IsActiveFlag_OVR(SJC_ADC_VOLTAGE_INSTANCE) != 0)
+		{
+			/* Clear flag ADC group regular overrun */
+			LL_ADC_ClearFlag_OVR(SJC_ADC_VOLTAGE_INSTANCE);
+
+			/* Call interruption treatment function */
+			DebugOutput_systemPrintf("\r\n[HW FAULT] ADC1 Overrun!\n");
+			Error_Handler();
+		}
 }
 
 // Filter implementations
-static void filter_none(const float *raw)
+static void filter_none(uint8_t ch)
 {
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		xFilteredSampleFromIsr.channels[ch] = raw[ch];
-	}
+	xFilteredSampleFromIsr.channels[ch] = raw[ch];
 }
 
-static void filter_exponential(const float *raw)
+static void filter_exponential(uint8_t ch)
 {
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		xFilteredSampleFromIsr.channels[ch] = ExponentialFilter_update(&channel_filters[ch].exp, raw[ch]);
-	}
+	xFilteredSampleFromIsr.channels[ch] = ExponentialFilter_update(&channel_filters[ch].exp, raw[ch]);
 }
 
-static void filter_box(const float *raw)
+static void filter_box(uint8_t ch)
 {
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		BoxFilter_add_sample(&channel_filters[ch].box, raw[ch]);
-	}
-
-	if (!BoxFilter_ready(&channel_filters[0].box))
-		return;
-
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
+	BoxFilter_add_sample(&channel_filters[ch].box, raw[ch]);
+	if (BoxFilter_ready(&channel_filters[ch].box))
 		xFilteredSampleFromIsr.channels[ch] = BoxFilter_get_average_and_reset(&channel_filters[ch].box);
-	}
 }
 
-static void filter_exp_then_box(const float *raw)
+static void filter_exp_then_box(uint8_t ch)
 {
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		float exp_filtered = ExponentialFilter_update(&channel_filters[ch].exp, raw[ch]);
-		BoxFilter_add_sample(&channel_filters[ch].box, exp_filtered);
-	}
-
-	if (!BoxFilter_ready(&channel_filters[0].box))
-		return;
-
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
+	float exp_val = ExponentialFilter_update(&channel_filters[ch].exp, raw[ch]);
+	BoxFilter_add_sample(&channel_filters[ch].box, exp_val);
+	if (BoxFilter_ready(&channel_filters[ch].box))
 		xFilteredSampleFromIsr.channels[ch] = BoxFilter_get_average_and_reset(&channel_filters[ch].box);
-	}
 }
 
-static void filter_box_then_exp(const float *raw)
+static void filter_box_then_exp(uint8_t ch)
 {
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
+	BoxFilter_add_sample(&channel_filters[ch].box, raw[ch]);
+	if (BoxFilter_ready(&channel_filters[ch].box))
 	{
-		BoxFilter_add_sample(&channel_filters[ch].box, raw[ch]);
-	}
-
-	if (!BoxFilter_ready(&channel_filters[0].box))
-		return;
-
-	for (uint8_t ch = 0; ch < CONVERSION_ORDER_SIZE; ch++)
-	{
-		float box_output = BoxFilter_get_average_and_reset(&channel_filters[ch].box);
-		xFilteredSampleFromIsr.channels[ch] = ExponentialFilter_update(&channel_filters[ch].exp, box_output);
+		float avg = BoxFilter_get_average_and_reset(&channel_filters[ch].box);
+		xFilteredSampleFromIsr.channels[ch] = ExponentialFilter_update(&channel_filters[ch].exp, avg);
 	}
 }
+
 // ------------------------------------------------------------------- //

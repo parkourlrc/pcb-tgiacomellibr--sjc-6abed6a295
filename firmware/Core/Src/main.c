@@ -19,11 +19,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "adc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "stdio.h"
 #include "base/include/sjc.h"
+#include "modules/include/motor_drive.h"
 #include "tasks/include/task_common.h"
 /* USER CODE END Includes */
 
@@ -92,6 +94,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
   SJC_init();
   /* USER CODE END 2 */
@@ -220,6 +223,7 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
 	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
+	MotorDrive_disable();
 	while (1)
 	{
 	}
