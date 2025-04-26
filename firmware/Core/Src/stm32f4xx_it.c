@@ -112,15 +112,6 @@ void HardFault_HandlerC(uint32_t *hardfault_args)
     uint32_t pc  = hardfault_args[6]; // instrução onde ocorreu o fault
     uint32_t psr = hardfault_args[7];
 
-//    DataLogger_printf("\r\n[HARD FAULT]");
-//    DataLogger_printf("\r\n R0  = 0x%08lx", r0);
-//    DataLogger_printf("\r\n R1  = 0x%08lx", r1);
-//    DataLogger_printf("\r\n R2  = 0x%08lx", r2);
-//    DataLogger_printf("\r\n R3  = 0x%08lx", r3);
-//    DataLogger_printf("\r\n R12 = 0x%08lx", r12);
-//    DataLogger_printf("\r\n LR  = 0x%08lx", lr);
-//    DataLogger_printf("\r\n PC  = 0x%08lx", pc);
-//    DataLogger_printf("\r\n xPSR= 0x%08lx", psr);
 
     DataLogger_printf(
         "\r\n{\"type\":\"hardfault\","

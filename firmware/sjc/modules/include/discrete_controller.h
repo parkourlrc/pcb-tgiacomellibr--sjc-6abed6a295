@@ -61,6 +61,8 @@ void DiscreteController_setOutputLimits(float min, float max);
 void DiscreteController_getOutputLimits(float *min, float *max);
 
 void DiscreteController_setAntiWindupGain(float k_aw);
+
+void DiscreteController_setFilterCutoffFrequency(float cutoff_freq);
 /**
  * @brief Updates the controller parameters dynamically (optional).
  */

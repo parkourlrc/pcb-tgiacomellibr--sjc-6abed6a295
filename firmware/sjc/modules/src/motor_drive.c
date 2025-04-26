@@ -100,7 +100,10 @@ void MotorDrive_disable(void)
 
 eSjcReturnType_t MotorDrive_getState(bool *state)
 {
-	*state = MotorDrive.State;
+	if (state)
+	{
+		*state = MotorDrive.State;
+	}
 
 	return SJC_RET_OK;
 }

@@ -137,18 +137,20 @@
  */
 
 #include "modules/include/discrete_controller.h"
+#include "system_types/include/filters.h"
 #include <stdbool.h>
 
 // === Controller coefficients (Direct Form II) ===
 
-/*// Luciola
+/* // Luciola
+*/
 #define B0 1.200000000000001f
 #define B1 -2.100000000000002f
 #define B2 0.918000000000001f
 #define A1 -1.970000000000000f
 #define A2 0.970000000000000f
-*/
 
+/*// Contínuo discretizado por tustin
 #define B0 0.124443355895974f
 #define B1 -0.222034200213751f
 #define B2 0.098837727110794f
@@ -156,6 +158,7 @@
 #define A0 1.0f
 #define A1 -1.995012468827930f
 #define A2 0.995012468827930f
+ */
 
 
 
@@ -171,8 +174,10 @@ static struct {
     .u = {0.0f, 0.0f, 0.0f},
     .u_min = -24.0f,
     .u_max = 24.0f,
-    .k_aw = 1.0f  // Default anti-windup gain
+    .k_aw = 0.01f  // Default anti-windup gain
 };
+
+static ExponentialFilter_t filter;
 
 void DiscreteController_init(void)
 {
@@ -180,11 +185,16 @@ void DiscreteController_init(void)
         xDiscController.e[i] = 0.0f;
         xDiscController.u[i] = 0.0f;
     }
+
+    ExponentialFilter_init(&filter, 1000.0f, 1000.0f);
+    ExponentialFilter_reset(&filter);
 }
 
 float DiscreteController_compute(const float reference, const float measurement)
 {
-    float error = reference - measurement;
+    float error = (reference - measurement);
+
+    error = ExponentialFilter_update(&filter, error);
 
     // Compute raw control output
     float control =
@@ -197,13 +207,14 @@ float DiscreteController_compute(const float reference, const float measurement)
     // Saturate control
     float saturated_control = control;
 
+    bool is_saturated_state = false;
 
     if (control > xDiscController.u_max) {
         saturated_control = xDiscController.u_max;
-
+        is_saturated_state = true;
     } else if (control < xDiscController.u_min) {
         saturated_control = xDiscController.u_min;
-
+        is_saturated_state = true;
     }
 
     // Update control output history
@@ -250,6 +261,11 @@ void DiscreteController_getOutputLimits(float *min, float *max)
 void DiscreteController_setAntiWindupGain(float k_aw)
 {
     xDiscController.k_aw = k_aw;
+}
+
+void DiscreteController_setFilterCutoffFrequency(float cutoff_freq)
+{
+	ExponentialFilter_set_cutoff(&filter, cutoff_freq);
 }
 
 void DiscreteController_updateParameters(void)

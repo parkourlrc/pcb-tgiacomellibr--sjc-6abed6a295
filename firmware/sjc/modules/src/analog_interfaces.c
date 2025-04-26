@@ -179,6 +179,8 @@ void AnalogInterfaces_setFilterMode(const eSjcAdcFilterMode_t mode, const float 
 
 eSjcReturnType_t AnalogInterfaces_updateConversionValues(void)
 {
+	configASSERT(xAnalogInterfaceSemprHandle != NULL);
+
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_CONVERSION_WAIT_TIME_MS))
 	{
 		/* Check converion times and conversion errors                           */
@@ -214,8 +216,13 @@ eSjcReturnType_t AnalogInterfaces_updateConversionValues(void)
 
 eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType_t sensor, float *value)
 {
+	configASSERT(xAnalogInterfaceSemprHandle != NULL);
+
 	if (value == NULL)
+	{
 		return SJC_RET_NOK;
+	}
+
 	*value = ZERO_FLOAT;
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS))
@@ -249,10 +256,12 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(const eSjcAnalogSensorType
 
 eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasurement_t *Ts)
 {
-	if (Ts == NULL)
-		return SJC_RET_NOK;
-
 	configASSERT(xAnalogInterfaceSemprHandle != NULL);
+
+	if (Ts == NULL)
+	{
+		return SJC_RET_NOK;
+	}
 
 	if (osOK == osSemaphoreAcquire(xAnalogInterfaceSemprHandle, ANALOG_INTERFACE_MUTEX_DEFAULT_WAIT_TIME_MS))
 	{
@@ -273,7 +282,11 @@ eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasu
 
 void AnalogInterfaces_registerUpdateTaskHandle(TaskHandle_t *handle)
 {
-	configASSERT(handle != NULL); // Safety check for null pointer
+	if ((handle == NULL) || (*handle == NULL)) {
+		DebugOutput_systemPrintf("[SJC] Fault: Invalid ADC update task handle!");
+		return;
+	}
+
 	xAdcUpdateTaskHandle = *handle;
 }
 

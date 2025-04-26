@@ -135,39 +135,56 @@ void ControllerMeasTaskApp(void *argument)
 	/*
 	 * Discrete controller tests
 	 */
-	//	DiscreteController_init();
 
-	// (1) Configura limites de saída (por exemplo, tensão saturada do atuador)
+	float Kw = 5.1100f;
+	DiscreteController_init();
+
 	DiscreteController_setOutputLimits(-24.0f, 24.0f);
 
-	// (2) Ajusta o ganho de anti-windup (comece com 1.0f ou experimente 1/B0)
-	DiscreteController_setAntiWindupGain(0.1);  // ou 1.0f / B0, se quiser experimentar
+	DiscreteController_setFilterCutoffFrequency(100);
+
+	DiscreteController_setAntiWindupGain(Kw);  // ou 1.0f / B0, se quiser experimentar
 
 	/*
 	 * LQI controller tests
 	 */
-//	float cutoff_freq = 80;
 //	float Kx[2] = {-7604.1397f, 104.8081f};
 //	float Ki = -0.1864f;
 //	float Kw = 1.54f;
-//
-//		LqiControllerParams_t params = {
-//			.Ad = {
-//				{0.9954f, 0.0008969f},
-//				{-8.9360f, 0.7996f}},
-//			.Bd = {4.651e-07f, 0.0008969f},
-//			.Cd = {918.4f, 220.3f},
-//			.Kx[0] = Kx[0],
-//			.Kx[1] = Kx[1],
-//			.Ki = Ki,
-//			.Kw = Kw,
-//
-//			.alpha = 1.0f - expf(-2.0f * 3.1415926f * cutoff_freq * 0.001f), // fc = 80 Hz, Ts = 1 ms
-//			.u_min = -24.0f,
-//			.u_max = 24.0f};
-//
-//	LqiController_init(&params);
-//	LqiController_setSaturation(-24.0f, 24.0f);
+
+	float Kx[2] = {-2.5100f, 4.3708f};
+	float Ki = -0.1284f;
+//	float Kw = 5.1100f;
+	float cutoff_freq = 500;
+
+	float Ad[2][2] = { {0.0f, 1.0f}, {-0.8039f, 1.7949f} };
+	float Bd[2] = {0.1980f, 0.1583f};
+	float Cd[2] = {1.0f, 0.0f};
+//	float L[2] = {0.6077f, 0.6227f};
+	float L[2] = {1.056964f, 1.206019f};
+
+	CurrentObserver_t current_observer;
+	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
+
+
+	LqiControllerParams_t params = {
+			.Ad = { {0.0f, 1.0f}, {-0.8039f, 1.7949f} },
+			.Bd = {0.1980f, 0.1583f},
+			.Cd = {1.0f, 0.0f},
+			.Kx[0] = Kx[0],
+			.Kx[1] = Kx[1],
+			.Ki = Ki,
+			.Kw = Kw,
+
+			.alpha = 1.0f - expf(-2.0f * 3.1415926f * cutoff_freq * 0.001f), // fc = 80 Hz, Ts = 1 ms
+			.u_min = -24.0f,
+			.u_max = 24.0f,
+			.use_observer = true,
+			.observer = &current_observer};
+
+	LqiController_init(&params);
+	LqiController_setSaturation(-24.0f, 24.0f);
+
 
 	/* Infinite loop */
 	for (;;)
@@ -240,8 +257,8 @@ static void RunControlLoop(void)
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
 			//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
 
-			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
-//			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
+//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
+			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent, JointMeasurements.ControlAction);
 			break;
 
 		case SJC_SPEED_CONTROL:

@@ -16,15 +16,17 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#define LQI_STATE_DIM 2  ///< Número de estados da planta
+#include "modules/include/current_observer.h"
+
+#define LQI_STATE_SIZE 2
 
 typedef struct
 {
-    float Ad[LQI_STATE_DIM][LQI_STATE_DIM];
-    float Bd[LQI_STATE_DIM];
-    float Cd[LQI_STATE_DIM]; ///< Vetor linha
+    float Ad[LQI_STATE_SIZE][LQI_STATE_SIZE];
+    float Bd[LQI_STATE_SIZE];
+    float Cd[LQI_STATE_SIZE];
 
-    float Kx[LQI_STATE_DIM];
+    float Kx[LQI_STATE_SIZE];
     float Ki;
     float Kw;
 
@@ -32,12 +34,15 @@ typedef struct
     float u_min;
     float u_max;
 
+    bool use_observer;
+    CurrentObserver_t *observer;
 } LqiControllerParams_t;
 
 void LqiController_init(const LqiControllerParams_t *params);
-float LqiController_compute(float ref, float y_meas);
+float LqiController_compute(float ref, float y_meas, float u_prev);
 void LqiController_reset(void);
 void LqiController_setSaturation(float u_min, float u_max);
+
 
 #ifdef __cplusplus
 }
