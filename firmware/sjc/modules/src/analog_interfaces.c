@@ -282,7 +282,8 @@ eSjcReturnType_t AnalogInterfaces_getMeanConversionDelay(xSjcMeanSampleTimeMeasu
 
 void AnalogInterfaces_registerUpdateTaskHandle(TaskHandle_t *handle)
 {
-	if ((handle == NULL) || (*handle == NULL)) {
+	if ((handle == NULL) || (*handle == NULL))
+	{
 		DebugOutput_systemPrintf("[SJC] Fault: Invalid ADC update task handle!");
 		return;
 	}
@@ -363,19 +364,19 @@ void ADC_IRQHandler(void)
 		LL_ADC_ClearFlag_OVR(SJC_ADC_CURRENT_INSTANCE);
 
 		/* Call interruption treatment function */
-		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC2 Overrun!\n");
+		//		DebugOutput_systemPrintf("\r\n[HW FAULT] ADC2 Overrun!\n");
 		Error_Handler();
 	}
 
 	if (LL_ADC_IsActiveFlag_OVR(SJC_ADC_VOLTAGE_INSTANCE) != 0)
-		{
-			/* Clear flag ADC group regular overrun */
-			LL_ADC_ClearFlag_OVR(SJC_ADC_VOLTAGE_INSTANCE);
+	{
+		/* Clear flag ADC group regular overrun */
+		LL_ADC_ClearFlag_OVR(SJC_ADC_VOLTAGE_INSTANCE);
 
-			/* Call interruption treatment function */
-			DebugOutput_systemPrintf("\r\n[HW FAULT] ADC1 Overrun!\n");
-			Error_Handler();
-		}
+		/* Call interruption treatment function */
+		//			DebugOutput_systemPrintf("\r\n[HW FAULT] ADC1 Overrun!\n");
+		Error_Handler();
+	}
 }
 
 // Filter implementations

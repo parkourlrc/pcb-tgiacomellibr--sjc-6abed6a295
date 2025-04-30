@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "modules/include/data_logger.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -102,6 +102,7 @@ void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
    called if a stack overflow is detected. */
 	(void)xTask;
 	(void)pcTaskName;
+	DataLogger_printf("\r\n[FAULT] Stack overflow in task: %s", pcTaskName);
 	taskDISABLE_INTERRUPTS();
 	for(;;);
 }

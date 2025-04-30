@@ -72,9 +72,9 @@ extern "C"
     void SJC_AnalogInterfaces_Adc1ConversionIsr(void);
 
     /**
-         * @brief ISR handler to process ADC2 injected conversion results.
-         *        Must be called from ADC_IRQHandler when JEOS is triggered.
-         */
+     * @brief ISR handler to process ADC2 injected conversion results.
+     *        Must be called from ADC_IRQHandler when JEOS is triggered.
+     */
     void SJC_AnalogInterfaces_Adc2ConversionIsr(void);
 
     /**
