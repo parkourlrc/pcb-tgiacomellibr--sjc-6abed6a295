@@ -69,10 +69,15 @@ void MotorOutput_disable(void)
 
 eSjcReturnType_t MotorOutput_getState(bool *state)
 {
-	*state = MotorOutput.State;
+	if (state == NULL)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*state = MotorOutput.State;
 	return SJC_RET_OK;
 }
+
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //

@@ -21,6 +21,7 @@ static struct
     float x[LQI_STATE_SIZE];
     float e_int;
     float err_prev;
+    float u_last;
     float u_min;
     float u_max;
 
@@ -37,50 +38,71 @@ static struct
     CurrentObserver_t *observer;
 
     bool initialized;
-} lqi;
+} lqi_ctx;
+
+static float saturate_control(float u_raw, float *correction)
+{
+    float u_sat = fminf(fmaxf(u_raw, lqi_ctx.u_min), lqi_ctx.u_max);
+    *correction = u_sat - u_raw;
+
+    if (u_sat != u_raw)
+    {
+        DebugOutput_systemPrintf("\r\n[LQI] Output saturated: raw=%.3f, sat=%.3f", u_raw, u_sat);
+    }
+    return u_sat;
+}
 
 void LqiController_init(const LqiControllerParams_t *params)
 {
+    if (params == NULL)
+    {
+        DebugOutput_systemPrintf("\r\n[FAULT] LQI controller init failed: params is NULL.");
+        return;
+    }
+
     for (int i = 0; i < LQI_STATE_SIZE; ++i)
     {
         for (int j = 0; j < LQI_STATE_SIZE; ++j)
         {
-            lqi.Ad[i][j] = params->Ad[i][j];
+            lqi_ctx.Ad[i][j] = params->Ad[i][j];
         }
-        lqi.Bd[i] = params->Bd[i];
-        lqi.Cd[i] = params->Cd[i];
-        lqi.Kx[i] = params->Kx[i];
-        lqi.x[i] = 0.0f;
+        lqi_ctx.Bd[i] = params->Bd[i];
+        lqi_ctx.Cd[i] = params->Cd[i];
+        lqi_ctx.Kx[i] = params->Kx[i];
+        lqi_ctx.x[i] = 0.0f;
     }
 
-    lqi.Ki = params->Ki;
-    lqi.Kw = params->Kw;
-    lqi.alpha = params->alpha;
-    lqi.u_min = params->u_min;
-    lqi.u_max = params->u_max;
+    lqi_ctx.Ki = params->Ki;
+    lqi_ctx.Kw = params->Kw;
+    lqi_ctx.alpha = params->alpha;
+    lqi_ctx.u_min = params->u_min;
+    lqi_ctx.u_max = params->u_max;
 
-    lqi.e_int = 0.0f;
-    lqi.err_prev = 0.0f;
-    lqi.use_observer = params->use_observer;
-    lqi.observer = params->observer;
-    lqi.initialized = false;
+    lqi_ctx.e_int = 0.0f;
+    lqi_ctx.err_prev = 0.0f;
+    lqi_ctx.u_last = 0.0f;
+    lqi_ctx.use_observer = params->use_observer;
+    lqi_ctx.observer = params->use_observer ? params->observer : NULL;
+    lqi_ctx.initialized = false;
 }
 
-float LqiController_compute(float ref, float y_meas, float u_prev)
+float LqiController_compute(float ref, float y_meas)
 {
-    if (!lqi.initialized)
+    if (!lqi_ctx.initialized)
     {
         for (int i = 0; i < LQI_STATE_SIZE; ++i)
-            lqi.x[i] = 0.0f;
-        lqi.e_int = 0.0f;
-        lqi.err_prev = ref - y_meas;
-        lqi.initialized = true;
+            lqi_ctx.x[i] = 0.0f;
+
+        lqi_ctx.e_int = 0.0f;
+        lqi_ctx.err_prev = ref - y_meas;
+        lqi_ctx.u_last = 0.0f;
+        lqi_ctx.initialized = true;
         return 0.0f;
     }
 
     float raw_err = ref - y_meas;
-    float err = lqi.alpha * raw_err + (1.0f - lqi.alpha) * lqi.err_prev;
-    lqi.err_prev = err;
+    float err = lqi_ctx.alpha * raw_err + (1.0f - lqi_ctx.alpha) * lqi_ctx.err_prev;
+    lqi_ctx.err_prev = err;
 
     if (!isfinite(err) || !isfinite(y_meas) || !isfinite(ref))
     {
@@ -89,20 +111,21 @@ float LqiController_compute(float ref, float y_meas, float u_prev)
     }
 
     float x_control[LQI_STATE_SIZE];
-    if (lqi.use_observer && lqi.observer != NULL)
+    if (lqi_ctx.use_observer && lqi_ctx.observer != NULL)
     {
-        CurrentObserver_update(lqi.observer, u_prev, y_meas);
-        x_control[0] = CurrentObserver_get_current(lqi.observer);
-        x_control[1] = CurrentObserver_get_current_derivative(lqi.observer);
+        CurrentObserver_update(lqi_ctx.observer, lqi_ctx.u_last, y_meas);
+        x_control[0] = CurrentObserver_get_current(lqi_ctx.observer);
+        x_control[1] = CurrentObserver_get_current_derivative(lqi_ctx.observer);
     }
     else
     {
-        x_control[0] = lqi.x[0];
-        x_control[1] = lqi.x[1];
+        x_control[0] = lqi_ctx.x[0];
+        x_control[1] = lqi_ctx.x[1];
     }
 
-    float u_raw = -lqi.Kx[0] * x_control[0] - lqi.Kx[1] * x_control[1] - lqi.Ki * lqi.e_int;
-    float u_sat = fminf(fmaxf(u_raw, lqi.u_min), lqi.u_max);
+    float u_raw = -lqi_ctx.Kx[0] * x_control[0] - lqi_ctx.Kx[1] * x_control[1] - lqi_ctx.Ki * lqi_ctx.e_int;
+    float correction = 0.0f;
+    float u_sat = saturate_control(u_raw, &correction);
 
     if (!isfinite(u_raw) || !isfinite(u_sat))
     {
@@ -112,11 +135,11 @@ float LqiController_compute(float ref, float y_meas, float u_prev)
 
     if (fabsf(err) > 1e-2f)
     {
-        lqi.e_int += err + (u_sat - u_raw) * lqi.Kw;
-        lqi.e_int = fminf(fmaxf(lqi.e_int, -E_INT_CLAMP), E_INT_CLAMP);
+        lqi_ctx.e_int += err + correction * lqi_ctx.Kw;
+        lqi_ctx.e_int = fminf(fmaxf(lqi_ctx.e_int, -E_INT_CLAMP), E_INT_CLAMP);
     }
 
-    if (!lqi.use_observer)
+    if (!lqi_ctx.use_observer)
     {
         float x_next[LQI_STATE_SIZE];
         for (int i = 0; i < LQI_STATE_SIZE; ++i)
@@ -124,31 +147,37 @@ float LqiController_compute(float ref, float y_meas, float u_prev)
             x_next[i] = 0.0f;
             for (int j = 0; j < LQI_STATE_SIZE; ++j)
             {
-                x_next[i] += lqi.Ad[i][j] * lqi.x[j];
+                x_next[i] += lqi_ctx.Ad[i][j] * lqi_ctx.x[j];
             }
-            x_next[i] += lqi.Bd[i] * u_sat;
+            x_next[i] += lqi_ctx.Bd[i] * u_sat;
         }
-        lqi.x[0] = x_next[0];
-        lqi.x[1] = x_next[1];
+        lqi_ctx.x[0] = x_next[0];
+        lqi_ctx.x[1] = x_next[1];
     }
 
-    return (fabsf(u_sat) < 0.01f) ? 0.0f : u_sat;
+    lqi_ctx.u_last = u_sat;
+    return u_sat;
 }
 
 void LqiController_reset(void)
 {
     for (int i = 0; i < LQI_STATE_SIZE; ++i)
     {
-        lqi.x[i] = 0.0f;
+        lqi_ctx.x[i] = 0.0f;
     }
-    lqi.e_int = 0.0f;
-    lqi.err_prev = 0.0f;
-    lqi.initialized = false;
+    lqi_ctx.e_int = 0.0f;
+    lqi_ctx.err_prev = 0.0f;
+    lqi_ctx.u_last = 0.0f;
+    lqi_ctx.initialized = false;
 }
 
 void LqiController_setSaturation(float u_min, float u_max)
 {
-    lqi.u_min = u_min;
-    lqi.u_max = u_max;
+    lqi_ctx.u_min = u_min;
+    lqi_ctx.u_max = u_max;
 }
 
+bool LqiController_isInitialized(void)
+{
+    return lqi_ctx.initialized;
+}

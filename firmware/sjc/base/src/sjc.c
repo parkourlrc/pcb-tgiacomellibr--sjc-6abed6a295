@@ -33,7 +33,7 @@
 #include "modules/include/motor_drive.h"
 #include "modules/include/motor_output.h"
 #include "modules/include/pid_controller.h"
-#include "modules/include/pwm.h"
+#include "modules/include/pwm_signal.h"
 #include "modules/include/timeout_timer.h"
 #include "tasks/include/task_common.h"
 // ------------------------------------------------------------------- //

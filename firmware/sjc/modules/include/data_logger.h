@@ -19,30 +19,48 @@ extern "C"
 #endif
 
     /**
-     * @brief Initializes the data logger module and associated DMA configuration.
+     * @brief Initializes the DataLogger module.
+     *
+     * Configures DMA, USART, and internal buffers. Must be called once during system startup.
      */
     void DataLogger_init(void);
 
     /**
-     * @brief Sends a formatted string asynchronously using the DMA circular buffer.
+     * @brief Queues a formatted message for asynchronous transmission.
      *
-     * If the current bank is full or nearly full, switches to the next bank.
-     * Supports splitting messages across banks.
+     * Uses internal double buffer to store messages. If message exceeds the remaining space
+     * in the current bank, the bank is transmitted and the message is retried in the next bank.
      *
-     * @param format Format string (same as printf)
-     * @return Number of characters written to the buffer
+     * @param format Format string (printf-style)
+     * @param ... Arguments for formatting
+     * @return int Number of bytes written to the buffer
      */
     int DataLogger_transmit(const char *format, ...);
 
     /**
-     * @brief Sends a formatted string directly using blocking USART transmission (debug mode).
+     * @brief Prints a formatted message immediately over USART using polling.
      *
-     * Uses a critical section to avoid USART/DMA conflicts.
+     * Blocks until all characters are transmitted. Used for emergency or fault reporting.
      *
-     * @param format Format string (same as printf)
-     * @return Number of characters transmitted
+     * @param format Format string (printf-style)
+     * @param ... Arguments for formatting
+     * @return int Number of characters transmitted
      */
     int DataLogger_printf(const char *format, ...);
+
+    /**
+     * @brief Forces transmission of the current buffer if data is available.
+     *
+     * Can be used to flush logs before shutdown or in critical sections.
+     */
+    void DataLogger_flush(void);
+
+    /**
+     * @brief Checks whether there is pending data in the buffer.
+     *
+     * @return true if there is buffered data to be transmitted, false otherwise.
+     */
+    bool DataLogger_available(void);
 
 #ifdef __cplusplus
 }

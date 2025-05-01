@@ -1,187 +1,69 @@
-///**
-// * @file controller.c
-// * @brief Discrete controller implementation with anti-windup.
-// *
-// * Implements a second-order discrete-time controller using Direct Form II structure.
-// * Includes anti-windup strategy that halts integration when output saturates.
-// *
-// * Discrete-time controller:
-// * Cd(z) = 0.0050725 * (z - 0.9093)(z + 1) / ((z - 0.9952)(z - 1))
-// *
-// * Derived via Tustin method from:
-// * C(s) = 9.7082 * (s + 95) / (s * (s + 4.8))
-// *
-// * Author: Tiago
-// * Date: Apr 11, 2025
-// */
-//
-//#include "modules/include/discrete_controller.h"
-//#include <stdbool.h>
-//
-//// === Controller coefficients (Direct Form II) ===
-////#define B0  0.0050725f
-////#define B1  0.0005424f
-////#define B2 -0.0045301f
-////#define A1 -1.9952f
-////#define A2  0.9952f
-//#define B0 1.200000000000001f
-//#define B1 -2.100000000000002f
-//#define B2 0.918000000000001f
-//#define A1 -1.970000000000000f
-//#define A2 0.970000000000000f
-//
-//// === Controller state structure ===
-//static struct {
-//    float e[3];           ///< Error history
-//    float u[3];           ///< Output history
-//    float u_min;          ///< Minimum control effort
-//    float u_max;          ///< Maximum control effort
-//} xDiscController = {
-//    .e = {0.0f, 0.0f, 0.0f},
-//    .u = {0.0f, 0.0f, 0.0f},
-//    .u_min = -24.0f,
-//    .u_max =  24.0f
-//};
-//
-//void DiscreteController_init(void)
-//{
-//    for (int i = 0; i < 3; ++i) {
-//        xDiscController.e[i] = 0.0f;
-//        xDiscController.u[i] = 0.0f;
-//    }
-//}
-//
-//float DiscreteController_compute(const float reference, const float measurement)
-//{
-//    float error = reference - measurement;
-//
-//    float control =
-//        B0 * error +
-//        B1 * xDiscController.e[0] +
-//        B2 * xDiscController.e[1] -
-//        A1 * xDiscController.u[0] -
-//        A2 * xDiscController.u[1];
-//
-//    // Saturate control
-//    float saturated_control = control;
-//    bool saturated = false;
-//
-//    if (control > xDiscController.u_max) {
-//        saturated_control = xDiscController.u_max;
-//        saturated = true;
-//    } else if (control < xDiscController.u_min) {
-//        saturated_control = xDiscController.u_min;
-//        saturated = true;
-//    }
-//
-//    // Update histories
-//    xDiscController.u[1] = xDiscController.u[0];
-//    xDiscController.u[0] = saturated_control;
-//
-//    if (!saturated) {
-//        xDiscController.e[2] = xDiscController.e[1];
-//        xDiscController.e[1] = xDiscController.e[0];
-//        xDiscController.e[0] = error;
-//    }
-//
-//    return xDiscController.u[0];
-//}
-//
-//float DiscreteController_getOutput(void)
-//{
-//    return xDiscController.u[0];
-//}
-//
-//void DiscreteController_reset(void)
-//{
-//    for (int i = 0; i < 3; ++i) {
-//        xDiscController.e[i] = 0.0f;
-//        xDiscController.u[i] = 0.0f;
-//    }
-//}
-//
-//void DiscreteController_setOutputLimits(float min, float max)
-//{
-//    xDiscController.u_min = min;
-//    xDiscController.u_max = max;
-//}
-//
-//void DiscreteController_getOutputLimits(float *min, float *max)
-//{
-//    if (min) *min = xDiscController.u_min;
-//    if (max) *max = xDiscController.u_max;
-//}
-//
-//void DiscreteController_updateParameters(void)
-//{
-//    // Optional: Implement runtime update of coefficients if needed
-//}
-//
-//void DiscreteController_setAntiWindupGain(float k_aw)
-//{
-////    xDiscController.k_aw = k_aw;
-//}
-
-
 /**
  * @file controller.c
- * @brief Discrete controller implementation with anti-windup (back-calculation).
+ * @brief Discrete controller implementation with exponential filtering and anti-windup.
  *
- * Implements a second-order discrete-time controller using Direct Form II structure.
- * Includes anti-windup strategy using back-calculation to limit integrator windup.
- *
- * Cd(z) = 0.0050725 * (z - 0.9093)(z + 1) / ((z - 0.9952)(z - 1))
+ * Implements a second-order direct-form discrete-time controller:
+ * Cd(z) = (B0 + B1*z^-1 + B2*z^-2) / (1 + A1*z^-1 + A2*z^-2)
+ * Includes saturation and anti-windup using back-calculation, and optional exponential filtering.
  *
  * Author: Tiago
  * Date: Apr 23, 2025
  */
 
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
 #include "modules/include/discrete_controller.h"
 #include "system_types/include/filters.h"
-#include <stdbool.h>
+// ------------------------------------------------------------------- //
 
-// === Controller coefficients (Direct Form II) ===
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
 
-/* // Luciola
-*/
+// Controller coefficients (Direct Form II)
 #define B0 1.200000000000001f
 #define B1 -2.100000000000002f
 #define B2 0.918000000000001f
 #define A1 -1.970000000000000f
 #define A2 0.970000000000000f
 
-/*// Contínuo discretizado por tustin
-#define B0 0.124443355895974f
-#define B1 -0.222034200213751f
-#define B2 0.098837727110794f
+// ------------------------------------------------------------------- //
 
-#define A0 1.0f
-#define A1 -1.995012468827930f
-#define A2 0.995012468827930f
- */
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
 
-
-
-// === Controller state structure ===
-static struct {
-    float e[3];           ///< Error history
-    float u[3];           ///< Output history
-    float u_min;          ///< Minimum control effort
-    float u_max;          ///< Maximum control effort
-    float k_aw;           ///< Anti-windup gain for back-calculation
+// Controller internal state
+static struct
+{
+    float e[3];  ///< Error history
+    float u[3];  ///< Output history
+    float u_min; ///< Minimum output limit
+    float u_max; ///< Maximum output limit
+    float k_aw;  ///< Anti-windup gain
 } xDiscController = {
-    .e = {0.0f, 0.0f, 0.0f},
-    .u = {0.0f, 0.0f, 0.0f},
+    .e = {0.0f},
+    .u = {0.0f},
     .u_min = -24.0f,
     .u_max = 24.0f,
-    .k_aw = 0.01f  // Default anti-windup gain
-};
+    .k_aw = 0.01f};
 
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
+// ------------------------------------------------------------------- //
 static ExponentialFilter_t filter;
+// ------------------------------------------------------------------- //
 
+// Private function prototypes ---------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Public functions -------------------------------------------------- //
+// ------------------------------------------------------------------- //
 void DiscreteController_init(void)
 {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i)
+    {
         xDiscController.e[i] = 0.0f;
         xDiscController.u[i] = 0.0f;
     }
@@ -192,11 +74,9 @@ void DiscreteController_init(void)
 
 float DiscreteController_compute(const float reference, const float measurement)
 {
-    float error = (reference - measurement);
-
+    float error = reference - measurement;
     error = ExponentialFilter_update(&filter, error);
 
-    // Compute raw control output
     float control =
         B0 * error +
         B1 * xDiscController.e[0] +
@@ -204,33 +84,32 @@ float DiscreteController_compute(const float reference, const float measurement)
         A1 * xDiscController.u[0] -
         A2 * xDiscController.u[1];
 
-    // Saturate control
     float saturated_control = control;
+    bool is_saturated = false;
 
-    bool is_saturated_state = false;
-
-    if (control > xDiscController.u_max) {
+    if (control > xDiscController.u_max)
+    {
         saturated_control = xDiscController.u_max;
-        is_saturated_state = true;
-    } else if (control < xDiscController.u_min) {
+        is_saturated = true;
+    }
+    else if (control < xDiscController.u_min)
+    {
         saturated_control = xDiscController.u_min;
-        is_saturated_state = true;
+        is_saturated = true;
     }
 
-    // Update control output history
+    // Update histories
     xDiscController.u[1] = xDiscController.u[0];
     xDiscController.u[0] = saturated_control;
 
-    // Anti-windup via back-calculation
-    float error_correction = xDiscController.k_aw * (saturated_control - control);
-    float corrected_error = error + error_correction;
+    float backcalc = xDiscController.k_aw * (saturated_control - control);
+    float corrected_error = error + backcalc;
 
-    // Update error history with corrected error
     xDiscController.e[2] = xDiscController.e[1];
     xDiscController.e[1] = xDiscController.e[0];
     xDiscController.e[0] = corrected_error;
 
-    return xDiscController.u[0];
+    return saturated_control;
 }
 
 float DiscreteController_getOutput(void)
@@ -240,10 +119,12 @@ float DiscreteController_getOutput(void)
 
 void DiscreteController_reset(void)
 {
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i)
+    {
         xDiscController.e[i] = 0.0f;
         xDiscController.u[i] = 0.0f;
     }
+    ExponentialFilter_reset(&filter);
 }
 
 void DiscreteController_setOutputLimits(float min, float max)
@@ -254,8 +135,10 @@ void DiscreteController_setOutputLimits(float min, float max)
 
 void DiscreteController_getOutputLimits(float *min, float *max)
 {
-    if (min) *min = xDiscController.u_min;
-    if (max) *max = xDiscController.u_max;
+    if (min != NULL)
+        *min = xDiscController.u_min;
+    if (max != NULL)
+        *max = xDiscController.u_max;
 }
 
 void DiscreteController_setAntiWindupGain(float k_aw)
@@ -265,11 +148,17 @@ void DiscreteController_setAntiWindupGain(float k_aw)
 
 void DiscreteController_setFilterCutoffFrequency(float cutoff_freq)
 {
-	ExponentialFilter_set_cutoff(&filter, cutoff_freq);
+    ExponentialFilter_set_cutoff(&filter, cutoff_freq);
 }
 
 void DiscreteController_updateParameters(void)
 {
-    // Optional: Implement runtime update of coefficients if needed
+    // Not implemented in static version.
 }
 
+// ------------------------------------------------------------------- //
+
+// Private functions ------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //

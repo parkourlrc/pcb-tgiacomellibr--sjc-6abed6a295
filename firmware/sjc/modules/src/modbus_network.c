@@ -31,7 +31,24 @@
 
 // Module data structures -------------------------------------------- //
 // ------------------------------------------------------------------- //
+typedef struct
+{
+	uint32_t min_baud;
+	uint32_t value;
+} BaudRateMap_t;
 
+static const BaudRateMap_t baud_map[] = {
+	{577000, 921600},
+	{501000, 576000},
+	{461000, 500000},
+	{231000, 460800},
+	{116000, 230400},
+	{58000, 115200},
+	{39000, 57600},
+	{20000, 38400},
+	{10000, 19200},
+	{0, 9600} // fallback
+};
 // ------------------------------------------------------------------- //
 
 // Module variables -------------------------------------------------- //
@@ -59,43 +76,31 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 	ModbusNetwork_getBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
-	if (MB_ENOERR != (eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity)))
+	eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity);
+	if (eStatus != MB_ENOERR)
 	{
-		DebugOutput_systemPrintf("\r\n[OS] Modbus network initialization failed...");
-		/* Can not initialize. Add error handling code here. */
+		DebugOutput_systemPrintf("\r\n[FAULT] Modbus initialization failed.");
 		return SJC_RET_NOK;
 	}
 
-	uint32_t xMBInitCount = 0;
-
-	do
+	for (uint32_t i = 0; i < MODBUS_USART_INIT_COUNT; ++i)
 	{
 		pxMBFrameCBByteReceived();
-	} while (xMBInitCount++ < MODBUS_USART_INIT_COUNT);
+	}
 
-
-	if (MB_ENOERR != (eStatus = eMBEnable()))
+	eStatus = eMBEnable();
+	if (MB_ENOERR != eStatus)
 	{
 		DebugOutput_systemPrintf("\r\n[OS] Modbus network activation failed...");
-		/* Enable failed. */
 		return SJC_RET_NOK;
 	}
 
 	// Update Network Registers
 	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
-	switch (xNetworkParameters.Parity)
-	{
-	case MB_PAR_ODD:
-		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'O';
-		break;
-	case MB_PAR_EVEN:
-		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'E';
-		break;
-	default:
-		usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'N';
-		break;
-	}
+	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'N';
+
 	uint16_t *ui16ptr = (uint16_t *)(&xNetworkParameters.Baudrate);
+
 	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE + 1] = ui16ptr[0];
 
@@ -124,55 +129,22 @@ eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress)
 
 eSjcReturnType_t ModbusNetwork_getBaudRate(uint32_t *xBaudRate)
 {
-	uint32_t baudrate = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
+	if (xBaudRate == NULL)
+		return SJC_RET_NOK;
 
-	if (baudrate > 577000)
+	uint32_t raw = LL_USART_GetBaudRate(MODBUS_SERIAL_INSTANCE, HAL_RCC_GetPCLK1Freq(), LL_USART_OVERSAMPLING_16);
+
+	for (uint8_t i = 0; i < sizeof(baud_map) / sizeof(baud_map[0]); ++i)
 	{
-		*xBaudRate = 921600;
-	}
-	else if (baudrate > 501000)
-	{
-		*xBaudRate = 576000;
-	}
-	else if (baudrate > 461000)
-	{
-		*xBaudRate = 500000;
-	}
-	else if (baudrate > 231000)
-	{
-		*xBaudRate = 460800;
-	}
-	else if (baudrate > 116000)
-	{
-		*xBaudRate = 230400;
-	}
-	else if (baudrate > 58000)
-	{
-		*xBaudRate = 115200;
-	}
-	else if (baudrate > 39000)
-	{
-		*xBaudRate = 57600;
-	}
-	else if (baudrate > 20000)
-	{
-		*xBaudRate = 38400;
-	}
-	else if (baudrate > 10000)
-	{
-		*xBaudRate = 19200;
-	}
-	else
-	{
-		*xBaudRate = 9600;
+		if (raw > baud_map[i].min_baud)
+		{
+			*xBaudRate = baud_map[i].value;
+			return SJC_RET_OK;
+		}
 	}
 
+	*xBaudRate = 9600;
 	return SJC_RET_OK;
-}
-
-void ModbusNetwork_update(void)
-{
-	(void)eMBPoll();
 }
 
 eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *xBaudRate, char *xParity)
@@ -184,65 +156,58 @@ eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *
 	return SJC_RET_OK;
 }
 
+void ModbusNetwork_update(void)
+{
+	(void)eMBPoll();
+}
 // ------------------------------------------------------------------- //
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-eMBErrorCode
-eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs)
+eMBErrorCode eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs)
 {
 	eMBErrorCode eStatus = MB_ENOERR;
-	int iRegIndex;
-	USHORT usRegAddress = usAddress - 1;
+	int iRegIndex = usAddress - 1 - usRegInputStart;
 
-	if ((usRegAddress >= REG_INPUT_START) && (usRegAddress + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS))
+	if ((usAddress - 1 >= REG_INPUT_START) && (usAddress - 1 + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS))
 	{
-		iRegIndex = (int)(usRegAddress - usRegInputStart);
-		while (usNRegs > 0)
+		while (usNRegs-- > 0)
 		{
-			*pucRegBuffer++ = (unsigned char)(usRegInputBuf[iRegIndex] >> 8);
-			*pucRegBuffer++ = (unsigned char)(usRegInputBuf[iRegIndex] & 0xFF);
-			iRegIndex++;
-			usNRegs--;
+			*pucRegBuffer++ = (UCHAR)(usRegInputBuf[iRegIndex] >> 8);
+			*pucRegBuffer++ = (UCHAR)(usRegInputBuf[iRegIndex] & 0xFF);
+			++iRegIndex;
 		}
 	}
 	else
 	{
 		eStatus = MB_ENOREG;
 	}
-
 	return eStatus;
 }
 
-eMBErrorCode
-eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode)
+eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegisterMode eMode)
 {
 	eMBErrorCode eStatus = MB_ENOERR;
-	int iRegIndex;
-	USHORT usRegAddress = usAddress - 1;
+	int iRegIndex = usAddress - 1 - usRegHoldingStart;
 
-	if ((usRegAddress >= REG_HOLDING_START) && (usRegAddress + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS))
+	if ((usAddress - 1 >= REG_HOLDING_START) && (usAddress - 1 + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS))
 	{
-		iRegIndex = (int)(usRegAddress - usRegHoldingStart);
-		switch (eMode)
+		if (eMode == MB_REG_READ)
 		{
-		case MB_REG_READ:
-			while (usNRegs > 0)
+			while (usNRegs-- > 0)
 			{
-				*pucRegBuffer++ = (unsigned char)(usRegHoldingBuf[iRegIndex] >> 8);
-				*pucRegBuffer++ = (unsigned char)(usRegHoldingBuf[iRegIndex] & 0xFF);
-				iRegIndex++;
-				usNRegs--;
+				*pucRegBuffer++ = (UCHAR)(usRegHoldingBuf[iRegIndex] >> 8);
+				*pucRegBuffer++ = (UCHAR)(usRegHoldingBuf[iRegIndex] & 0xFF);
+				++iRegIndex;
 			}
-			break;
-
-		case MB_REG_WRITE:
-			while (usNRegs > 0)
+		}
+		else if (eMode == MB_REG_WRITE)
+		{
+			while (usNRegs-- > 0)
 			{
-				usRegHoldingBuf[iRegIndex] = *pucRegBuffer++ << 8;
-				usRegHoldingBuf[iRegIndex] |= *pucRegBuffer++;
-				iRegIndex++;
-				usNRegs--;
+				usRegHoldingBuf[iRegIndex] = ((USHORT)(*pucRegBuffer++) << 8);
+				usRegHoldingBuf[iRegIndex] |= (USHORT)(*pucRegBuffer++);
+				++iRegIndex;
 			}
 		}
 	}
@@ -253,15 +218,20 @@ eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegist
 	return eStatus;
 }
 
-eMBErrorCode
-eMBRegCoilsCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode)
+eMBErrorCode eMBRegCoilsCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNCoils, eMBRegisterMode eMode)
 {
+	(void)pucRegBuffer;
+	(void)usAddress;
+	(void)usNCoils;
+	(void)eMode;
 	return MB_ENOREG;
 }
 
-eMBErrorCode
-eMBRegDiscreteCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNDiscrete)
+eMBErrorCode eMBRegDiscreteCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNDiscrete)
 {
+	(void)pucRegBuffer;
+	(void)usAddress;
+	(void)usNDiscrete;
 	return MB_ENOREG;
 }
 // ------------------------------------------------------------------- //

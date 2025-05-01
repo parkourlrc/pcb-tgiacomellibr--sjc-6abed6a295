@@ -1,4 +1,14 @@
+/*
+ * data_logger.c
+ *
+ * Enhanced data logger with dual-buffering, mutex protection, flush and availability check.
+ *
+ * Author: Tiago
+ * Date: Apr 2025
+ */
+
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
@@ -30,42 +40,28 @@ static char xDataLoggerBuffDbg[512];
 static uint32_t uDataBuffSize = 0;
 static eSjcDataLoggerOutputBank_t xDataLoggerBank = DATA_LOGGER_BANK_0;
 
-volatile bool bSerialBusy = false;
-
-// Mutex to protect access to UART and DMA
+static volatile bool bSerialBusy = false;
 static SemaphoreHandle_t xLoggerMutex = NULL;
 
-// Forward declaration
 static void TransmitBuffer(void);
 
 void DataLogger_init(void)
 {
 	xLoggerMutex = xSemaphoreCreateMutex();
-
-	LL_DMA_ConfigAddresses(
-		DATA_LOGGER_DMA_INSTANCE,
-		DATA_LOGGER_DMA_STREAM,
-		(uint32_t)&xDataLoggerBuff,
-		LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE),
-		LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-
+	LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 	LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 	LL_USART_EnableDMAReq_TX(DATA_LOGGER_SERIAL_INSTANCE);
-
 	bSerialBusy = false;
 }
 
 int DataLogger_transmit(const char *format, ...)
 {
-	if (xLoggerMutex != NULL)
-	{
+	if (xLoggerMutex)
 		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
-	}
 
 	va_list ap;
 	va_start(ap, format);
 
-	// Get bank offset and remaining space
 	uint32_t bank_offset = (xDataLoggerBank == DATA_LOGGER_BANK_1) ? DATA_LOGGER_MID_BANK_INDEX : 0;
 	uint32_t initial_index = bank_offset + uDataBuffSize;
 	size_t bank_remaining = DATA_LOGGER_MID_BANK_INDEX - uDataBuffSize;
@@ -82,11 +78,9 @@ int DataLogger_transmit(const char *format, ...)
 		{
 			xSemaphoreGive(xLoggerMutex);
 		}
-
 		return -1;
 	}
 
-	// Case 1: message fits in current bank
 	if ((size_t)total_len <= bank_remaining)
 	{
 		int written = vsnprintf(&xDataLoggerBuff[initial_index], bank_remaining, format, ap);
@@ -102,21 +96,17 @@ int DataLogger_transmit(const char *format, ...)
 		{
 			xSemaphoreGive(xLoggerMutex);
 		}
-
 		return written;
 	}
 	else
 	{
-		// Case 2: split message across current and next bank
 		int written = vsnprintf(&xDataLoggerBuff[initial_index], bank_remaining, format, ap);
 		uDataBuffSize += written;
-
 		if (!bSerialBusy)
 		{
 			TransmitBuffer();
 		}
 
-		// Switch to next bank
 		xDataLoggerBank = (xDataLoggerBank == DATA_LOGGER_BANK_1) ? DATA_LOGGER_BANK_0 : DATA_LOGGER_BANK_1;
 		uDataBuffSize = 0;
 
@@ -126,7 +116,6 @@ int DataLogger_transmit(const char *format, ...)
 		va_start(ap_copy, format);
 		written = vsnprintf(&xDataLoggerBuff[initial_index], DATA_LOGGER_MID_BANK_INDEX, format, ap_copy);
 		va_end(ap_copy);
-
 		uDataBuffSize += written;
 		va_end(ap);
 
@@ -140,7 +129,7 @@ int DataLogger_transmit(const char *format, ...)
 
 int DataLogger_printf(const char *format, ...)
 {
-	if (xLoggerMutex != NULL)
+	if (xLoggerMutex)
 	{
 		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
 	}
@@ -158,13 +147,52 @@ int DataLogger_printf(const char *format, ...)
 			LL_USART_TransmitData8(DATA_LOGGER_SERIAL_INSTANCE, xDataLoggerBuffDbg[i]);
 			while (!LL_USART_IsActiveFlag_TXE(DATA_LOGGER_SERIAL_INSTANCE))
 			{
-			};
+			}
 		}
 	}
 
 	if (xLoggerMutex)
+	{
 		xSemaphoreGive(xLoggerMutex);
+	}
 	return n;
+}
+
+/**
+ * @brief Forces transmission of current buffer if data is pending.
+ */
+void DataLogger_flush(void)
+{
+	if (xLoggerMutex)
+	{
+		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+	}
+	if ((uDataBuffSize > 0) && (!bSerialBusy))
+	{
+		TransmitBuffer();
+	}
+	if (xLoggerMutex)
+	{
+		xSemaphoreGive(xLoggerMutex);
+	}
+}
+
+bool DataLogger_available(void)
+{
+	bool available;
+	if (xLoggerMutex)
+	{
+		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+	}
+
+	available = (uDataBuffSize > 0);
+
+	if (xLoggerMutex)
+	{
+		xSemaphoreGive(xLoggerMutex);
+	}
+
+	return available;
 }
 
 static void TransmitBuffer(void)
@@ -185,7 +213,6 @@ static void TransmitBuffer(void)
 	LL_DMA_ClearFlag_HT3(DATA_LOGGER_DMA_INSTANCE);
 	LL_DMA_ClearFlag_TC3(DATA_LOGGER_DMA_INSTANCE);
 	LL_DMA_ClearFlag_FE3(DATA_LOGGER_DMA_INSTANCE);
-
 	LL_DMA_EnableStream(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 }
 

@@ -53,6 +53,12 @@ void PidController_init(void)
 
 float PidController_compute(const float ControllerError, const float dt)
 {
+	if (dt <= 0.0f || !isfinite(dt))
+	{
+		xPidController.ControlAction = 0.0f;
+		return (0.0f);
+	}
+
 	xPidController.Errors.PrevError = xPidController.Errors.ActualError;
 	xPidController.Errors.ActualError = ControllerError;
 	xPidController.Errors.Derivative = (xPidController.Errors.ActualError - xPidController.Errors.PrevError) / dt;

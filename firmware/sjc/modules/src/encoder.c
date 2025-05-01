@@ -55,7 +55,7 @@ void Encoder_init(void)
 
 	if (xEncoderInterfacesSemprHandle == NULL)
 	{
-		DebugOutput_systemPrintf("\r\n[OS FAULT] Encoder interfaces semaphore not created...");
+		DebugOutput_systemPrintf("\r\n[OS FAULT] Encoder semaphore not created, system may become unstable.\n");
 	}
 	else
 	{
@@ -139,8 +139,10 @@ eSjcReturnType_t Encoder_getCounter(eSjcJoints_t Joint, int32_t *counts)
 		enc->Counts = read_encoder_counter_raw(Joint);
 		*counts = enc->Counts;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		return SJC_RET_OK;
 	}
-	return SJC_RET_OK;
+
+	return SJC_RET_NOK;
 }
 
 eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp)
@@ -163,9 +165,10 @@ eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angul
 		enc->Counts = read_encoder_counter_raw(Joint);
 		*angular_dp = enc->Counts * enc->radians_per_quadrature_pulse;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		return SJC_RET_OK;
 	}
 
-	return SJC_RET_OK;
+	return SJC_RET_NOK;
 }
 
 eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
@@ -187,13 +190,15 @@ eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 	{
 		*resolution = enc->Resolution_PPR;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		return SJC_RET_OK;
 	}
-	return SJC_RET_OK;
+
+	return SJC_RET_NOK;
 }
 
 eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution)
 {
-	if ((resolution == 0))
+	if (resolution == 0)
 	{
 		return SJC_RET_NOK;
 	}
@@ -210,8 +215,10 @@ eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolu
 		enc->Resolution_PPR = resolution;
 		enc->radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * enc->Resolution_PPR);
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
+		return SJC_RET_OK;
 	}
-	return SJC_RET_OK;
+
+	return SJC_RET_NOK;
 }
 
 // ------------------------------------------------------------------- //

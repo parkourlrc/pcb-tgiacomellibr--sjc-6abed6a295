@@ -10,8 +10,8 @@
 
 // System includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "stm32f446xx.h"
 #include "base/include/configs.h"
+#include "stm32f446xx.h"
 // ------------------------------------------------------------------- //
 
 // Definitions and enumerations -------------------------------------- //
@@ -209,9 +209,9 @@ typedef struct
 
 typedef struct
 {
-	uint32_t Pin;
-	GPIO_TypeDef *Port;
 	eSjcDigitalPortType_t Type;
+	GPIO_TypeDef *Port;
+	uint32_t Pin;
 } xSjcDigitalPort_t;
 
 typedef struct
@@ -236,7 +236,8 @@ typedef struct
 	uint8_t Parity;
 } xSjcNetworkConfig_t;
 
-typedef struct {
+typedef struct
+{
 	uint32_t Timestamp;
 	float SystemVoltage;
 

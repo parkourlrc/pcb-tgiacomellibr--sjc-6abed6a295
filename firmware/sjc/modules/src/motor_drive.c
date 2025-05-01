@@ -15,7 +15,7 @@
 #include "base/include/configs.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/motor_drive.h"
-#include "modules/include/pwm.h"
+#include "modules/include/pwm_signal.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -36,6 +36,8 @@ static xSjcMotorDrive_t MotorDrive;
 
 // Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
+
+static float calculate_duty_from_voltage(const float voltage, const float base_voltage);
 
 // ------------------------------------------------------------------- //
 
@@ -62,6 +64,11 @@ void MotorDrive_init(eSjcPwmBaseFreq_t BaseFrequency, float BaseVoltage)
 
 eSjcReturnType_t MotorDrive_getBaseVoltage(float *voltage)
 {
+	if (voltage == NULL)
+	{
+		return SJC_RET_NOK;
+	}
+
 	*voltage = MotorDrive.BaseVoltage;
 
 	return SJC_RET_OK;
@@ -100,10 +107,12 @@ void MotorDrive_disable(void)
 
 eSjcReturnType_t MotorDrive_getState(bool *state)
 {
-	if (state)
+	if (state == NULL)
 	{
-		*state = MotorDrive.State;
+		return SJC_RET_NOK;
 	}
+
+	*state = MotorDrive.State;
 
 	return SJC_RET_OK;
 }
@@ -115,12 +124,21 @@ eSjcReturnType_t MotorDrive_getPowerSupplyVoltage(float *voltage)
 
 eSjcReturnType_t MotorDrive_getOutputCurrent(float *current)
 {
-	//	return AnalogInterfaces_GetAnalogConversion(SJC_CURRENT_SENSOR_STD, current);
+	if (current == NULL)
+	{
+		return SJC_RET_NOK;
+	}
+
 	return AnalogInterfaces_getAnalogConversion(SJC_CURRENT_SENSOR_AUX, current);
 }
 
 eSjcReturnType_t MotorDrive_getOutputVoltage(float *voltage)
 {
+	if (voltage == NULL)
+	{
+		return SJC_RET_NOK;
+	}
+
 	*voltage = MotorDrive.OutputVoltage;
 
 	return SJC_RET_OK;
@@ -130,7 +148,7 @@ eSjcReturnType_t MotorDrive_setOutputVoltage(const float voltage)
 {
 	MotorDrive.OutputVoltage = SJC_Helpers_RealClamp(voltage, MotorDrive.OutputVoltageRange.Min, MotorDrive.OutputVoltageRange.Max);
 
-	float xPwmDuty = (MotorDrive.OutputVoltage + MotorDrive.BaseVoltage) / (2.0 * MotorDrive.BaseVoltage);
+	float xPwmDuty = calculate_duty_from_voltage(MotorDrive.OutputVoltage, MotorDrive.BaseVoltage);
 
 	PwmSignal_setDutyCycle(xPwmDuty);
 
@@ -140,5 +158,18 @@ eSjcReturnType_t MotorDrive_setOutputVoltage(const float voltage)
 
 // Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
-
+/**
+ * @brief Calculates the PWM duty cycle required to produce a given output voltage.
+ *
+ * This assumes a symmetrical output voltage range centered around zero,
+ * and maps it linearly to the PWM duty cycle between 0.0 and 1.0.
+ *
+ * @param voltage Desired output voltage.
+ * @param base_voltage Base voltage (symmetric max magnitude).
+ * @return float Duty cycle (0.0 to 1.0).
+ */
+static float calculate_duty_from_voltage(const float voltage, const float base_voltage)
+{
+	return (voltage + base_voltage) / (2.0f * base_voltage);
+}
 // ------------------------------------------------------------------- //

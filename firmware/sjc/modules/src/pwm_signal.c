@@ -12,7 +12,7 @@
 
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
-#include "modules/include/pwm.h"
+#include "modules/include/pwm_signal.h"
 #include "base/include/configs.h"
 #include "system_types/include/helpers.h"
 
