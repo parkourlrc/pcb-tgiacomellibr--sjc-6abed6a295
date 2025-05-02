@@ -5,6 +5,8 @@
         "task_common.h": "c",
         "test_signals.h": "c",
         "configs.h": "c",
-        "debug_output.h": "c"
+        "debug_output.h": "c",
+        "types.h": "c",
+        "data_structures.h": "c"
     }
 }

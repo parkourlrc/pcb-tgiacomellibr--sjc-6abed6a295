@@ -14,10 +14,12 @@
 #include "stm32f446xx.h"
 // ------------------------------------------------------------------- //
 
-// Definitions and enumerations -------------------------------------- //
+// Definitions ------------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #define ZERO_FLOAT ((float)0.0f)
 
+// Enumerations ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
 typedef enum
 {
 	SJC_RET_NOK = 0x0000,
@@ -137,6 +139,9 @@ typedef struct
 } xSjcMeanSampleTimeMeasurement_t;
 static const xSjcMeanSampleTimeMeasurement_t xSjcSampleTimeEmptyObj = {0};
 
+/**
+ * @brief Generic min-max range structure.
+ */
 typedef struct
 {
 	float Min;
@@ -144,6 +149,9 @@ typedef struct
 } xSjcRange_t;
 static const xSjcRange_t xSjcRangeEmptyObj = {0};
 
+/**
+ * @brief Encoder configuration and real-time state.
+ */
 typedef struct
 {
 	float Encoder;
@@ -153,6 +161,9 @@ typedef struct
 	float radians_per_quadrature_pulse;
 } xSjcEncoder_t;
 
+/**
+ * @brief PID gains for servo control.
+ */
 typedef struct
 {
 	float Kp;
@@ -163,6 +174,9 @@ typedef struct
 } xSjcServoPidParameters_t;
 static const xSjcServoPidParameters_t xSjcServoPidParametersEmptyObj = {0};
 
+/**
+ * @brief Error tracking structure for PID controller.
+ */
 typedef struct
 {
 	float Derivative;
@@ -172,6 +186,9 @@ typedef struct
 } xPidControllerErrors_t;
 static const xPidControllerErrors_t xControllerErrorsEmptyObj = {0};
 
+/**
+ * @brief State and parameters of PID controller.
+ */
 typedef struct
 {
 	float Reference;
@@ -181,6 +198,9 @@ typedef struct
 } xSjcPidController_t;
 static const xSjcPidController_t xPidControllerEmptyObj = {0};
 
+/**
+ * @brief Control configuration (rate and mode).
+ */
 typedef struct
 {
 	float Rate;
@@ -188,6 +208,9 @@ typedef struct
 } xSjcControlConfigs_t;
 static const xSjcControlConfigs_t xSjcControlConfigsEmptyObj = {0};
 
+/**
+ * @brief PWM timer configuration (hardware specific).
+ */
 typedef struct
 {
 	TIM_TypeDef *Instance;
@@ -198,15 +221,21 @@ typedef struct
 	uint32_t RightChannelComp;
 } xSjcActuatorPwmTimerConfig_t;
 
+/**
+ * @brief PWM actuator signal control structure.
+ */
 typedef struct
 {
-	float DutyCycle;
-	uint32_t Frequency;
-	uint32_t DutyCount;
-	xSjcRange_t DutyRange;
-	xSjcActuatorPwmTimerConfig_t TimerConfig;
+	float DutyCycle;						  ///< Current duty cycle (normalized, 0.0 to 1.0)
+	uint32_t Frequency;						  ///< PWM frequency in Hz
+	uint32_t DutyCount;						  ///< Compare count corresponding to duty cycle
+	xSjcRange_t DutyRange;					  ///< Min/max allowed duty cycle range
+	xSjcActuatorPwmTimerConfig_t TimerConfig; ///< Timer instance and channel configuration
 } xSjcActuatorPwm_t;
 
+/**
+ * @brief Digital port configuration.
+ */
 typedef struct
 {
 	eSjcDigitalPortType_t Type;
@@ -214,6 +243,9 @@ typedef struct
 	uint32_t Pin;
 } xSjcDigitalPort_t;
 
+/**
+ * @brief DC motor drive control state.
+ */
 typedef struct
 {
 	bool State;
@@ -223,12 +255,18 @@ typedef struct
 	xSjcDigitalPort_t DriveEnablePort;
 } xSjcMotorDrive_t;
 
+/**
+ * @brief Power output state and control.
+ */
 typedef struct
 {
 	bool State;
 	xSjcDigitalPort_t OutputEnablePort;
 } xSjcMotorOutput_t;
 
+/**
+ * @brief Network configuration parameters.
+ */
 typedef struct
 {
 	uint16_t Address;
@@ -236,15 +274,16 @@ typedef struct
 	uint8_t Parity;
 } xSjcNetworkConfig_t;
 
+/**
+ * @brief Measurement structure used in joint control loop.
+ */
 typedef struct
 {
 	uint32_t Timestamp;
 	float SystemVoltage;
-
 	float ControlAction;
 	float ControllerError;
 	float ControllerReference;
-
 	float ActuatorDisplacement;
 	float ActuatorSpeedRpm;
 	float ActuatorVoltage;

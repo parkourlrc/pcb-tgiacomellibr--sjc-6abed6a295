@@ -1,9 +1,20 @@
+/**
+ * @file filters.h
+ * @brief Simple box and exponential filters for embedded applications.
+ *
+ * Implements low-memory moving average (box) and exponential smoothing filters.
+ * Designed for real-time signal conditioning and noise reduction.
+ *
+ * @author Tiago
+ * @date Nov 17, 2024
+ */
+
 #ifndef SJC__SYSTEM_TYPES__FILTERS_H
 #define SJC__SYSTEM_TYPES__FILTERS_H
 
 #include <stdint.h>
 
-#define BOX_FILTER_MAX_SIZE 64 ///< Maximum window size for Box Filter
+#define BOX_FILTER_MAX_SIZE 64 ///< Max window size to bound memory use in static buffers
 
 // -------------------------------------------------------------------
 // Box Filter Data Structure
@@ -34,6 +45,7 @@ typedef struct
  * @brief Initializes the box (moving average) filter.
  * @param filter Pointer to the BoxFilter_t structure.
  * @param window_size Number of samples for the averaging window.
+ * @return void
  */
 void BoxFilter_init(BoxFilter_t *filter, uint16_t window_size);
 
@@ -41,6 +53,7 @@ void BoxFilter_init(BoxFilter_t *filter, uint16_t window_size);
  * @brief Adds a new sample to the box filter.
  * @param filter Pointer to the BoxFilter_t structure.
  * @param x New input sample.
+ * @return void
  */
 void BoxFilter_add_sample(BoxFilter_t *filter, float x);
 
@@ -50,6 +63,13 @@ void BoxFilter_add_sample(BoxFilter_t *filter, float x);
  * @return 1 if ready to compute average, 0 otherwise.
  */
 int BoxFilter_ready(BoxFilter_t *filter);
+
+/**
+ * @brief Returns the average of the accumulated samples without resetting the filter.
+ * @param filter Pointer to the BoxFilter_t structure.
+ * @return Average of the samples, or 0.0 if no samples.
+ */
+float BoxFilter_get_average(BoxFilter_t *filter);
 
 /**
  * @brief Returns the average of the accumulated samples and resets the filter.
@@ -67,6 +87,7 @@ float BoxFilter_get_average_and_reset(BoxFilter_t *filter);
  * @param filter Pointer to the ExponentialFilter_t structure.
  * @param fc Cutoff frequency in Hz.
  * @param fs Sampling frequency in Hz.
+ * @return void
  */
 void ExponentialFilter_init(ExponentialFilter_t *filter, float fc, float fs);
 
@@ -76,12 +97,14 @@ void ExponentialFilter_init(ExponentialFilter_t *filter, float fc, float fs);
  * @param fc Cutoff frequency in Hz.
  * @param fs Sampling frequency in Hz.
  * @param initial_value Initial output value.
+ * @return void
  */
 void ExponentialFilter_init_with_value(ExponentialFilter_t *filter, float fc, float fs, float initial_value);
 
 /**
  * @brief Resets the internal state of the filter (output = 0).
  * @param filter Pointer to the ExponentialFilter_t structure.
+ * @return void
  */
 void ExponentialFilter_reset(ExponentialFilter_t *filter);
 
@@ -89,6 +112,7 @@ void ExponentialFilter_reset(ExponentialFilter_t *filter);
  * @brief Sets a new cutoff frequency and updates alpha accordingly.
  * @param filter Pointer to the ExponentialFilter_t structure.
  * @param fc New cutoff frequency in Hz.
+ * @return void
  */
 void ExponentialFilter_set_cutoff(ExponentialFilter_t *filter, float fc);
 
@@ -96,6 +120,7 @@ void ExponentialFilter_set_cutoff(ExponentialFilter_t *filter, float fc);
  * @brief Sets a new sampling frequency and updates alpha accordingly.
  * @param filter Pointer to the ExponentialFilter_t structure.
  * @param fs New sampling frequency in Hz.
+ * @return void
  */
 void ExponentialFilter_set_sampling_frequency(ExponentialFilter_t *filter, float fs);
 

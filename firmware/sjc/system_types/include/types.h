@@ -15,7 +15,6 @@
 #include "stdio.h"
 #include "string.h"
 
-#include "data_masks.h"
 #include "data_structures.h"
 #include "filters.h"
 #include "helpers.h"
