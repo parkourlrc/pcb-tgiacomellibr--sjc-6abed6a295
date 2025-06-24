@@ -163,15 +163,33 @@ eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
     }
 }
 
-eSjcReturnType_t SjcInterface::setControllerConfig(xSjcControllerConfig_t config)
+eSjcReturnType_t SjcInterface::setControllerReference(const float reference)
 {
     const int nb = 3;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_UPDATE_OFFSET)] = config.controller_mode_update | CONTROLLER_UPDATE_MSK;
-    compose_byte_array_from_float(config.controller_ref, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE, CONTROLLER_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE_UPDATE, CONTROLLER_REFERENCE_UPDATE_OFFSET)] = CONTROLLER_REFERENCE_UPDATE_MSK;
+    compose_byte_array_from_float(reference, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE_VALUE, CONTROLLER_REFERENCE_UPDATE_OFFSET)]);
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE_VALUE, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::setControllerOperatingMode(const eSjcControlMode_t mode)
+{
+    const int nb = 1;
+    uint16_t tab_reg[nb];
+
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_MODE_UPDATE_OFFSET)] = mode | CONTROLLER_MODE_UPDATE_MSK;
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_MODE_UPDATE, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -277,8 +295,8 @@ eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerParameters_
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KP, CONTROLLER_INFO_OFFSET)], &config->Kp);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KI, CONTROLLER_INFO_OFFSET)], &config->Ki);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KD, CONTROLLER_INFO_OFFSET)], &config->Kd);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX1, CONTROLLER_INFO_OFFSET)], &config->Kt);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_AUX2, CONTROLLER_INFO_OFFSET)], &config->Ka);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KT, CONTROLLER_INFO_OFFSET)], &config->Kt);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KA, CONTROLLER_INFO_OFFSET)], &config->Ka);
         compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_RATE, CONTROLLER_INFO_OFFSET)], &config->update_rate);
 
         return SJC_RET_OK;
@@ -294,13 +312,13 @@ eSjcReturnType_t SjcInterface::setControllerParameters(const xSjcControllerParam
     const int nb = 13;
     uint16_t tab_reg[nb];
 
-    compose_byte_array_from_float(config.Kp, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KP, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Ki, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KI, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Kd, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KD, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Kt, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX1, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Ka, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_AUX2, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.update_rate, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_RATE, CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_UPDATE, CONTROLLER_PARAMETERS_UPDATE_OFFSET)] = CONTROLLER_PARAMETERS_UPDATE_MSK;
+    compose_byte_array_from_float(config.Kp, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KP, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ki, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KI, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kd, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KD, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kt, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KT, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ka, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KA, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.update_rate, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_RATE, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_UPDATE, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)] = PID_CONTROLLER_PARAMETERS_UPDATE_MSK;
 
     if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_PARAMS_KP, nb, tab_reg))
     {

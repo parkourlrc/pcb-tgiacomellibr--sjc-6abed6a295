@@ -75,7 +75,7 @@ void DataLoggerTaskApp(void *argument)
 
 			SJC_getTime(SJC_TIME_MS, &TaskToc);
 
-			SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc - TaskTic));
+			SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_RUNTIME, (TaskToc - TaskTic));
 		}
 	}
 	/* USER CODE END MainTaskApp */

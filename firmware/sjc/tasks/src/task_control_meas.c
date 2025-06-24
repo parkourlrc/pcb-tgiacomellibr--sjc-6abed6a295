@@ -36,6 +36,8 @@
 // ------------------------------------------------------------------- //
 #define TASK_NOTIFICATION_MAX_WAIT_TIME_MS ((uint32_t)2U)
 #define CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT ((uint32_t)3000UL)
+
+#define IS_ISOLATED_INPUT_ACTIVE(states, pin) (((~(states)) >> (pin)) & 0x01)
 // ------------------------------------------------------------------- //
 
 // Task data structures ---------------------------------------------- //
@@ -91,6 +93,7 @@ static void EnqueueLogData(void);
 static void RunTestSignal(eSjcInputType_t type);
 static void RunControlLoop(void);
 static bool CheckControlLoopCycle(void);
+static bool IsMoveAllowed(float command, bool stop_a_pressed, bool stop_b_pressed);
 
 void vHeartbeatTimerCallback(void *argument);
 // ------------------------------------------------------------------- //
@@ -136,55 +139,90 @@ void ControllerMeasTaskApp(void *argument)
 	 * Discrete controller tests
 	 */
 
-	float Kw = 5.1100f;
-	DiscreteController_init();
-
-	DiscreteController_setOutputLimits(-24.0f, 24.0f);
-
-	DiscreteController_setFilterCutoffFrequency(100);
-
-	DiscreteController_setAntiWindupGain(Kw);  // ou 1.0f / B0, se quiser experimentar
+	//	float Kw = 5.1100f;
+	//	DiscreteController_init();
+	//
+	//	DiscreteController_setOutputLimits(-24.0f, 24.0f);
+	//
+	//	DiscreteController_setFilterCutoffFrequency(100);
+	//
+	//	DiscreteController_setAntiWindupGain(Kw);  // ou 1.0f / B0, se quiser experimentar
 
 	/*
 	 * LQI controller tests
 	 */
-//	float Kx[2] = {-7604.1397f, 104.8081f};
-//	float Ki = -0.1864f;
-//	float Kw = 1.54f;
 
-	float Kx[2] = {-2.5100f, 4.3708f};
-	float Ki = -0.1284f;
-//	float Kw = 5.1100f;
-	float cutoff_freq = 500;
+//	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.8039f, 1.7949f} };
+//	float Bd[2] = {0.1980f, 0.1583f};
+//	float Cd[2] = {1.0000f, 0.0000f};
+////	float L[2] = {1.056964, 1.206019};
+//	float L[2] = {0.607749, 0.622716};
+//	CurrentObserver_t current_observer;
+//	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
+//
+//	LqiControllerParams_t params = {
+//		.Ad = { {0.0000f, 1.0000f}, {-0.8039f, 1.7949f} },
+//		.Bd = {0.1980f, 0.1583f},
+//		.Cd = {1.0000f, 0.0000f},
+//		.Kx = {-1.8271f, 4.9445f},
+//		.Ki = -0.5476f,
+//		.Kw = 6.0022f,
+//		.alpha = 0.95678608f,
+//		.u_min = -24.0f,
+//		.u_max = 24.0f,
+//		.use_observer = true,
+//		.observer = &current_observer
+//	};
 
-	float Ad[2][2] = { {0.0f, 1.0f}, {-0.8039f, 1.7949f} };
-	float Bd[2] = {0.1980f, 0.1583f};
-	float Cd[2] = {1.0f, 0.0f};
-//	float L[2] = {0.6077f, 0.6227f};
-	float L[2] = {1.056964f, 1.206019f};
+//	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.4783f, 1.4676f} };
+//	float Bd[2] = {0.3227f, 0.1518f};
+//	float Cd[2] = {1.0000f, 0.0000f};
+//	float L[2] = {0.657711f, 0.487569f};
+//
+//	CurrentObserver_t current_observer;
+//	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
+//
+//	LqiControllerParams_t params = {
+//			.Ad = { {0.0000f, 1.0000f}, {-0.4783f, 1.4676f} },
+//			.Bd = {0.3227f, 0.1518f},
+//			.Cd = {1.0000f, 0.0000f},
+//			.Kx = {-0.5290f, 3.0499f},
+//			.Ki = -0.4534f,
+//			.Kw = 6.7168f,
+//			.alpha = 0.71539046f,
+//			.u_min = -24.0f,
+//			.u_max = 24.0f,
+//			.use_observer = true,
+//			.observer = &current_observer
+//	};
 
+
+
+	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.7641f, 1.7597f} };
+	float Bd[2] = {0.7016f, 0.5346f};
+	float Cd[2] = {1.0000f, 0.0000f};
+	float L[2] = {0.567479, 0.495015};
 	CurrentObserver_t current_observer;
 	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
 
+//	New motor - Bridge
 
 	LqiControllerParams_t params = {
-			.Ad = { {0.0f, 1.0f}, {-0.8039f, 1.7949f} },
-			.Bd = {0.1980f, 0.1583f},
-			.Cd = {1.0f, 0.0f},
-			.Kx[0] = Kx[0],
-			.Kx[1] = Kx[1],
-			.Ki = Ki,
-			.Kw = Kw,
-
-			.alpha = 1.0f - expf(-2.0f * 3.1415926f * cutoff_freq * 0.001f), // fc = 80 Hz, Ts = 1 ms
-			.u_min = -24.0f,
-			.u_max = 24.0f,
-			.use_observer = true,
-			.observer = &current_observer};
+		.Ad = { {0.0000f, 1.0000f}, {-0.7641f, 1.7597f} },
+		.Bd = {0.7016f, 0.5346f},
+		.Cd = {1.0000f, 0.0000f},
+		.Kx = {-0.1021f, 1.4231f},
+		.Ki = -0.2392f,
+		.Kw = 4.6227f,
+		.alpha = 0.71539046f,
+		.u_min = -24.0f,
+		.u_max = 24.0f,
+		.use_observer = true,
+		.observer = &current_observer
+	};
 
 	LqiController_init(&params);
 	LqiController_setSaturation(-24.0f, 24.0f);
-
 
 	/* Infinite loop */
 	for (;;)
@@ -291,7 +329,14 @@ static void RunControlLoop(void)
 			if (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx)
 			{
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
-				CurrentBias /= CurrentBiasMeasurementIdx;
+				if (CurrentBiasMeasurementIdx != 0) {
+					CurrentBias /= CurrentBiasMeasurementIdx;
+				}
+				else
+				{
+				CurrentBias = 0;
+				}
+
 				SJC_setJointActuatorCurrentBias(CurrentBias);
 				DataLogger_transmit("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
 				DebugOutput_systemPrintf("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
@@ -359,7 +404,8 @@ static void MeasurementsUpdate(void)
 	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp, &DeltaT);
 	JointMeasurements.Timestamp += DeltaT;
 
-	ControlTs = DeltaT * 1.0e-3; // Convert miliseconds to seconds
+
+	ControlTs = CONVERT_MS_TO_SEC(DeltaT); // Convert miliseconds to seconds
 
 	ActuatorSpeed = ActuatorRelativeDisplacement / ControlTs;
 	JointMeasurements.ActuatorSpeedRpm = ActuatorSpeed * DEF_RAD_PER_SEC_TO_RPM;
@@ -373,29 +419,24 @@ static void EndstopsCheck(void)
 {
 	uint32_t states;
 	SJC_readDigitalInputs(&states);
-	bool bEndStopAPressed = (~states) & (1 << SJC_ISOLATED_INPUT_A);
-	bool bEndStopBPressed = (~states) & (1 << SJC_ISOLATED_INPUT_B);
-	bool bEndStopPressed = bEndStopAPressed | bEndStopBPressed;
+	bool bEndStopAPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_A);
+	bool bEndStopBPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_B);
 
 	if (true == bEndStopAPressed)
 	{
 		SJC_resetJointAngularDisplacement();
 	}
 
-	eSjcMoveDirection_t xActualMoveDirection = (JointMeasurements.ControlAction > 0) ? SJC_MOVE_FW : SJC_MOVE_BW;
+	bool bNextMoveAllowed = IsMoveAllowed(JointMeasurements.ControlAction, bEndStopAPressed, bEndStopBPressed);
 
-	bool bNextMoveAllowed = (false == bEndStopPressed);
-	bNextMoveAllowed |= ((true == bEndStopAPressed) && (xActualMoveDirection == SJC_MOVE_FW));
-	bNextMoveAllowed |= ((true == bEndStopBPressed) && (xActualMoveDirection == SJC_MOVE_BW));
+	SJC_setJointActuatorVoltage(bNextMoveAllowed ? JointMeasurements.ControlAction : ZERO_FLOAT);
+}
 
-	if (true == bNextMoveAllowed)
-	{
-		SJC_setJointActuatorVoltage(JointMeasurements.ControlAction);
-	}
-	else
-	{
-		SJC_setJointActuatorVoltage(ZERO_FLOAT);
-	}
+static bool IsMoveAllowed(float command, bool endstop_a_pressed, bool endstop_b_pressed)
+{
+	if (endstop_a_pressed && command < 0) return false;
+	if (endstop_b_pressed && command > 0) return false;
+	return true;
 }
 
 static void RunTestSignal(eSjcInputType_t type)
@@ -426,9 +467,10 @@ void vHeartbeatTimerCallback(void *argument)
 
 static void EnqueueLogData(void)
 {
-	xQueueSend(xDataLoggerQueueHandle,
-			   (void *)&JointMeasurements,
-			   (TickType_t)0);
+	BaseType_t status = xQueueSend(xDataLoggerQueueHandle, (void *)&JointMeasurements, (TickType_t)0);
+	if (pdPASS != status) {
+		DebugOutput_systemPrintf("[WARNING] Failed to enqueue log data.");
+	}
 }
 
 // ------------------------------------------------------------------- //

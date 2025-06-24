@@ -76,16 +76,16 @@ void NetworkTaskApp(void *argument)
 	DebugOutput_systemPrintf("\r\n[OS] Network task initiated!"
 							 "\r\n[OS] Modbus communication enabled!");
 
-	uint32_t tick = osKernelGetTickCount();
+	TickType_t lastWakeTime = xTaskGetTickCount();
+
 
 	/* Infinite loop */
 	for (;;)
 	{
-		tick += pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS);
-
 		SJC_getTime(SJC_TIME_MS, &TaskTic);
 
 		SJC_executeNetworkDaemon();
+
 		SJC_updateInputRegisters();
 		SJC_updateHoldingRegisters();
 
@@ -93,7 +93,7 @@ void NetworkTaskApp(void *argument)
 
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_NETWORK_TASK_RUNTIME, (TaskToc - TaskTic));
 
-		osDelayUntil(tick);
+		vTaskDelayUntil(&lastWakeTime, pdMS_TO_TICKS(SJC_NETWORK_TASK_UPDATE_PERIOD_MS));
 	}
 	/* USER CODE END MainTaskApp */
 }

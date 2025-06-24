@@ -82,7 +82,6 @@ int main(int argc, char *argv[])
             static int cycle;
 
             xSjcRuntimeInfo_t RuntimeInfo;
-            xSjcControllerConfig_t xControllerConfig;
 
             end = std::chrono::high_resolution_clock::now();
             dur = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -141,10 +140,7 @@ int main(int argc, char *argv[])
                     exit(-1);
                 }
 
-                xControllerConfig.controller_mode_update = SJC_OPEN_LOOP_CONTROL;
-                xControllerConfig.controller_ref = 0.0;
-
-                if (SJC_RET_OK == Sjc.setControllerConfig(xControllerConfig))
+                if ((SJC_RET_OK == Sjc.setControllerOperatingMode(SJC_OPEN_LOOP_CONTROL)) && (SJC_RET_OK == Sjc.setControllerReference(0.0)))
                 {
                 }
                 else

@@ -72,20 +72,18 @@ int main(int argc, char *argv[])
         {
             static int cycle;
 
-            xSjcControllerConfig_t xControllerConfig;
-
             system("clear");
 
             std::cout << "\n\n\r----------------------------------------------------------------------------------" << std::endl;
             std::cout << "- Cycle: " << cycle++ << std::endl;
             std::cout << "----------------------------------------------------------------------------------" << std::endl;
 
-            xControllerConfig.controller_mode_update = std::stof(mode.c_str());
-            xControllerConfig.controller_ref = std::stof(ref.c_str());
+            eSjcControlMode_t controller_mode_update = (eSjcControlMode_t) std::stoi(mode.c_str());
+            float controller_ref = std::stof(ref.c_str());
 
             std::cout << "Controller config: " << std::endl;
             std::cout << " * Mode: ";
-            switch (xControllerConfig.controller_mode_update)
+            switch (controller_mode_update)
             {
             case SJC_OPEN_LOOP_CONTROL:
                 std::cout << "Open loop";
@@ -113,9 +111,9 @@ int main(int argc, char *argv[])
                 std::cout << "Control disabled";
                 break;
             }
-            std::cout << " - Ref: " << xControllerConfig.controller_ref << std::endl;
+            std::cout << " - Ref: " << controller_ref << std::endl;
 
-            if (SJC_RET_OK == Sjc.setControllerConfig(xControllerConfig))
+            if ((SJC_RET_OK == Sjc.setControllerOperatingMode(controller_mode_update)) && (SJC_RET_OK == Sjc.setControllerReference(controller_ref)))
             {
                 std::cout << " <|> Controller configs setted" << std::endl;
                 usleep(500e3);

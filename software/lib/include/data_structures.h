@@ -40,7 +40,9 @@ typedef enum
     SJC_PRBS_EXCITATION,
     SJC_TRIANG_EXCITATION,
     SJC_PULSE_FAST_EXCITATION,
-    SJC_PULSE_SLOW_EXCITATION
+    SJC_PULSE_SLOW_EXCITATION,
+    SJC_ANALOG_CALIBRATION,
+    SJC_CONTROL_MODE_SIZE
 } eSjcControlMode_t;
 
 typedef struct
@@ -119,9 +121,3 @@ typedef struct
     uint16_t aux_sensor_resolution_a;
     uint16_t aux_sensor_resolution_b;
 } xSjcSensorsConfig_t;
-
-typedef struct
-{
-    uint16_t controller_mode_update;
-    float controller_ref;
-} xSjcControllerConfig_t;

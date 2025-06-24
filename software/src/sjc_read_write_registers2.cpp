@@ -154,24 +154,27 @@ int main(int argc, char *argv[])
             if ((RuntimeInfo.uptime - last_control_time) >= 100)
             {
                 last_control_time = RuntimeInfo.uptime;
-                xSjcControllerConfig_t config;
-                config.controller_mode_update = SJC_OPEN_LOOP_CONTROL;
+                eSjcControlMode_t controller_mode_update = SJC_OPEN_LOOP_CONTROL;
+                float controller_ref;
+               
                 static int sig = 1;
+               
                 switch (xActuatorState)
                 {
                 case ACTUATOR_MAX_POS:
                     xActuatorState = ACTUATOR_DISABLED;
                     sig *= -1;
-                    config.controller_ref = 15 * sig;
+                    controller_ref = 15 * sig;
                     break;
 
                 default: // ACTUATOR_DISABLED
-                    config.controller_ref = 0.0f;
+                    controller_ref = 0.0f;
                     xActuatorState = ACTUATOR_MAX_POS;
                     break;
                 }
 
-                Sjc.setControllerConfig(config);
+                Sjc.setControllerOperatingMode(controller_mode_update);
+                Sjc.setControllerReference(controller_ref);
             }
 
             if (SJC_RET_OK == Sjc.getActuatorParameters(&ActuatorInfo))

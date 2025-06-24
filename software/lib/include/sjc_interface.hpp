@@ -26,7 +26,8 @@ public:
 
     eSjcReturnType_t getDeviceInfo(xSjcDeviceInfo_t *config);
     eSjcReturnType_t getRuntimeInfo(xSjcRuntimeInfo_t *config);
-    eSjcReturnType_t setControllerConfig(xSjcControllerConfig_t config);
+    eSjcReturnType_t setControllerReference(const float reference);
+    eSjcReturnType_t setControllerOperatingMode(const eSjcControlMode_t mode);
 
     eSjcReturnType_t getNetworkParameters(xSjcNetworkConfig_t *config);
     eSjcReturnType_t setNetworkParameters(const xSjcNetworkConfig_t config);

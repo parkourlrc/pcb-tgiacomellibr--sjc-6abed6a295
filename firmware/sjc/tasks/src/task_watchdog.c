@@ -70,7 +70,7 @@ void WatchdogTaskApp(void *argument)
 	osDelay(SJC_TASK_INIT_DELAY);
 	DebugOutput_systemPrintf("\r\n[OS] Watchdog task initiated!");
 
-	uint32_t tick = osKernelGetTickCount();
+	TickType_t lastWakeTime = xTaskGetTickCount();
 
 	xSjcMeanSampleTimeMeasurement_t Ts;
 
@@ -79,8 +79,6 @@ void WatchdogTaskApp(void *argument)
 	/* Infinite loop */
 	for (;;)
 	{
-		tick += pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS);
-
 		SJC_getTime(SJC_TIME_MS, &TaskTic);
 
 		switch (xWatchdogState)
@@ -131,7 +129,7 @@ void WatchdogTaskApp(void *argument)
 		SJC_getTime(SJC_TIME_MS, &TaskToc);
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_RUNTIME, (TaskToc - TaskTic));
 
-		osDelayUntil(tick);
+		vTaskDelayUntil(&lastWakeTime, pdMS_TO_TICKS(SJC_DEBUG_TASK_UPDATE_PERIOD_MS));
 	}
 	/* USER CODE END MainTaskApp */
 }

@@ -172,11 +172,10 @@ int main(int argc, char *argv[])
             {
                 last_control_time = RuntimeInfo.uptime;
                 static int sig = 1;
-                xSjcControllerConfig_t config;
-                config.controller_mode_update = SJC_OPEN_LOOP_CONTROL;
                 sig *= -1;
-                config.controller_ref = 24 * sig;
-                Sjc.setControllerConfig(config);
+                float ref = 24 * sig;
+                Sjc.setControllerOperatingMode(SJC_OPEN_LOOP_CONTROL);
+                Sjc.setControllerReference(0.0);
             }
 
             if (SJC_RET_OK == Sjc.getActuatorParameters(&ActuatorInfo))

@@ -23,6 +23,11 @@
 #define DEF_RAD_PER_SEC_TO_RPM (30.0f / M_PI)       ///< Convert rad/s to RPM
 #define DEF_RPM_TO_RAD_PER_SEC (M_PI / 30.0f)       ///< Convert RPM to rad/s
 #define CONV_MILLI_TO_BASE_FLOAT(X) ((X) / 1000.0f) ///< Convert millivalue to float
+
+#define MS_TO_SEC (1.0f / 1000.0f)
+#define CONVERT_MS_TO_SEC(X) ((X) / 1000.0f)
+
+
 /** @} */
 
 /** @name Integer comparison macros */

@@ -128,6 +128,8 @@ typedef enum
 	PWM_FREQ_18kHz,
 	PWM_FREQ_20kHz
 } eSjcPwmBaseFreq_t;
+
+#define LQR_CONTROLLER_STATE_SIZE 2u
 // ------------------------------------------------------------------- //
 
 // Data structures --------------------------------------------------- //
@@ -173,6 +175,34 @@ typedef struct
 	float KA;
 } xSjcServoPidParameters_t;
 static const xSjcServoPidParameters_t xSjcServoPidParametersEmptyObj = {0};
+
+/**
+ * @brief LQR discrete system model for servo control.
+ */
+typedef struct
+{
+	float Ad[LQR_CONTROLLER_STATE_SIZE][LQR_CONTROLLER_STATE_SIZE];
+	float Bd[LQR_CONTROLLER_STATE_SIZE];
+	float Cd[LQR_CONTROLLER_STATE_SIZE];
+} xSjcServoLQRDiscreteModelParameters_t;
+static const xSjcServoLQRDiscreteModelParameters_t xSjcServoLQRDiscreteModelParametersEmptyObj = {0};
+
+/**
+ * @brief LQR gains for servo control.
+ */
+typedef struct
+{
+	float Kx[2];
+	float Ki;
+	float Kw;
+	float cutoff_frequency;
+	xSjcServoLQRDiscreteModelParameters_t model;
+	float current_observer_gains[2];
+	float u_min;
+	float u_max;
+	bool user_observer;
+} xSjcServoLQRParameters_t;
+static const xSjcServoLQRParameters_t xSjcServoLQRParametersEmptyObj = {0};
 
 /**
  * @brief Error tracking structure for PID controller.

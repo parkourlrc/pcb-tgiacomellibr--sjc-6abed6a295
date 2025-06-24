@@ -73,7 +73,8 @@ void Net_ExecuteSystemConfigsUpdateCmd(void);
 void Net_ExecuteNetworkConfigsUpdateCmd(void);
 void Net_ExecuteSensorsConfigsUpdateCmd(void);
 void Net_ExecuteActuatorConfigsUpdateCmd(void);
-void Net_ExecuteControllerConfigsUpdateCmd(void);
+void Net_ExecuteControllerModeUpdateCmd(void);
+void Net_ExecuteControllerRefUpdateCmd(void);
 void Net_ExecuteDigitalOutputsUpdateCmd(void);
 void Net_ExecuteControllerParametersUpdateCmd(void);
 void Net_ExecuteAdcFilterModeUpdateCmd(void);
@@ -352,7 +353,8 @@ void SJC_updateHoldingRegisters(void)
 	Net_ExecuteNetworkConfigsUpdateCmd();
 	Net_ExecuteSensorsConfigsUpdateCmd();
 	Net_ExecuteActuatorConfigsUpdateCmd();
-	Net_ExecuteControllerConfigsUpdateCmd();
+	Net_ExecuteControllerModeUpdateCmd();
+	Net_ExecuteControllerRefUpdateCmd();
 	Net_ExecuteControllerParametersUpdateCmd();
 	Net_ExecuteAdcFilterModeUpdateCmd();
 }
@@ -728,18 +730,11 @@ void Net_ExecuteDigitalOutputsUpdateCmd(void)
 	}
 }
 
-void Net_ExecuteControllerConfigsUpdateCmd(void)
+void Net_ExecuteControllerModeUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] & CONTROLLER_UPDATE_MSK)
+	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] & CONTROLLER_MODE_UPDATE_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] &= (~CONTROLLER_UPDATE_MSK);
-
-		// Controller reference
-		float reference;
-		uint16_t *ptr = (uint16_t *)(&reference);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE];
-		SJC_setControlReference(reference);
+		usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] &= (~CONTROLLER_MODE_UPDATE_MSK);
 
 		// Controller operating mode
 		SJC_setControlMode(usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE]);
@@ -761,12 +756,26 @@ void Net_ExecuteControllerConfigsUpdateCmd(void)
 		case SJC_CURRENT_CONTROL:
 			DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
 			break;
-
 		default: // SJC_CONTROL_DISABLED
 			DebugOutput_printf("\r\n[NetCmd] Controller mode: Control disabled");
 			break;
 		}
 #endif
+	}
+}
+
+void Net_ExecuteControllerRefUpdateCmd(void)
+{
+	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_UPDATE] & CONTROLLER_REFERENCE_UPDATE_MSK)
+	{
+		usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_UPDATE] &= (~CONTROLLER_REFERENCE_UPDATE_MSK);
+
+		// Controller reference
+		float reference;
+		uint16_t *ptr = (uint16_t *)(&reference);
+		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_VALUE + 1];
+		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_VALUE];
+		SJC_setControlReference(reference);
 	}
 }
 
@@ -852,11 +861,11 @@ void Net_ExecuteSensorsConfigsUpdateCmd(void)
 
 void Net_ExecuteControllerParametersUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] & CONTROLLER_PARAMETERS_UPDATE_MSK)
+	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] & PID_CONTROLLER_PARAMETERS_UPDATE_MSK)
 	{
 
 		// Controller parameters
-		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~CONTROLLER_PARAMETERS_UPDATE_MSK);
+		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~PID_CONTROLLER_PARAMETERS_UPDATE_MSK);
 
 		xSjcServoPidParameters_t params;
 		uint16_t *ptr = (uint16_t *)(&params.Kp);
