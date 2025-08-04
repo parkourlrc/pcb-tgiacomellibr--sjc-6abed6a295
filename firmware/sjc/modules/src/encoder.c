@@ -63,8 +63,8 @@ void Encoder_init(void)
 	}
 
 	Encoder[SJC_ACTUATOR_JOINT].Instance = SJC_ACTUATOR_JOINT_TIMER_INSTANCE;
-	Encoder[SJC_AUX_JOINT_A].Instance = SJC_AUX_JOINT_A_TIMER_INSTANCE;
-	Encoder[SJC_AUX_JOINT_B].Instance = SJC_AUX_JOINT_B_TIMER_INSTANCE;
+	Encoder[SJC_AUX_JOINT_TH_X].Instance = SJC_AUX_JOINT_A_TIMER_INSTANCE;
+	Encoder[SJC_AUX_JOINT_TH_Y].Instance = SJC_AUX_JOINT_B_TIMER_INSTANCE;
 
 	for (uint8_t i = 0; i < SJC_JOINTS_SIZE; i++)
 	{

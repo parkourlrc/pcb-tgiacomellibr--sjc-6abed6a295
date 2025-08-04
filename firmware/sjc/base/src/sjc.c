@@ -133,8 +133,8 @@ void SJC_init(void)
 	DigitalInterfaces_init();
 
 	Encoder_init();
-	Encoder_enable(SJC_AUX_JOINT_A);
-	Encoder_enable(SJC_AUX_JOINT_B);
+	Encoder_enable(SJC_AUX_JOINT_TH_X);
+	Encoder_enable(SJC_AUX_JOINT_TH_Y);
 	Encoder_enable(SJC_ACTUATOR_JOINT);
 
 	PidController_init();
@@ -581,16 +581,16 @@ void Net_UpdateRuntimeInfoRegisters(void)
 	usRegInputBuf[REG_INPUT_ACTUATOR_DISPLACEMENT + 1] = ui16ptr[0];
 
 	fAux = 0;
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_A, &fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_B, &fAux);
+	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_X, &fAux);
 	ui16ptr = ((uint16_t *)(&fAux));
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT] = ui16ptr[1];
 	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT + 1] = ui16ptr[0];
+
+	fAux = 0;
+	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_Y, &fAux);
+	ui16ptr = ((uint16_t *)(&fAux));
+	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT] = ui16ptr[1];
+	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT + 1] = ui16ptr[0];
 
 	fAux = 0;
 	SJC_getJointActuatorVoltage(&fAux);
@@ -649,10 +649,10 @@ void Net_UpdateSensorsParametersRegisters(void)
 	Encoder_getResolution(SJC_ACTUATOR_JOINT, &aux);
 	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = aux;
 
-	Encoder_getResolution(SJC_AUX_JOINT_A, &aux);
+	Encoder_getResolution(SJC_AUX_JOINT_TH_X, &aux);
 	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = aux;
 
-	Encoder_getResolution(SJC_AUX_JOINT_B, &aux);
+	Encoder_getResolution(SJC_AUX_JOINT_TH_Y, &aux);
 	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = aux;
 }
 
@@ -847,13 +847,13 @@ void Net_ExecuteSensorsConfigsUpdateCmd(void)
 		// Encoders parameters
 		usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] &= (~SENSORS_PARAMETERS_UPDATE_MSK);
 
-		Encoder_setResolution(SJC_AUX_JOINT_A, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR]);
-		Encoder_setResolution(SJC_AUX_JOINT_B, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR]);
+		Encoder_setResolution(SJC_AUX_JOINT_TH_X, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR]);
+		Encoder_setResolution(SJC_AUX_JOINT_TH_Y, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR]);
 		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR]);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-		DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_A].Encoder.Resolution_PPR);
-		DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_B].Encoder.Resolution_PPR);
+		DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_TH_X].Encoder.Resolution_PPR);
+		DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_TH_Y].Encoder.Resolution_PPR);
 		DebugOutput_printf("\r\n[NetCmd] Actuator encoder res.: %u ppr", xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
 #endif
 	}

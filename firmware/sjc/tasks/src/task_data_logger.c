@@ -99,23 +99,23 @@ void TransmitLogData(const xSjcJointControllerMeasurements_t Log)
 	// 					Log.ControllerError);
 
 	DataLogger_transmit(
-		"\r\n{"
-		"\"t\":%lu,"
-		"\"i\":%.3f,"
-		"\"v\":%.2f,"
-		"\"vs\":%.2f,"
-		"\"dp\":%.4f,"
-		"\"rpm\":%.3f,"
-		"\"r\":%.3f,"
-		"\"e\":%.4f"
-		"}",
-		Log.Timestamp,
-		Log.ActuatorCurrent,
-		Log.ActuatorVoltage,
-		Log.SystemVoltage,
-		Log.ActuatorDisplacement,
-		Log.ActuatorSpeedRpm,
-		Log.ControllerReference,
-		Log.ControllerError);
+	    "{"
+	    "\"t\":%lu,"
+	    "\"i\":%.3f,"
+	    "\"v\":%.2f,"
+	    "\"vs\":%.2f,"
+	    "\"dp\":%.4f,"
+	    "\"rpm\":%.3f,"
+	    "\"r\":%.3f,"
+	    "\"e\":%.4f"
+	    "}\r\n",
+	    Log.Timestamp,
+	    Log.ActuatorCurrent,
+	    Log.ActuatorVoltage,
+	    Log.SystemVoltage,
+	    Log.ActuatorDisplacement,
+	    Log.ActuatorSpeedRpm,
+	    Log.ControllerReference,
+	    Log.ControllerError);
 }
 //  ------------------------------------------------------------------- //

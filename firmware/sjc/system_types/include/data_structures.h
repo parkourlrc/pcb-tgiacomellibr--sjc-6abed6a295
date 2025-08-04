@@ -51,8 +51,8 @@ typedef enum
 typedef enum
 {
 	SJC_ACTUATOR_JOINT = 0,
-	SJC_AUX_JOINT_A,
-	SJC_AUX_JOINT_B,
+	SJC_AUX_JOINT_TH_X,
+	SJC_AUX_JOINT_TH_Y,
 	SJC_JOINTS_SIZE
 } eSjcJoints_t;
 

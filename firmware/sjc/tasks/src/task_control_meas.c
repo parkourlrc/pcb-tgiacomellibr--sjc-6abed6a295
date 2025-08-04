@@ -152,74 +152,74 @@ void ControllerMeasTaskApp(void *argument)
 	 * LQI controller tests
 	 */
 
-//	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.8039f, 1.7949f} };
-//	float Bd[2] = {0.1980f, 0.1583f};
-//	float Cd[2] = {1.0000f, 0.0000f};
-////	float L[2] = {1.056964, 1.206019};
-//	float L[2] = {0.607749, 0.622716};
-//	CurrentObserver_t current_observer;
-//	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
-//
-//	LqiControllerParams_t params = {
-//		.Ad = { {0.0000f, 1.0000f}, {-0.8039f, 1.7949f} },
-//		.Bd = {0.1980f, 0.1583f},
-//		.Cd = {1.0000f, 0.0000f},
-//		.Kx = {-1.8271f, 4.9445f},
-//		.Ki = -0.5476f,
-//		.Kw = 6.0022f,
-//		.alpha = 0.95678608f,
-//		.u_min = -24.0f,
-//		.u_max = 24.0f,
-//		.use_observer = true,
-//		.observer = &current_observer
-//	};
-
-//	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.4783f, 1.4676f} };
-//	float Bd[2] = {0.3227f, 0.1518f};
-//	float Cd[2] = {1.0000f, 0.0000f};
-//	float L[2] = {0.657711f, 0.487569f};
-//
-//	CurrentObserver_t current_observer;
-//	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
-//
-//	LqiControllerParams_t params = {
-//			.Ad = { {0.0000f, 1.0000f}, {-0.4783f, 1.4676f} },
-//			.Bd = {0.3227f, 0.1518f},
-//			.Cd = {1.0000f, 0.0000f},
-//			.Kx = {-0.5290f, 3.0499f},
-//			.Ki = -0.4534f,
-//			.Kw = 6.7168f,
-//			.alpha = 0.71539046f,
-//			.u_min = -24.0f,
-//			.u_max = 24.0f,
-//			.use_observer = true,
-//			.observer = &current_observer
-//	};
-
-
-
-	float Ad[2][2] = { {0.0000f, 1.0000f}, {-0.7641f, 1.7597f} };
-	float Bd[2] = {0.7016f, 0.5346f};
+	//	Rope Motor
+	// ----------------------------------------------------------------------------- //
+	float Ad[2][2] = {{0.0000f, 1.0000f}, {-0.7864f, 1.7740f}};
+	float Bd[2] = {0.1464f, 0.1139f};
 	float Cd[2] = {1.0000f, 0.0000f};
-	float L[2] = {0.567479, 0.495015};
+	float L[2] = {1.159315, 1.360635};
 	CurrentObserver_t current_observer;
 	CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
 
-//	New motor - Bridge
-
 	LqiControllerParams_t params = {
-		.Ad = { {0.0000f, 1.0000f}, {-0.7641f, 1.7597f} },
-		.Bd = {0.7016f, 0.5346f},
+		.Ad = {{0.0000f, 1.0000f}, {-0.7864f, 1.7740f}},
+		.Bd = {0.1464f, 0.1139f},
 		.Cd = {1.0000f, 0.0000f},
-		.Kx = {-0.1021f, 1.4231f},
-		.Ki = -0.2392f,
-		.Kw = 4.6227f,
-		.alpha = 0.71539046f,
+		.Kx = {-2.9096f, 6.5371f},
+		.Ki = -0.6049f,
+		.Kw = 7.1767f,
+		.alpha = 0.95678608f,
 		.u_min = -24.0f,
 		.u_max = 24.0f,
 		.use_observer = true,
-		.observer = &current_observer
-	};
+		.observer = &current_observer};
+	// ----------------------------------------------------------------------------- //
+
+	//	Trolley Motor
+	// ----------------------------------------------------------------------------- //
+	// float Ad[2][2] = {{0.0000f, 1.0000f}, {-0.7161f, 1.7032f}};
+	// float Bd[2] = {0.2938f, 0.2082f};
+	// float Cd[2] = {1.0000f, 0.0000f};
+	// float L[2] = {1.058990, 1.123099};
+	// CurrentObserver_t current_observer;
+	// CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
+
+	// LqiControllerParams_t params = {
+	// 	.Ad = {{0.0000f, 1.0000f}, {-0.7161f, 1.7032f}},
+	// 	.Bd = {0.2938f, 0.2082f},
+	// 	.Cd = {1.0000f, 0.0000f},
+	// 	.Kx = {-1.6827f, 3.0950f},
+	// 	.Ki = -0.2003f,
+	// 	.Kw = 9.9539f,
+	// 	.alpha = 0.95678608f,
+	// 	.u_min = -24.0f,
+	// 	.u_max = 24.0f,
+	// 	.use_observer = true,
+	// 	.observer = &current_observer};
+	// ----------------------------------------------------------------------------- //
+
+	//	Bridge Motor
+	// ----------------------------------------------------------------------------- //
+	// float Ad[2][2] = {{0.0000f, 1.0000f}, {-0.7456f, 1.7410f}};
+	// float Bd[2] = {0.7591f, 0.5642f};
+	// float Cd[2] = {1.0000f, 0.0000f};
+	// float L[2] = {0.855842, 0.797464};
+	// CurrentObserver_t current_observer;
+	// CurrentObserver_init(&current_observer, Ad, Bd, Cd, L);
+
+	// LqiControllerParams_t params = {
+	// 	.Ad = {{0.0000f, 1.0000f}, {-0.7456f, 1.7410f}},
+	// 	.Bd = {0.7591f, 0.5642f},
+	// 	.Cd = {1.0000f, 0.0000f},
+	// 	.Kx = {-0.0847f, 1.3151f},
+	// 	.Ki = -0.2241f,
+	// 	.Kw = 4.6308f,
+	// 	.alpha = 0.71539046f,
+	// 	.u_min = -24.0f,
+	// 	.u_max = 24.0f,
+	// 	.use_observer = true,
+	// 	.observer = &current_observer};
+	// ----------------------------------------------------------------------------- //
 
 	LqiController_init(&params);
 	LqiController_setSaturation(-24.0f, 24.0f);
@@ -295,7 +295,7 @@ static void RunControlLoop(void)
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
 			//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
 
-//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
+			//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
 			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
 			break;
 
@@ -329,12 +329,13 @@ static void RunControlLoop(void)
 			if (CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT == CurrentBiasMeasurementIdx)
 			{
 				SJC_setControlMode(SJC_CONTROL_DISABLED);
-				if (CurrentBiasMeasurementIdx != 0) {
+				if (CurrentBiasMeasurementIdx != 0)
+				{
 					CurrentBias /= CurrentBiasMeasurementIdx;
 				}
 				else
 				{
-				CurrentBias = 0;
+					CurrentBias = 0;
 				}
 
 				SJC_setJointActuatorCurrentBias(CurrentBias);
@@ -404,7 +405,6 @@ static void MeasurementsUpdate(void)
 	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp, &DeltaT);
 	JointMeasurements.Timestamp += DeltaT;
 
-
 	ControlTs = CONVERT_MS_TO_SEC(DeltaT); // Convert miliseconds to seconds
 
 	ActuatorSpeed = ActuatorRelativeDisplacement / ControlTs;
@@ -434,8 +434,10 @@ static void EndstopsCheck(void)
 
 static bool IsMoveAllowed(float command, bool endstop_a_pressed, bool endstop_b_pressed)
 {
-	if (endstop_a_pressed && command < 0) return false;
-	if (endstop_b_pressed && command > 0) return false;
+	if (endstop_a_pressed && command < 0)
+		return false;
+	if (endstop_b_pressed && command > 0)
+		return false;
 	return true;
 }
 
@@ -468,7 +470,8 @@ void vHeartbeatTimerCallback(void *argument)
 static void EnqueueLogData(void)
 {
 	BaseType_t status = xQueueSend(xDataLoggerQueueHandle, (void *)&JointMeasurements, (TickType_t)0);
-	if (pdPASS != status) {
+	if (pdPASS != status)
+	{
 		DebugOutput_systemPrintf("[WARNING] Failed to enqueue log data.");
 	}
 }
