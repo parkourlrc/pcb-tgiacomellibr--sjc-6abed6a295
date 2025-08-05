@@ -8,7 +8,18 @@
 #ifndef SJC__BASE__NETWORK_CONFIGS_H_
 #define SJC__BASE__NETWORK_CONFIGS_H_
 
+//#define BRIDGE_AXIS
+//#define TROLLEY_AXIS
+#define ROPE_AXIS
+
+#if defined BRIDGE_AXIS
+#define NETWORK_BASE_ADRESS ((uint32_t)1UL)
+#elif defined TROLLEY_AXIS
+#define NETWORK_BASE_ADRESS ((uint32_t)2UL)
+#else
 #define NETWORK_BASE_ADRESS ((uint32_t)3UL)
+#endif
+
 #define MODBUS_USART_INIT_COUNT ((uint32_t)50UL)
 
 #define REG_INPUT_START ((uint16_t)1001)
