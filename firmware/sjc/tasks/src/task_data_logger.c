@@ -83,39 +83,47 @@ void DataLoggerTaskApp(void *argument)
 
 void InitLogTerminal(void)
 {
-	DataLogger_transmit("\n\n\n\r%%Timestamp, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorDisplacement, ActuatorSpeedRpm, ControllerReference, ControllerError");
+	DataLogger_transmit("\n\n\n\r%%Timestamp_ms, ActuatorCurrent, ActuatorVoltage, SystemVoltage, ActuatorAngularPosition, ActuatorSpeedRpm, ControllerReference, ControllerError");
 }
 
 void TransmitLogData(const xSjcJointControllerMeasurements_t Log)
 {
 	// DataLogger_transmit("\r\n%lu, %.3f, %.2f, %.2f, %.4f, %.3f, %.3f, %.4f",
-	// 					Log.Timestamp,
+	// 					Log.Timestamp_ms,
 	// 					Log.ActuatorCurrent,
 	// 					Log.ActuatorVoltage,
 	// 					Log.SystemVoltage,
-	// 					Log.ActuatorDisplacement,
+	// 					Log.ActuatorAngularPosition,
+	// 					Log.ActuatorAngularRate,
 	// 					Log.ActuatorSpeedRpm,
 	// 					Log.ControllerReference,
 	// 					Log.ControllerError);
 
 	DataLogger_transmit(
-	    "{"
-	    "\"t\":%lu,"
-	    "\"i\":%.3f,"
-	    "\"v\":%.2f,"
-	    "\"vs\":%.2f,"
-	    "\"dp\":%.4f,"
-	    "\"rpm\":%.3f,"
-	    "\"r\":%.3f,"
-	    "\"e\":%.4f"
-	    "}\r\n",
-	    Log.Timestamp,
-	    Log.ActuatorCurrent,
-	    Log.ActuatorVoltage,
-	    Log.SystemVoltage,
-	    Log.ActuatorDisplacement,
-	    Log.ActuatorSpeedRpm,
-	    Log.ControllerReference,
-	    Log.ControllerError);
+			"{"
+			"\"t\":%lu,"
+			"\"i\":%.3f,"
+			"\"v\":%.2f,"
+			"\"vs\":%.2f,"
+			"\"pos\":%.4f,"
+			"\"vel\":%.4f,"
+			"\"rpm\":%.3f,"
+			"\"r\":%.3f,"
+			"\"e\":%.4f,"
+			"\"aux01\":%.4f,"
+			"\"aux02\":%.4f"
+			"}\r\n",
+			Log.Timestamp_ms,
+			Log.ActuatorCurrent,
+			Log.ActuatorVoltage,
+			Log.SystemVoltage,
+			Log.ActuatorAngularPosition,
+			Log.ActuatorAngularRate,
+			Log.ActuatorSpeedRpm,
+			Log.ControllerReference,
+			Log.ControllerError,
+			Log.AuxPositionMeas01,
+			Log.AuxPositionMeas02
+	);
 }
 //  ------------------------------------------------------------------- //

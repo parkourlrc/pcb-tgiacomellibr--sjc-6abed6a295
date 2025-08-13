@@ -44,8 +44,8 @@
 //static eSjcControlMode_t ControlMode;
 //
 //
-//static uint32_t Timestamp = 0;
-//static float ControlTs = 0;
+//static uint32_t Timestamp_ms = 0;
+//static float dt = 0;
 //static uint32_t ControllerPeriodSpec = 1000;
 //
 //static float ControlAction = 0;
@@ -55,10 +55,10 @@
 //static float DisplacementThetaX = 0;
 //static float DisplacementThetaY = 0;
 //
+//static float ActuatorAngularPosition = 0;
 //static float ActuatorDisplacement = 0;
-//static float ActuatorRelativeDisplacement = 0;
 //static float ActuatorSpeedRpm = 0;
-//static float ActuatorSpeed = 0;
+//static float ActuatorAngularRate = 0;
 //static float ActuatorVoltage = 0;
 //static float ActuatorCurrent = 0;
 //
@@ -143,12 +143,12 @@
 //
 //		case SJC_CURRENT_CONTROL:
 //			ControllerError = ControllerReference - ActuatorCurrent;
-//			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
+//			SJC_ComputeControlAction(ControllerError, dt, &ControlAction);
 //			break;
 //
 //		case SJC_SPEED_CONTROL:
-//			ControllerError = ControllerReference - ActuatorSpeed;
-//			SJC_ComputeControlAction(ControllerError, ControlTs, &ControlAction);
+//			ControllerError = ControllerReference - ActuatorAngularRate;
+//			SJC_ComputeControlAction(ControllerError, dt, &ControlAction);
 //			break;
 //
 //		case SJC_OPEN_LOOP_CONTROL:
@@ -191,17 +191,17 @@
 //	SJC_GetJointActuatorPowerSupplyVoltage(&SystemVoltage);
 //
 //	// Actuated joint calcs
-//	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, ActuatorDisplacement);
-//	ActuatorDisplacement += ActuatorRelativeDisplacement;
+//	SJC_GetJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorDisplacement, ActuatorAngularPosition);
+//	ActuatorAngularPosition += ActuatorDisplacement;
 //
 //	uint32_t Dt = 1000;
-//	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp, &Dt);
-//	SJC_GetTime(SJC_TIME_MS, &Timestamp);
+//	SJC_GetElapsedTime(SJC_TIME_MS, Timestamp_ms, &Dt);
+//	SJC_GetTime(SJC_TIME_MS, &Timestamp_ms);
 //
-//	ControlTs = ((float) Dt) * 1.0e-3; // Convert miliseconds to seconds
+//	dt = ((float) Dt) * 1.0e-3; // Convert miliseconds to seconds
 //
-//	ActuatorSpeed = ActuatorRelativeDisplacement / ControlTs;
-//	ActuatorSpeedRpm = ActuatorSpeed * (30.0f / M_PI);
+//	ActuatorAngularRate = ActuatorDisplacement / dt;
+//	ActuatorSpeedRpm = ActuatorAngularRate * (30.0f / M_PI);
 //
 //	// Passive joints calcs
 //	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
@@ -234,7 +234,7 @@
 //
 //static void PublishLogData(void)
 //{
-//	DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorDisplacement, ActuatorSpeedRpm);
+//	DataLogger_Transmit("\r\n%lu, %.2f, %.3f, %.3f, %.2f, %.2f, %.4f, %.3f", Timestamp_ms, SystemVoltage, ControllerReference, ControllerError, ActuatorVoltage, ActuatorCurrent, ActuatorAngularPosition, ActuatorSpeedRpm);
 //}
 //
 //static void RunTestSignal(eSjcInputType_t type)

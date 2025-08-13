@@ -64,12 +64,17 @@ static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointController
 static eSjcControlMode_t ControlMode;
 static eSjcControlMode_t LastControlMode;
 static uint32_t ControllerPeriodSpec = 1000;
-static float ControlTs = 0;
-static uint32_t DeltaT = 0;
+static float dt = 0;
+static uint32_t task_dt_ms = 0;
 static bool control_mode_updated_ = false;
 
-static float ActuatorSpeed = 0;
-static float ActuatorRelativeDisplacement = 0;
+static float ActuatorAngularRate = 0;
+static float ActuatorDisplacement = 0;
+
+float SwingPositionThx = 0;
+float SwingPositionThy = 0;
+float SwingDisplacementThx = 0;
+float SwingDisplacementThy = 0;
 
 float xTestSignalValue;
 eSjcInputSignalState_t xTestSignalState;
@@ -229,6 +234,11 @@ void ControllerMeasTaskApp(void *argument)
 	LqiController_init(&params);
 	LqiController_setSaturation(-24.0f, 24.0f);
 
+	SJC_getJointAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorDisplacement, JointMeasurements.ActuatorAngularPosition);
+	SJC_getJointAngularPosition(SJC_ACTUATOR_JOINT, &JointMeasurements.ActuatorAngularPosition);
+	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_X, &SwingPositionThx);
+	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_Y, &SwingPositionThy);
+
 	/* Infinite loop */
 	for (;;)
 	{
@@ -298,15 +308,15 @@ static void RunControlLoop(void)
 
 		case SJC_CURRENT_CONTROL:
 			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - JointMeasurements.ActuatorCurrent;
-			//			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			//			SJC_computeControlAction(JointMeasurements.ControllerError, dt, &JointMeasurements.ControlAction);
 
 			//			JointMeasurements.ControlAction = DiscreteController_compute(JointMeasurements.ControllerReference,JointMeasurements.ActuatorCurrent);
 			JointMeasurements.ControlAction = LqiController_compute(JointMeasurements.ControllerReference, JointMeasurements.ActuatorCurrent);
 			break;
 
 		case SJC_SPEED_CONTROL:
-			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - ActuatorSpeed;
-			SJC_computeControlAction(JointMeasurements.ControllerError, ControlTs, &JointMeasurements.ControlAction);
+			JointMeasurements.ControllerError = JointMeasurements.ControllerReference - ActuatorAngularRate;
+			SJC_computeControlAction(JointMeasurements.ControllerError, dt, &JointMeasurements.ControlAction);
 			break;
 
 		case SJC_OPEN_LOOP_CONTROL:
@@ -358,7 +368,7 @@ static void RunControlLoop(void)
 		// ------------------------------------------------------------------- //
 		EndstopsCheck();
 
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME, DeltaT);
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_SAMPLE_TIME, task_dt_ms);
 		SJC_getTime(SJC_TIME_MS, &ControlTaskToc);
 		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_CONTROLLER_RUNTIME, (ControlTaskToc - ControlTaskTic));
 	}
@@ -404,40 +414,51 @@ static void MeasurementsUpdate(void)
 	SJC_getJointActuatorPowerSupplyVoltage(&JointMeasurements.SystemVoltage);
 
 	// Actuated joint calcs
-	SJC_getJointRelativeAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorRelativeDisplacement, JointMeasurements.ActuatorDisplacement);
-	JointMeasurements.ActuatorDisplacement += ActuatorRelativeDisplacement;
+	SJC_getJointAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorDisplacement, JointMeasurements.ActuatorAngularPosition);
+	JointMeasurements.ActuatorAngularPosition += ActuatorDisplacement;
 
-	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp, &DeltaT);
-	JointMeasurements.Timestamp += DeltaT;
+	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp_ms, &task_dt_ms);
+	JointMeasurements.Timestamp_ms += task_dt_ms;
 
-	ControlTs = CONVERT_MS_TO_SEC(DeltaT); // Convert miliseconds to seconds
+	dt = CONVERT_MS_TO_SEC(task_dt_ms); // Convert miliseconds to seconds
 
-	ActuatorSpeed = ActuatorRelativeDisplacement / ControlTs;
-	JointMeasurements.ActuatorSpeedRpm = ActuatorSpeed * DEF_RAD_PER_SEC_TO_RPM;
+	ActuatorAngularRate = ActuatorDisplacement / dt;
+	SJC_updateJointVelocity(SJC_ACTUATOR_JOINT, ActuatorAngularRate);
 
-	// Passive joints calcs
-	//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_A, &DisplacementThetaX);
-	//	SJC_GetJointAngularDisplacement(SJC_AUX_JOINT_B, &DisplacementThetaY);
+	JointMeasurements.ActuatorAngularRate = ActuatorAngularRate;
+	JointMeasurements.ActuatorSpeedRpm = ActuatorAngularRate * DEF_RAD_PER_SEC_TO_RPM;
+
+	// Passive joints calcs	
+	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_X, &SwingDisplacementThx, SwingPositionThx);
+	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_Y, &SwingDisplacementThy, SwingPositionThy);
+	
+	SJC_updateJointVelocity(SJC_AUX_JOINT_TH_X, (SwingDisplacementThx/dt));
+	SJC_updateJointVelocity(SJC_AUX_JOINT_TH_Y, (SwingDisplacementThy/dt));
+
+	SwingPositionThx += SwingDisplacementThx;
+	SwingPositionThy += SwingDisplacementThy;
+
+	JointMeasurements.AuxPositionMeas01 = SwingPositionThx;
+	JointMeasurements.AuxPositionMeas02 = SwingPositionThy;
 }
 
 static void EndstopsCheck(void)
 {
 	uint32_t states;
 	SJC_readDigitalInputs(&states);
-	bool bEndStopAPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_A);
-	bool bEndStopBPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_B);
 
 #ifdef ROPE_AXIS
+	bool bEndStopAPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_A);
+	bool bEndStopBPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_B);
+#else
+	bool bEndStopAPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_B);
+	bool bEndStopBPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_A);
+#endif
+
 	if (true == bEndStopAPressed)
 	{
-		SJC_resetJointAngularDisplacement();
+		SJC_resetJointAngularPosition();
 	}
-#else
-	if (true == bEndStopBPressed)
-	{
-		SJC_resetJointAngularDisplacement();
-	}
-#endif
 
 	bool bNextMoveAllowed = IsMoveAllowed(JointMeasurements.ControlAction, bEndStopAPressed, bEndStopBPressed);
 

@@ -64,7 +64,7 @@ void NetworkTaskApp(void *argument)
 
 	if (SJC_RET_NOK == ModbusNetwork_init(xNetworkAdress))
 #else
-	if (SJC_RET_NOK == ModbusNetwork_init(NETWORK_BASE_ADRESS))
+	if (SJC_RET_NOK == ModbusNetwork_init(NETWORK_BASE_ADDRESS))
 #endif
 	{
 		SJC_SYSTEM_RESET();
@@ -77,7 +77,6 @@ void NetworkTaskApp(void *argument)
 							 "\r\n[OS] Modbus communication enabled!");
 
 	TickType_t lastWakeTime = xTaskGetTickCount();
-
 
 	/* Infinite loop */
 	for (;;)
