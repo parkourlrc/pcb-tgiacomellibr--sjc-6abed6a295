@@ -90,54 +90,16 @@ void NMI_Handler(void)
 /**
   * @brief This function handles Hard fault interrupt.
   */
-//void HardFault_Handler(void)
-//{
-//  /* USER CODE BEGIN HardFault_IRQn 0 */
-//	MotorDrive_disable();
-//  /* USER CODE END HardFault_IRQn 0 */
-//  while (1)
-//  {
-//    /* USER CODE BEGIN W1_HardFault_IRQn 0 */
-//    /* USER CODE END W1_HardFault_IRQn 0 */
-//  }
-//}
-void HardFault_HandlerC(uint32_t *hardfault_args)
-{
-    uint32_t r0  = hardfault_args[0];
-    uint32_t r1  = hardfault_args[1];
-    uint32_t r2  = hardfault_args[2];
-    uint32_t r3  = hardfault_args[3];
-    uint32_t r12 = hardfault_args[4];
-    uint32_t lr  = hardfault_args[5];
-    uint32_t pc  = hardfault_args[6]; // instrução onde ocorreu o fault
-    uint32_t psr = hardfault_args[7];
-
-
-    DataLogger_printf(
-        "\r\n{\"type\":\"hardfault\","
-        "\"r0\":%lu,"
-        "\"r1\":%lu,"
-        "\"r2\":%lu,"
-        "\"r3\":%lu,"
-        "\"r12\":%lu,"
-        "\"lr\":%lu,"
-        "\"pc\":%lu,"
-        "\"xpsr\":%lu}",
-        r0, r1, r2, r3, r12, lr, pc, psr);
-
-    while (1); // Entra em loop para permitir análise
-}
-
 void HardFault_Handler(void)
 {
-    __asm volatile
-    (
-        "tst lr, #4                         \n"
-        "ite eq                             \n"
-        "mrseq r0, msp                      \n"
-        "mrsne r0, psp                      \n"
-        "b HardFault_HandlerC               \n"
-    );
+  /* USER CODE BEGIN HardFault_IRQn 0 */
+//	MotorDrive_disable();
+  /* USER CODE END HardFault_IRQn 0 */
+  while (1)
+  {
+    /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+    /* USER CODE END W1_HardFault_IRQn 0 */
+  }
 }
 
 /**
