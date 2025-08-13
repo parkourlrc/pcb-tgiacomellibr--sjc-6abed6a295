@@ -309,15 +309,18 @@ typedef struct
  */
 typedef struct
 {
-	uint32_t Timestamp;
+	uint32_t Timestamp_ms;
 	float SystemVoltage;
 	float ControlAction;
 	float ControllerError;
 	float ControllerReference;
-	float ActuatorDisplacement;
+	float ActuatorAngularPosition;
+	float ActuatorAngularRate;
 	float ActuatorSpeedRpm;
 	float ActuatorVoltage;
 	float ActuatorCurrent;
+	float AuxPositionMeas01;
+	float AuxPositionMeas02;
 } xSjcJointControllerMeasurements_t;
 static const xSjcJointControllerMeasurements_t xSjcJointControllerMeasurementsEmptyObj = {0};
 
