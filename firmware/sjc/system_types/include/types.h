@@ -8,12 +8,12 @@
 #ifndef SJC__SYSTEM_TYPES__TYPES_H_
 #define SJC__SYSTEM_TYPES__TYPES_H_
 
-#include "math.h"
-#include "stdarg.h"
-#include "stdbool.h"
-#include "stdint.h"
-#include "stdio.h"
-#include "string.h"
+#include <math.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "data_structures.h"
 #include "filters.h"
