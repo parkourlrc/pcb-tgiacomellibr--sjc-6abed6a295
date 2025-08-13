@@ -1,5 +1,5 @@
 /*
- * motor.c
+ * sjc.c
  *
  *  Created on: Sep 9, 2023
  *      Author: tiago
@@ -22,7 +22,7 @@
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "base/include/sjc.h"
-#include "system_types/include/helpers.h"
+#include "system_types/include/types.h"
 
 #include "base/include/configs.h"
 #include "modules/include/analog_interfaces.h"
@@ -50,34 +50,37 @@
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-extern volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
-extern volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
+extern volatile USHORT usRegInputBuf[INPUT_REG_NREGS];
+extern volatile USHORT usRegHoldingBuf[HOLDING_REG_NREGS];
 
 static xSjcControlConfigs_t xSjcControlConfigs = xSjcControlConfigsEmptyObj;
 
 static float fBiasCurrentValue = 0;
+static float fJointVelocityMeasurementFiltered[SJC_JOINTS_SIZE];
+static ExponentialFilter_t xVelocityFilter[SJC_JOINTS_SIZE];
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
 // ------------------------------------------------------------------- //
 
 // Input registers update process ------------------------------------ //
-void Net_UpdateRuntimeInfoRegisters(void);
-void Net_UpdateNetworkParametersRegisters(void);
-void Net_UpdateSensorsParametersRegisters(void);
-void Net_UpdateActuatorParametersRegisters(void);
-void Net_UpdateControllerParametersRegisters(void);
+static void Net_UpdateBoardInfoRegisters(void);
+static void Net_UpdateControlMeasInfoRegisters(void);
+static void Net_UpdateDigitalIOInfoRegisters(void);
+static void Net_UpdateSensorsParametersRegisters(void);
+static void Net_UpdateActuatorParametersRegisters(void);
+static void Net_UpdateControllerParametersRegisters(void);
 
 // Holding registers update process ---------------------------------- //
-void Net_ExecuteSystemConfigsUpdateCmd(void);
-void Net_ExecuteNetworkConfigsUpdateCmd(void);
-void Net_ExecuteSensorsConfigsUpdateCmd(void);
-void Net_ExecuteActuatorConfigsUpdateCmd(void);
-void Net_ExecuteControllerModeUpdateCmd(void);
-void Net_ExecuteControllerRefUpdateCmd(void);
-void Net_ExecuteDigitalOutputsUpdateCmd(void);
-void Net_ExecuteControllerParametersUpdateCmd(void);
-void Net_ExecuteAdcFilterModeUpdateCmd(void);
+static void Net_ExecuteSystemConfigsUpdateCmd(void);
+static void Net_ExecuteNetworkConfigsUpdateCmd(void);
+static void Net_ExecuteSensorsConfigsUpdateCmd(void);
+static void Net_ExecuteActuatorConfigsUpdateCmd(void);
+static void Net_ExecuteControllerModeUpdateCmd(void);
+static void Net_ExecuteControllerRefUpdateCmd(void);
+static void Net_ExecuteDigitalOutputsUpdateCmd(void);
+static void Net_ExecuteControllerParametersUpdateCmd(void);
+static void Net_ExecuteAdcFilterModeUpdateCmd(void);
 
 // ------------------------------------------------------------------- //
 
@@ -119,7 +122,7 @@ void SJC_init(void)
 
 	HAL_Delay(1000);
 
-	// SJC O.S. initialization
+	// SJC OS initialization
 	SJC_initOsKernel();
 	SJC_initOsObjects();
 
@@ -138,6 +141,11 @@ void SJC_init(void)
 	Encoder_enable(SJC_ACTUATOR_JOINT);
 
 	PidController_init();
+
+	for (size_t i = 0; i < SJC_JOINTS_SIZE; i++)
+	{
+		ExponentialFilter_init(&xVelocityFilter[i], 100.0, 1000.0);
+	}
 
 	xSjcControlConfigs.Mode = SJC_CONTROL_DISABLED;
 	xSjcControlConfigs.Rate = SJC_CONTROLLER_MAX_UPDATE_RATE_HZ;
@@ -180,10 +188,10 @@ void SJC_presentSystemInfo(void)
 
 eSjcReturnType_t SJC_setVersions(void)
 {
-	usRegInputBuf[REG_INPUT_HW_VERSION] = SJC_HW_VERSION_MAJOR << 8 | SJC_HW_VERSION_MINOR;
+	usRegInputBuf[INPUT_REG_HW_VERSION] = SJC_HW_VERSION_MAJOR << 8 | SJC_HW_VERSION_MINOR;
 
-	usRegInputBuf[REG_INPUT_FW_VERSION] = SJC_FW_VERSION_MAJOR << 8 | SJC_FW_VERSION_MINOR;
-	usRegInputBuf[REG_INPUT_FW_VERSION + 1] = SJC_FW_VERSION_PATCH;
+	usRegInputBuf[INPUT_REG_FW_VERSION] = SJC_FW_VERSION_MAJOR << 8 | SJC_FW_VERSION_MINOR;
+	usRegInputBuf[INPUT_REG_FW_VERSION + 1] = SJC_FW_VERSION_PATCH;
 
 	return SJC_RET_OK;
 }
@@ -232,9 +240,12 @@ eSjcReturnType_t SJC_getTime(const eSjcTimeType_t type, uint32_t *value)
 
 eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t timepoint, uint32_t *value)
 {
-	eSjcReturnType_t ret = SJC_RET_OK;
-	uint32_t now;
+	if (!value)
+	{
+		return SJC_RET_NOK;
+	}
 
+	uint32_t now;
 	switch (type)
 	{
 	case SJC_TIME_MS:
@@ -244,13 +255,11 @@ eSjcReturnType_t SJC_getElapsedTime(const eSjcTimeType_t type, const uint32_t ti
 		now = TimeoutTimer_getTimeSec();
 		break;
 	default:
-		now = 0;
-		ret = SJC_RET_NOK;
-		break;
+		return SJC_RET_NOK;
 	}
 
-	*value = (now > timepoint) ? (now - timepoint) : (1 + now + (UINT32_MAX - timepoint));
-	return ret;
+	*value = (uint32_t)(now - timepoint);
+	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_getControlMode(eSjcControlMode_t *config)
@@ -278,7 +287,10 @@ eSjcReturnType_t SJC_setControlMode(const eSjcControlMode_t config)
 
 eSjcReturnType_t SJC_getControlUpdateRateHz(float *config)
 {
-	*config = xSjcControlConfigs.Mode;
+	if (!config)
+		return SJC_RET_NOK;
+
+	*config = xSjcControlConfigs.Rate;
 
 	return SJC_RET_OK;
 }
@@ -290,24 +302,31 @@ eSjcReturnType_t SJC_setControlUpdateRateHz(const float config)
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *config)
+eSjcReturnType_t SJC_getControlUpdatePeriodMs(uint32_t *period_ms)
 {
-	*config = ((uint32_t)(1000 / xSjcControlConfigs.Rate));
-
+	if (!period_ms || xSjcControlConfigs.Rate <= 0.0f)
+		return SJC_RET_NOK;
+	*period_ms = ((uint32_t)(1000.0f / xSjcControlConfigs.Rate));
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t config)
+eSjcReturnType_t SJC_setControlUpdatePeriodMs(const uint32_t period_ms)
 {
-	xSjcControlConfigs.Rate = ((uint32_t)(1000 / SJC_Helpers_UintClamp(config, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS)));
-
+	if (period_ms == 0)
+		return SJC_RET_NOK;
+	float clamped = (float)SJC_Helpers_UintClamp(period_ms, SJC_CONTROLLER_MIN_UPDATE_PERIOD_MS, SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
+	xSjcControlConfigs.Rate = 1000.0f / clamped;
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_getControlReference(float *reference)
 {
-	*reference = PidController_getReference();
+	if (!reference)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*reference = PidController_getReference();
 	return SJC_RET_OK;
 }
 
@@ -320,15 +339,23 @@ eSjcReturnType_t SJC_setControlReference(const float reference)
 
 eSjcReturnType_t SJC_getControlError(float *controller_error)
 {
-	*controller_error = PidController_getError();
+	if (!controller_error)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*controller_error = PidController_getError();
 	return SJC_RET_OK;
 }
 
 eSjcReturnType_t SJC_getControlParameters(xSjcServoPidParameters_t *Parameters)
 {
-	*Parameters = PidController_getControlParameters();
+	if (!Parameters)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*Parameters = PidController_getControlParameters();
 	return SJC_RET_OK;
 }
 
@@ -341,8 +368,12 @@ eSjcReturnType_t SJC_setControlParameters(const xSjcServoPidParameters_t Paramet
 
 eSjcReturnType_t SJC_computeControlAction(const float ControlError, const float dt, float *ControlAction)
 {
-	*ControlAction = PidController_compute(ControlError, dt);
+	if (!ControlAction)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*ControlAction = PidController_compute(ControlError, dt);
 	return SJC_RET_OK;
 }
 
@@ -361,8 +392,9 @@ void SJC_updateHoldingRegisters(void)
 
 void SJC_updateInputRegisters(void)
 {
-	Net_UpdateRuntimeInfoRegisters();
-	Net_UpdateNetworkParametersRegisters();
+	Net_UpdateBoardInfoRegisters();
+	Net_UpdateControlMeasInfoRegisters();
+	Net_UpdateDigitalIOInfoRegisters();
 	Net_UpdateSensorsParametersRegisters();
 	Net_UpdateActuatorParametersRegisters();
 	Net_UpdateControllerParametersRegisters();
@@ -444,33 +476,68 @@ eSjcReturnType_t SJC_setAdcFilterMode(const eSjcAdcFilterMode_t mode, const floa
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_resetJointAngularDisplacement(void)
+eSjcReturnType_t SJC_resetJointAngularPosition(void)
 {
 	Encoder_reset(SJC_ACTUATOR_JOINT);
 
 	return SJC_RET_OK;
 }
 
-eSjcReturnType_t SJC_getJointAngularDisplacement(const eSjcJoints_t joint, float *disp)
+eSjcReturnType_t SJC_resetAuxJointsAngularPosition(void)
+{
+	Encoder_reset(SJC_AUX_JOINT_TH_X);
+	Encoder_reset(SJC_AUX_JOINT_TH_Y);
+
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_getJointAngularPosition(const eSjcJoints_t joint, float *disp)
+{
+	if (!disp || joint >= SJC_JOINTS_SIZE)
+		return SJC_RET_NOK;
+	return Encoder_getAngularDisplacement(joint, disp);
+}
+
+eSjcReturnType_t SJC_getJointAngularDisplacement(const eSjcJoints_t joint, float *disp, const float prev_position)
+{
+	if (!disp || joint >= SJC_JOINTS_SIZE)
+		return SJC_RET_NOK;
+	eSjcReturnType_t ret = Encoder_getAngularDisplacement(joint, disp);
+	if (ret == SJC_RET_OK)
+		*disp -= prev_position;
+	return ret;
+}
+
+eSjcReturnType_t SJC_resetJointVelocity(const eSjcJoints_t joint)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	if (joint < SJC_JOINTS_SIZE)
 	{
-		ret = Encoder_getAngularDisplacement(joint, disp);
+		ExponentialFilter_reset(&xVelocityFilter[joint]);
+		fJointVelocityMeasurementFiltered[joint] = 0.0f;
+		ret = SJC_RET_OK;
 	}
 
 	return ret;
 }
 
-eSjcReturnType_t SJC_getJointRelativeAngularDisplacement(const eSjcJoints_t joint, float *RelativeDisp, const float PrevDisp)
+eSjcReturnType_t SJC_getJointAngularVelocity(const eSjcJoints_t joint, float *vel)
+{
+	if (!vel || joint >= SJC_JOINTS_SIZE)
+		return SJC_RET_NOK;
+	*vel = fJointVelocityMeasurementFiltered[joint];
+	return SJC_RET_OK;
+}
+
+eSjcReturnType_t SJC_updateJointVelocity(const eSjcJoints_t joint, const float vel)
 {
 	eSjcReturnType_t ret = SJC_RET_NOK;
 
 	if (joint < SJC_JOINTS_SIZE)
 	{
-		ret = Encoder_getAngularDisplacement(joint, RelativeDisp);
-		*RelativeDisp -= PrevDisp;
+		fJointVelocityMeasurementFiltered[joint] = ExponentialFilter_update(&xVelocityFilter[joint], vel);
+		ret = SJC_RET_OK;
 	}
 
 	return ret;
@@ -478,8 +545,12 @@ eSjcReturnType_t SJC_getJointRelativeAngularDisplacement(const eSjcJoints_t join
 
 eSjcReturnType_t SJC_getJointActuatorPwmFrequency(uint32_t *freq)
 {
-	*freq = PwmSignal_getFrequency();
+	if (!freq)
+	{
+		return SJC_RET_NOK;
+	}
 
+	*freq = PwmSignal_getFrequency();
 	return SJC_RET_OK;
 }
 
@@ -497,8 +568,16 @@ eSjcReturnType_t SJC_getJointActuatorCurrent(float *value)
 
 eSjcReturnType_t SJC_getJointActuatorCurrentUnbiased(float *value)
 {
+	if (!value)
+	{
+		return SJC_RET_NOK;
+	}
+
 	eSjcReturnType_t ret = MotorDrive_getOutputCurrent(value);
-	*value -= fBiasCurrentValue;
+	if (ret == SJC_RET_OK)
+	{
+		*value -= fBiasCurrentValue;
+	}
 	return ret;
 }
 
@@ -548,244 +627,291 @@ eSjcReturnType_t SJC_writeDigitalOutput(const eSjcDigitalOutputs_t Output, const
 // ------------------------------------------------------------------- //
 
 // Input registers update process ------------------------------------ //
-void Net_UpdateRuntimeInfoRegisters(void)
+static void Net_UpdateBoardInfoRegisters(void)
 {
-	float fAux;
-	uint16_t ui16Aux;
-	uint32_t ui32Aux;
-	uint32_t uptime = TimeoutTimer_getTimeMs();
-	uint16_t *ui16ptr = ((uint16_t *)(&uptime));
-	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_SYSTEM_UPTIME + 1] = ui16ptr[0];
+	uint16_t addr;
+	uint32_t baud;
+	char parity;
+	ModbusNetwork_getParameters(&addr, &baud, &parity);
 
+	usRegInputBuf[INPUT_REG_NETWORK_ADDRESS] = addr;
+	usRegInputBuf[INPUT_REG_NETWORK_PARITY] = (uint16_t)(uint8_t)parity;
+
+	uint16_t w[2];
+	compose_byte_array_from_ui32(baud, w);
+	usRegInputBuf[INPUT_REG_NETWORK_BAUD_RATE] = w[0];
+	usRegInputBuf[INPUT_REG_NETWORK_BAUD_RATE + 1] = w[1];
+
+	// Control mode
 	eSjcControlMode_t mode;
 	SJC_getControlMode(&mode);
-	usRegInputBuf[REG_INPUT_CONTROL_MODE] = mode;
+	usRegInputBuf[INPUT_REG_CONTROL_MODE] = (uint16_t)mode;
 
-	fAux = 0;
-	SJC_getControlError(&fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_CONTROL_ERROR] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROL_ERROR + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getControlReference(&fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_CONTROL_REFERENCE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROL_REFERENCE + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getJointAngularDisplacement(SJC_ACTUATOR_JOINT, &fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_ACTUATOR_DISPLACEMENT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_ACTUATOR_DISPLACEMENT + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_X, &fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_B_DISPLACEMENT + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_Y, &fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_AUX_ENCODER_A_DISPLACEMENT + 1] = ui16ptr[0];
-
-	fAux = 0;
-	SJC_getJointActuatorVoltage(&fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_ACTUATOR_VOLTAGE + 1] = ui16ptr[0];
-
-	fAux = 0;
-	//	SJC_GetJointActuatorCurrent(&fAux);
-	SJC_getJointActuatorCurrentUnbiased(&fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_ACTUATOR_CURRENT + 1] = ui16ptr[0];
-
-	bool state;
-	SJC_getJointActuatorOutputState(&state);
-	usRegInputBuf[REG_INPUT_ACTUATOR_STATE] = state;
-
-	ui32Aux = 0;
-	SJC_readDigitalInputs(&ui32Aux);
-	ui16Aux = (uint16_t)ui32Aux;
-	usRegInputBuf[REG_INPUT_DIGITAL_INPUTS] = ui16Aux;
-
-	ui32Aux = 0;
-	SJC_readDigitalOutputs(&ui32Aux);
-	ui16Aux = (uint16_t)ui32Aux;
-	usRegInputBuf[REG_INPUT_DIGITAL_OUTPUTS] = ui16Aux;
-
-	fAux = 0;
-	SJC_getJointActuatorPowerSupplyVoltage(&fAux);
-	ui16ptr = ((uint16_t *)(&fAux));
-	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_SYSTEM_VOLTAGE + 1] = ui16ptr[0];
-
-	usRegInputBuf[REG_INPUT_SYSTEM_ERROR_FLAGS] = 0x00;
+	// #TODO: Error flags
+	usRegInputBuf[INPUT_REG_SYSTEM_ERROR_FLAGS] = 0x0000;
 }
 
-void Net_UpdateNetworkParametersRegisters(void)
+static void Net_UpdateControlMeasInfoRegisters(void)
 {
-	uint16_t xSlaveAddress;
-	uint32_t xBaudRate;
-	char xParity;
-	ModbusNetwork_getParameters(&xSlaveAddress, &xBaudRate, &xParity);
+	float fAux = 0.0f;
+	uint16_t w[2];
 
-	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
-	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = xParity;
-	uint16_t *ptr = (uint16_t *)(&xBaudRate);
-	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ptr[1];
-	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE + 1] = ptr[0];
+	// Uptime (u32 -> 2x u16)
+	uint32_t uptime = TimeoutTimer_getTimeMs();
+	compose_byte_array_from_ui32(uptime, w);
+	usRegInputBuf[INPUT_REG_SYSTEM_UPTIME] = w[0];
+	usRegInputBuf[INPUT_REG_SYSTEM_UPTIME + 1] = w[1];
+
+	// Control error (f32 -> 2x u16)
+	fAux = 0.0f;
+	SJC_getControlError(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_CONTROL_ERROR] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROL_ERROR + 1] = w[1];
+
+	// Control reference
+	fAux = 0.0f;
+	SJC_getControlReference(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_CONTROL_REFERENCE] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROL_REFERENCE + 1] = w[1];
+
+	// Actuator current (unbiased)
+	fAux = 0.0f;
+	SJC_getJointActuatorCurrentUnbiased(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_ACTUATOR_CURRENT] = w[0];
+	usRegInputBuf[INPUT_REG_ACTUATOR_CURRENT + 1] = w[1];
+
+	// Actuator voltage
+	fAux = 0.0f;
+	SJC_getJointActuatorVoltage(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_ACTUATOR_VOLTAGE] = w[0];
+	usRegInputBuf[INPUT_REG_ACTUATOR_VOLTAGE + 1] = w[1];
+
+	// Actuator position
+	fAux = 0.0f;
+	SJC_getJointAngularPosition(SJC_ACTUATOR_JOINT, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_ACTUATOR_POSITION] = w[0];
+	usRegInputBuf[INPUT_REG_ACTUATOR_POSITION + 1] = w[1];
+
+	// Aux THX position
+	fAux = 0.0f;
+	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_X, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_AUX_SWING_POSITION_THX] = w[0];
+	usRegInputBuf[INPUT_REG_AUX_SWING_POSITION_THX + 1] = w[1];
+
+	// Aux THY position
+	fAux = 0.0f;
+	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_Y, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_AUX_SWING_POSITION_THY] = w[0];
+	usRegInputBuf[INPUT_REG_AUX_SWING_POSITION_THY + 1] = w[1];
+
+	// Actuator velocity
+	fAux = 0.0f;
+	SJC_getJointAngularVelocity(SJC_ACTUATOR_JOINT, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_ACTUATOR_VELOCITY] = w[0];
+	usRegInputBuf[INPUT_REG_ACTUATOR_VELOCITY + 1] = w[1];
+
+	// Swing velocities
+	fAux = 0.0f;
+	SJC_getJointAngularVelocity(SJC_AUX_JOINT_TH_X, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_SWING_VELOCITY_THX] = w[0];
+	usRegInputBuf[INPUT_REG_SWING_VELOCITY_THX + 1] = w[1];
+
+	fAux = 0.0f;
+	SJC_getJointAngularVelocity(SJC_AUX_JOINT_TH_Y, &fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_SWING_VELOCITY_THY] = w[0];
+	usRegInputBuf[INPUT_REG_SWING_VELOCITY_THY + 1] = w[1];
 }
 
-void Net_UpdateSensorsParametersRegisters(void)
+static void Net_UpdateDigitalIOInfoRegisters(void)
+{
+	// Digital IOs
+	uint32_t u32 = 0;
+	SJC_readDigitalInputs(&u32);
+	usRegInputBuf[INPUT_REG_DIGITAL_INPUTS] = (uint16_t)u32;
+
+	u32 = 0;
+	SJC_readDigitalOutputs(&u32);
+	usRegInputBuf[INPUT_REG_DIGITAL_OUTPUTS] = (uint16_t)u32;
+}
+
+static void Net_UpdateSensorsParametersRegisters(void)
 {
 	uint16_t aux;
 
 	Encoder_getResolution(SJC_ACTUATOR_JOINT, &aux);
-	usRegInputBuf[REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR] = aux;
 
 	Encoder_getResolution(SJC_AUX_JOINT_TH_X, &aux);
-	usRegInputBuf[REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_SWING_THX_ENCODER_RESOLUTION_PPR] = aux;
 
 	Encoder_getResolution(SJC_AUX_JOINT_TH_Y, &aux);
-	usRegInputBuf[REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR] = aux;
 }
 
-void Net_UpdateActuatorParametersRegisters(void)
+static void Net_UpdateActuatorParametersRegisters(void)
 {
-	float base_voltage;
-	MotorDrive_getBaseVoltage(&base_voltage);
-	usRegInputBuf[REG_INPUT_ACTUATOR_BASE_VOLTAGE] = base_voltage * 100.0f;
+	float fAux;
+	uint16_t w[2];
+
+	// Actuator output state
+	bool state = false;
+	SJC_getJointActuatorOutputState(&state);
+	usRegInputBuf[INPUT_REG_ACTUATOR_STATE] = (uint16_t)(state ? 1u : 0u);
+
+	// System voltage
+	fAux = 0.0f;
+	SJC_getJointActuatorPowerSupplyVoltage(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_SYSTEM_VOLTAGE] = w[0];
+	usRegInputBuf[INPUT_REG_SYSTEM_VOLTAGE + 1] = w[1];
+
+	// Actuator base voltage
+	fAux = 0.0f;
+	MotorDrive_getBaseVoltage(&fAux);
+	compose_byte_array_from_float(fAux, w);
+	usRegInputBuf[INPUT_REG_ACTUATOR_BASE_VOLTAGE] = w[0];
+	usRegInputBuf[INPUT_REG_ACTUATOR_BASE_VOLTAGE + 1] = w[1];
+
 
 	/* Reserved for future implementation
-	 *
-	 * uint16_t * ui16ptr = ((uint16_t*)(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Speed.Max));
-	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED] = ui16ptr[1];
-	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_SPEED+1] = ui16ptr[0];
-	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_VOLTAGE] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Voltage.Max*100.0f;
-	 * usRegInputBuf[REG_INPUT_ACTUATOR_LIMITS_CURRENT] = xSjcJoint[SJC_ACTUATOR_JOINT].Limits.Current.Max*100.0f;
+	 TODO: Actuator limits (voltage, speed, current...)
 	 */
 }
 
-void Net_UpdateControllerParametersRegisters(void)
+static void Net_UpdateControllerParametersRegisters(void)
 {
-	xSjcServoPidParameters_t Parameters;
-	SJC_getControlParameters(&Parameters);
+	xSjcServoPidParameters_t p;
+	SJC_getControlParameters(&p);
 
-	uint16_t *ui16ptr = (uint16_t *)(&Parameters.Kp);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KP + 1] = ui16ptr[0];
+	uint16_t w[2];
 
-	ui16ptr = (uint16_t *)(&Parameters.Ki);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KI + 1] = ui16ptr[0];
+	compose_byte_array_from_float(p.Kp, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KP] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KP + 1] = w[1];
 
-	ui16ptr = (uint16_t *)(&Parameters.Kd);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KD + 1] = ui16ptr[0];
+	compose_byte_array_from_float(p.Ki, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KI] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KI + 1] = w[1];
 
-	ui16ptr = (uint16_t *)(&Parameters.KT);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KT] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KT + 1] = ui16ptr[0];
+	compose_byte_array_from_float(p.Kd, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KD] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KD + 1] = w[1];
 
-	ui16ptr = (uint16_t *)(&Parameters.KA);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KA] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_KA + 1] = ui16ptr[0];
+	compose_byte_array_from_float(p.KT, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KT] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KT + 1] = w[1];
 
-	float rate = 0;
+	compose_byte_array_from_float(p.KA, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KA] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_KA + 1] = w[1];
+
+	float rate = 0.0f;
 	SJC_getControlUpdateRateHz(&rate);
-	ui16ptr = (uint16_t *)(&rate);
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_RATE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_CONTROLLER_PARAMS_RATE + 1] = ui16ptr[0];
+	compose_byte_array_from_float(rate, w);
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_RATE] = w[0];
+	usRegInputBuf[INPUT_REG_CONTROLLER_PARAMS_RATE + 1] = w[1];
 }
 
 // Holding registers update process ---------------------------------- //
 
-void Net_ExecuteSystemConfigsUpdateCmd(void)
+static void Net_ExecuteSystemConfigsUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_SYSTEM_REBOOT])
+	if (usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] & SYS_CMD_REBOOT)
 	{
 
 		// Define digital outputs states
-		usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] &= 0x0000;
+		usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] &= (~SYS_CMD_REBOOT);
 
 		// Apply system reboot
+		SJC_SYSTEM_RESET();
+	}
+
+	if (usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] & SYS_CMD_RESET_PRIMARY_ENCODER_COUNTER)
+	{
+		usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] &= (~SYS_CMD_RESET_PRIMARY_ENCODER_COUNTER);
+
+		SJC_resetJointAngularPosition();
+	}
+
+	if (usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] & SYS_CMD_RESET_AUX_ENCODER_COUNTER)
+	{
+		usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] &= (~SYS_CMD_RESET_AUX_ENCODER_COUNTER);
+
+		SJC_resetAuxJointsAngularPosition();
+	}
+
+	if (usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] & SYS_CMD_RESET_PRIMARY_JOINT_VELOCITY)
+	{
+		usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] &= (~SYS_CMD_RESET_PRIMARY_JOINT_VELOCITY);
+
+		SJC_resetJointVelocity(SJC_ACTUATOR_JOINT);
+	}
+
+	if (usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] & SYS_CMD_RESET_AUX_JOINT_VELOCITY)
+	{
+		usRegHoldingBuf[HOLDING_REG_SYSTEM_COMMANDS] &= (~SYS_CMD_RESET_AUX_JOINT_VELOCITY);
+
+		SJC_resetJointVelocity(SJC_AUX_JOINT_TH_X);
+		SJC_resetJointVelocity(SJC_AUX_JOINT_TH_Y);
 	}
 }
 
-void Net_ExecuteDigitalOutputsUpdateCmd(void)
+static void Net_ExecuteDigitalOutputsUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] & DIGITAL_OUTPUTS_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
 
 		// Define digital outputs states
-		usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE] &= (~DIGITAL_OUTPUTS_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
-		SJC_writeDigitalOutputs(usRegHoldingBuf[REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE]);
+		SJC_writeDigitalOutputs(usRegHoldingBuf[HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE]);
 	}
 }
 
-void Net_ExecuteControllerModeUpdateCmd(void)
+static void Net_ExecuteControllerModeUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] & CONTROLLER_MODE_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_CONTROLLER_MODE_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE] &= (~CONTROLLER_MODE_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_CONTROLLER_MODE_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
 		// Controller operating mode
-		SJC_setControlMode(usRegHoldingBuf[REG_HOLDING_CONTROLLER_MODE_UPDATE]);
-
-#ifdef SJC_DEBUG_PRINT_NET_CMDS
-		DebugOutput_printf("\r\n[NetCmd] Controller reference: %f", reference);
-
-		switch (xSjcJoint[SJC_ACTUATOR_JOINT].Controller.Mode)
-		{
-		case SJC_OPEN_LOOP_CONTROL:
-			DebugOutput_printf("\r\n[NetCmd] Controller mode: Open loop");
-			break;
-		case SJC_PRBS_EXCITATION:
-			DebugOutput_printf("\r\n[NetCmd] Controller mode: PRBS Excitation");
-			break;
-		case SJC_SPEED_CONTROL:
-			DebugOutput_printf("\r\n[NetCmd] Controller mode: Speed control");
-			break;
-		case SJC_CURRENT_CONTROL:
-			DebugOutput_printf("\r\n[NetCmd] Controller mode: Torque control");
-			break;
-		default: // SJC_CONTROL_DISABLED
-			DebugOutput_printf("\r\n[NetCmd] Controller mode: Control disabled");
-			break;
-		}
-#endif
+		SJC_setControlMode(usRegHoldingBuf[HOLDING_REG_CONTROLLER_MODE_UPDATE]);
 	}
 }
 
-void Net_ExecuteControllerRefUpdateCmd(void)
+static void Net_ExecuteControllerRefUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_UPDATE] & CONTROLLER_REFERENCE_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_CONTROLLER_REFERENCE_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_UPDATE] &= (~CONTROLLER_REFERENCE_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_CONTROLLER_REFERENCE_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
-		// Controller reference
-		float reference;
-		uint16_t *ptr = (uint16_t *)(&reference);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_VALUE + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_REFERENCE_VALUE];
+		uint16_t w[2];
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_REFERENCE_VALUE];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_REFERENCE_VALUE + 1];
+
+		float reference = 0.0f;
+		compose_float_from_byte_array(w, &reference);
 		SJC_setControlReference(reference);
 	}
 }
 
-void Net_ExecuteActuatorConfigsUpdateCmd(void)
+static void Net_ExecuteActuatorConfigsUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] & ACTUATOR_CONFIGS_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_ACTUATOR_SETUP_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_ACTUATOR_SETUP_UPDATE] &= (~ACTUATOR_CONFIGS_UPDATE_MSK);
-		float base_voltage = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_BASE_VOLTAGE] / 100.0f);
-		float voltage_limit = (1.0f * usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE] / 100.0f);
+		usRegHoldingBuf[HOLDING_REG_ACTUATOR_SETUP_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
+		float base_voltage = (1.0f * usRegHoldingBuf[HOLDING_REG_ACTUATOR_BASE_VOLTAGE] / 100.0f);
+		float voltage_limit = (1.0f * usRegHoldingBuf[HOLDING_REG_ACTUATOR_LIMITS_VOLTAGE] / 100.0f);
 
 		MotorDrive_setBaseVoltage(base_voltage);
 		xSjcRange_t EffortLimits = {.Min = -voltage_limit, .Max = voltage_limit};
@@ -793,137 +919,122 @@ void Net_ExecuteActuatorConfigsUpdateCmd(void)
 
 		/* Reserved for future implementation
 		 *
-		 * float current_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_CURRENT]/100.0f);
-		 * float voltage_limit = (1.0f*usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
+		 * float current_limit = (1.0f*usRegHoldingBuf[HOLDING_REG_ACTUATOR_LIMITS_CURRENT]/100.0f);
+		 * float voltage_limit = (1.0f*usRegHoldingBuf[HOLDING_REG_ACTUATOR_LIMITS_VOLTAGE]/100.0f);
 		 * float speed_limit;
 
 		 * uint16_t *ptr = (uint16_t*) (&speed_limit);
-		 * ptr[0] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED + 1];
-		 * ptr[1] = usRegHoldingBuf[REG_HOLDING_ACTUATOR_LIMITS_SPEED];
+		 * ptr[0] = usRegHoldingBuf[HOLDING_REG_ACTUATOR_LIMITS_SPEED + 1];
+		 * ptr[1] = usRegHoldingBuf[HOLDING_REG_ACTUATOR_LIMITS_SPEED];
 		 */
-
-#ifdef SJC_DEBUG_PRINT_NET_CMDS
-		DebugOutput_printf("\r\n[NetCmd] Actuator base voltage: %f V", MotorDrive_getBaseVoltage(&xSjcJoint[SJC_ACTUATOR_JOINT].MotorDrive));
-		DebugOutput_printf("\r\n[NetCmd] Actuator voltage limit: %f V", MotorDrive_GetVoltageLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
-		DebugOutput_printf("\r\n[NetCmd] Actuator current limit: %f A", MotorDrive_GetCurrentLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
-		DebugOutput_printf("\r\n[NetCmd] Actuator speed limit: %f rd/s", MotorDrive_GetSpeedLimit(&xSjcJoint[SJC_ACTUATOR_JOINT].Limits));
-#endif
 	}
 }
 
-void Net_ExecuteNetworkConfigsUpdateCmd(void)
+static void Net_ExecuteNetworkConfigsUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_UPDATE] & NETWORK_PARAMETERS_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-
-		// Network parameters
-		usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_UPDATE] &= (~NETWORK_PARAMETERS_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
 		xSjcNetworkConfig_t config;
+		uint16_t w[2];
 
-		uint16_t *ptr = (uint16_t *)(&config.Baudrate);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_BAUD_RATE + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_BAUD_RATE];
+		w[0] = usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_BAUD_RATE];
+		w[1] = usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_BAUD_RATE + 1];
+		compose_ui32_from_byte_array(w, &config.Baudrate);
 
-		config.Parity = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_PARITY];
-		config.Address = usRegHoldingBuf[REG_HOLDING_NETWORK_CONFIG_ADDRESS];
+		config.Parity = (char)usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_PARITY];
+		config.Address = usRegHoldingBuf[HOLDING_REG_NETWORK_CONFIG_ADDRESS];
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
 		DebugOutput_printf("\r\n[NetCmd] Network address: %u", config.Address);
 		DebugOutput_printf("\r\n[NetCmd] Network parity: %c", config.Parity);
-		DebugOutput_printf("\r\n[NetCmd] Network baudrate: %lu bps", config.Baudrate);
+		DebugOutput_printf("\r\n[NetCmd] Network baudrate: %lu bps", (unsigned long)config.Baudrate);
 #endif
 
-		// Write to flash
-		// Reboot
+		// TODO: persist to flash + reboot se necessário
 	}
 }
 
-void Net_ExecuteSensorsConfigsUpdateCmd(void)
+static void Net_ExecuteSensorsConfigsUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] & SENSORS_PARAMETERS_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_SENSORS_SETUP_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
 
 		// Encoders parameters
-		usRegHoldingBuf[REG_HOLDING_SENSORS_SETUP_UPDATE] &= (~SENSORS_PARAMETERS_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_SENSORS_SETUP_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
-		Encoder_setResolution(SJC_AUX_JOINT_TH_X, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR]);
-		Encoder_setResolution(SJC_AUX_JOINT_TH_Y, usRegHoldingBuf[REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR]);
-		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR]);
-
-#ifdef SJC_DEBUG_PRINT_NET_CMDS
-		DebugOutput_printf("\r\n[NetCmd] AuxA encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_TH_X].Encoder.Resolution_PPR);
-		DebugOutput_printf("\r\n[NetCmd] AuxB encoder res.: %u ppr", xSjcJoint[SJC_AUX_JOINT_TH_Y].Encoder.Resolution_PPR);
-		DebugOutput_printf("\r\n[NetCmd] Actuator encoder res.: %u ppr", xSjcJoint[SJC_ACTUATOR_JOINT].Encoder.Resolution_PPR);
-#endif
+		Encoder_setResolution(SJC_AUX_JOINT_TH_X, usRegHoldingBuf[HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_PPR]);
+		Encoder_setResolution(SJC_AUX_JOINT_TH_Y, usRegHoldingBuf[HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_PPR]);
+		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR]);
 	}
 }
 
-void Net_ExecuteControllerParametersUpdateCmd(void)
+static void Net_ExecuteControllerParametersUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] & PID_CONTROLLER_PARAMETERS_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-
-		// Controller parameters
-		usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_UPDATE] &= (~PID_CONTROLLER_PARAMETERS_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
 		xSjcServoPidParameters_t params;
-		uint16_t *ptr = (uint16_t *)(&params.Kp);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KP];
+		uint16_t w[2];
 
-		ptr = (uint16_t *)(&params.Ki);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KI + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KI];
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KP];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KP + 1];
+		compose_float_from_byte_array(w, &params.Kp);
 
-		ptr = (uint16_t *)(&params.Kd);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KD];
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KI];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KI + 1];
+		compose_float_from_byte_array(w, &params.Ki);
 
-		ptr = (uint16_t *)(&params.KT);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KT + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KT];
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KD];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KD + 1];
+		compose_float_from_byte_array(w, &params.Kd);
 
-		ptr = (uint16_t *)(&params.KA);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KA + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_KA];
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KT];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KT + 1];
+		compose_float_from_byte_array(w, &params.KT);
+
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KA];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_KA + 1];
+		compose_float_from_byte_array(w, &params.KA);
 
 		SJC_setControlParameters(params);
 
 		// Controller update rate
-		float control_rate;
-		ptr = (uint16_t *)(&control_rate);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_RATE + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_CONTROLLER_PARAMS_RATE];
+		float control_rate = 0.0f;
+		w[0] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_RATE];
+		w[1] = usRegHoldingBuf[HOLDING_REG_CONTROLLER_PARAMS_RATE + 1];
+		compose_float_from_byte_array(w, &control_rate);
 		SJC_setControlUpdateRateHz(control_rate);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
 		DebugOutput_printf("\r\n[NetCmd] Controller Kp: %f", params.Kp);
 		DebugOutput_printf("\r\n[NetCmd] Controller Ki: %f", params.Ki);
 		DebugOutput_printf("\r\n[NetCmd] Controller Kd: %f", params.Kd);
-		DebugOutput_printf("\r\n[NetCmd] Controller Aux1: %f", params.KT);
-		DebugOutput_printf("\r\n[NetCmd] Controller Aux2: %f", params.KA);
+		DebugOutput_printf("\r\n[NetCmd] Controller Aux1 (KT): %f", params.KT);
+		DebugOutput_printf("\r\n[NetCmd] Controller Aux2 (KA): %f", params.KA);
 		DebugOutput_printf("\r\n[NetCmd] Controller Update Rate: %f Hz", control_rate);
 #endif
 	}
 }
 
-void Net_ExecuteAdcFilterModeUpdateCmd(void)
+static void Net_ExecuteAdcFilterModeUpdateCmd(void)
 {
-	if (usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_UPDATE] & ADC_FILTER_CONFIG_UPDATE_MSK)
+	if (usRegHoldingBuf[HOLDING_REG_ADC_FILTER_CONFIG_UPDATE] & HOLDING_REG_APPLY_MSK)
 	{
-		usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_UPDATE] &= (~ADC_FILTER_CONFIG_UPDATE_MSK);
+		usRegHoldingBuf[HOLDING_REG_ADC_FILTER_CONFIG_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
-		// Filter mode
-		uint16_t mode = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_MODE];
+		uint16_t mode = usRegHoldingBuf[HOLDING_REG_ADC_FILTER_CONFIG_MODE];
 
-		// Filter cuttoff frequency
-		float fc;
-		uint16_t *ptr = (uint16_t *)(&fc);
-		ptr[0] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY + 1];
-		ptr[1] = usRegHoldingBuf[REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY];
+		uint16_t w[2];
+		w[0] = usRegHoldingBuf[HOLDING_REG_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY];
+		w[1] = usRegHoldingBuf[HOLDING_REG_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY + 1];
 
-		SJC_setAdcFilterMode(mode, fc);
+		float fc = 0.0f;
+		compose_float_from_byte_array(w, &fc);
+
+		SJC_setAdcFilterMode((eSjcAdcFilterMode_t)mode, fc);
 		SJC_setControlMode(SJC_ANALOG_CALIBRATION);
 	}
 }
