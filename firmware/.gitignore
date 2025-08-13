@@ -4,10 +4,11 @@
 #metadata
 .metadata/
 
-#Debug
+Debug
 Debug/
 debug/
-Drivers/
+Drivers/*
+USB_DEVICE/*
 Middlewares/
 Release/
 release
