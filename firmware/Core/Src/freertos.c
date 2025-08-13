@@ -49,24 +49,24 @@ typedef StaticTask_t osStaticThreadDef_t;
 
 /* USER CODE END Variables */
 /* Definitions for MainTask */
-osThreadId_t MainTaskHandle;
-uint32_t MainTaskBuffer[ 128 ];
-osStaticThreadDef_t MainTaskControlBlock;
-const osThreadAttr_t MainTask_attributes = {
-  .name = "MainTask",
-  .cb_mem = &MainTaskControlBlock,
-  .cb_size = sizeof(MainTaskControlBlock),
-  .stack_mem = &MainTaskBuffer[0],
-  .stack_size = sizeof(MainTaskBuffer),
-  .priority = (osPriority_t) osPriorityLow,
-};
+//osThreadId_t MainTaskHandle;
+//uint32_t MainTaskBuffer[ 128 ];
+//osStaticThreadDef_t MainTaskControlBlock;
+//const osThreadAttr_t MainTask_attributes = {
+//  .name = "MainTask",
+//  .cb_mem = &MainTaskControlBlock,
+//  .cb_size = sizeof(MainTaskControlBlock),
+//  .stack_mem = &MainTaskBuffer[0],
+//  .stack_size = sizeof(MainTaskBuffer),
+//  .priority = (osPriority_t) osPriorityLow,
+//};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 
 /* USER CODE END FunctionPrototypes */
 
-void MainTaskApp(void *argument);
+//void MainTaskApp(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -136,7 +136,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* creation of MainTask */
-  MainTaskHandle = osThreadNew(MainTaskApp, NULL, &MainTask_attributes);
+//  MainTaskHandle = osThreadNew(MainTaskApp, NULL, &MainTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -155,18 +155,18 @@ void MX_FREERTOS_Init(void) {
   * @retval None
   */
 /* USER CODE END Header_MainTaskApp */
-__weak void MainTaskApp(void *argument)
-{
-  /* USER CODE BEGIN MainTaskApp */
-
-  /* Infinite loop */
-	for(;;)
-	{
-		osDelay(100);
-	}
-	return;
-  /* USER CODE END MainTaskApp */
-}
+//__weak void MainTaskApp(void *argument)
+//{
+//  /* USER CODE BEGIN MainTaskApp */
+//
+//  /* Infinite loop */
+//	for(;;)
+//	{
+//		osDelay(100);
+//	}
+//	return;
+//  /* USER CODE END MainTaskApp */
+//}
 
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
