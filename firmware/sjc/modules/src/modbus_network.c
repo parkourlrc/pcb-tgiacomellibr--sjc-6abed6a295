@@ -53,11 +53,11 @@ static const BaudRateMap_t baud_map[] = {
 
 // Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
-volatile USHORT usRegInputBuf[REG_INPUT_NREGS];
-volatile USHORT usRegHoldingBuf[REG_HOLDING_NREGS];
+volatile USHORT usRegInputBuf[INPUT_REG_NREGS];
+volatile USHORT usRegHoldingBuf[HOLDING_REG_NREGS];
 
-static USHORT usRegInputStart = REG_INPUT_START;
-static USHORT usRegHoldingStart = REG_HOLDING_START;
+static USHORT usRegInputStart = INPUT_REG_START;
+static USHORT usRegHoldingStart = HOLDING_REG_START;
 static xSjcNetworkConfig_t xNetworkParameters;
 // ------------------------------------------------------------------- //
 
@@ -96,13 +96,13 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 	}
 
 	// Update Network Registers
-	usRegInputBuf[REG_INPUT_NETWORK_ADDRESS] = xSlaveAddress;
-	usRegInputBuf[REG_INPUT_NETWORK_PARITY] = 'N';
+	usRegInputBuf[INPUT_REG_NETWORK_ADDRESS] = xSlaveAddress;
+	usRegInputBuf[INPUT_REG_NETWORK_PARITY] = 'N';
 
 	uint16_t *ui16ptr = (uint16_t *)(&xNetworkParameters.Baudrate);
 
-	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE] = ui16ptr[1];
-	usRegInputBuf[REG_INPUT_NETWORK_BAUD_RATE + 1] = ui16ptr[0];
+	usRegInputBuf[INPUT_REG_NETWORK_BAUD_RATE] = ui16ptr[1];
+	usRegInputBuf[INPUT_REG_NETWORK_BAUD_RATE + 1] = ui16ptr[0];
 
 	return SJC_RET_OK;
 }
@@ -121,7 +121,7 @@ eSjcReturnType_t ModbusNetwork_getAddress(uint32_t *xAddress)
 		*xAddress = 247;
 	}
 #else
-	*xAddress = NETWORK_BASE_ADRESS;
+	*xAddress = NETWORK_BASE_ADDRESS;
 #endif
 
 	return SJC_RET_OK;
@@ -169,7 +169,7 @@ eMBErrorCode eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs
 	eMBErrorCode eStatus = MB_ENOERR;
 	int iRegIndex = usAddress - 1 - usRegInputStart;
 
-	if ((usAddress - 1 >= REG_INPUT_START) && (usAddress - 1 + usNRegs <= REG_INPUT_START + REG_INPUT_NREGS))
+	if ((usAddress - 1 >= INPUT_REG_START) && (usAddress - 1 + usNRegs <= INPUT_REG_START + INPUT_REG_NREGS))
 	{
 		while (usNRegs-- > 0)
 		{
@@ -190,7 +190,7 @@ eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRe
 	eMBErrorCode eStatus = MB_ENOERR;
 	int iRegIndex = usAddress - 1 - usRegHoldingStart;
 
-	if ((usAddress - 1 >= REG_HOLDING_START) && (usAddress - 1 + usNRegs <= REG_HOLDING_START + REG_HOLDING_NREGS))
+	if ((usAddress - 1 >= HOLDING_REG_START) && (usAddress - 1 + usNRegs <= HOLDING_REG_START + HOLDING_REG_NREGS))
 	{
 		if (eMode == MB_REG_READ)
 		{
