@@ -5,8 +5,8 @@
  *      Author: tiago
  */
 
-#ifndef SJC__SYSTEM_TYPES__HELPERS_H_
-#define SJC__SYSTEM_TYPES__HELPERS_H_
+#ifndef SJC_HELPERS_HPP_
+#define SJC_HELPERS_HPP_
 
 #include "stdint.h"
 
@@ -21,4 +21,4 @@ void compose_ui32_from_byte_array(const uint16_t *src, uint32_t *dst);
 void compose_byte_array_from_float(const float src, uint16_t *dst);
 void compose_float_from_byte_array(const uint16_t *src, float *dst);
 
-#endif /* SJC__SYSTEM_TYPES__HELPERS_H_ */
+#endif /* SJC_HELPERS_HPP_ */

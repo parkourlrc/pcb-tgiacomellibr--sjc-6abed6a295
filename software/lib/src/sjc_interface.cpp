@@ -3,16 +3,17 @@
 #ifdef __cplusplus
 extern "C"
 {
-#include "data_masks.h"
-#include "errno.h"
-#include "helpers.h"
-#include "network_configs.h"
-#include "unistd.h"
+    #include "errno.h"
+    #include "data_masks.hpp"
+    #include <endian.h>
+    #include "unistd.h"
 }
 #endif
 
-#include <endian.h>
 #include <iostream>
+
+#include "helpers.hpp"
+#include "network_configs.hpp"
 
 #define STD_WAIT_TIME_US 5UL
 
@@ -102,19 +103,15 @@ eSjcReturnType_t SjcInterface::setSlaveAddress(const int address)
     return SJC_RET_OK;
 }
 
-eSjcReturnType_t SjcInterface::getDeviceInfo(xSjcDeviceInfo_t *config)
+eSjcReturnType_t SjcInterface::reboot(void)
 {
-    const int nb = 3;
+    const int nb = 1;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_HW_VERSION, nb, tab_reg))
-    {
-        config->firmware_ver.major = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_FW_VERSION, DEVICE_INFO_OFFSET)] >> 8;
-        config->firmware_ver.minor = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_FW_VERSION, DEVICE_INFO_OFFSET)] & 0x00ff;
-        config->firmware_ver.patch = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_FW_VERSION + 1, DEVICE_INFO_OFFSET)];
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SYSTEM_COMMANDS, MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET)] = SYS_CMD_REBOOT;
 
-        config->hardware_ver.major = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_HW_VERSION, DEVICE_INFO_OFFSET)] >> 8;
-        config->hardware_ver.minor = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_HW_VERSION, DEVICE_INFO_OFFSET)] & 0x00ff;
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_SYSTEM_COMMANDS, nb, tab_reg))
+    {
 
         return SJC_RET_OK;
     }
@@ -124,36 +121,130 @@ eSjcReturnType_t SjcInterface::getDeviceInfo(xSjcDeviceInfo_t *config)
     }
 }
 
-eSjcReturnType_t SjcInterface::getRuntimeInfo(xSjcRuntimeInfo_t *config)
+eSjcReturnType_t SjcInterface::resetAuxEncoders(void)
 {
-    const int nb = 21;
+    const int nb = 1;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_SYSTEM_UPTIME, nb, tab_reg))
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SYSTEM_COMMANDS, MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET)] = SYS_CMD_RESET_AUX_ENCODER_COUNTER;
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_SYSTEM_COMMANDS, nb, tab_reg))
     {
-        compose_ui32_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_UPTIME, RUNTIME_INFO_OFFSET)], &config->uptime);
 
-        config->controller_mode = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_MODE, RUNTIME_INFO_OFFSET)];
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_ERROR, RUNTIME_INFO_OFFSET)], &config->controller_error);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROL_REFERENCE, RUNTIME_INFO_OFFSET)], &config->controller_ref);
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
 
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->system_voltage);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_CURRENT, RUNTIME_INFO_OFFSET)], &config->actuator_current);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_VOLTAGE, RUNTIME_INFO_OFFSET)], &config->actuator_voltage);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->actuator_displacement);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_A_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_displacement_a);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_ENCODER_B_DISPLACEMENT, RUNTIME_INFO_OFFSET)], &config->aux_displacement_b);
+eSjcReturnType_t SjcInterface::resetJointEncoder(void)
+{
+    const int nb = 1;
+    uint16_t tab_reg[nb];
 
-        uint16_t digital_inputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_INPUTS, RUNTIME_INFO_OFFSET)];
-        uint16_t digital_outputs = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_DIGITAL_OUTPUTS, RUNTIME_INFO_OFFSET)];
-        config->inputs.switch_a = digital_inputs & (1 << SWITCH_A_MASK);
-        config->inputs.switch_b = digital_inputs & (1 << SWITCH_B_MASK);
-        config->inputs.iso_input_a = digital_inputs & (1 << ISO_INPUT_A_MASK);
-        config->inputs.iso_input_b = digital_inputs & (1 << ISO_INPUT_B_MASK);
-        config->outputs.output_a = digital_outputs & (1 << OUTPUT_A_MASK);
-        config->outputs.output_b = digital_outputs & (1 << OUTPUT_B_MASK);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SYSTEM_COMMANDS, MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET)] = SYS_CMD_RESET_PRIMARY_ENCODER_COUNTER;
 
-        config->error_flags = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_SYSTEM_ERROR_FLAGS, RUNTIME_INFO_OFFSET)];
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_SYSTEM_COMMANDS, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::resetAuxVelocity(void)
+{
+    const int nb = 1;
+    uint16_t tab_reg[nb];
+
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SYSTEM_COMMANDS, MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET)] = SYS_CMD_RESET_AUX_JOINT_VELOCITY;
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_SYSTEM_COMMANDS, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::resetJointVelocity(void)
+{
+    const int nb = 1;
+    uint16_t tab_reg[nb];
+
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SYSTEM_COMMANDS, MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET)] = SYS_CMD_RESET_PRIMARY_JOINT_VELOCITY;
+
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_SYSTEM_COMMANDS, nb, tab_reg))
+    {
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::getBoardInfo(xSjcDeviceInfo_t *config)
+{
+    const int nb = 9;
+    uint16_t tab_reg[nb];
+
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_HW_VERSION, nb, tab_reg))
+    {        
+        config->hardware_ver.major = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_HW_VERSION, MAP_INPUT_REG_BOARD_INFO_OFFSET)] >> 8;
+        config->hardware_ver.minor = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_HW_VERSION, MAP_INPUT_REG_BOARD_INFO_OFFSET)] & 0x00ff;
+        
+        config->firmware_ver.major = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_FW_VERSION, MAP_INPUT_REG_BOARD_INFO_OFFSET)] >> 8;
+        config->firmware_ver.minor = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_FW_VERSION, MAP_INPUT_REG_BOARD_INFO_OFFSET)] & 0x00ff;
+        config->firmware_ver.patch = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_FW_VERSION + 1, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+
+        config->net_address = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_NETWORK_ADDRESS, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+        config->net_parity = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_NETWORK_PARITY, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+        config->net_baudrate = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_NETWORK_BAUD_RATE, MAP_INPUT_REG_BOARD_INFO_OFFSET)] << 16;
+        config->net_baudrate |= tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_NETWORK_BAUD_RATE + 1, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+        
+        config->controller_mode = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROL_MODE, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+        config->error_flags = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SYSTEM_ERROR_FLAGS, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+
+        return SJC_RET_OK;
+    }
+    else
+    {
+        return SJC_RET_NOK;
+    }
+}
+
+eSjcReturnType_t SjcInterface::getControlMeasInfo(xSjcControlMeasInfo_t *config)
+{
+    const int nb = 22;
+    uint16_t tab_reg[nb];         
+
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_SYSTEM_UPTIME, nb, tab_reg))
+    {
+        compose_ui32_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SYSTEM_UPTIME, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->uptime);
+
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROL_ERROR, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->controller_error);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROL_REFERENCE, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->controller_ref);
+        
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_CURRENT, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->actuator_current);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_VOLTAGE, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->actuator_voltage);
+
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_POSITION, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->actuator_angular_position);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_AUX_SWING_POSITION_THX, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->swing_angular_position_thx);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_AUX_SWING_POSITION_THY, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->swing_angular_position_thy);
+
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_VELOCITY, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->actuator_angular_velocity);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_VELOCITY_THX, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->swing_angular_velocity_thx);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_VELOCITY_THY, MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET)], &config->swing_angular_velocity_thy);      
 
         return SJC_RET_OK;
     }
@@ -168,10 +259,10 @@ eSjcReturnType_t SjcInterface::setControllerReference(const float reference)
     const int nb = 3;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE_UPDATE, CONTROLLER_REFERENCE_UPDATE_OFFSET)] = CONTROLLER_REFERENCE_UPDATE_MSK;
-    compose_byte_array_from_float(reference, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_REFERENCE_VALUE, CONTROLLER_REFERENCE_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_REFERENCE_UPDATE, MAP_HOLDING_REG_CONTROLLER_REFERENCE_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
+    compose_byte_array_from_float(reference, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_REFERENCE_VALUE, MAP_HOLDING_REG_CONTROLLER_REFERENCE_UPDATE_OFFSET)]);
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_REFERENCE_VALUE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_CONTROLLER_REFERENCE_VALUE, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -187,9 +278,9 @@ eSjcReturnType_t SjcInterface::setControllerOperatingMode(const eSjcControlMode_
     const int nb = 1;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_MODE_UPDATE, CONTROLLER_MODE_UPDATE_OFFSET)] = mode | CONTROLLER_MODE_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_MODE_UPDATE, MAP_HOLDING_REG_CONTROLLER_MODE_UPDATE_OFFSET)] = mode | HOLDING_REG_APPLY_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_MODE_UPDATE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_CONTROLLER_MODE_UPDATE, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -200,16 +291,22 @@ eSjcReturnType_t SjcInterface::setControllerOperatingMode(const eSjcControlMode_
     }
 }
 
-eSjcReturnType_t SjcInterface::getNetworkParameters(xSjcNetworkConfig_t *config)
+eSjcReturnType_t SjcInterface::getDigitalIOInfo(xSjcDigitalIOInfo_t *config)    
 {
-    const int nb = 4;
+    const int nb = 2;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_NETWORK_ADDRESS, nb, tab_reg))
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_NETWORK_ADDRESS, nb, tab_reg))
     {
-        config->address = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_NETWORK_ADDRESS, NETWORK_INFO_OFFSET)];
-        config->parity = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_NETWORK_PARITY, NETWORK_INFO_OFFSET)];
-        config->baudrate = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_NETWORK_BAUD_RATE, NETWORK_INFO_OFFSET)] << 16 | tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_NETWORK_BAUD_RATE + 1, NETWORK_INFO_OFFSET)];
+        uint16_t digital_inputs = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_DIGITAL_INPUTS, MAP_INPUT_REG_DIGITAL_IO_INFO_OFFSET)];
+        uint16_t digital_outputs = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_DIGITAL_OUTPUTS, MAP_INPUT_REG_DIGITAL_IO_INFO_OFFSET)];        
+
+        config->inputs.switch_a = digital_inputs & (1 << SWITCH_A_MASK);
+        config->inputs.switch_b = digital_inputs & (1 << SWITCH_B_MASK);
+        config->inputs.iso_input_a = digital_inputs & (1 << ISO_INPUT_A_MASK);
+        config->inputs.iso_input_b = digital_inputs & (1 << ISO_INPUT_B_MASK);
+        config->outputs.output_a = digital_outputs & (1 << OUTPUT_A_MASK);
+        config->outputs.output_b = digital_outputs & (1 << OUTPUT_B_MASK);
 
         return SJC_RET_OK;
     }
@@ -219,18 +316,18 @@ eSjcReturnType_t SjcInterface::getNetworkParameters(xSjcNetworkConfig_t *config)
     }
 }
 
-eSjcReturnType_t SjcInterface::setNetworkParameters(const xSjcNetworkConfig_t config)
+eSjcReturnType_t SjcInterface::setNetworkParameters(const uint16_t address, const char parity, const uint32_t baudrate)
 {
     const int nb = 5;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_NETWORK_CONFIG_ADDRESS, NETWORK_PARAMETERS_UPDATE_OFFSET)] = config.address;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_NETWORK_CONFIG_PARITY, NETWORK_PARAMETERS_UPDATE_OFFSET)] = config.parity;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_NETWORK_CONFIG_BAUD_RATE, NETWORK_PARAMETERS_UPDATE_OFFSET)] = config.baudrate >> 16;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_NETWORK_CONFIG_BAUD_RATE + 1, NETWORK_PARAMETERS_UPDATE_OFFSET)] = config.baudrate & 0x00ff;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_NETWORK_CONFIG_UPDATE, NETWORK_PARAMETERS_UPDATE_OFFSET)] = NETWORK_PARAMETERS_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_NETWORK_CONFIG_ADDRESS, MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET)] = address;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_NETWORK_CONFIG_PARITY, MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET)] = parity;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_NETWORK_CONFIG_BAUD_RATE, MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET)] = baudrate >> 16;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_NETWORK_CONFIG_BAUD_RATE + 1, MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET)] = baudrate & 0x00ff;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_NETWORK_CONFIG_UPDATE, MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_NETWORK_CONFIG_ADDRESS, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_NETWORK_CONFIG_ADDRESS, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -243,17 +340,19 @@ eSjcReturnType_t SjcInterface::setNetworkParameters(const xSjcNetworkConfig_t co
 
 eSjcReturnType_t SjcInterface::getActuatorParameters(xSjcActuatorConfig_t *config)
 {
-    const int nb = 6;
+    const int nb = 11;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_ACTUATOR_STATE, nb, tab_reg))
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_ACTUATOR_STATE, nb, tab_reg))
     {
-        config->state = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_STATE, ACTUATOR_INFO_OFFSET)];
-        config->base_voltage = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_BASE_VOLTAGE, ACTUATOR_INFO_OFFSET)] / 100);
-        config->current_limit = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_LIMITS_CURRENT, ACTUATOR_INFO_OFFSET)] / 100);
-        config->voltage_limit = (tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_LIMITS_VOLTAGE, ACTUATOR_INFO_OFFSET)] / 100);
+        config->state = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_STATE, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)];
+        
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SYSTEM_VOLTAGE, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)], &config->system_voltage);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_BASE_VOLTAGE, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)], &config->base_voltage);        
 
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_LIMITS_SPEED, ACTUATOR_INFO_OFFSET)], &config->speed_limit);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_LIMITS_CURRENT, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)], &config->current_limit);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_LIMITS_VOLTAGE, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)], &config->voltage_limit);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_LIMITS_SPEED, MAP_INPUT_REG_ACTUATOR_INFO_OFFSET)], &config->speed_limit);
 
         return SJC_RET_OK;
     }
@@ -268,14 +367,14 @@ eSjcReturnType_t SjcInterface::setActuatorParameters(const xSjcActuatorConfig_t 
     const int nb = 7;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_SETUP_UPDATE, ACTUATOR_CONFIGS_UPDATE_OFFSET)] = ACTUATOR_CONFIGS_UPDATE_MSK;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_BASE_VOLTAGE, ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.base_voltage * 100);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_LIMITS_CURRENT, ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.current_limit * 100);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_LIMITS_VOLTAGE, ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.voltage_limit * 100);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_RESERVED, ACTUATOR_CONFIGS_UPDATE_OFFSET)] = 1UL;
-    compose_byte_array_from_float(config.speed_limit, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_LIMITS_SPEED, ACTUATOR_CONFIGS_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_SETUP_UPDATE, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_BASE_VOLTAGE, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.base_voltage * 100);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_LIMITS_CURRENT, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.current_limit * 100);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_LIMITS_VOLTAGE, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)] = (config.voltage_limit * 100);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_RESERVED, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)] = 1UL;
+    compose_byte_array_from_float(config.speed_limit, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_LIMITS_SPEED, MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET)]);
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ACTUATOR_BASE_VOLTAGE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_ACTUATOR_BASE_VOLTAGE, nb, tab_reg))
     {
         return SJC_RET_OK;
     }
@@ -290,14 +389,14 @@ eSjcReturnType_t SjcInterface::getControllerParameters(xSjcControllerParameters_
     const int nb = 12;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_CONTROLLER_PARAMS_KP, nb, tab_reg))
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_CONTROLLER_PARAMS_KP, nb, tab_reg))
     {
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KP, CONTROLLER_INFO_OFFSET)], &config->Kp);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KI, CONTROLLER_INFO_OFFSET)], &config->Ki);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KD, CONTROLLER_INFO_OFFSET)], &config->Kd);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KT, CONTROLLER_INFO_OFFSET)], &config->Kt);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_KA, CONTROLLER_INFO_OFFSET)], &config->Ka);
-        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_CONTROLLER_PARAMS_RATE, CONTROLLER_INFO_OFFSET)], &config->update_rate);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_KP, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->Kp);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_KI, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->Ki);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_KD, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->Kd);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_KT, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->Kt);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_KA, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->Ka);
+        compose_float_from_byte_array(&tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROLLER_PARAMS_RATE, MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET)], &config->update_rate);
 
         return SJC_RET_OK;
     }
@@ -312,15 +411,15 @@ eSjcReturnType_t SjcInterface::setControllerParameters(const xSjcControllerParam
     const int nb = 13;
     uint16_t tab_reg[nb];
 
-    compose_byte_array_from_float(config.Kp, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KP, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Ki, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KI, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Kd, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KD, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Kt, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KT, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.Ka, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_KA, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    compose_byte_array_from_float(config.update_rate, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_RATE, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_CONTROLLER_PARAMS_UPDATE, PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)] = PID_CONTROLLER_PARAMETERS_UPDATE_MSK;
+    compose_byte_array_from_float(config.Kp, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_KP, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ki, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_KI, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kd, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_KD, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Kt, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_KT, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.Ka, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_KA, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    compose_byte_array_from_float(config.update_rate, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_RATE, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_CONTROLLER_PARAMS_UPDATE, MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_CONTROLLER_PARAMS_KP, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_CONTROLLER_PARAMS_KP, nb, tab_reg))
     {
         return SJC_RET_OK;
     }
@@ -335,11 +434,11 @@ eSjcReturnType_t SjcInterface::getSensorsParameters(xSjcSensorsConfig_t *config)
     const int nb = 3;
     uint16_t tab_reg[nb];
 
-    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
+    if (SJC_REGISTER_READING_PASS == this->getInputRegisters(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
     {
-        config->aux_sensor_resolution_a = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_A_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
-        config->aux_sensor_resolution_b = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_AUX_B_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
-        config->actuator_sensor_resolution = tab_reg[GET_REG_TABLE_INDEX(REG_INPUT_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_INFO_OFFSET)];
+        config->aux_sensor_resolution_a = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THX_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
+        config->aux_sensor_resolution_b = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
+        config->actuator_sensor_resolution = tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
 
         return SJC_RET_OK;
     }
@@ -354,12 +453,12 @@ eSjcReturnType_t SjcInterface::setSensorsParameters(const xSjcSensorsConfig_t co
     const int nb = 4;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_SENSORS_SETUP_UPDATE, SENSORS_PARAMETERS_UPDATE_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_A_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_a;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_AUX_ENCODER_B_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_b;
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_sensor_resolution;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SENSORS_SETUP_UPDATE, MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_PPR, MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_a;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_PPR, MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.aux_sensor_resolution_b;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_sensor_resolution;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -375,12 +474,12 @@ eSjcReturnType_t SjcInterface::setDigitalOutputsStates(const xSjcOutputsStates_t
     const int nb = 1;
     uint16_t tab_reg[nb];
 
-    uint16_t temp = DIGITAL_OUTPUTS_UPDATE_MSK;
+    uint16_t temp = HOLDING_REG_APPLY_MSK;
     temp |= (config.output_a << OUTPUT_A_MASK);
     temp |= (config.output_b << OUTPUT_B_MASK);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, DIGITAL_OUTPUTS_OFFSET)] = SENSORS_PARAMETERS_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE, MAP_HOLDING_REG_DIGITAL_OUTPUTS_OFFSET)] = temp |= HOLDING_REG_APPLY_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_DIGITAL_OUTPUTS_STATE_UPDATE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE, nb, tab_reg))
     {
 
         return SJC_RET_OK;
@@ -396,11 +495,11 @@ eSjcReturnType_t SjcInterface::setAdcFilterMode(const eSjcAdcFilterMode_t mode, 
     const int nb = 4;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_MODE, ADC_FILTER_CONFIG_UPDATE_OFFSET)] = mode;
-    compose_byte_array_from_float(cutoff_frequency, &tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY, ADC_FILTER_CONFIG_UPDATE_OFFSET)]);
-    tab_reg[GET_REG_TABLE_INDEX(REG_HOLDING_ADC_FILTER_CONFIG_UPDATE, ADC_FILTER_CONFIG_UPDATE_OFFSET)] = ADC_FILTER_CONFIG_UPDATE_MSK;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ADC_FILTER_CONFIG_MODE, MAP_HOLDING_REG_ADC_FILTER_CONFIG_UPDATE_OFFSET)] = mode;
+    compose_byte_array_from_float(cutoff_frequency, &tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ADC_FILTER_CONFIG_CUTOFF_FREQUENCY, MAP_HOLDING_REG_ADC_FILTER_CONFIG_UPDATE_OFFSET)]);
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ADC_FILTER_CONFIG_UPDATE, MAP_HOLDING_REG_ADC_FILTER_CONFIG_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
 
-    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(REG_HOLDING_ADC_FILTER_CONFIG_MODE, nb, tab_reg))
+    if (SJC_REGISTER_WRITING_PASS == this->setHoldingRegisters(HOLDING_REG_ADC_FILTER_CONFIG_MODE, nb, tab_reg))
     {
         return SJC_RET_OK;
     }
@@ -429,7 +528,8 @@ eSjcReturnType_t SjcInterface::init(void)
 
 eSjcReturnType_t SjcInterface::release(void)
 {
-    // modbus_free(ctx);
+    modbus_free(ctx);
+    ctx = nullptr;
     return SJC_CONNECTION_RELEASED;
 }
 

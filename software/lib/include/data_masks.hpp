@@ -5,8 +5,8 @@
  *      Author: tiago
  */
 
-#ifndef SJC__SYSTEM_TYPES__DATA_MASKS_H_
-#define SJC__SYSTEM_TYPES__DATA_MASKS_H_
+#ifndef SJC_DATA_MASKS_HPP_
+#define SJC_DATA_MASKS_HPP_
 
 // System includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
@@ -32,4 +32,4 @@ typedef enum
     SJC_DIGITAL_OUTPUT_MASK_SIZE
 } eSjcDigitalOutputMasks;
 
-#endif /* SJC__SYSTEM_TYPES__DATA_MASKS_H_ */
+#endif /* SJC_DATA_MASKS_HPP_ */

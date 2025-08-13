@@ -33,7 +33,7 @@ set(SJC_INTERFACE_SRCS_DIR      ${SJC_INTERFACE_LIB_DIR}/src)
 set(SJC_INTERFACE_INCS_DIR      ${SJC_INTERFACE_LIB_DIR}/include)
 
 add_library(${PROJECT_NAME}  SHARED ${SJC_INTERFACE_SRCS_DIR}/${PROJECT_NAME}.cpp 
-                                  ${SJC_INTERFACE_SRCS_DIR}/helpers.c
+                                  ${SJC_INTERFACE_SRCS_DIR}/helpers.cpp
 )
 target_link_libraries(${PROJECT_NAME} PUBLIC modbus)
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -50,12 +50,7 @@ set(PROJECT_SRCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(PROJECT_INCS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(TEST_SOURCES
-    sjc_read_registers.cpp
-    sjc_read_registers_simp.cpp
     sjc_read_boards_test.cpp
-    sjc_write_registers.cpp
-    sjc_read_write_registers.cpp
-    sjc_read_write_registers2.cpp
     sjc_write_control_ref.cpp
 )
 

@@ -1,3 +1,6 @@
+#ifndef SJC_DATA_STRUCTURES_HPP_
+#define SJC_DATA_STRUCTURES_HPP_
+
 #include "stdint.h"
 
 /**
@@ -62,19 +65,17 @@ typedef struct
 typedef struct
 {
     uint32_t uptime;
-    uint16_t controller_mode;
-    float system_voltage;
     float controller_error;
     float controller_ref;
-    float actuator_voltage;
     float actuator_current;
-    float actuator_displacement;
-    float aux_displacement_a;
-    float aux_displacement_b;
-    xSjcInputsStates_t inputs;
-    xSjcOutputsStates_t outputs;
-    uint16_t error_flags;
-} xSjcRuntimeInfo_t;
+    float actuator_voltage;
+    float actuator_angular_position;
+    float swing_angular_position_thx;
+    float swing_angular_position_thy;
+    float actuator_angular_velocity;
+    float swing_angular_velocity_thx;
+    float swing_angular_velocity_thy;    
+} xSjcControlMeasInfo_t;
 
 typedef struct
 {
@@ -83,22 +84,26 @@ typedef struct
     uint8_t patch;
 } xSjcVersion_t;
 
-typedef struct
-{
-    uint16_t address;
-    uint32_t baudrate;
-    char parity;
-} xSjcNetworkConfig_t;
+typedef struct {
+    xSjcInputsStates_t inputs;
+    xSjcOutputsStates_t outputs;
+} xSjcDigitalIOInfo_t;
 
 typedef struct
 {
     xSjcVersion_t hardware_ver;
     xSjcVersion_t firmware_ver;
+    uint16_t net_address;
+    char net_parity;
+    uint32_t net_baudrate;
+    uint16_t controller_mode;
+    uint16_t error_flags;
 } xSjcDeviceInfo_t;
 
 typedef struct
 {
     bool state;
+    float system_voltage;
     float base_voltage;
     float voltage_limit;
     float current_limit;
@@ -121,3 +126,5 @@ typedef struct
     uint16_t aux_sensor_resolution_a;
     uint16_t aux_sensor_resolution_b;
 } xSjcSensorsConfig_t;
+
+#endif // SJC_DATA_STRUCTURES_HPP_
