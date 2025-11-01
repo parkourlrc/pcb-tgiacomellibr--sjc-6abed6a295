@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "debug_output.h": "c",
-        "task_common.h": "c",
-        "configs.h": "c",
-        "network_configs.h": "c",
-        "types.h": "c"
-    }
-}
