@@ -1,0 +1,330 @@
+/*
+ * network_configs.h
+ *
+ *  Firmware: SJC (STM32F446RE)
+ *  Description: Modbus register map and network directives
+ *
+ *  Notes:
+ *  - This header defines logical (0-based) register indices that are later
+ *    translated to Modbus addresses using GET_INPUT_REG_ADDRESS() and
+ *    GET_HOLDING_REG_ADDRESS().
+ *  - Input registers (read-only) start at INPUT_REG_START (1001).
+ *  - Holding registers (read/write) start at HOLDING_REG_START (1).
+ *  - 32-bit values occupy two consecutive 16-bit registers (low word, high word).
+ *    Low word at base index, high word at base+1.
+ *  - Blocks of registers are reserved for controller parameter arrays:
+ *      * PID controller block:      ~30 registers (120..149)
+ *      * LQR controller block:      ~100 registers (160..239)
+ *      * Digital controller block:  ~60 registers (240..299)
+ *    Adjusted offsets ensure these blocks do not overlap.
+ *  - Units:
+ *      * Currents in [A]
+ *      * Voltages in [V]
+ *      * Angular quantities in [rad] and [rad/s], linear in [m] and [m/s]
+ */
+
+#ifndef SJC__COMMON__NETWORK_CONFIGS_H_
+#define SJC__COMMON__NETWORK_CONFIGS_H_
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include <stdint.h>
+
+/*==============================*/
+/* Axis selection (exclusive)   */
+/*==============================*/
+#define BRIDGE_AXIS
+
+#if defined(BRIDGE_AXIS)
+#define NETWORK_BASE_ADDRESS ((uint32_t)1UL)
+#elif defined(TROLLEY_AXIS)
+#define NETWORK_BASE_ADDRESS ((uint32_t)2UL)
+#else
+#define NETWORK_BASE_ADDRESS ((uint32_t)3UL)
+#endif
+
+/*==============================*/
+/* Modbus / network parameters  */
+/*==============================*/
+#define MODBUS_USART_INIT_COUNT ((uint32_t)50UL)
+#define INPUT_REG_START ((uint16_t)1001U)
+#define HOLDING_REG_START ((uint16_t)1U)
+
+    /*==============================*/
+    /* Input block OFFSETS          */
+    /*==============================*/
+    typedef enum
+    {
+        MAP_INPUT_REG_BOARD_INFO_OFFSET = (uint16_t)0U,
+        MAP_INPUT_REG_DIGITAL_IO_INFO_OFFSET = (uint16_t)20U,
+        MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET = (uint16_t)40U,
+        MAP_INPUT_REG_ACTUATOR_INFO_OFFSET = (uint16_t)80U,
+        MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET = (uint16_t)120U,
+        MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET = (uint16_t)160U,
+        MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET = (uint16_t)240U,
+        MAP_INPUT_REG_SENSORS_INFO_OFFSET = (uint16_t)300U
+    } eInputRegisterOffsets_t;
+
+    /*==============================*/
+    /* Input REGISTERS (read-only)  */
+    /*==============================*/
+    typedef enum
+    {
+        /* ---- Device/board info ---- */
+        INPUT_REG_HW_VERSION = (uint16_t)(0U + MAP_INPUT_REG_BOARD_INFO_OFFSET),             /* u16 (major<<8 | minor) */
+        INPUT_REG_FW_VERSION_MAJOR_MINOR = (uint16_t)(1U + MAP_INPUT_REG_BOARD_INFO_OFFSET), /* u16 (major<<8 | minor) */
+        INPUT_REG_FW_VERSION_PATCH = (uint16_t)(2U + MAP_INPUT_REG_BOARD_INFO_OFFSET),       /* u16 (patch) */
+        INPUT_REG_NETWORK_ADDRESS = (uint16_t)(3U + MAP_INPUT_REG_BOARD_INFO_OFFSET),        /* u16 */
+        INPUT_REG_NETWORK_PARITY = (uint16_t)(4U + MAP_INPUT_REG_BOARD_INFO_OFFSET),         /* u16 */
+        INPUT_REG_NETWORK_BAUD_RATE = (uint16_t)(5U + MAP_INPUT_REG_BOARD_INFO_OFFSET),      /* u32 */
+        INPUT_REG_CONTROL_MODE = (uint16_t)(7U + MAP_INPUT_REG_BOARD_INFO_OFFSET),           /* u16 */
+        INPUT_REG_CONTROL_FREQUENCY = (uint16_t)(8U + MAP_INPUT_REG_BOARD_INFO_OFFSET),      /* float [Hz] (2 regs) */
+        INPUT_REG_SYSTEM_ERROR_FLAGS = (uint16_t)(10U + MAP_INPUT_REG_BOARD_INFO_OFFSET),    /* u16 bitfield */
+
+        /* ---- Digital IO ---- */
+        INPUT_REG_DIGITAL_INPUTS = (uint16_t)(0U + MAP_INPUT_REG_DIGITAL_IO_INFO_OFFSET),  /* u16 mask */
+        INPUT_REG_DIGITAL_OUTPUTS = (uint16_t)(1U + MAP_INPUT_REG_DIGITAL_IO_INFO_OFFSET), /* u16 mask */
+
+        /* ---- Control & measurement ---- */
+        INPUT_REG_SYSTEM_UPTIME = (uint16_t)(0U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),           /* u32 [ms] (2 regs) */
+        INPUT_REG_CONTROL_ERROR = (uint16_t)(2U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),           /* float */
+        INPUT_REG_CONTROL_REFERENCE = (uint16_t)(4U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),       /* float */
+        INPUT_REG_ACTUATOR_CURRENT = (uint16_t)(6U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),        /* float [A] */
+        INPUT_REG_ACTUATOR_VOLTAGE = (uint16_t)(8U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),        /* float [V] */
+        INPUT_REG_ACTUATOR_POSITION = (uint16_t)(10U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),      /* float [m or rad] */
+        INPUT_REG_AUX_SWING_POSITION_THX = (uint16_t)(12U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET), /* float [rad] */
+        INPUT_REG_AUX_SWING_POSITION_THY = (uint16_t)(14U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET), /* float [rad] */
+        INPUT_REG_ACTUATOR_VELOCITY = (uint16_t)(16U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),      /* float [m/s or rad/s] */
+        INPUT_REG_SWING_VELOCITY_THX = (uint16_t)(18U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),     /* float [rad/s] */
+        INPUT_REG_SWING_VELOCITY_THY = (uint16_t)(20U + MAP_INPUT_REG_CONTROL_MEAS_DATA_OFFSET),     /* float [rad/s] */
+
+        /* ---- Actuator info ---- */
+        INPUT_REG_ACTUATOR_STATE = (uint16_t)(0U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET),          /* u16 bitfield (bit0 = enabled → mapped as bool) */
+        INPUT_REG_SYSTEM_VOLTAGE = (uint16_t)(2U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET),          /* float [V] (2 regs) */
+        INPUT_REG_ACTUATOR_BASE_VOLTAGE = (uint16_t)(4U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET),   /* float [V] (2 regs) */
+        INPUT_REG_ACTUATOR_LIMITS_VOLTAGE = (uint16_t)(6U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET), /* float [V] (2 regs) */
+        INPUT_REG_ACTUATOR_LIMITS_CURRENT = (uint16_t)(8U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET), /* float [A] (2 regs) */
+        INPUT_REG_ACTUATOR_LIMITS_SPEED = (uint16_t)(10U + MAP_INPUT_REG_ACTUATOR_INFO_OFFSET),  /* float [m/s or rad/s] (2 regs) */
+
+        /* ---- PID Controller (readback) ---- */
+        INPUT_REG_PID_CONTROLLER_PARAMS_KP = (uint16_t)(0U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_PID_CONTROLLER_PARAMS_KI = (uint16_t)(2U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_PID_CONTROLLER_PARAMS_KD = (uint16_t)(4U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_PID_CONTROLLER_PARAMS_K_AW = (uint16_t)(6U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET),   /* float */
+        INPUT_REG_PID_CONTROLLER_PARAMS_U_MIN = (uint16_t)(8U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET),  /* float */
+        INPUT_REG_PID_CONTROLLER_PARAMS_U_MAX = (uint16_t)(10U + MAP_INPUT_REG_PID_CONTROLLER_INFO_OFFSET), /* float */
+
+        /* ---- LQR Controller + Observer (readback) ---- */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_ORDER = (uint16_t)(0U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),       /* u16 */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_KX0 = (uint16_t)(1U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_KX1 = (uint16_t)(3U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_KI = (uint16_t)(5U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),          /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_KW = (uint16_t)(7U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),          /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_CUTOFF_FREQ = (uint16_t)(9U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET), /* float [Hz] */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_U_MIN = (uint16_t)(11U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),      /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_U_MAX = (uint16_t)(13U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),      /* float */
+        /* Discrete model (Ad, Bd, Cd) */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_AD00 = (uint16_t)(15U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),    /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_AD01 = (uint16_t)(17U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),    /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_AD10 = (uint16_t)(19U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),    /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_AD11 = (uint16_t)(21U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),    /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_BD0 = (uint16_t)(23U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_BD1 = (uint16_t)(25U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_CD0 = (uint16_t)(27U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_CD1 = (uint16_t)(29U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_LQR_CONTROLLER_PARAMS_USE_OBS = (uint16_t)(31U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET), /* u16 */
+        /* Observer matrices */
+        INPUT_REG_LQR_OBSERVER_PARAMS_AO00 = (uint16_t)(32U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),        /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_AO01 = (uint16_t)(34U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),        /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_AO10 = (uint16_t)(36U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),        /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_AO11 = (uint16_t)(38U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),        /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_BO0 = (uint16_t)(40U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_BO1 = (uint16_t)(42U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_CO0 = (uint16_t)(44U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_CO1 = (uint16_t)(46U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),         /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_L0 = (uint16_t)(48U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),          /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_L1 = (uint16_t)(50U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET),          /* float */
+        INPUT_REG_LQR_OBSERVER_PARAMS_CUTOFF_FREQ = (uint16_t)(52U + MAP_INPUT_REG_LQR_CONTROLLER_INFO_OFFSET), /* float [Hz] */
+
+        /* ---- Digital Controller ---- */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_A0 = (uint16_t)(0U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_A1 = (uint16_t)(2U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_A2 = (uint16_t)(4U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_B0 = (uint16_t)(6U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_B1 = (uint16_t)(8U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),     /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_B2 = (uint16_t)(10U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),    /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_U_MIN = (uint16_t)(12U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET), /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_U_MAX = (uint16_t)(14U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET), /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_K_AW = (uint16_t)(16U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET),  /* float */
+        INPUT_REG_DIGITAL_CONTROLLER_PARAMS_CFREQ = (uint16_t)(18U + MAP_INPUT_REG_DIGITAL_CONTROLLER_INFO_OFFSET), /* float [Hz] */
+
+        /* ---- Sensors ---- */
+        INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR = (uint16_t)(0U + MAP_INPUT_REG_SENSORS_INFO_OFFSET),  /* u16 */
+        INPUT_REG_SWING_THX_ENCODER_RESOLUTION_PPR = (uint16_t)(1U + MAP_INPUT_REG_SENSORS_INFO_OFFSET), /* u16 */
+        INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR = (uint16_t)(2U + MAP_INPUT_REG_SENSORS_INFO_OFFSET), /* u16 */
+
+        INPUT_REG_SIZE = (uint16_t)(10U + INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR)
+    } eNetworkInputRegisters_t;
+
+    /*==============================*/
+    /* Holding block OFFSETS        */
+    /*==============================*/
+    typedef enum
+    {
+        MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET = (uint16_t)0U,
+        MAP_HOLDING_REG_DIGITAL_OUTPUTS_OFFSET = (uint16_t)20U,
+        MAP_HOLDING_REG_CONTROL_MODE_UPDATE_OFFSET = (uint16_t)40U,
+		MAP_HOLDING_REG_CONTROL_FREQUENCY_UPDATE_OFFSET = (uint16_t)50U,
+        MAP_HOLDING_REG_CONTROLLER_REFERENCE_UPDATE_OFFSET = (uint16_t)60U,
+        MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET = (uint16_t)80U,
+        MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET = (uint16_t)100U,
+        MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET = (uint16_t)110U,
+        MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET = (uint16_t)120U,
+        MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET = (uint16_t)160U,
+        MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET = (uint16_t)240U
+    } eHoldingRegisterOffsets_t;
+
+    /*==============================*/
+    /* Holding REGISTERS (R/W)      */
+    /*==============================*/
+    typedef enum
+    {
+        /* ---- System commands ---- */
+        HOLDING_REG_SYSTEM_COMMANDS = (uint16_t)(0U + MAP_HOLDING_REG_SYSTEM_COMMANDS_OFFSET), /* bitfield */
+
+        /* ---- Digital outputs ---- */
+        HOLDING_REG_DIGITAL_OUTPUTS_STATE_UPDATE = (uint16_t)(0U + MAP_HOLDING_REG_DIGITAL_OUTPUTS_OFFSET), /* u16 mask */
+
+        /* ---- Control mode ---- */
+        HOLDING_REG_CONTROL_MODE = (uint16_t)(0U + MAP_HOLDING_REG_CONTROL_MODE_UPDATE_OFFSET),          /* u16 */
+		HOLDING_REG_CONTROL_MODE_UPDATE = (uint16_t)(1U + MAP_HOLDING_REG_CONTROL_MODE_UPDATE_OFFSET), /* u16 */
+
+		HOLDING_REG_CONTROL_FREQUENCY = (uint16_t)(0U + MAP_HOLDING_REG_CONTROL_FREQUENCY_UPDATE_OFFSET),     /* float [Hz] (2 regs) */
+        HOLDING_REG_CONTROL_FREQUENCY_UPDATE = (uint16_t)(2U + MAP_HOLDING_REG_CONTROL_FREQUENCY_UPDATE_OFFSET), /* u16 */
+
+        /* ---- Controller reference ---- */
+        HOLDING_REG_CONTROLLER_REFERENCE_VALUE = (uint16_t)(0U + MAP_HOLDING_REG_CONTROLLER_REFERENCE_UPDATE_OFFSET),  /* float */
+        HOLDING_REG_CONTROLLER_REFERENCE_UPDATE = (uint16_t)(2U + MAP_HOLDING_REG_CONTROLLER_REFERENCE_UPDATE_OFFSET), /* u16 (apply) */
+
+        /* ---- Actuator configs ---- */
+        HOLDING_REG_ACTUATOR_BASE_VOLTAGE = (uint16_t)(0U + MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET),   /* float [V] (2 regs) */
+        HOLDING_REG_ACTUATOR_LIMITS_CURRENT = (uint16_t)(2U + MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET), /* float [A] (2 regs) */
+        HOLDING_REG_ACTUATOR_LIMITS_VOLTAGE = (uint16_t)(4U + MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET), /* float [V] (2 regs) */
+        HOLDING_REG_ACTUATOR_LIMITS_SPEED = (uint16_t)(6U + MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET),   /* float [m/s or rad/s] (2 regs) */
+        HOLDING_REG_ACTUATOR_SETUP_UPDATE = (uint16_t)(8U + MAP_HOLDING_REG_ACTUATOR_CONFIGS_UPDATE_OFFSET),   /* u16 */
+
+        /* ---- Network parameters ---- */
+        HOLDING_REG_NETWORK_CONFIG_ADDRESS = (uint16_t)(0U + MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET),      /* u16 */
+        HOLDING_REG_NETWORK_CONFIG_PARITY = (uint16_t)(1U + MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET),       /* u16 */
+        HOLDING_REG_NETWORK_CONFIG_BAUD_RATE = (uint16_t)(2U + MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET),    /* u32 (low word) */
+        HOLDING_REG_NETWORK_CONFIG_BAUD_RATE_HI = (uint16_t)(3U + MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET), /* u32 (high word) */
+        HOLDING_REG_NETWORK_CONFIG_UPDATE = (uint16_t)(4U + MAP_HOLDING_REG_NETWORK_PARAMETERS_UPDATE_OFFSET),       /* u16 */
+
+        /* ---- Sensors ---- */
+        HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR = (uint16_t)(0U + MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET),  /* u16 */
+        HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_PPR = (uint16_t)(1U + MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET), /* u16 */
+        HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_PPR = (uint16_t)(2U + MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET), /* u16 */
+        HOLDING_REG_SENSORS_SETUP_UPDATE = (uint16_t)(3U + MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET),             /* u16 */
+
+        /* ---- PID Controller ---- */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_KP = (uint16_t)(0U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_KI = (uint16_t)(2U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_KD = (uint16_t)(4U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_K_AW = (uint16_t)(6U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),   /* float */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_U_MIN = (uint16_t)(8U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),  /* float */
+        HOLDING_REG_PID_CONTROLLER_PARAMS_U_MAX = (uint16_t)(10U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float */
+        HOLDING_REG_PID_CONTROLLER_UPDATE = (uint16_t)(12U + MAP_HOLDING_REG_PID_CONTROLLER_PARAMETERS_UPDATE_OFFSET),       /* u16 */
+
+        /* ---- LQR Controller ---- */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_ORDER = (uint16_t)(0U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),       /* u16 */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_KX0 = (uint16_t)(1U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_KX1 = (uint16_t)(3U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_KI = (uint16_t)(5U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),          /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_KW = (uint16_t)(7U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),          /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_CUTOFF_FREQ = (uint16_t)(9U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float [Hz] */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_U_MIN = (uint16_t)(11U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),      /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_U_MAX = (uint16_t)(13U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),      /* float */
+        /* Ad, Bd, Cd */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_AD00 = (uint16_t)(15U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),    /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_AD01 = (uint16_t)(17U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),    /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_AD10 = (uint16_t)(19U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),    /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_AD11 = (uint16_t)(21U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),    /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_BD0 = (uint16_t)(23U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_BD1 = (uint16_t)(25U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_CD0 = (uint16_t)(27U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_CD1 = (uint16_t)(29U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_LQR_CONTROLLER_PARAMS_USE_OBS = (uint16_t)(31U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* u16 */
+        /* Observer matrices */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_AO00 = (uint16_t)(32U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),        /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_AO01 = (uint16_t)(34U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),        /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_AO10 = (uint16_t)(36U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),        /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_AO11 = (uint16_t)(38U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),        /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_BO0 = (uint16_t)(40U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_BO1 = (uint16_t)(42U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_CO0 = (uint16_t)(44U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_CO1 = (uint16_t)(46U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),         /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_L0 = (uint16_t)(48U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),          /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_L1 = (uint16_t)(50U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),          /* float */
+        HOLDING_REG_LQR_OBSERVER_PARAMS_CUTOFF_FREQ = (uint16_t)(52U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float [Hz] */
+        HOLDING_REG_LQR_CONTROLLER_UPDATE = (uint16_t)(54U + MAP_HOLDING_REG_LQR_CONTROLLER_PARAMETERS_UPDATE_OFFSET),           /* u16 */
+
+        /* ---- Digital Controller ---- */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_A0 = (uint16_t)(0U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_A1 = (uint16_t)(2U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_A2 = (uint16_t)(4U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_B0 = (uint16_t)(6U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_B1 = (uint16_t)(8U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),     /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_B2 = (uint16_t)(10U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),    /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_U_MIN = (uint16_t)(12U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_U_MAX = (uint16_t)(14U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_K_AW = (uint16_t)(16U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),  /* float */
+        HOLDING_REG_DIGITAL_CONTROLLER_PARAMS_CFREQ = (uint16_t)(18U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET), /* float [Hz] */
+        HOLDING_REG_DIGITAL_CONTROLLER_UPDATE = (uint16_t)(20U + MAP_HOLDING_REG_DIGITAL_CONTROLLER_PARAMETERS_UPDATE_OFFSET),       /* u16 */
+
+        HOLDING_REG_SIZE = (uint16_t)(10U + HOLDING_REG_DIGITAL_CONTROLLER_UPDATE)
+    } eNetworkHoldingRegisters_t;
+
+    /*==============================*/
+    /* Holding masks & SysCmd bits  */
+    /*==============================*/
+    typedef enum
+    {
+        HOLDING_REG_APPLY_MSK = (uint16_t)(1U << 15)
+    } eHoldingRegisterMasks_t;
+
+    typedef enum
+    {
+        SYS_CMD_REBOOT = (uint16_t)(1U << 0),
+        SYS_CMD_RESET_CONTROLLER = (uint16_t)(1U << 1),
+        SYS_CMD_RESET_PRIMARY_ENCODER_COUNTER = (uint16_t)(1U << 2),
+        SYS_CMD_RESET_AUX_ENCODER_COUNTER = (uint16_t)(1U << 3),
+        SYS_CMD_RESET_PRIMARY_JOINT_VELOCITY = (uint16_t)(1U << 4),
+        SYS_CMD_RESET_AUX_JOINT_VELOCITY = (uint16_t)(1U << 5),
+
+    } eSystemCommandBits_t;
+
+/*==============================*/
+/* Helpers                      */
+/*==============================*/
+/**
+ * @brief Compute absolute Modbus address from logical index.
+ */
+#define GET_INPUT_REG_ADDRESS(X) ((uint16_t)(INPUT_REG_START + (uint16_t)(X)))
+#define GET_HOLDING_REG_ADDRESS(X) ((uint16_t)(HOLDING_REG_START + (uint16_t)(X)))
+
+/**
+ * @brief Compute relative index for a register within its block.
+ */
+#define GET_REG_TABLE_INDEX(X, OFFS) ((uint16_t)((uint16_t)(X) - (uint16_t)(OFFS)))
+
+#define INPUT_REG_NREGS ((uint16_t)INPUT_REG_SIZE)
+#define HOLDING_REG_NREGS ((uint16_t)HOLDING_REG_SIZE)
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* SJC__COMMON__NETWORK_CONFIGS_H_ */
