@@ -132,6 +132,20 @@ public:
      */
     double get_last_write_ms();
 
+    /**
+     * @brief Get the status code of the last read operation.
+     *
+     * @return Status returned by getControlMeasInfo().
+     */
+    eSjcReturnType_t get_last_read_status();
+
+    /**
+     * @brief Get the status code of the last write operation.
+     *
+     * @return Status returned by setControllerReference().
+     */
+    eSjcReturnType_t get_last_write_status();
+
 private:
     /**
      * @brief Worker loop.
@@ -169,6 +183,8 @@ private:
     xSjcControlMeasInfo_t runtime_info_; ///< Last measurement info from worker.
     double last_read_ms_{0.0};           ///< Last read operation duration (ms).
     double last_write_ms_{0.0};          ///< Last write operation duration (ms).
+    eSjcReturnType_t last_read_status_{SJC_RET_OK};   ///< Last read operation status.
+    eSjcReturnType_t last_write_status_{SJC_RET_OK};  ///< Last write operation status.
 };
 
 #endif // SJC_REALTIME_INTERFACE_HPP_

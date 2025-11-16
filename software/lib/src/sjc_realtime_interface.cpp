@@ -29,6 +29,10 @@ void SjcRealtimeInterface::start()
         std::lock_guard<std::mutex> lock(mtx_);
         shutdown_ = false;
         done_ = false;
+        last_read_status_ = SJC_RET_OK;
+        last_write_status_ = SJC_RET_OK;
+        last_read_ms_ = 0.0;
+        last_write_ms_ = 0.0;
     }
     worker_ = std::thread(&SjcRealtimeInterface::loop, this);
 }
@@ -125,6 +129,24 @@ double SjcRealtimeInterface::get_last_write_ms()
 }
 
 /**
+ * @brief Get status of the last read operation.
+ */
+eSjcReturnType_t SjcRealtimeInterface::get_last_read_status()
+{
+    std::lock_guard<std::mutex> lock(mtx_);
+    return last_read_status_;
+}
+
+/**
+ * @brief Get status of the last write operation.
+ */
+eSjcReturnType_t SjcRealtimeInterface::get_last_write_status()
+{
+    std::lock_guard<std::mutex> lock(mtx_);
+    return last_write_status_;
+}
+
+/**
  * @brief Worker loop executed in a background thread.
  */
 void SjcRealtimeInterface::loop()
@@ -140,6 +162,14 @@ void SjcRealtimeInterface::loop()
 
             if (shutdown_)
             {
+                {
+                    std::lock_guard<std::mutex> done_lock(mtx_);
+                    action_ = xSjcAction::NONE;
+                    done_ = true;
+                    last_read_status_ = SJC_CONNECTION_RELEASED;
+                    last_write_status_ = SJC_CONNECTION_RELEASED;
+                }
+                cv_done_.notify_all();
                 break;
             }
             current_action = action_;
@@ -150,32 +180,44 @@ void SjcRealtimeInterface::loop()
         if (current_action == xSjcAction::READ)
         {
             xSjcControlMeasInfo_t tmp;
-            if (this->getControlMeasInfo(&tmp) == SJC_RET_OK)
-            {
-                auto t1 = std::chrono::high_resolution_clock::now();
-                double elapsed = std::chrono::duration<double, std::milli>(t1 - t0).count();
+            eSjcReturnType_t status = this->getControlMeasInfo(&tmp);
+            auto t1 = std::chrono::high_resolution_clock::now();
+            double elapsed = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
-                std::lock_guard<std::mutex> lock(mtx_);
-                runtime_info_ = tmp;
-                last_read_ms_ = elapsed;
-            }
-            else
             {
-                std::cerr << "[SJC] Failed to read control measurement info" << std::endl;
+                std::lock_guard<std::mutex> lock(mtx_);
+                last_read_status_ = status;
+                last_read_ms_ = elapsed;
+                if (status == SJC_RET_OK)
+                {
+                    runtime_info_ = tmp;
+                }
+                else
+                {
+                    runtime_info_ = {};
+                }
+            }
+
+            if (status != SJC_RET_OK)
+            {
+                std::cerr << "[SJC] Failed to read control measurement info (status=" << status << ")" << std::endl;
             }
         }
         else if (current_action == xSjcAction::WRITE)
         {
-            if (this->setControllerReference(pending_ref_) != SJC_RET_OK)
-            {
-                std::cerr << "[SJC] Failed to write controller reference" << std::endl;
-            }
+            eSjcReturnType_t status = this->setControllerReference(pending_ref_);
 
             auto t1 = std::chrono::high_resolution_clock::now();
             double elapsed = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
             std::lock_guard<std::mutex> lock(mtx_);
+            last_write_status_ = status;
             last_write_ms_ = elapsed;
+
+            if (status != SJC_RET_OK)
+            {
+                std::cerr << "[SJC] Failed to write controller reference (status=" << status << ")" << std::endl;
+            }
         }
 
         {
