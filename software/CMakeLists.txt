@@ -79,14 +79,15 @@ message("-- Configured library: ${PROJECT_NAME}")
 find_package(nlohmann_json REQUIRED)
 # List of example/test sources
 set(TEST_SOURCES
-    sjc_write_log.cpp 
-    sjc_read_boards_test.cpp 
-    sjc_write_control_freq.cpp 
-    sjc_write_control_mode.cpp 
+    sjc_write_log.cpp
+    sjc_read_boards_test.cpp
+    sjc_write_control_freq.cpp
+    sjc_write_control_mode.cpp
     sjc_write_control_ref.cpp
     sjc_write_control_mode_ref.cpp
     sjc_read_write_test_threaded.cpp
     sjc_write_control_freq_mode_ref.cpp
+    sjc_monitor.cpp
 )
 
 # Each source file becomes an independent executable

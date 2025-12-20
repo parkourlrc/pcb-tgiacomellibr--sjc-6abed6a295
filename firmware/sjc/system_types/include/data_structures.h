@@ -231,7 +231,7 @@ typedef struct
     float Encoder;                      ///< Current encoder angle [rad]
     int32_t Counts;                     ///< Raw encoder counts
     TIM_TypeDef *Instance;              ///< Associated hardware timer
-    uint16_t Resolution_PPR;            ///< Pulses per revolution
+    uint16_t Resolution_CPR;            ///< Pulses per revolution
     float radians_per_quadrature_pulse; ///< Conversion factor [rad/pulse]
 } xSjcEncoder_t;
 

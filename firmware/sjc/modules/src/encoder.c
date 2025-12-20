@@ -69,7 +69,7 @@ void Encoder_init(void)
 	for (uint8_t i = 0; i < SJC_JOINTS_SIZE; i++)
 	{
 		Encoder[i].Counts = 0;
-		Encoder[i].Resolution_PPR = SJC_MIN_ENCODER_RESOLUTION_PPR;
+		Encoder[i].Resolution_CPR = SJC_MIN_ENCODER_RESOLUTION_CPR;
 		Encoder[i].radians_per_quadrature_pulse = 1.0f;
 
 		Encoder_reset(i);
@@ -188,7 +188,7 @@ eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution)
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		*resolution = enc->Resolution_PPR;
+		*resolution = enc->Resolution_CPR;
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 		return SJC_RET_OK;
 	}
@@ -212,8 +212,8 @@ eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolu
 	configASSERT(xEncoderInterfacesSemprHandle != NULL);
 	if (osOK == osSemaphoreAcquire(xEncoderInterfacesSemprHandle, SJC_HARDWARE_ACCESS_WAIT_TIME_MS))
 	{
-		enc->Resolution_PPR = resolution;
-		enc->radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * enc->Resolution_PPR);
+		enc->Resolution_CPR = resolution;
+		enc->radians_per_quadrature_pulse = (2.0f * M_PI) / (1.0f * enc->Resolution_CPR);
 		osSemaphoreRelease(xEncoderInterfacesSemprHandle);
 		return SJC_RET_OK;
 	}

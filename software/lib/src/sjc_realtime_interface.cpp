@@ -162,13 +162,12 @@ void SjcRealtimeInterface::loop()
 
             if (shutdown_)
             {
-                {
-                    std::lock_guard<std::mutex> done_lock(mtx_);
-                    action_ = xSjcAction::NONE;
-                    done_ = true;
-                    last_read_status_ = SJC_CONNECTION_RELEASED;
-                    last_write_status_ = SJC_CONNECTION_RELEASED;
-                }
+                // mtx_ already locked by unique_lock above
+                action_ = xSjcAction::NONE;
+                done_ = true;
+                last_read_status_ = SJC_CONNECTION_RELEASED;
+                last_write_status_ = SJC_CONNECTION_RELEASED;
+                lock.unlock();
                 cv_done_.notify_all();
                 break;
             }

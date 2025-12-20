@@ -66,7 +66,7 @@ extern "C"
     eSjcReturnType_t Encoder_getAngularDisplacement(eSjcJoints_t Joint, float *angular_dp);
 
     /**
-     * @brief Gets the configured resolution (PPR) of the encoder.
+     * @brief Gets the configured resolution (CPR) of the encoder.
      *
      * @param Joint Joint identifier
      * @param resolution Pointer to store the resolution value
@@ -75,12 +75,13 @@ extern "C"
     eSjcReturnType_t Encoder_getResolution(eSjcJoints_t Joint, uint16_t *resolution);
 
     /**
-     * @brief Sets the resolution (PPR) of the encoder for a specific joint.
+     * @brief Sets the resolution (CPR) of the encoder for a specific joint.
      *
      * Updates the internal conversion factor to compute angular displacement.
+     * CPR = Counts Per Revolution (quadrature mode, 4x the PPR value).
      *
      * @param Joint Joint identifier
-     * @param resolution New encoder resolution in pulses per revolution (PPR)
+     * @param resolution New encoder resolution in counts per revolution (CPR)
      * @return SJC_RET_OK if successful, SJC_RET_NOK otherwise
      */
     eSjcReturnType_t Encoder_setResolution(eSjcJoints_t Joint, const uint16_t resolution);

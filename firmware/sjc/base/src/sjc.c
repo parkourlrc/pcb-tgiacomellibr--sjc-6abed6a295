@@ -1032,13 +1032,13 @@ static void Net_UpdateSensorsParametersRegisters(void)
 	uint16_t aux;
 
 	Encoder_getResolution(SJC_ACTUATOR_JOINT, &aux);
-	usRegInputBuf[INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_CPR] = aux;
 
 	Encoder_getResolution(SJC_AUX_JOINT_TH_X, &aux);
-	usRegInputBuf[INPUT_REG_SWING_THX_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_SWING_THX_ENCODER_RESOLUTION_CPR] = aux;
 
 	Encoder_getResolution(SJC_AUX_JOINT_TH_Y, &aux);
-	usRegInputBuf[INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR] = aux;
+	usRegInputBuf[INPUT_REG_SWING_THY_ENCODER_RESOLUTION_CPR] = aux;
 }
 
 // Holding registers update process ---------------------------------- //
@@ -1118,68 +1118,67 @@ static void Net_ExecuteControllerModeUpdateCmd(void)
 		SJC_setControlMode(control_mode);
 
 #ifdef SJC_DEBUG_PRINT_NET_CMDS
-    SJC_getControlMode(&control_mode);
+		SJC_getControlMode(&control_mode);
 
-    switch (control_mode)
-    {
-    case SJC_CONTROL_DISABLED:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Control disabled (%u)", (unsigned int)control_mode);
-        break;
+		switch (control_mode)
+		{
+		case SJC_CONTROL_DISABLED:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Control disabled (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_OPEN_LOOP_CONTROL:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Open-loop control mode (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_OPEN_LOOP_CONTROL:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Open-loop control mode (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_PID_SPEED_CONTROL:
-        DebugOutput_systemPrintf("\r\n[NetCmd] PID speed control mode (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_PID_SPEED_CONTROL:
+			DebugOutput_systemPrintf("\r\n[NetCmd] PID speed control mode (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_PID_CURRENT_CONTROL:
-        DebugOutput_systemPrintf("\r\n[NetCmd] PID current control mode (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_PID_CURRENT_CONTROL:
+			DebugOutput_systemPrintf("\r\n[NetCmd] PID current control mode (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_LQR_CURRENT_CONTROL:
-        DebugOutput_systemPrintf("\r\n[NetCmd] LQR current control mode (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_LQR_CURRENT_CONTROL:
+			DebugOutput_systemPrintf("\r\n[NetCmd] LQR current control mode (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_DISCRETE_CURRENT_CONTROL:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Discrete current control mode (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_DISCRETE_CURRENT_CONTROL:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Discrete current control mode (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_SLOW_PRBS_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Slow (5 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_SLOW_PRBS_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Slow (5 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_MID_PRBS_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Mid (10 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_MID_PRBS_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Mid (10 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_FAST_PRBS_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Fast (15 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_FAST_PRBS_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] PRBS excitation mode - Fast (15 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_SINE_PRBS_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Sine+PRBS excitation mode (sine 1, 2.5, 5 Hz + PRBS 20 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_SINE_PRBS_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Sine+PRBS excitation mode (sine 1, 2.5, 5 Hz + PRBS 20 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_PULSE_FAST_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Pulse fast excitation mode (4 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_PULSE_FAST_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Pulse fast excitation mode (4 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_PULSE_SLOW_EXCITATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Pulse slow excitation mode (2 Hz) (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_PULSE_SLOW_EXCITATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Pulse slow excitation mode (2 Hz) (%u)", (unsigned int)control_mode);
+			break;
 
-    case SJC_ANALOG_CALIBRATION:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Current sense analog calibration (%u)", (unsigned int)control_mode);
-        break;
+		case SJC_ANALOG_CALIBRATION:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Current sense analog calibration (%u)", (unsigned int)control_mode);
+			break;
 
-    default:
-        DebugOutput_systemPrintf("\r\n[NetCmd] Unknown control mode! (%u)", (unsigned int)control_mode);
-        break;
-    }
+		default:
+			DebugOutput_systemPrintf("\r\n[NetCmd] Unknown control mode! (%u)", (unsigned int)control_mode);
+			break;
+		}
 #endif
-
 
 		// Reset controller after config update
 		SJC_resetController();
@@ -1296,9 +1295,9 @@ static void Net_ExecuteSensorsConfigsUpdateCmd(void)
 		// Encoders parameters
 		usRegHoldingBuf[HOLDING_REG_SENSORS_SETUP_UPDATE] &= (~HOLDING_REG_APPLY_MSK);
 
-		Encoder_setResolution(SJC_AUX_JOINT_TH_X, usRegHoldingBuf[HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_PPR]);
-		Encoder_setResolution(SJC_AUX_JOINT_TH_Y, usRegHoldingBuf[HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_PPR]);
-		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR]);
+		Encoder_setResolution(SJC_AUX_JOINT_TH_X, usRegHoldingBuf[HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_CPR]);
+		Encoder_setResolution(SJC_AUX_JOINT_TH_Y, usRegHoldingBuf[HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_CPR]);
+		Encoder_setResolution(SJC_ACTUATOR_JOINT, usRegHoldingBuf[HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_CPR]);
 	}
 }
 

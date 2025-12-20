@@ -93,8 +93,8 @@
 
 // Encoder Configs ---------------------------------------------------------------- //
 // -------------------------------------------------------------------------------- //
-#define SJC_MIN_ENCODER_RESOLUTION_PPR ((uint16_t)1UL)
-#define GET_ENCODER_QUADRATURE_RESOLUTION_PPR(X) ((uint32_t)(4 * X))
+#define SJC_MIN_ENCODER_RESOLUTION_CPR ((uint16_t)4UL)
+#define GET_ENCODER_QUADRATURE_RESOLUTION_CPR(X) ((uint32_t)(4 * X))
 
 #define SJC_ACTUATOR_JOINT_TIMER_INSTANCE TIM2
 #define SJC_AUX_JOINT_A_TIMER_INSTANCE TIM3
