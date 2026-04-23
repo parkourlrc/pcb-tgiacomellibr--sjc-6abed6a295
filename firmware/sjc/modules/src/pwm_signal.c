@@ -1,8 +1,10 @@
 /*
- * pwm.c
+ * pwm_signal.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  PWM timer configuration, frequency selection, and duty cycle control.
  */
 
 // HAL includes ------------------------------------------------------ //
@@ -87,8 +89,8 @@ void PwmSignal_enable(void)
 
 void PwmSignal_disable(void)
 {
-	LL_TIM_DisableAllOutputs(SJC_PWM_INSTANCE);
-	LL_TIM_DisableCounter(SJC_PWM_INSTANCE);
+	LL_TIM_DisableAllOutputs(Pwm.TimerConfig.Instance);
+	LL_TIM_DisableCounter(Pwm.TimerConfig.Instance);
 
 	LL_TIM_CC_DisableChannel(Pwm.TimerConfig.Instance, Pwm.TimerConfig.LeftChannel);
 	LL_TIM_CC_DisableChannel(Pwm.TimerConfig.Instance, Pwm.TimerConfig.RightChannel);
@@ -125,7 +127,6 @@ eSjcReturnType_t PwmSignal_setDutyCycle(const float duty)
 	// Using fixed CH1 and CH3 channels for complementary modulation
 	LL_TIM_OC_SetCompareCH1(Pwm.TimerConfig.Instance, Pwm.DutyCount);
 	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, Pwm.DutyCount);
-	//	LL_TIM_OC_SetCompareCH3(Pwm.TimerConfig.Instance, (Pwm.TimerConfig.CountPeriod - Pwm.DutyCount));
 
 	return SJC_RET_OK;
 }

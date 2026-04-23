@@ -1,17 +1,20 @@
-/**
- * @file pid_controller.h
- * @brief Discrete PID controller with conditional integration (anti-windup).
+/*
+ * pid_controller.h
  *
- * This module implements a classical discrete-time PID controller with:
- *  - Proportional, Integral, and Derivative terms
- *  - Conditional integration to mitigate integrator windup
- *  - Configurable actuator effort limits (saturation)
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
  *
- * Features:
- *  - Designed for real-time embedded control (STM32, FreeRTOS, etc.)
- *  - Maintains an internal controller state (singleton pattern)
- *  - Provides API functions for initialization, computation, parameter tuning,
- *    saturation limits, and reset of the internal state
+ *  Discrete PID controller with conditional integration (anti-windup).
+ *  This module implements a classical discrete-time PID controller with:
+ *   - Proportional, Integral, and Derivative terms
+ *   - Conditional integration to mitigate integrator windup
+ *   - Configurable actuator effort limits (saturation)
+ *
+ *  Features:
+ *   - Designed for real-time embedded control (STM32, FreeRTOS, etc.)
+ *   - Maintains an internal controller state (singleton pattern)
+ *   - Provides API functions for initialization, computation, parameter tuning,
+ *     saturation limits, and reset of the internal state
  */
 
 #ifndef SJC__MODULES__PID_CONTROLLER_H

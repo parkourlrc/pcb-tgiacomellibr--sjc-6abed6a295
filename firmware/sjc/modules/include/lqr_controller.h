@@ -1,19 +1,19 @@
-/**
- * @file lqr_controller.h
- * @brief Discrete-time LQR/LQI controller with integral action, anti-windup and error filtering.
+/*
+ * lqr_controller.h
  *
- * This module provides a discrete-time Linear Quadratic Regulator (LQR),
- * extended with:
- *  - Integral action (LQI)
- *  - Anti-windup via back-calculation
- *  - Exponential filtering of the error signal
+ *  Created on: Apr 23, 2025
+ *      Author: Tiago Giacomelli
  *
- * Supported configurations:
- *  - Order = 1 → single state + integral action
- *  - Order = 2 → two states + integral action, with optional observer feedback
+ *  Discrete-time LQR/LQI controller with integral action, anti-windup and
+ *  error filtering. This module provides a discrete-time Linear Quadratic
+ *  Regulator (LQR), extended with:
+ *   - Integral action (LQI)
+ *   - Anti-windup via back-calculation
+ *   - Exponential filtering of the error signal
  *
- * Author: Tiago
- * Date: Apr 23, 2025
+ *  Supported configurations:
+ *   - Order = 1: single state + integral action
+ *   - Order = 2: two states + integral action, with optional observer feedback
  */
 
 #ifndef SJC__MODULES__LQR_CONTROLLER_H_

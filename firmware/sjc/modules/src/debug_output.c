@@ -2,16 +2,16 @@
  * debug_output.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Mutex-protected USB CDC debug output with formatted string support.
  */
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-#include "modules/include/modbus_network.h"
 #include "usart.h"
 #include "usbd_cdc.h"
 #include "usbd_cdc_if.h"
-
 #include "cmsis_os.h"
 // ------------------------------------------------------------------- //
 
@@ -19,7 +19,6 @@
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
 #include "common/include/network_configs.h"
-
 #include "modules/include/debug_output.h"
 #include "modules/include/modbus_network.h"
 // ------------------------------------------------------------------- //
@@ -27,7 +26,7 @@
 // Module defines ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #define SYSTEM_DEBUG_BUFF_SIZE (1024UL)
-#define SYSTEM_DEBUG_SEMPHR_WAIT_TIME_MS ((uint32_t)10U)
+#define SYSTEM_DEBUG_MUTEX_WAIT_TIME_MS ((uint32_t)10U)
 // ------------------------------------------------------------------- //
 
 // Module data structures -------------------------------------------- //
@@ -39,12 +38,12 @@
 // ------------------------------------------------------------------- //
 static char xSystemDebugBuff[SYSTEM_DEBUG_BUFF_SIZE];
 
-osSemaphoreId_t xSystemDebugSemprHandle = NULL;
-StaticSemaphore_t SerialDebugSemaphoreControlBlock;
-const osSemaphoreAttr_t SerialDebugSemaphore_attributes = {
-	.name = "SystemDebugSemaphore",
-	.cb_mem = &SerialDebugSemaphoreControlBlock,
-	.cb_size = sizeof(SerialDebugSemaphoreControlBlock),
+static osMutexId_t xSystemDebugMutexHandle = NULL;
+static StaticSemaphore_t SerialDebugMutexControlBlock;
+static const osMutexAttr_t SerialDebugMutex_attributes = {
+	.name = "SystemDebugMutex",
+	.cb_mem = &SerialDebugMutexControlBlock,
+	.cb_size = sizeof(SerialDebugMutexControlBlock),
 };
 // ------------------------------------------------------------------- //
 
@@ -57,16 +56,11 @@ int _write(int fd, char *ptr, int len);
 // ------------------------------------------------------------------- //
 void DebugOutput_init(void)
 {
-	xSystemDebugSemprHandle = osSemaphoreNew(BINARY_SEMPHR_COUNT_SIZE, BINARY_SEMPHR_INITIAL_COUNT, &SerialDebugSemaphore_attributes);
+	xSystemDebugMutexHandle = osMutexNew(&SerialDebugMutex_attributes);
 
-	if (xSystemDebugSemprHandle == NULL)
+	if (xSystemDebugMutexHandle == NULL)
 	{
-		DebugOutput_systemPrintf("\r\n[OS FAULT] Serial debug semaphore not created...");
 		SJC_SYSTEM_RESET();
-	}
-	else
-	{
-		osSemaphoreRelease(xSystemDebugSemprHandle);
 	}
 }
 
@@ -108,9 +102,9 @@ void DebugOutput_presentRuntimeStatistics(void)
 
 int DebugOutput_systemPrintf(const char *format, ...)
 {
-	configASSERT(xSystemDebugSemprHandle != NULL);
+	configASSERT(xSystemDebugMutexHandle != NULL);
 
-	if (osOK == osSemaphoreAcquire(xSystemDebugSemprHandle, SYSTEM_DEBUG_SEMPHR_WAIT_TIME_MS))
+	if (osOK == osMutexAcquire(xSystemDebugMutexHandle, SYSTEM_DEBUG_MUTEX_WAIT_TIME_MS))
 	{
 		va_list apx;
 		int n = 0;
@@ -123,7 +117,7 @@ int DebugOutput_systemPrintf(const char *format, ...)
 			_write(0, xSystemDebugBuff, n);
 		}
 
-		osSemaphoreRelease(xSystemDebugSemprHandle);
+		osMutexRelease(xSystemDebugMutexHandle);
 
 		return n;
 	}
@@ -139,7 +133,7 @@ int DebugOutput_systemPrintf(const char *format, ...)
 // ------------------------------------------------------------------- //
 int _write(int fd, char *ptr, int len)
 {
-	if (xSystemDebugSemprHandle != NULL)
+	if (xSystemDebugMutexHandle != NULL)
 	{
 		CDC_Transmit_FS((uint8_t *)(&ptr[0]), len);
 		return len;
@@ -152,7 +146,7 @@ int _write(int fd, char *ptr, int len)
 
 int __io_putchar(int ch)
 {
-	DebugOutput_systemPrintf("c", ch);
+	DebugOutput_systemPrintf("%c", ch);
 	return (ch);
 }
 // ------------------------------------------------------------------- //

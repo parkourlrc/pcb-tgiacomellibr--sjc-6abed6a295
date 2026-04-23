@@ -1,3 +1,12 @@
+/*
+ * porttimer.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  FreeModbus port: TIM11 hardware timer for Modbus RTU character timing.
+ */
+
 /* ----------------------- Platform includes --------------------------------*/
 #include "port.h"
 #include "stm32f4xx_ll_tim.h"

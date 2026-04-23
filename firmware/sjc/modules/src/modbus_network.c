@@ -1,8 +1,10 @@
 /*
- * network.c
+ * modbus_network.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Modbus RTU slave network layer: register callbacks and protocol handling.
  */
 
 // HAL includes ------------------------------------------------------ //
@@ -20,6 +22,7 @@
 // Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
+#include "base/include/sjc.h"
 #include "common/include/network_configs.h"
 #include "modules/include/debug_output.h"
 // ------------------------------------------------------------------- //
@@ -76,7 +79,7 @@ eSjcReturnType_t ModbusNetwork_init(const uint32_t xSlaveAddress)
 	ModbusNetwork_getBaudRate(&xNetworkParameters.Baudrate);
 	xNetworkParameters.Parity = MB_PAR_NONE;
 
-	eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity);
+	eStatus = eMBInit(MB_RTU, xNetworkParameters.Address, 1, xNetworkParameters.Baudrate, xNetworkParameters.Parity, 1);
 	if (eStatus != MB_ENOERR)
 	{
 		DebugOutput_systemPrintf("\r\n[FAULT] Modbus initialization failed.");
@@ -159,6 +162,13 @@ eSjcReturnType_t ModbusNetwork_getParameters(uint16_t *xSlaveAddress, uint32_t *
 void ModbusNetwork_update(void)
 {
 	(void)eMBPoll();
+
+#ifdef USE_QUEUE_BASED_EVENT_HANDLER
+	while (xMBPortEventPending())
+	{
+		(void)eMBPoll();
+	}
+#endif
 }
 // ------------------------------------------------------------------- //
 
@@ -171,6 +181,8 @@ eMBErrorCode eMBRegInputCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRegs
 
 	if ((usAddress - 1 >= INPUT_REG_START) && (usAddress - 1 + usNRegs <= INPUT_REG_START + INPUT_REG_NREGS))
 	{
+		SJC_updateInputRegisters();
+
 		while (usNRegs-- > 0)
 		{
 			*pucRegBuffer++ = (UCHAR)(usRegInputBuf[iRegIndex] >> 8);
@@ -209,6 +221,8 @@ eMBErrorCode eMBRegHoldingCB(UCHAR *pucRegBuffer, USHORT usAddress, USHORT usNRe
 				usRegHoldingBuf[iRegIndex] |= (USHORT)(*pucRegBuffer++);
 				++iRegIndex;
 			}
+
+			SJC_updateHoldingRegisters();
 		}
 	}
 	else

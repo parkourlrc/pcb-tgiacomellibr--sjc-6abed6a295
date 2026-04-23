@@ -1,11 +1,13 @@
-/**
- * @file digital_interfaces.h
- * @brief Digital I/O abstraction layer for GPIO access and synchronization.
+/*
+ * digital_interfaces.h
  *
- * Provides thread-safe access to digital input and output signals using FreeRTOS semaphores.
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
  *
- * Author: Tiago
- * Date: Sep 9, 2023
+ *  Digital I/O abstraction layer for GPIO access.
+ *  GPIO register accesses on STM32 are inherently atomic (single bus-width
+ *  aligned reads/writes to GPIOx->IDR / ODR / BSRR), so no RTOS
+ *  synchronization primitive is required.
  */
 
 #ifndef SJC__MODULES__DIGITAL_INTERFACES_H_

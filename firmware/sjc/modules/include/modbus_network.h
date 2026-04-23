@@ -1,12 +1,12 @@
-/**
- * @file modbus_network.h
- * @brief Modbus RTU network configuration and access API.
+/*
+ * modbus_network.h
  *
- * Provides initialization and access methods for Modbus slave configuration,
- * address, and communication parameters.
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
  *
- * @author Tiago
- * @date Sep 9, 2023
+ *  Modbus RTU network configuration and access API.
+ *  Provides initialization and access methods for Modbus slave configuration,
+ *  address, and communication parameters.
  */
 
 #ifndef SJC__MODULES__MODBUS_NETWORK_H

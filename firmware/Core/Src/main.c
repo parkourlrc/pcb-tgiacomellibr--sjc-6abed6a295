@@ -213,16 +213,41 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
+volatile const char *g_error_module = NULL;
+volatile const char *g_error_function = NULL;
+
+static void Error_UartPutString(const char *str)
+{
+	while (*str)
+	{
+		LL_USART_TransmitData8(USART3, *str++);
+		while (!LL_USART_IsActiveFlag_TXE(USART3)) {}
+	}
+}
+
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-	/* User can add his own implementation to report the HAL error return state */
 	__disable_irq();
 	MotorDrive_disable();
 	while (1)
 	{
 	}
   /* USER CODE END Error_Handler_Debug */
+}
+
+void Error_HandlerFrom(const char *module, const char *function)
+{
+	g_error_module = module;
+	g_error_function = function;
+
+	Error_UartPutString("\r\n[FAULT] ");
+	if (module) Error_UartPutString(module);
+	Error_UartPutString(": ");
+	if (function) Error_UartPutString(function);
+	Error_UartPutString("\r\n");
+
+	Error_Handler();
 }
 #ifdef USE_FULL_ASSERT
 /**

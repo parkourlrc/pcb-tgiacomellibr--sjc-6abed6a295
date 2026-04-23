@@ -1,9 +1,18 @@
-#include "port.h"
-#include "main.h"
+/*
+ * portserial.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  FreeModbus port: USART serial driver with DMA transmit support.
+ */
+
 #include "base/include/configs.h"
-#include "dma.h"
 #include "cmsis_os2.h"
+#include "dma.h"
+#include "main.h"
 #include "modules/include/debug_output.h"
+#include "port.h"
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbport.h"
@@ -17,7 +26,8 @@ static volatile uint8_t rx_data = 0;
 
 /* ----------------------- Start implementation -----------------------------*/
 BOOL xMBPortSerialInit(UCHAR ucPORT, ULONG ulBaudRate, UCHAR ucDataBits,
-		eMBParity eParity)
+					   eMBParity eParity,
+					   UCHAR ucStopBits)
 {
 	// Init Serial communication device
 	LL_USART_EnableDMAReq_TX(MODBUS_SERIAL_INSTANCE);
@@ -105,14 +115,14 @@ void USART2_IRQHandler(void)
 		rx_data = LL_USART_ReceiveData8(MODBUS_SERIAL_INSTANCE);
 
 		LL_USART_ClearFlag_RXNE(MODBUS_SERIAL_INSTANCE);
-//		DebugOutput_systemPrintf("Byte recebido na UART\n");
+		//		DebugOutput_systemPrintf("Byte recebido na UART\n");
 		pxMBFrameCBByteReceived();
 	}
 
 	if (LL_USART_IsActiveFlag_TC(MODBUS_SERIAL_INSTANCE) && LL_USART_IsEnabledIT_TC(MODBUS_SERIAL_INSTANCE))
 	{
 		LL_USART_ClearFlag_TC(MODBUS_SERIAL_INSTANCE);
-//		DebugOutput_systemPrintf("Transmissão concluída na UART\n");
+		//		DebugOutput_systemPrintf("Transmissão concluída na UART\n");
 		pxMBFrameCBTransmitterEmpty();
 	}
 }

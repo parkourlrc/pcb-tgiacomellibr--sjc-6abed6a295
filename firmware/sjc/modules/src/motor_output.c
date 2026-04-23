@@ -1,8 +1,10 @@
 /*
- * motor_drive.c
+ * motor_output.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Power output enable/disable GPIO control for motor drivers.
  */
 
 // HAL includes ------------------------------------------------------ //
@@ -14,6 +16,7 @@
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
 #include "modules/include/motor_output.h"
+#include "system_types/include/helpers.h"
 // ------------------------------------------------------------------- //
 
 // Module defines ---------------------------------------------------- //
@@ -69,10 +72,7 @@ void MotorOutput_disable(void)
 
 eSjcReturnType_t MotorOutput_getState(bool *state)
 {
-	if (state == NULL)
-	{
-		return SJC_RET_NOK;
-	}
+	SJC_RETURN_IF_NULL_LOG_RET(state, "MotorOutput_getState: state");
 
 	*state = MotorOutput.State;
 	return SJC_RET_OK;

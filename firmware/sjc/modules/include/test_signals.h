@@ -2,14 +2,12 @@
  * test_signals.h
  *
  *  Created on: Sep 9, 2023
- *      Author: Tiago
+ *      Author: Tiago Giacomelli
  *
- *  Description:
- *  ============
  *  This module provides utilities to generate predefined input signals
  *  (PRBS, triangular, fast pulse, slow pulse) for actuator and control
  *  testing. The time scaling is based directly on the controller
- *  sampling period (Ts), provided in **seconds**, ensuring that all signals
+ *  sampling period (Ts), provided in seconds, ensuring that all signals
  *  preserve their real-time duration proportions across a wide range
  *  (from 1 kHz to 10 Hz control loop frequencies).
  */

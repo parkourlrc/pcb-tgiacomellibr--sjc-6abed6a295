@@ -1,12 +1,12 @@
-/**
- * @file pwm_signal.h
- * @brief PWM signal control interface for actuator drive module.
+/*
+ * pwm_signal.h
  *
- * Provides configuration, control, and access to PWM-based signal generation,
- * including duty cycle management and frequency selection.
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
  *
- * @author Tiago
- * @date Sep 9, 2023
+ *  PWM signal control interface for actuator drive module.
+ *  Provides configuration, control, and access to PWM-based signal generation,
+ *  including duty cycle management and frequency selection.
  */
 
 #ifndef SJC__MODULES__PWM_SIGNAL_H

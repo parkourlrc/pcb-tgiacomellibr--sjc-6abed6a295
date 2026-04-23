@@ -2,10 +2,10 @@
  * data_structures.h
  *
  *  Created on: Sep 17, 2023
- *      Author: Tiago
+ *      Author: Tiago Giacomelli
  *
- *  @brief Core system-wide enumerations and data structures used across
- *         controllers, observers, actuators, and network interfaces.
+ *  Core system-wide enumerations and data structures used across
+ *  controllers, observers, actuators, and network interfaces.
  */
 
 #ifndef SJC__SYSTEM_TYPES__DATA_STRUCTURES_H_
@@ -228,10 +228,10 @@ static const xSjcRange_t xSjcRangeEmptyObj = {0};
  */
 typedef struct
 {
-    float Encoder;                      ///< Current encoder angle [rad]
     int32_t Counts;                     ///< Raw encoder counts
     TIM_TypeDef *Instance;              ///< Associated hardware timer
-    uint16_t Resolution_PPR;            ///< Pulses per revolution
+    bool Is32bit;                       ///< True if timer counter is 32-bit
+    uint16_t Resolution_CPR;            ///< Pulses per revolution
     float radians_per_quadrature_pulse; ///< Conversion factor [rad/pulse]
 } xSjcEncoder_t;
 

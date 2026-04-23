@@ -267,12 +267,15 @@ typedef struct
 /**
  * @struct xSjcSensorsConfig_t
  * @brief Encoder resolution parameters.
+ *
+ * CPR = Counts Per Revolution (quadrature mode, 4x the PPR value).
+ * Example: A 1000 PPR encoder has 4000 CPR in quadrature mode.
  */
 typedef struct
 {
-    uint16_t actuator_encoder_resolution_ppr;  ///< Main actuator encoder [pulses/rev]
-    uint16_t swing_thx_encoder_resolution_ppr; ///< Swing θx encoder [pulses/rev]
-    uint16_t swing_thy_encoder_resolution_ppr; ///< Swing θy encoder [pulses/rev]
+    uint16_t actuator_encoder_resolution_cpr;  ///< Main actuator encoder [counts/rev]
+    uint16_t swing_thx_encoder_resolution_cpr; ///< Swing θx encoder [counts/rev]
+    uint16_t swing_thy_encoder_resolution_cpr; ///< Swing θy encoder [counts/rev]
 } xSjcSensorsConfig_t;
 
 #endif // SJC_DATA_STRUCTURES_HPP_

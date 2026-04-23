@@ -1,8 +1,10 @@
 /*
- * common.c
+ * task_common.c
  *
  *  Created on: Oct 4, 2023
- *      Author: Tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  RTOS object creation, task initialization, and execution time measurement.
  */
 
 // HAL includes ------------------------------------------------------ //
@@ -108,9 +110,6 @@ const osThreadAttr_t ControllerAndMeasurementsTask_attributes = {
 extern void WatchdogTaskApp(void *argument);
 extern void DataLoggerTaskApp(void *argument);
 extern void NetworkTaskApp(void *argument);
-extern void LoggerTaskApp(void *argument);
-// extern void ControllerTaskApp(void *argument);
-// extern void MeasurementsTaskApp(void *argument);
 extern void ControllerMeasTaskApp(void *argument);
 
 eSjcReturnType_t InitOsObjects(void);

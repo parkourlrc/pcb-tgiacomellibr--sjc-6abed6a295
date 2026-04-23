@@ -4,9 +4,6 @@ project(sjc_interface VERSION 0.1.0 LANGUAGES C CXX)
 # ================================================================================================ #
 # Project definitions
 # ================================================================================================ #
-# Print helpers and compilation flags
-include(CMakePrintHelpers)
-
 # Debug flags for C and C++
 set(CMAKE_C_FLAGS_DEBUG "-g -DDEBUG")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -17,9 +14,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Print configuration for debugging purposes
-message("-- CXX Flags: ${CMAKE_CXX_FLAGS}")
-message("-- DEBUG CXX Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
-message("-- CXX Standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "CXX Flags: ${CMAKE_CXX_FLAGS}")
+message(STATUS "DEBUG CXX Flags: ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CXX Standard: ${CMAKE_CXX_STANDARD}")
 
 # ================================================================================================ #
 # Dependencies: libmodbus
@@ -28,11 +25,12 @@ message("-- CXX Standard: ${CMAKE_CXX_STANDARD}")
 find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(MODBUS libmodbus)
+find_package(nlohmann_json REQUIRED)
 
 if (MODBUS_FOUND)
-    message("-- Found libmodbus via pkg-config")
+    message(STATUS "Found libmodbus via pkg-config")
 else()
-    message("-- pkg-config did not find libmodbus, falling back to find_library")
+    message(STATUS "pkg-config did not find libmodbus, falling back to find_library")
     find_library(MODBUS_LIBRARY NAMES modbus REQUIRED)
     if(NOT MODBUS_LIBRARY)
         message(FATAL_ERROR "libmodbus not found")
@@ -71,22 +69,23 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 # Link against libmodbus
 target_link_libraries(${PROJECT_NAME} PUBLIC ${MODBUS_LIBRARIES})
 
-message("-- Configured library: ${PROJECT_NAME}")
+message(STATUS "Configured library: ${PROJECT_NAME}")
 
 # ================================================================================================ #
 # Executables (tests and examples)
 # ================================================================================================ #
-find_package(nlohmann_json REQUIRED)
 # List of example/test sources
 set(TEST_SOURCES
-    sjc_write_log.cpp 
-    sjc_read_boards_test.cpp 
-    sjc_write_control_freq.cpp 
-    sjc_write_control_mode.cpp 
+    sjc_write_log.cpp
+    sjc_read_boards_test.cpp
+    sjc_write_control_freq.cpp
+    sjc_write_control_mode.cpp
     sjc_write_control_ref.cpp
     sjc_write_control_mode_ref.cpp
     sjc_read_write_test_threaded.cpp
+    sjc_read_write_test_threaded_single.cpp
     sjc_write_control_freq_mode_ref.cpp
+    sjc_monitor.cpp
 )
 
 # Each source file becomes an independent executable
@@ -95,13 +94,16 @@ foreach(source IN LISTS TEST_SOURCES)
     add_executable(${exec_name} ${PROJECT_SRCS_DIR}/${source})
 
     # Link test executables against our library and libmodbus
-    target_link_libraries(${exec_name} PUBLIC ${PROJECT_NAME} ${MODBUS_LIBRARIES} nlohmann_json::nlohmann_json
-)
+    target_link_libraries(${exec_name} PUBLIC
+        ${PROJECT_NAME}
+        ${MODBUS_LIBRARIES}
+        nlohmann_json::nlohmann_json
+    )
 
     # Expose the sjc_interface include directory to test executables
     target_include_directories(${exec_name} PUBLIC ${SJC_INTERFACE_INCS_DIR})
 
-    message("-- Configured executable: ${exec_name}")
+    message(STATUS "Configured executable: ${exec_name}")
 endforeach()
 
 # ================================================================================================ #
