@@ -25,10 +25,12 @@ SjcRealtimeInterface::~SjcRealtimeInterface()
  */
 void SjcRealtimeInterface::start()
 {
+    stop();
+
     {
         std::lock_guard<std::mutex> lock(mtx_);
         shutdown_ = false;
-        done_ = false;
+        action_ = xSjcAction::NONE;
         last_read_status_ = SJC_RET_OK;
         last_write_status_ = SJC_RET_OK;
         last_read_ms_ = 0.0;
@@ -62,7 +64,6 @@ void SjcRealtimeInterface::trigger_read()
     {
         std::lock_guard<std::mutex> lock(mtx_);
         action_ = xSjcAction::READ;
-        done_ = false;
     }
     cv_.notify_all();
 }
@@ -76,7 +77,6 @@ void SjcRealtimeInterface::trigger_write(const float reference)
         std::lock_guard<std::mutex> lock(mtx_);
         pending_ref_ = reference;
         action_ = xSjcAction::WRITE;
-        done_ = false;
     }
     cv_.notify_all();
 }
@@ -164,7 +164,6 @@ void SjcRealtimeInterface::loop()
             {
                 // mtx_ already locked by unique_lock above
                 action_ = xSjcAction::NONE;
-                done_ = true;
                 last_read_status_ = SJC_CONNECTION_RELEASED;
                 last_write_status_ = SJC_CONNECTION_RELEASED;
                 lock.unlock();
@@ -188,14 +187,12 @@ void SjcRealtimeInterface::loop()
                 last_read_status_ = status;
                 last_read_ms_ = elapsed;
                 if (status == SJC_RET_OK)
-                {
                     runtime_info_ = tmp;
-                }
                 else
-                {
                     runtime_info_ = {};
-                }
+                action_ = xSjcAction::NONE;
             }
+            cv_done_.notify_all();
 
             if (status != SJC_RET_OK)
             {
@@ -204,26 +201,27 @@ void SjcRealtimeInterface::loop()
         }
         else if (current_action == xSjcAction::WRITE)
         {
-            eSjcReturnType_t status = this->setControllerReference(pending_ref_);
-
+            float ref;
+            {
+                std::lock_guard<std::mutex> lock(mtx_);
+                ref = pending_ref_;
+            }
+            eSjcReturnType_t status = this->setControllerReference(ref);
             auto t1 = std::chrono::high_resolution_clock::now();
             double elapsed = std::chrono::duration<double, std::milli>(t1 - t0).count();
 
-            std::lock_guard<std::mutex> lock(mtx_);
-            last_write_status_ = status;
-            last_write_ms_ = elapsed;
+            {
+                std::lock_guard<std::mutex> lock(mtx_);
+                last_write_status_ = status;
+                last_write_ms_ = elapsed;
+                action_ = xSjcAction::NONE;
+            }
+            cv_done_.notify_all();
 
             if (status != SJC_RET_OK)
             {
                 std::cerr << "[SJC] Failed to write controller reference (status=" << status << ")" << std::endl;
             }
         }
-
-        {
-            std::lock_guard<std::mutex> lock(mtx_);
-            action_ = xSjcAction::NONE;
-            done_ = true;
-        }
-        cv_done_.notify_all();
     }
 }

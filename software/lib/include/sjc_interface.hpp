@@ -272,12 +272,6 @@ private:
      */
     eSjcReturnType_t setHoldingRegisters(const int initial_reg, const int num_of_registers, uint16_t *reg_table);
 
-    /**
-     * @brief Sleep for given microseconds (for Modbus pacing).
-     * @param wait_time_us Time in microseconds.
-     * @return Status code.
-     */
-    static eSjcReturnType_t waitTime_us(const unsigned int &wait_time_us);
 };
 
 #endif // SJC_INTERFACE_HPP_

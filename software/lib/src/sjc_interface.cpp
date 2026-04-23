@@ -13,7 +13,6 @@ extern "C"
 #include <iostream>
 #include <thread>
 
-#define STD_WAIT_TIME_US 5UL
 
 /* ============================================================
  *  Constructors / Destructor
@@ -69,7 +68,7 @@ eSjcReturnType_t SjcInterface::connect()
 
 eSjcReturnType_t SjcInterface::disconnect()
 {
-    modbus_close(ctx);
+    this->release();
     return SJC_DISCONNECTED;
 }
 
@@ -803,7 +802,10 @@ eSjcReturnType_t SjcInterface::init()
 eSjcReturnType_t SjcInterface::release()
 {
     if (ctx)
+    {
+        modbus_close(ctx);
         modbus_free(ctx);
+    }
     ctx = nullptr;
     return SJC_CONNECTION_RELEASED;
 }
@@ -820,7 +822,7 @@ eSjcReturnType_t SjcInterface::getInputRegisters(const int initial_reg, const in
         modbus_flush(ctx);
         return SJC_REGISTER_READING_FAIL;
     }
-    waitTime_us(STD_WAIT_TIME_US);
+
     return SJC_REGISTER_READING_PASS;
 }
 
@@ -836,12 +838,7 @@ eSjcReturnType_t SjcInterface::setHoldingRegisters(const int initial_reg, const 
         modbus_flush(ctx);
         return SJC_REGISTER_WRITING_FAIL;
     }
-    waitTime_us(STD_WAIT_TIME_US);
+
     return SJC_REGISTER_WRITING_PASS;
 }
 
-eSjcReturnType_t SjcInterface::waitTime_us(const unsigned int &wait_time_us)
-{
-    std::this_thread::sleep_for(std::chrono::microseconds(wait_time_us));
-    return SJC_RET_OK;
-}

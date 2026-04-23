@@ -1,5 +1,5 @@
 /**
- * @file sjc_write_reference.cpp
+ * @file sjc_write_control_ref.cpp
  * @brief Example application to configure controller reference
  *        on an SJC device via Modbus RTU.
  *
@@ -8,7 +8,7 @@
  *
  * ## Usage:
  * ```
- * ./sjc_write_reference <port> <address> <baudrate> <ref>
+ * ./sjc_write_control_ref <port> <address> <baudrate> <ref>
  * ```
  *
  * - **port**     : COMx (Windows) or /dev/ttyUSBx (Linux)
@@ -18,7 +18,7 @@
  *
  * Example:
  * ```
- * ./sjc_write_reference /dev/ttyUSB0 1 921600 1.57
+ * ./sjc_write_control_ref /dev/ttyUSB0 1 921600 1.57
  * ```
  * → Connects to device at address 1, baudrate 921600, sets reference = 1.57.
  */
@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     if (argc < 5)
     {
         std::cerr << "Usage:\n"
-                  << "  ./sjc_write_reference <port> <address> <baudrate> <ref>\n\n"
+                  << "  ./sjc_write_control_ref <port> <address> <baudrate> <ref>\n\n"
                   << "Arguments:\n"
                   << "  - port      : COMx or /dev/ttyUSBx\n"
                   << "  - address   : 1 to 246\n"

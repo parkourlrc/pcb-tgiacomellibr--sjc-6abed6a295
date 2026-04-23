@@ -1,13 +1,13 @@
 /**
- * @file sjc_read_test.cpp
+ * @file sjc_read_boards_test.cpp
  * @brief Example program to connect to an SJC controller, read measurements,
  *        compute derived velocity, and configure controller parameters in a loop.
  *
  * Usage:
- *   ./sjc_read_test <port> <address> <baudrate>
+ *   ./sjc_read_boards_test <port> <address> <baudrate>
  *
  * Example:
- *   ./sjc_read_test /dev/ttyUSB0 1 921600
+ *   ./sjc_read_boards_test /dev/ttyUSB0 1 921600
  */
 
 #include <chrono>
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     // -------------------------------------------------------------------------
     if (argc < 4)
     {
-        std::cerr << "Usage: ./sjc_read_test <port> <address> <baudrate>\n";
+        std::cerr << "Usage: ./sjc_read_boards_test <port> <address> <baudrate>\n";
         return -1;
     }
 

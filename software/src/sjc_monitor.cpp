@@ -5,7 +5,7 @@
  *        and measurements from multiple SJC boards.
  *        Displays them in a tabulated format at 50 Hz.
  *
- * Usage:x
+ * Usage:
  *   ./sjc_monitor <config.json>
  */
 

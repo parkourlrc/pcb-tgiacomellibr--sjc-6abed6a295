@@ -163,7 +163,6 @@ private:
     std::condition_variable cv_;      ///< Signals arrival of new action.
     std::condition_variable cv_done_; ///< Signals completion of action.
     bool shutdown_{false};            ///< True if stop() was requested.
-    bool done_{false};                ///< True if current action completed.
 
     /**
      * @enum xSjcAction
