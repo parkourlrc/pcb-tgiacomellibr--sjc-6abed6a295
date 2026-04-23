@@ -1,11 +1,12 @@
-/**
- * @file data_logger.h
- * @brief Asynchronous data logger using USART + DMA for non-blocking serial output.
+/*
+ * data_logger.h
  *
- * Provides formatted logging via DMA transmission or blocking fallback using LL USART.
+ *  Created on: Sep 9, 2024
+ *      Author: Tiago Giacomelli
  *
- * Author: Tiago
- * Date: Sep 9, 2024
+ *  Asynchronous data logger using USART + DMA for non-blocking serial output.
+ *  Provides formatted logging via DMA transmission or blocking fallback
+ *  using LL USART.
  */
 
 #ifndef SJC__MODULES__DATA_LOGGER_H_

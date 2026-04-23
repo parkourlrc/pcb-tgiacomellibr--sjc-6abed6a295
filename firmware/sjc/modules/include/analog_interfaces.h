@@ -2,8 +2,12 @@
  * analog_interfaces.h
  *
  *  Created on: Sep 9, 2023
- *  Updated on: Mar 2025
  *      Author: Tiago Giacomelli
+ *
+ *  Analog measurement interface for current, voltage, and VrefInt sensing.
+ *  Handles ADC1 (voltage, injected mode) and ADC2 (current, DMA mode) with
+ *  configurable filtering (exponential, box, combined). Provides thread-safe
+ *  measurement access via mutex-protected API.
  */
 
 #ifndef SJC__MODULES__ANALOG_INTERFACES_H_
@@ -24,7 +28,7 @@ typedef enum
 {
     ADC_FILTER_NONE = 0x00,                   ///< No filtering, raw ADC values are used directly
     ADC_FILTER_EXPONENTIAL = 0x01,            ///< Exponential IIR filtering applied to each sample
-    ADC_FILTER_BOX = 0x02,                    ///< Moving average (box) filter across a window
+    ADC_FILTER_BOX = 0x02,                    ///< Batch average (box) filter across a window
     ADC_FILTER_EXP_THEN_BOX_PER_CYCLE = 0x03, ///< Exponential filter on each sample (≈2 µs),
                                               ///< then averaging per PWM cycle (25 samples),
                                               ///< then Box filter on cycle averages (20 cycles ≈ 1 ms)
@@ -83,19 +87,17 @@ eSjcReturnType_t AnalogInterfaces_getAnalogConversion(
 		const eSjcAnalogSensorType_t sensor, float *value);
 
 /**
- * @brief ADC1 injected conversion ISR handler.
+ * @brief Get multiple filtered analog conversions in a single mutex-protected call.
  *
- * Must be called inside the ADC1 IRQ handler when the JEOS (injected end of
- * sequence) flag is set.
- */
-void SJC_AnalogInterfaces_Adc1ConversionIsr(void);
-
-/**
- * @brief ADC2 injected conversion ISR handler.
+ * @param[in]  sensors Array of sensor types to read.
+ * @param[out] values  Array to store the results (same order as sensors).
+ * @param[in]  count   Number of sensors to read.
  *
- * Must be called inside the ADC2 IRQ handler when the JEOS flag is set.
+ * @return SJC_RET_OK if successful,
+ *         SJC_RET_NOK otherwise.
  */
-void SJC_AnalogInterfaces_Adc2ConversionIsr(void);
+eSjcReturnType_t AnalogInterfaces_getMultipleConversions(
+		const eSjcAnalogSensorType_t sensors[], float values[], uint8_t count);
 
 /**
  * @brief Register a task handle to be notified from the ISR.

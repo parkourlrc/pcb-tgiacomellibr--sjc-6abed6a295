@@ -1,17 +1,20 @@
-/**
- * @file lqr_observer.h
- * @brief LQR observer module for state estimation.
+/*
+ * lqr_observer.h
  *
- * Provides a discrete-time observer for current control loops.
- * Supports up to second-order models (2 states: current and derivative).
+ *  Created on: Apr 2025
+ *      Author: Tiago Giacomelli
  *
- * Features:
- *  - Configurable observer matrices (Ao, Bo, Co, L)
- *  - Optional cutoff frequency parameter
- *  - Provides estimated current and current derivative
- *  - Reset and reconfiguration support
+ *  LQR observer module for state estimation. Provides a discrete-time
+ *  observer for current control loops. Supports up to second-order models
+ *  (2 states: current and derivative).
  *
- * Designed for real-time embedded control applications.
+ *  Features:
+ *   - Configurable observer matrices (Ao, Bo, Co, L)
+ *   - Optional cutoff frequency parameter
+ *   - Provides estimated current and current derivative
+ *   - Reset and reconfiguration support
+ *
+ *  Designed for real-time embedded control applications.
  */
 
 #ifndef SJC__MODULES__LQR_OBSERVER_H_

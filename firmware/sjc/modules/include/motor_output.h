@@ -1,9 +1,10 @@
-/**
- * @file motor_output.h
- * @brief Controla o sinal digital de habilitação da saída de potência.
+/*
+ * motor_output.h
  *
- * Autor: Tiago
- * Data: Set 9, 2023
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  Controls the digital enable signal for the power output stage.
  */
 
 #ifndef SJC__MODULES__MOTOR_OUTPUT_H_
@@ -17,25 +18,25 @@ extern "C"
 #endif
 
     /**
-     * @brief Inicializa a interface de controle de saída de potência.
+     * @brief Initializes the power output control interface.
      */
     void MotorOutput_init(void);
 
     /**
-     * @brief Habilita a saída de potência (ativa o sinal digital).
+     * @brief Enables the power output (activates the digital signal).
      */
     void MotorOutput_enable(void);
 
     /**
-     * @brief Desabilita a saída de potência.
+     * @brief Disables the power output.
      */
     void MotorOutput_disable(void);
 
     /**
-     * @brief Retorna o estado atual da saída (habilitada ou não).
+     * @brief Returns the current state of the output (enabled or not).
      *
-     * @param state Ponteiro onde será armazenado o estado.
-     * @return SJC_RET_OK se bem-sucedido, SJC_RET_NOK se ponteiro for nulo.
+     * @param state Pointer where the state will be stored.
+     * @return SJC_RET_OK if successful, SJC_RET_NOK if pointer is null.
      */
     eSjcReturnType_t MotorOutput_getState(bool *state);
 

@@ -1,12 +1,16 @@
-/**
- * @file prbs.h
- * @brief Pseudo-Random Binary Sequence (PRBS) generator using maximal-length LFSR.
+/*
+ * prbs.h
  *
- * Implementation details:
- * - Uses Linear Feedback Shift Register (LFSR).
- * - Polynomial taps are automatically selected from known primitive polynomials.
- * - Output is binary {0,1}, taken from the MSB.
- * - Provides end-of-sequence (EoS) detection when cycling back to the initial seed.
+ *  Created on: Apr 2025
+ *      Author: Tiago Giacomelli
+ *
+ *  Pseudo-Random Binary Sequence (PRBS) generator using maximal-length LFSR.
+ *
+ *  Implementation details:
+ *   - Uses Linear Feedback Shift Register (LFSR).
+ *   - Polynomial taps are automatically selected from known primitive polynomials.
+ *   - Output is binary {0,1}, taken from the MSB.
+ *   - Provides end-of-sequence (EoS) detection when cycling back to the initial seed.
  */
 
 #ifndef SJC__MODULES__PRBS_H_
