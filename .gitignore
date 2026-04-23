@@ -9,3 +9,6 @@ octave-workspace*
 *.zip
 calcs/*.csv
 software/libs/modbus
+firmware/sjc/modules/src/analog_interfaces.c.bkp
+.claude/
+.vscode/
