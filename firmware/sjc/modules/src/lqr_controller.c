@@ -1,61 +1,56 @@
-/**
- * @file lqr_controller.c
- * @brief Discrete-time LQR/LQI controller with integral action, anti-windup, and optional observer.
+/*
+ * lqr_controller.c
  *
- * This module implements a discrete-time Linear Quadratic Regulator (LQR),
- * extended with integral action (LQI), back-calculation anti-windup,
- * and exponential filtering on the error signal.
+ *  Created on: Apr 23, 2025
+ *      Author: Tiago Giacomelli
  *
- * - Supports order = 1 (single-state model + integral)
- * - Supports order = 2 (two-state model + integral, optional observer)
+ *  Discrete-time LQR/LQI controller with integral action, anti-windup, and
+ *  optional observer. This module implements a discrete-time Linear Quadratic
+ *  Regulator (LQR), extended with integral action (LQI), back-calculation
+ *  anti-windup, and exponential filtering on the error signal.
  *
- * Author: Tiago
- * Date: Apr 23, 2025
+ *   - Supports order = 1 (single-state model + integral)
+ *   - Supports order = 2 (two-state model + integral, optional observer)
  */
 
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
 #include "modules/include/lqr_controller.h"
 #include "modules/include/lqr_observer.h"
 #include "modules/include/debug_output.h"
 #include "system_types/include/filters.h"
-
+#include "system_types/include/helpers.h"
 #include <math.h>
 #include <stddef.h>
-
-#define E_INT_CLAMP 100.0f   ///< Clamp for integral state to avoid unbounded growth
-
-// ------------------------------------------------------------------- //
-// Module variables
-// ------------------------------------------------------------------- //
-static xSjcLQRController_t xLqr;   ///< Controller instance
-static ExponentialFilter_t filter; ///< Error filter instance
-
-// ------------------------------------------------------------------- //
-// Private helpers
 // ------------------------------------------------------------------- //
 
-/**
- * @brief Apply saturation to a control signal and compute anti-windup correction.
- *
- * @param u_raw Raw (unsaturated) control effort.
- * @param correction Output: difference between saturated and raw effort.
- * @return Saturated control effort.
- */
-static float saturate_control(float u_raw, float *correction)
-{
-	float u_sat = fminf(fmaxf(u_raw, xLqr.parameters.u_min), xLqr.parameters.u_max);
-	*correction = u_sat - u_raw;
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#define E_INT_CLAMP 100.0f
+// ------------------------------------------------------------------- //
 
-#ifdef SJC_DEBUG_PRINT_NET_CMDS
-	if (u_sat != u_raw)
-	{
-		DebugOutput_systemPrintf("\r\n[LQI] Saturation: raw=%.3f, sat=%.3f", u_raw, u_sat);
-	}
-#endif
-	return u_sat;
-}
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
-// Public functions
+
+// Module variables -------------------------------------------------- //
+// ------------------------------------------------------------------- //
+static xSjcLQRController_t xLqr;
+static ExponentialFilter_t filter;
+// ------------------------------------------------------------------- //
+
+// Private function prototypes ---------------------------------------- //
+// ------------------------------------------------------------------- //
+static float saturate_control(float u_raw, float *correction);
+// ------------------------------------------------------------------- //
+
+// Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 void LQRController_init(void)
@@ -200,6 +195,9 @@ bool LQRController_isInitialized(void)
 void LQRController_get_parameters(xSjcLQRControllerParameters_t *control_params,
 		xSjcLQRObserverParameters_t *observer_params)
 {
+	SJC_RETURN_IF_NULL_LOG_VOID(control_params, "LQRController_get_parameters: control_params");
+	SJC_RETURN_IF_NULL_LOG_VOID(observer_params, "LQRController_get_parameters: observer_params");
+
 	*control_params = xLqr.parameters;
 	LQRObserver_getParameters(observer_params);
 }
@@ -237,3 +235,30 @@ void LQRController_set_parameters(const xSjcLQRControllerParameters_t control_pa
 	DebugOutput_systemPrintf("\r\n[NetCmd][LQR] Cd = [%.4f, %.4f]",
 			control_params.Cd[0], control_params.Cd[1]);
 }
+
+// ------------------------------------------------------------------- //
+
+// Private functions ------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+/**
+ * @brief Apply saturation and compute anti-windup correction.
+ *
+ * @param u_raw Raw control effort.
+ * @param correction Output: saturated - raw difference.
+ * @return Saturated control effort.
+ */
+static float saturate_control(float u_raw, float *correction)
+{
+	float u_sat = fminf(fmaxf(u_raw, xLqr.parameters.u_min), xLqr.parameters.u_max);
+	*correction = u_sat - u_raw;
+
+#ifdef SJC_DEBUG_PRINT_NET_CMDS
+	if (u_sat != u_raw)
+	{
+		DebugOutput_systemPrintf("\r\n[LQI] Saturation: raw=%.3f, sat=%.3f", u_raw, u_sat);
+	}
+#endif
+	return u_sat;
+}
+// ------------------------------------------------------------------- //

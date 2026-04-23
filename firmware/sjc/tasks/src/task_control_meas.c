@@ -1,8 +1,10 @@
 /*
- * network_task.c
+ * task_control_meas.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Real-time control loop and sensor measurement acquisition task.
  */
 
 // HAL includes ------------------------------------------------------ //
@@ -24,10 +26,15 @@
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/data_logger.h"
 #include "modules/include/debug_output.h"
+#include "modules/include/digital_interfaces.h"
 #include "modules/include/discrete_controller.h"
 #include "modules/include/lqr_controller.h"
 #include "modules/include/pid_controller.h"
+#include "modules/include/encoder.h"
+#include "modules/include/motor_drive.h"
+#include "modules/include/motor_output.h"
 #include "modules/include/test_signals.h"
+#include "modules/include/velocity_measurement.h"
 #include "tasks/include/task_common.h"
 
 // ------------------------------------------------------------------- //
@@ -58,7 +65,6 @@ static osTimerId_t xHeartbeatTimerId;
 // ------------------------------------------------------------------- //
 TaskHandle_t xControlAndMeasurementsTaskHandle;
 
-static xSjcPidParameters_t JointControllerParameters = xSjcPidParametersEmptyObj;
 static xSjcJointControllerMeasurements_t JointMeasurements = xSjcJointControllerMeasurementsEmptyObj;
 
 static eSjcControlMode_t ControlMode;
@@ -66,16 +72,8 @@ static uint32_t ControllerPeriodSpec_ms = 1000;
 static float control_dt_sec = 0;
 static uint32_t control_dt_ms = 0;
 
-static float ActuatorAngularRate = 0;
-static float ActuatorDisplacement = 0;
-
-float SwingPositionThx = 0;
-float SwingPositionThy = 0;
-float SwingDisplacementThx = 0;
-float SwingDisplacementThy = 0;
-
-float xTestSignalValue;
-eSjcInputSignalState_t xTestSignalState;
+static float xTestSignalValue;
+static eSjcInputSignalState_t xTestSignalState;
 
 static uint32_t TaskTic, TaskToc, measurement_last_wake_tick;
 static uint32_t ControlTaskTic, ControlTaskToc, last_control_wake_tick;
@@ -83,7 +81,6 @@ static uint32_t ControlTaskTic, ControlTaskToc, last_control_wake_tick;
 static uint32_t ControllerCycleCounter;
 
 static float CurrentBias = 0.0f;
-static float CurrentMeasurementAux = 0.0f;
 static uint32_t CurrentBiasMeasurementIdx = 0;
 
 // ------------------------------------------------------------------- //
@@ -145,9 +142,8 @@ void ControllerMeasTaskApp(void *argument)
 	 */
 	TestSignals_init();
 	/*
-	 * LQI controller
+	 * LQI controller (LQRController_init calls LQRObserver_init internally)
 	 */
-	LQRObserver_init();
 	LQRController_init();
 	LQRController_setSaturation(-23, 23);
 	/*
@@ -170,15 +166,16 @@ void ControllerMeasTaskApp(void *argument)
 
 	AnalogInterfaces_enable();
 
-	SJC_enableJointActuatorDriver();
-	SJC_enableJointActuatorOutput();
+	MotorDrive_enable();
+	MotorOutput_enable();
 
 	DebugOutput_systemPrintf("\r\n[OS] Controller and measurements task initiated!");
 
-	SJC_getJointAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorDisplacement, JointMeasurements.ActuatorAngularPosition);
-	SJC_getJointAngularPosition(SJC_ACTUATOR_JOINT, &JointMeasurements.ActuatorAngularPosition);
-	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_X, &SwingPositionThx);
-	SJC_getJointAngularPosition(SJC_AUX_JOINT_TH_Y, &SwingPositionThy);
+	// Set initial positions for velocity measurement
+	float initial_positions[SJC_JOINTS_SIZE];
+	Encoder_getAllAngularPositions(initial_positions);
+	VelocityMeasurement_setAllInitialPositions(initial_positions);
+	JointMeasurements.ActuatorAngularPosition = initial_positions[SJC_ACTUATOR_JOINT];
 
 	/* Infinite loop */
 	for (;;)
@@ -222,9 +219,9 @@ void ControllerMeasTaskApp(void *argument)
 	}
 
 	AnalogInterfaces_disable();
-	SJC_setJointActuatorVoltage(ZERO_FLOAT);
-	SJC_disableJointActuatorOutput();
-	SJC_disableJointActuatorDriver();
+	MotorDrive_setOutputVoltage(ZERO_FLOAT);
+	MotorOutput_disable();
+	MotorDrive_disable();
 	/* USER CODE END MainTaskApp */
 }
 
@@ -282,45 +279,40 @@ static void run_control_loop(void)
 
 	default: // SJC_CURRENT_CALIBRATION
 	{
-		SJC_setJointActuatorVoltage(ZERO_FLOAT);
-
-		// Primeira amostra da calibração
+		// Init: zero output, clear bias, skip first sample.
+		// First sample is discarded because getMeasurements() runs before
+		// setCurrentBias(0), so ActuatorCurrent still has stale bias.
 		if (CurrentBiasMeasurementIdx == 0)
 		{
-			CurrentBias = 0.0f; // zera acumulador
+			MotorDrive_setOutputVoltage(ZERO_FLOAT);
+			MotorDrive_setCurrentBias(ZERO_FLOAT);
+			CurrentBias = 0.0f;
+			CurrentBiasMeasurementIdx++;
 			osTimerStop(xHeartbeatTimerId);
 			osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALIBRATION_PERIOD_MS);
+			break;
 		}
 
-		// Acumula amostras
-		SJC_getJointActuatorCurrent(&CurrentMeasurementAux);
-		CurrentBias += CurrentMeasurementAux;
+		// Accumulate raw current samples (bias=0 from second cycle onwards)
+		CurrentBias += JointMeasurements.ActuatorCurrent;
 		CurrentBiasMeasurementIdx++;
 
-		// Finalização da calibração
-		if (CurrentBiasMeasurementIdx >= CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT)
+		// Calibration complete
+		if (CurrentBiasMeasurementIdx > CURRENT_SAMPLES_FOR_BIAS_MEASUREMENT)
 		{
+			uint32_t sample_count = CurrentBiasMeasurementIdx - 1;
+			CurrentBias /= (float)sample_count;
+
+			MotorDrive_setCurrentBias(CurrentBias);
 			SJC_setControlMode(SJC_CONTROL_DISABLED);
 
-			if (CurrentBiasMeasurementIdx > 0)
-			{
-				CurrentBias /= (float)CurrentBiasMeasurementIdx;
-			}
-			else
-			{
-				CurrentBias = 0.0f;
-			}
+			DataLogger_transmit("\r\n[SJC] Estimated current bias: %.3f\n", CurrentBias);
+			DebugOutput_systemPrintf("\r\n[SJC] Estimated current bias: %.3f\n", CurrentBias);
 
-			SJC_setJointActuatorCurrentBias(CurrentBias);
-			DataLogger_transmit("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
-			DebugOutput_systemPrintf("\n\n\n\r[SJC] Estimated current bias: %.3f\n\n", CurrentBias);
-
-			// Reconfigura timer para operação normal
-			SJC_setControlUpdatePeriodMs(SJC_CONTROLLER_MAX_UPDATE_PERIOD_MS);
+			SJC_setControlUpdateRateHz(SJC_CONTROLLER_MIN_UPDATE_RATE_HZ);
 			osTimerStop(xHeartbeatTimerId);
 			osTimerStart(xHeartbeatTimerId, SJC_HEARTBEAT_CALLBACK_PERIOD_MS);
 
-			// Prepara para nova calibração futura
 			CurrentBiasMeasurementIdx = 0;
 		}
 	}
@@ -343,54 +335,53 @@ static bool check_control_update_cycle(void)
 
 static void update_controller_parameters(void)
 {
-	// Controller configs update
-	SJC_getControlMode(&ControlMode);
-
-	SJC_getControlUpdatePeriodMs(&ControllerPeriodSpec_ms);
-
-	SJC_getControlReference(&JointMeasurements.ControllerReference);
+	xSjcControlConfigs_t configs;
+	if (SJC_RET_OK == SJC_getControlConfigs(&configs))
+	{
+		ControlMode = configs.Mode;
+		ControllerPeriodSpec_ms = (configs.UpdateRate > 0.0f) ? (uint32_t)(1000.0f / configs.UpdateRate) : 1000;
+		JointMeasurements.ControllerReference = configs.Reference;
+	}
 }
 
 static void get_controller_measurements(void)
 {
-	// Electric variables update
-	SJC_getJointActuatorVoltage(&JointMeasurements.ActuatorVoltage);
-	SJC_getJointActuatorCurrentUnbiased(&JointMeasurements.ActuatorCurrent);
-	SJC_getJointActuatorPowerSupplyVoltage(&JointMeasurements.SystemVoltage);
-
-	// Actuated joint calcs
-	SJC_getJointAngularDisplacement(SJC_ACTUATOR_JOINT, &ActuatorDisplacement, JointMeasurements.ActuatorAngularPosition);
-	JointMeasurements.ActuatorAngularPosition += ActuatorDisplacement;
-
+	// Time update
 	SJC_getElapsedTime(SJC_TIME_MS, JointMeasurements.Timestamp_ms, &control_dt_ms);
 	JointMeasurements.Timestamp_ms += control_dt_ms;
+	control_dt_sec = CONVERT_MS_TO_SEC(control_dt_ms);
 
-	control_dt_sec = CONVERT_MS_TO_SEC(control_dt_ms); // Convert miliseconds to seconds
+	// Electric variables update
+	xMotorDriveMeasurements_t drive_meas;
+	if (SJC_RET_OK == MotorDrive_getMeasurements(&drive_meas))
+	{
+		JointMeasurements.ActuatorVoltage = drive_meas.voltage;
+		JointMeasurements.ActuatorCurrent = drive_meas.current;
+		JointMeasurements.SystemVoltage = drive_meas.supply_voltage;
+	}
 
-	ActuatorAngularRate = ActuatorDisplacement / control_dt_sec;
-	SJC_updateJointVelocity(SJC_ACTUATOR_JOINT, ActuatorAngularRate);
+	// Joint positions
+	float positions[SJC_JOINTS_SIZE];
+	Encoder_getAllAngularPositions(positions);
 
-	JointMeasurements.ActuatorAngularRate = ActuatorAngularRate;
-	JointMeasurements.ActuatorSpeedRpm = ActuatorAngularRate * DEF_RAD_PER_SEC_TO_RPM;
+	// Velocity update (displacement and filtering computed internally)
+	float velocities[SJC_JOINTS_SIZE];
+	VelocityMeasurement_updateAll(positions, control_dt_sec, velocities);
 
-	// Passive joints calcs
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_X, &SwingDisplacementThx, SwingPositionThx);
-	SJC_getJointAngularDisplacement(SJC_AUX_JOINT_TH_Y, &SwingDisplacementThy, SwingPositionThy);
+	// Actuated joint
+	JointMeasurements.ActuatorAngularPosition = positions[SJC_ACTUATOR_JOINT];
+	JointMeasurements.ActuatorAngularRate = velocities[SJC_ACTUATOR_JOINT];
+	JointMeasurements.ActuatorSpeedRpm = velocities[SJC_ACTUATOR_JOINT] * DEF_RAD_PER_SEC_TO_RPM;
 
-	SJC_updateJointVelocity(SJC_AUX_JOINT_TH_X, (SwingDisplacementThx / control_dt_sec));
-	SJC_updateJointVelocity(SJC_AUX_JOINT_TH_Y, (SwingDisplacementThy / control_dt_sec));
-
-	SwingPositionThx += SwingDisplacementThx;
-	SwingPositionThy += SwingDisplacementThy;
-
-	JointMeasurements.AuxPositionMeas01 = SwingPositionThx;
-	JointMeasurements.AuxPositionMeas02 = SwingPositionThy;
+	// Passive joints
+	JointMeasurements.AuxPositionMeas01 = positions[SJC_AUX_JOINT_TH_X];
+	JointMeasurements.AuxPositionMeas02 = positions[SJC_AUX_JOINT_TH_Y];
 }
 
 static void check_endstops(void)
 {
 	uint32_t states;
-	SJC_readDigitalInputs(&states);
+	DigitalInterfaces_readInputStates(&states);
 
 #ifdef ROPE_AXIS
 	bool bEndStopAPressed = IS_ISOLATED_INPUT_ACTIVE(states, SJC_ISOLATED_INPUT_A);
@@ -402,12 +393,12 @@ static void check_endstops(void)
 
 	if (true == bEndStopAPressed)
 	{
-		SJC_resetJointAngularPosition();
+		Encoder_reset(SJC_ACTUATOR_JOINT);
 	}
 
 	bool bNextMoveAllowed = check_move_allowed(JointMeasurements.ControlAction, bEndStopAPressed, bEndStopBPressed);
 
-	SJC_setJointActuatorVoltage(bNextMoveAllowed ? JointMeasurements.ControlAction : ZERO_FLOAT);
+	MotorDrive_setOutputVoltage(bNextMoveAllowed ? JointMeasurements.ControlAction : ZERO_FLOAT);
 }
 
 static bool check_move_allowed(float command, bool endstop_a_pressed, bool endstop_b_pressed)
@@ -426,7 +417,7 @@ static void run_test_signals(eSjcInputType_t type)
 	if (INPUT_SIGNAL_STATE_INIT_CONFIG == xTestSignalState)
 	{
 		// Ensure actuator is off before starting
-		SJC_setJointActuatorVoltage(ZERO_FLOAT);
+		MotorDrive_setOutputVoltage(ZERO_FLOAT);
 
 		// Convert control period (ms) to seconds
 		float Ts_sec = (float)ControllerPeriodSpec_ms / 1000.0f;
@@ -444,13 +435,13 @@ static void run_test_signals(eSjcInputType_t type)
 	{
 		TestSignals_reset();
 		SJC_setControlMode(SJC_CONTROL_DISABLED);
-		SJC_setJointActuatorVoltage(ZERO_FLOAT);
+		MotorDrive_setOutputVoltage(ZERO_FLOAT);
 	}
 }
 
 void vHeartbeatTimerCallback(void *argument)
 {
-	SJC_toggleDigitalOutput(SJC_HEARTBEAT_OUTPUT);
+	DigitalInterfaces_toggleOutputState(SJC_HEARTBEAT_OUTPUT);
 }
 
 static void enqueue_log_data(void)

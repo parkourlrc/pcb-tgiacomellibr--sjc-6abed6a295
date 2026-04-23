@@ -1,8 +1,10 @@
 /*
  * network_configs.h
  *
- *  Firmware: SJC (STM32F446RE)
- *  Description: Modbus register map and network directives
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  Modbus register map and network directives for SJC (STM32F446RE).
  *
  *  Notes:
  *  - This header defines logical (0-based) register indices that are later
@@ -36,9 +38,9 @@ extern "C"
 /*==============================*/
 /* Axis selection (exclusive)   */
 /*==============================*/
-#define BRIDGE_AXIS
+//#define BRIDGE_AXIS
 //#define TROLLEY_AXIS
-//#define ROPE_AXIS
+#define ROPE_AXIS
 
 #if defined(BRIDGE_AXIS)
 #define NETWORK_BASE_ADDRESS ((uint32_t)1UL)

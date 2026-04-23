@@ -1,17 +1,23 @@
+/*
+ * portcritical.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  FreeModbus port: critical section implementation using osKernelLock.
+ */
+
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "port.h"
 #include "cmsis_os2.h"
 
-/* ----------------------- Variables ----------------------------------------*/
-static int32_t lock;
-
 /* ----------------------- Start implementation -----------------------------*/
 void EnterCriticalSection(void)
 {
-    lock = osKernelLock();
+    portENTER_CRITICAL();
 }
 
 void ExitCriticalSection(void)
 {
-    osKernelRestoreLock(lock);
+    portEXIT_CRITICAL();
 }

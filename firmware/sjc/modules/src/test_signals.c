@@ -1,38 +1,57 @@
-/**
- * @file test_signals.c
- * @brief Implementation of test signal generator.
+/*
+ * test_signals.c
  *
- * Signals implemented:
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  Implementation of test signal generator.
+ *
+ *  Signals implemented:
  *   - PRBS (2.5, 5, 10 Hz)
  *   - Pulse trains (2 Hz, 4 Hz)
  *   - Sine + PRBS (sines 1, 2.5, 5 Hz plus PRBS at 10 Hz)
  *
- * Timing is based on the configured controller sampling period Ts (s),
- * ensuring consistent real-time durations regardless of loop frequency.
+ *  Timing is based on the configured controller sampling period Ts (s),
+ *  ensuring consistent real-time durations regardless of loop frequency.
  *
- * Output values are normalized in [-1.0, +1.0].
+ *  Output values are normalized in [-1.0, +1.0].
  */
 
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
 #include "modules/include/test_signals.h"
 #include "base/include/configs.h"
 #include "modules/include/prbs.h"
+#include "system_types/include/helpers.h"
 #include <math.h>
+// ------------------------------------------------------------------- //
+
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
-// Module state
+
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static eSjcInputSignalState_t xSjcInputSignalState = INPUT_SIGNAL_STATE_INIT_CONFIG;
 static eSjcInputType_t        xSjcSignalType = INPUT_TYPE_NONE;
 
-static float    xSjcSignalTs   = 0.001f; // default 1 kHz
+static float    xSjcSignalTs   = 0.001f;
 static float    xSjcSignalValue = 0.0f;
 static float    xSjcElapsedTime = 0.0f;
 static uint32_t xSjcSignalRepeatCounter = 0;
 static float    xSjcTotalTime = 0.0f;
 
-// ------------------------------------------------------------------- //
-// PRBS channels
-// ------------------------------------------------------------------- //
 static PRBS_Channel slow_prbs;
 static PRBS_Channel mid_prbs;
 static PRBS_Channel fast_prbs;
@@ -43,23 +62,24 @@ static float xPrbsValueMid  = -1.0f;
 static float xPrbsValueFast = -1.0f;
 static float xSinePrbsValue = -1.0f;
 
+static uint32_t xLastBitIndexSlow = 0;
+static uint32_t xLastBitIndexMid  = 0;
+static uint32_t xLastBitIndexFast = 0;
+static uint32_t xLastBitIndexSine = 0;
 // ------------------------------------------------------------------- //
-// Private helper
-// ------------------------------------------------------------------- //
-static void TestSignals_setState(const eSjcInputSignalState_t state)
-{
-    xSjcInputSignalState = state;
-}
 
+// Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
-// Public API
+static void TestSignals_setState(const eSjcInputSignalState_t state);
+// ------------------------------------------------------------------- //
+
+// Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 void TestSignals_init(void)
 {
     xSjcInputSignalState = INPUT_SIGNAL_STATE_INIT_CONFIG;
     xSjcSignalType = INPUT_TYPE_NONE;
 
-    // Init PRBS channels (7-bit LFSRs with different seeds)
     PRBS_init(&slow_prbs,     0x5Au, 7);
     PRBS_init(&mid_prbs,      0xA3u, 7);
     PRBS_init(&fast_prbs,     0x7Fu, 7);
@@ -69,6 +89,11 @@ void TestSignals_init(void)
     xPrbsValueMid  = -1.0f;
     xPrbsValueFast = -1.0f;
     xSinePrbsValue = -1.0f;
+
+    xLastBitIndexSlow = 0;
+    xLastBitIndexMid  = 0;
+    xLastBitIndexFast = 0;
+    xLastBitIndexSine = 0;
 
     xSjcTotalTime = 0.0f;
 }
@@ -86,6 +111,11 @@ void TestSignals_reset(void)
     xPrbsValueMid  = -1.0f;
     xPrbsValueFast = -1.0f;
     xSinePrbsValue = -1.0f;
+
+    xLastBitIndexSlow = 0;
+    xLastBitIndexMid  = 0;
+    xLastBitIndexFast = 0;
+    xLastBitIndexSine = 0;
 }
 
 eSjcReturnType_t TestSignals_setConfig(const eSjcInputType_t type,
@@ -99,32 +129,39 @@ eSjcReturnType_t TestSignals_setConfig(const eSjcInputType_t type,
     xSjcSignalRepeatCounter = 0;
     xSjcTotalTime   = 0.0f;
 
+    xLastBitIndexSlow = 0;
+    xLastBitIndexMid  = 0;
+    xLastBitIndexFast = 0;
+    xLastBitIndexSine = 0;
+
     TestSignals_setState(INPUT_SIGNAL_STATE_RUNNING);
     return SJC_RET_OK;
 }
 
 eSjcReturnType_t TestSignals_getState(eSjcInputSignalState_t *state)
 {
+    SJC_RETURN_IF_NULL_LOG_RET(state, "TestSignals_getState: state");
     *state = xSjcInputSignalState;
     return SJC_RET_OK;
 }
 
 eSjcReturnType_t TestSignals_getValue(float *value)
 {
+    SJC_RETURN_IF_NULL_LOG_RET(value, "TestSignals_getValue: value");
+
     if (xSjcInputSignalState == INPUT_SIGNAL_STATE_FINISHED)
     {
         *value = ZERO_FLOAT;
         return SJC_RET_OK;
     }
 
-    // Advance time
     xSjcTotalTime   += xSjcSignalTs;
     xSjcElapsedTime += xSjcSignalTs;
 
     switch (xSjcSignalType)
     {
     case INPUT_TYPE_PULSE_FAST: {
-        const float Tpulse = 1.0f / 4.0f;   // 4 Hz
+        const float Tpulse = 1.0f / 4.0f;
         const float half_period = Tpulse / 2.0f;
 
         if (xSjcElapsedTime >= half_period) {
@@ -139,7 +176,7 @@ eSjcReturnType_t TestSignals_getValue(float *value)
     } break;
 
     case INPUT_TYPE_PULSE_SLOW: {
-        const float Tpulse = 1.0f / 2.0f;   // 2 Hz
+        const float Tpulse = 1.0f / 2.0f;
         const float half_period = Tpulse / 2.0f;
 
         if (xSjcElapsedTime >= half_period) {
@@ -154,12 +191,11 @@ eSjcReturnType_t TestSignals_getValue(float *value)
     } break;
 
     case INPUT_TYPE_LOW_FREQ_PRBS: {
-        const float Tbit = 1.0f / 2.5f;   // 2.5 Hz
-        static uint32_t last_bit_index = 0;
+        const float Tbit = 1.0f / 2.5f;
         uint32_t idx = (uint32_t)(xSjcTotalTime / Tbit);
-        if (idx != last_bit_index) {
+        if (idx != xLastBitIndexSlow) {
             xPrbsValueSlow = (2.0f * PRBS_next(&slow_prbs)) - 1.0f;
-            last_bit_index = idx;
+            xLastBitIndexSlow = idx;
             if (PRBS_getEoS(&slow_prbs)) {
                 xSjcSignalValue = ZERO_FLOAT;
                 TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
@@ -169,12 +205,11 @@ eSjcReturnType_t TestSignals_getValue(float *value)
     } break;
 
     case INPUT_TYPE_MID_FREQ_PRBS: {
-        const float Tbit = 1.0f / 5.0f;   // 5 Hz
-        static uint32_t last_bit_index = 0;
+        const float Tbit = 1.0f / 5.0f;
         uint32_t idx = (uint32_t)(xSjcTotalTime / Tbit);
-        if (idx != last_bit_index) {
+        if (idx != xLastBitIndexMid) {
             xPrbsValueMid = (2.0f * PRBS_next(&mid_prbs)) - 1.0f;
-            last_bit_index = idx;
+            xLastBitIndexMid = idx;
             if (PRBS_getEoS(&mid_prbs)) {
                 xSjcSignalValue = ZERO_FLOAT;
                 TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
@@ -184,12 +219,11 @@ eSjcReturnType_t TestSignals_getValue(float *value)
     } break;
 
     case INPUT_TYPE_FAST_FREQ_PRBS: {
-        const float Tbit = 1.0f / 10.0f;   // 10 Hz
-        static uint32_t last_bit_index = 0;
+        const float Tbit = 1.0f / 10.0f;
         uint32_t idx = (uint32_t)(xSjcTotalTime / Tbit);
-        if (idx != last_bit_index) {
+        if (idx != xLastBitIndexFast) {
             xPrbsValueFast = (2.0f * PRBS_next(&fast_prbs)) - 1.0f;
-            last_bit_index = idx;
+            xLastBitIndexFast = idx;
             if (PRBS_getEoS(&fast_prbs)) {
                 xSjcSignalValue = ZERO_FLOAT;
                 TestSignals_setState(INPUT_SIGNAL_STATE_FINISHED);
@@ -203,12 +237,11 @@ eSjcReturnType_t TestSignals_getValue(float *value)
         float sine02 = 0.5f * sinf(2.0f * M_PI * 2.5f * xSjcTotalTime);
         float sine03 = 0.2f * sinf(2.0f * M_PI * 5.0f * xSjcTotalTime);
 
-        const float Tbit = 1.0f / 10.0f;   // PRBS at 10 Hz
-        static uint32_t last_bit_index = 0;
+        const float Tbit = 1.0f / 10.0f;
         uint32_t idx = (uint32_t)(xSjcTotalTime / Tbit);
-        if (idx != last_bit_index) {
+        if (idx != xLastBitIndexSine) {
             xSinePrbsValue = (2.0f * PRBS_next(&sine_prbs_ch)) - 1.0f;
-            last_bit_index = idx;
+            xLastBitIndexSine = idx;
         }
         float prbs04 = 0.1f * xSinePrbsValue;
 
@@ -229,3 +262,13 @@ eSjcReturnType_t TestSignals_getValue(float *value)
     *value = xSjcSignalValue;
     return SJC_RET_OK;
 }
+
+// ------------------------------------------------------------------- //
+
+// Private functions ------------------------------------------------- //
+// ------------------------------------------------------------------- //
+static void TestSignals_setState(const eSjcInputSignalState_t state)
+{
+    xSjcInputSignalState = state;
+}
+// ------------------------------------------------------------------- //

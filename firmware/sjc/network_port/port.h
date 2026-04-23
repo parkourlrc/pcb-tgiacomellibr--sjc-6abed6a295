@@ -42,6 +42,7 @@ typedef enum
 } eModbusUsartIrqEvent_t;
 
 /* ----------------------- Defines ------------------------------------------*/
+#define USE_QUEUE_BASED_EVENT_HANDLER
 
 #define INLINE inline
 #define PR_BEGIN_EXTERN_C \
@@ -83,5 +84,9 @@ void prvvMBTimerIRQHandler(void);
 void prvvUARTTxReadyISR(void);
 void prvvUARTRxISR(void);
 void prvvUARTRxReceiveCharISR(CHAR data);
+
+#ifdef USE_QUEUE_BASED_EVENT_HANDLER
+BOOL xMBPortEventPending(void);
+#endif
 
 #endif

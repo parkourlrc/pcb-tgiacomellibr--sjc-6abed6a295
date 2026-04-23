@@ -1,97 +1,118 @@
+/*
+ * portevent.c
+ *
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
+ *
+ *  FreeModbus port: event handling for protocol state machine.
+ *  Supports queue-based (blocking) or flag-based (polling) mode
+ *  via USE_QUEUE_BASED_EVENT_HANDLER in port.h.
+ *
+ */
+
 /* ----------------------- Modbus includes ----------------------------------*/
 #include "mb.h"
 #include "mbport.h"
+#include "port.h"
+
+#ifdef USE_QUEUE_BASED_EVENT_HANDLER
+
+/* ----------------------- Queue-based implementation -----------------------*/
+#include <FreeRTOS.h>
+#include <queue.h>
+
+/* ----------------------- Defines ------------------------------------------*/
+#define MB_EVENT_QUEUE_LENGTH 1
+#define MB_EVENT_QUEUE_WAIT_MS 2
+
+/* ----------------------- Variables ----------------------------------------*/
+static QueueHandle_t xQueueHdl;
+static StaticQueue_t xQueueControlBlock;
+static uint8_t xQueueStorageBuffer[MB_EVENT_QUEUE_LENGTH * sizeof(eMBEventType)];
+
+/* ----------------------- Start implementation -----------------------------*/
+BOOL xMBPortEventInit(void)
+{
+	BOOL bStatus = FALSE;
+
+	xQueueHdl = xQueueCreateStatic(MB_EVENT_QUEUE_LENGTH, sizeof(eMBEventType),
+								   xQueueStorageBuffer, &xQueueControlBlock);
+	if (xQueueHdl != NULL)
+	{
+		bStatus = TRUE;
+	}
+	return bStatus;
+}
+
+void vMBPortEventClose(void)
+{
+	/* Static queue, nothing to free */
+}
+
+BOOL xMBPortEventPost(eMBEventType eEvent)
+{
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+	if (xPortIsInsideInterrupt())
+	{
+		(void)xQueueSendFromISR(xQueueHdl, (const void *)&eEvent, &xHigherPriorityTaskWoken);
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
+	else
+	{
+		(void)xQueueSend(xQueueHdl, (const void *)&eEvent, pdFALSE);
+	}
+
+	return TRUE;
+}
+
+BOOL xMBPortEventGet(eMBEventType *eEvent)
+{
+	if (pdTRUE == xQueueReceive(xQueueHdl, eEvent, pdMS_TO_TICKS(MB_EVENT_QUEUE_WAIT_MS)))
+	{
+		return TRUE;
+	}
+	return FALSE;
+}
+
+BOOL xMBPortEventPending(void)
+{
+	return (uxQueueMessagesWaiting(xQueueHdl) > 0) ? TRUE : FALSE;
+}
+
+#else
+
+/* ----------------------- Flag-based implementation ------------------------*/
 
 /* ----------------------- Variables ----------------------------------------*/
 static eMBEventType eQueuedEvent;
-static BOOL     xEventInQueue;
+static BOOL xEventInQueue;
 
 /* ----------------------- Start implementation -----------------------------*/
-BOOL
-xMBPortEventInit( void )
+BOOL xMBPortEventInit(void)
 {
-    xEventInQueue = FALSE;
-    return TRUE;
+	xEventInQueue = FALSE;
+	return TRUE;
 }
 
-BOOL
-xMBPortEventPost( eMBEventType eEvent )
+BOOL xMBPortEventPost(eMBEventType eEvent)
 {
-    xEventInQueue = TRUE;
-    eQueuedEvent = eEvent;
-    return TRUE;
+	xEventInQueue = TRUE;
+	eQueuedEvent = eEvent;
+	return TRUE;
 }
 
-BOOL
-xMBPortEventGet( eMBEventType * eEvent )
+BOOL xMBPortEventGet(eMBEventType *eEvent)
 {
-    BOOL            xEventHappened = FALSE;
+	BOOL xEventHappened = FALSE;
 
-    if( xEventInQueue )
-    {
-        *eEvent = eQueuedEvent;
-        xEventInQueue = FALSE;
-        xEventHappened = TRUE;
-    }
-    return xEventHappened;
+	if (xEventInQueue)
+	{
+		*eEvent = eQueuedEvent;
+		xEventInQueue = FALSE;
+		xEventHappened = TRUE;
+	}
+	return xEventHappened;
 }
 
-
-
-///* ----------------------- Modbus includes ----------------------------------*/
-//#include "mb.h"
-//#include "mbport.h"
-//#include "cmsis_os2.h"
-//
-///* ----------------------- Variables ----------------------------------------*/
-//static osEventFlagsId_t xEventId;
-//
-///* ----------------------- Start implementation -----------------------------*/
-//BOOL xMBPortEventInit(void)
-//{
-//    xEventId = osEventFlagsNew(NULL);
-//    return xEventId != NULL;
-//}
-//
-//BOOL xMBPortEventPost(eMBEventType eEvent)
-//{
-//    if (xEventId != NULL)
-//    {
-//        return (osEventFlagsSet(xEventId, eEvent) & 0x80000000) == 0;
-//    }
-//    else
-//    {
-//        return FALSE;
-//    }
-//}
-//
-//BOOL xMBPortEventGet(eMBEventType *eEvent)
-//{
-//    uint32_t receivedEvent;
-//    const uint32_t EVENTS = EV_READY | EV_FRAME_RECEIVED | EV_EXECUTE | EV_FRAME_SENT;
-//
-//    /* waiting forever OS event */
-//    receivedEvent = osEventFlagsWait(xEventId, EVENTS, osFlagsWaitAny, osWaitForever);
-//    switch (receivedEvent)
-//    {
-//    case EV_READY:
-//        *eEvent = EV_READY;
-//        break;
-//
-//    case EV_FRAME_RECEIVED:
-//        *eEvent = EV_FRAME_RECEIVED;
-//        break;
-//
-//    case EV_EXECUTE:
-//        *eEvent = EV_EXECUTE;
-//        break;
-//
-//    case EV_FRAME_SENT:
-//        *eEvent = EV_FRAME_SENT;
-//        break;
-//
-//    default:
-//        return FALSE;
-//    }
-//    return TRUE;
-//}
+#endif /* USE_QUEUE_BASED_EVENT_HANDLER */

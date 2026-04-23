@@ -1,3 +1,12 @@
+/*
+ * filters.c
+ *
+ *  Created on: Mar 2025
+ *      Author: Tiago Giacomelli
+ *
+ *  Box filter and exponential filter implementations.
+ */
+
 #include "system_types/include/filters.h"
 #include "system_types/include/helpers.h"
 #include <math.h>
@@ -24,26 +33,30 @@ void BoxFilter_add_sample(BoxFilter_t *filter, float x)
 {
     SJC_RETURN_IF_NULL_LOG_VOID(filter, "BoxFilter_add_sample");
 
+    if (filter->count >= filter->window_size)
+    {
+        return;
+    }
+
     filter->sum += x;
     filter->count++;
 }
 
-int BoxFilter_ready(BoxFilter_t *filter)
+bool BoxFilter_ready(BoxFilter_t *filter)
 {
-    if (!filter)
-        return 0;
+    SJC_RETURN_IF_NULL_LOG_VAL(filter, "BoxFilter_ready", false);
     return (filter->count >= filter->window_size);
 }
 
 float BoxFilter_get_average(BoxFilter_t *filter)
 {
-    SJC_RETURN_IF_NULL_LOG_VOID(filter, "BoxFilter_get_average");
+    SJC_RETURN_IF_NULL_LOG_VAL(filter, "BoxFilter_get_average", 0.0f);
     return (filter->count > 0) ? (filter->sum / filter->count) : 0.0f;
 }
 
 float BoxFilter_get_average_and_reset(BoxFilter_t *filter)
 {
-    SJC_RETURN_IF_NULL_LOG_VOID(filter, "BoxFilter_get_average_and_reset");
+    SJC_RETURN_IF_NULL_LOG_VAL(filter, "BoxFilter_get_average_and_reset", 0.0f);
 
     float avg = (filter->count > 0) ? (filter->sum / filter->count) : 0.0f;
     filter->sum = 0.0f;
@@ -57,11 +70,7 @@ float BoxFilter_get_average_and_reset(BoxFilter_t *filter)
 
 void ExponentialFilter_init(ExponentialFilter_t *filter, float fc, float fs)
 {
-    SJC_RETURN_IF_NULL_LOG_VOID(filter, "ExponentialFilter_init");
-
-    filter->fs = fs;
-    ExponentialFilter_set_cutoff(filter, fc);
-    filter->y_prev = 0.0f;
+    ExponentialFilter_init_with_value(filter, fc, fs, 0.0f);
 }
 
 void ExponentialFilter_init_with_value(ExponentialFilter_t *filter, float fc, float fs, float initial_value)
@@ -75,7 +84,7 @@ void ExponentialFilter_init_with_value(ExponentialFilter_t *filter, float fc, fl
 
 void ExponentialFilter_force_set(ExponentialFilter_t *filter, float value)
 {
-	SJC_RETURN_IF_NULL_LOG_VOID(filter, "ExponentialFilter_force_set");
+    SJC_RETURN_IF_NULL_LOG_VOID(filter, "ExponentialFilter_force_set");
 
     filter->y_prev = value;
 }
@@ -107,7 +116,7 @@ float ExponentialFilter_compute_alpha(float fc, float fs)
 {
     if (fc <= 0.0f || fs <= 0.0f)
     {
-        return 1.0f; // Pass-through (no filtering)
+        return 1.0f;
     }
 
     float ts = 1.0f / fs;
@@ -117,11 +126,10 @@ float ExponentialFilter_compute_alpha(float fc, float fs)
 
 float ExponentialFilter_update(ExponentialFilter_t *filter, float x)
 {
-    SJC_RETURN_IF_NULL_LOG_VOID(filter, "ExponentialFilter_update");
+    SJC_RETURN_IF_NULL_LOG_VAL(filter, "ExponentialFilter_update", 0.0f);
 
-    if (!isfinite(x))
+    if (!isfinite(x) || !isfinite(filter->alpha))
     {
-        DebugOutput_systemPrintf("[FILTERS] ExponentialFilter_update: input is not finite\n");
         return filter->y_prev;
     }
 

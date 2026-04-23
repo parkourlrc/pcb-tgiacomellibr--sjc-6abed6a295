@@ -1,8 +1,10 @@
 /*
- * types.h
+ * configs.h
  *
  *  Created on: Sep 17, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Hardware and firmware configuration defines and peripheral mappings.
  */
 
 #ifndef SJC__BASE__CONFIGS_H_
@@ -30,11 +32,11 @@
 // Firmware info ------------------------------------------------------------------ //
 // -------------------------------------------------------------------------------- //
 #define SJC_FW_VERSION_MAJOR SJC_HW_VERSION_MAJOR
-#define SJC_FW_VERSION_MINOR 0U
+#define SJC_FW_VERSION_MINOR 1U
 #define SJC_FW_VERSION_PATCH 0U
 
 #define SJC_FW_RELEASE_MONTH 04U
-#define SJC_FW_RELEASE_YEAR 2024UL
+#define SJC_FW_RELEASE_YEAR 2026UL
 
 // Current sense mode ------------------------------------------------------------ //
 // #define SJC_CURRENT_SENSE_CONFIG_EXTERNAL

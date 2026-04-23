@@ -2,11 +2,10 @@
  * helpers.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
  *
- *  Description:
- *    Implementations for common math helpers and Modbus-oriented
- *    word/byte composition utilities. All comments in English.
+ *  Implementations for common math helpers and Modbus-oriented
+ *  word/byte composition utilities.
  */
 
 // HAL includes ------------------------------------------------------ //
