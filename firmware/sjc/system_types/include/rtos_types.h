@@ -1,8 +1,10 @@
 /*
- * data_structures.h
+ * rtos_types.h
  *
  *  Created on: Sep 17, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  RTOS semaphore and mutex type definitions and configuration macros.
  */
 
 #ifndef SJC__SYSTEM_TYPES__RTOS_TYPES_H_

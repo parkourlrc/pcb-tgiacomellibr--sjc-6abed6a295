@@ -1,10 +1,10 @@
 /*
  * data_logger.c
  *
- * Enhanced data logger with dual-buffering, mutex protection, flush and availability check.
+ *  Created on: Apr 2025
+ *      Author: Tiago Giacomelli
  *
- * Author: Tiago
- * Date: Apr 2025
+ *  DMA-based dual-buffer data logger with mutex protection and flush support.
  */
 
 #include <stdarg.h>
@@ -41,13 +41,20 @@ static uint32_t uDataBuffSize = 0;
 static eSjcDataLoggerOutputBank_t xDataLoggerBank = DATA_LOGGER_BANK_0;
 
 static volatile bool bSerialBusy = false;
-static SemaphoreHandle_t xLoggerMutex = NULL;
+
+static osMutexId_t xDataLoggerMutex = NULL;
+static StaticSemaphore_t xDataLoggerMutexControlBlock;
+static const osMutexAttr_t xDataLoggerMutex_attributes = {
+	.name = "DataLoggerMutex",
+	.cb_mem = &xDataLoggerMutexControlBlock,
+	.cb_size = sizeof(xDataLoggerMutexControlBlock),
+};
 
 static void TransmitBuffer(void);
 
 void DataLogger_init(void)
 {
-	xLoggerMutex = xSemaphoreCreateMutex();
+	xDataLoggerMutex = osMutexNew(&xDataLoggerMutex_attributes);
 	LL_DMA_ConfigAddresses(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM, (uint32_t)&xDataLoggerBuff, LL_USART_DMA_GetRegAddr(DATA_LOGGER_SERIAL_INSTANCE), LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
 	LL_DMA_EnableIT_TC(DATA_LOGGER_DMA_INSTANCE, DATA_LOGGER_DMA_STREAM);
 	LL_USART_EnableDMAReq_TX(DATA_LOGGER_SERIAL_INSTANCE);
@@ -56,8 +63,8 @@ void DataLogger_init(void)
 
 int DataLogger_transmit(const char *format, ...)
 {
-	if (xLoggerMutex)
-		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+	if (xDataLoggerMutex)
+		osMutexAcquire(xDataLoggerMutex, osWaitForever);
 
 	va_list ap;
 	va_start(ap, format);
@@ -74,9 +81,9 @@ int DataLogger_transmit(const char *format, ...)
 	if (total_len <= 0)
 	{
 		va_end(ap);
-		if (xLoggerMutex)
+		if (xDataLoggerMutex)
 		{
-			xSemaphoreGive(xLoggerMutex);
+			osMutexRelease(xDataLoggerMutex);
 		}
 		return -1;
 	}
@@ -92,9 +99,9 @@ int DataLogger_transmit(const char *format, ...)
 		}
 
 		va_end(ap);
-		if (xLoggerMutex)
+		if (xDataLoggerMutex)
 		{
-			xSemaphoreGive(xLoggerMutex);
+			osMutexRelease(xDataLoggerMutex);
 		}
 		return written;
 	}
@@ -119,9 +126,9 @@ int DataLogger_transmit(const char *format, ...)
 		uDataBuffSize += written;
 		va_end(ap);
 
-		if (xLoggerMutex)
+		if (xDataLoggerMutex)
 		{
-			xSemaphoreGive(xLoggerMutex);
+			osMutexRelease(xDataLoggerMutex);
 		}
 		return written;
 	}
@@ -129,9 +136,9 @@ int DataLogger_transmit(const char *format, ...)
 
 int DataLogger_printf(const char *format, ...)
 {
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+		osMutexAcquire(xDataLoggerMutex, osWaitForever);
 	}
 
 	va_list ap;
@@ -151,9 +158,9 @@ int DataLogger_printf(const char *format, ...)
 		}
 	}
 
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreGive(xLoggerMutex);
+		osMutexRelease(xDataLoggerMutex);
 	}
 	return n;
 }
@@ -163,33 +170,33 @@ int DataLogger_printf(const char *format, ...)
  */
 void DataLogger_flush(void)
 {
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+		osMutexAcquire(xDataLoggerMutex, osWaitForever);
 	}
 	if ((uDataBuffSize > 0) && (!bSerialBusy))
 	{
 		TransmitBuffer();
 	}
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreGive(xLoggerMutex);
+		osMutexRelease(xDataLoggerMutex);
 	}
 }
 
 bool DataLogger_available(void)
 {
 	bool available;
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreTake(xLoggerMutex, portMAX_DELAY);
+		osMutexAcquire(xDataLoggerMutex, osWaitForever);
 	}
 
 	available = (uDataBuffSize > 0);
 
-	if (xLoggerMutex)
+	if (xDataLoggerMutex)
 	{
-		xSemaphoreGive(xLoggerMutex);
+		osMutexRelease(xDataLoggerMutex);
 	}
 
 	return available;
@@ -227,7 +234,7 @@ void DMA1_Stream3_IRQHandler(void)
 	if (LL_DMA_IsActiveFlag_TE3(DATA_LOGGER_DMA_INSTANCE))
 	{
 		LL_DMA_ClearFlag_TE3(DATA_LOGGER_DMA_INSTANCE);
-		DebugOutput_systemPrintf("[FAULT] DataLogger: DMA transfer error\n");
 		bSerialBusy = false;
+		Error_HandlerFrom("data_logger", "DMA1_Stream3_IRQHandler");
 	}
 }

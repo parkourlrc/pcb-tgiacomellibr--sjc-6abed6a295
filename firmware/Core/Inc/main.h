@@ -64,6 +64,7 @@ extern "C" {
 
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
+void Error_HandlerFrom(const char *module, const char *function);
 
 /* USER CODE BEGIN EFP */
 

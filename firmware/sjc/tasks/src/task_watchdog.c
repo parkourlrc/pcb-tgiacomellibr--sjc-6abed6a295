@@ -1,15 +1,16 @@
 /*
- * network_task.c
+ * task_watchdog.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  System watchdog refresh and runtime statistics reporting task.
  */
 
 // HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
 #include "cmsis_os.h"
 #include "main.h"
-#include "modules/include/modbus_network.h"
 #include "task.h"
 // ------------------------------------------------------------------- //
 
@@ -22,7 +23,6 @@
 // ------------------------------------------------------------------- //
 #include "base/include/configs.h"
 #include "base/include/sjc.h"
-#include "common/include/network_configs.h"
 #include "modules/include/analog_interfaces.h"
 #include "modules/include/debug_output.h"
 #include "tasks/include/task_common.h"
@@ -46,9 +46,8 @@ typedef enum
 
 // Task variables ---------------------------------------------------- //
 // ------------------------------------------------------------------- //
-static uint32_t TaskTic, TaskToc, watchdog_last_wake_tick;
-static float MeanSampleTime_us = 0.0f;
-eWatchdogTaskState_t xWatchdogState = WD_STATE_STATISTICS;
+static uint32_t TaskTic, TaskToc, TaskLastTic;
+static eWatchdogTaskState_t xWatchdogState = WD_STATE_STATISTICS;
 // ------------------------------------------------------------------- //
 
 // Private function prototypes --------------------------------------- //
@@ -75,17 +74,16 @@ void WatchdogTaskApp(void *argument)
 	xSjcMeanSampleTimeMeasurement_t Ts;
 
 	uint32_t uptime;
-	float period_logs[TIME_LOG_FUNCTIONS_NAME_SIZE / 2];
-	float exec_logs[TIME_LOG_FUNCTIONS_NAME_SIZE / 2];
+	float time_logs[TIME_LOG_FUNCTIONS_NAME_SIZE];
 
-	// uint32_t counts = 0;
+	SJC_getTime(SJC_TIME_MS, &TaskLastTic);
 
 	/* Infinite loop */
 	for (;;)
 	{
 		SJC_getTime(SJC_TIME_MS, &TaskTic);
-		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_PERIOD_MS, (TaskTic - watchdog_last_wake_tick));
-		watchdog_last_wake_tick = TaskTic;
+		SJC_TaskCommon_SetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_PERIOD_MS, (TaskTic - TaskLastTic));
+		TaskLastTic = TaskTic;
 
 		switch (xWatchdogState)
 		{
@@ -93,17 +91,10 @@ void WatchdogTaskApp(void *argument)
 			AnalogInterfaces_getMeanConversionDelay(&Ts);
 
 			uptime = TaskTic / 1000;
-			period_logs[TIME_LOG_CONTROLLER_TASK_PERIOD_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_TASK_PERIOD_MS);
-			period_logs[TIME_LOG_DATA_LOGGER_TASK_PERIOD_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_PERIOD_MS);
-			period_logs[TIME_LOG_MEASUREMENTS_TASK_PERIOD_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_MEASUREMENTS_TASK_PERIOD_MS);
-			period_logs[TIME_LOG_NETWORK_TASK_PERIOD_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_NETWORK_TASK_PERIOD_MS);
-			period_logs[TIME_LOG_WATCHDOG_TASK_PERIOD_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_PERIOD_MS);
-
-			exec_logs[TIME_LOG_CONTROLLER_TASK_EXEC_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_CONTROLLER_TASK_EXEC_MS);
-			exec_logs[TIME_LOG_DATA_LOGGER_TASK_EXEC_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_DATA_LOGGER_TASK_EXEC_MS);
-			exec_logs[TIME_LOG_MEASUREMENTS_TASK_EXEC_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_MEASUREMENTS_TASK_EXEC_MS);
-			exec_logs[TIME_LOG_NETWORK_TASK_EXEC_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_NETWORK_TASK_EXEC_MS);
-			exec_logs[TIME_LOG_WATCHDOG_TASK_EXEC_MS] = SJC_TaskCommon_GetTimeMeasurement(TIME_LOG_WATCHDOG_TASK_EXEC_MS);
+			for (uint8_t i = 0; i < TIME_LOG_FUNCTIONS_NAME_SIZE; ++i)
+			{
+				time_logs[i] = SJC_TaskCommon_GetTimeMeasurement(i);
+			}
 
 			DebugOutput_systemPrintf("\n\r[OS] Runtime Stats.:"
 									 "\n\r - Uptime: %lu s"
@@ -115,16 +106,16 @@ void WatchdogTaskApp(void *argument)
 									 "\n\r - Watchdog period: %.2f ms - Exec.: %.2f ms",
 									 uptime,
 									 (Ts.AccumulatedTimerTicks > 0) ? (1.0f * Ts.AccumulatedTimerTicks) / (1.0f * Ts.Samples) : 0.0f,
-									 period_logs[TIME_LOG_CONTROLLER_TASK_PERIOD_MS],
-									 exec_logs[TIME_LOG_CONTROLLER_TASK_EXEC_MS],
-									 period_logs[TIME_LOG_DATA_LOGGER_TASK_PERIOD_MS],
-									 exec_logs[TIME_LOG_DATA_LOGGER_TASK_EXEC_MS],
-									 period_logs[TIME_LOG_MEASUREMENTS_TASK_PERIOD_MS],
-									 exec_logs[TIME_LOG_MEASUREMENTS_TASK_EXEC_MS],
-									 period_logs[TIME_LOG_NETWORK_TASK_PERIOD_MS],
-									 exec_logs[TIME_LOG_NETWORK_TASK_EXEC_MS],
-									 period_logs[TIME_LOG_WATCHDOG_TASK_PERIOD_MS],
-									 exec_logs[TIME_LOG_WATCHDOG_TASK_EXEC_MS]);
+									 time_logs[TIME_LOG_CONTROLLER_TASK_PERIOD_MS],
+									 time_logs[TIME_LOG_CONTROLLER_TASK_EXEC_MS],
+									 time_logs[TIME_LOG_DATA_LOGGER_TASK_PERIOD_MS],
+									 time_logs[TIME_LOG_DATA_LOGGER_TASK_EXEC_MS],
+									 time_logs[TIME_LOG_MEASUREMENTS_TASK_PERIOD_MS],
+									 time_logs[TIME_LOG_MEASUREMENTS_TASK_EXEC_MS],
+									 time_logs[TIME_LOG_NETWORK_TASK_PERIOD_MS],
+									 time_logs[TIME_LOG_NETWORK_TASK_EXEC_MS],
+									 time_logs[TIME_LOG_WATCHDOG_TASK_PERIOD_MS],
+									 time_logs[TIME_LOG_WATCHDOG_TASK_EXEC_MS]);
 
 			xWatchdogState = WD_STATE_MEMORY;
 			break;
@@ -132,7 +123,7 @@ void WatchdogTaskApp(void *argument)
 			SJC_TaskCommon_UpdateHighWaterMarkInfo();
 			DebugOutput_systemPrintf("\n\r[OS] HighWaterMark:"
 									 "\n\r - Watchdog Task: %lu B"
-									 "\n\r - Data Logger Task: %.lu B"
+									 "\n\r - Data Logger Task: %lu B"
 									 "\n\r - Network Task: %lu B"
 									 "\n\r - ControlMeas Task: %lu B\n",
 									 SJC_TaskCommon_GetHighWaterMarkInfo(TASK_HIGH_WTM_INFO_WATCHDOG_TASK),

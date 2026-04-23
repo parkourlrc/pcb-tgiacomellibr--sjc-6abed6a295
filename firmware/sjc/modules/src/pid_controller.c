@@ -2,28 +2,46 @@
  * pid_controller.c
  *
  *  Created on: Sep 9, 2023
- *      Author: Tiago
+ *      Author: Tiago Giacomelli
  *
- *  @brief PID controller implementation for actuator control.
+ *  PID controller implementation for actuator control.
  */
 
-#include "modules/include/pid_controller.h"
-#include "base/include/configs.h"
-#include <math.h> // for isfinite()
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
-// Module variables
+
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#include "modules/include/pid_controller.h"
+#include "base/include/configs.h"
+#include "system_types/include/helpers.h"
+#include <math.h>
+// ------------------------------------------------------------------- //
+
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static xSjcPidController_t xPidController = xPidControllerEmptyObj;
 static xSjcRange_t xPidControllerEffortLimits = xSjcRangeEmptyObj;
-
 // ------------------------------------------------------------------- //
-// Private function prototypes
+
+// Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 static void reset_errors(void);
-
 // ------------------------------------------------------------------- //
-// Public functions
+
+// Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 void PidController_init(void)
@@ -102,10 +120,8 @@ xSjcPidParameters_t PidController_get_parameters(void)
 
 void PidController_copy_parameters(xSjcPidParameters_t *parameters)
 {
-    if (parameters != NULL)
-    {
-        *parameters = xPidController.Parameters;
-    }
+    SJC_RETURN_IF_NULL_LOG_VOID(parameters, "PidController_copy_parameters: parameters");
+    *parameters = xPidController.Parameters;
 }
 
 void PidController_set_parameters(const xSjcPidParameters_t parameters)
@@ -121,10 +137,12 @@ void PidController_reset(void)
 }
 
 // ------------------------------------------------------------------- //
-// Private functions
+
+// Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 static void reset_errors(void)
 {
     xPidController.Errors = xControllerErrorsEmptyObj;
 }
+// ------------------------------------------------------------------- //

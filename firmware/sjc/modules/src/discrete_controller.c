@@ -1,47 +1,58 @@
-/**
- * @file discrete_controller.c
- * @brief Discrete controller implementation with exponential filtering and anti-windup.
+/*
+ * discrete_controller.c
  *
- * Implements a second-order direct-form discrete-time controller:
- *     Cd(z) = (B0 + B1*z^-1 + B2*z^-2) / (1 + A1*z^-1 + A2*z^-2)
+ *  Created on: Apr 23, 2025
+ *      Author: Tiago Giacomelli
  *
- * Features:
- *  - Output saturation
- *  - Anti-windup using back-calculation
- *  - Optional exponential filtering on the error signal
+ *  Discrete controller implementation with exponential filtering and anti-windup.
+ *  Implements a second-order direct-form discrete-time controller:
+ *      Cd(z) = (B0 + B1*z^-1 + B2*z^-2) / (1 + A1*z^-1 + A2*z^-2)
  *
- * Designed for real-time embedded control applications.
+ *  Features:
+ *   - Output saturation
+ *   - Anti-windup using back-calculation
+ *   - Optional exponential filtering on the error signal
  *
- * Author: Tiago
- * Date: Apr 23, 2025
+ *  Designed for real-time embedded control applications.
  */
 
+// HAL includes ------------------------------------------------------ //
 // ------------------------------------------------------------------- //
-// Includes
+
+// ------------------------------------------------------------------- //
+
+// Module includes --------------------------------------------------- //
 // ------------------------------------------------------------------- //
 #include "modules/include/discrete_controller.h"
 #include "system_types/include/filters.h"
+#include "system_types/include/helpers.h"
+// ------------------------------------------------------------------- //
+
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
-// Controller object
+
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static xSjcDiscreteController_t xDiscreteController;
-
-// ------------------------------------------------------------------- //
-// Module variables
-// ------------------------------------------------------------------- //
 static ExponentialFilter_t xDiscreteControllerFilter;
-
 // ------------------------------------------------------------------- //
-// Private function prototypes
+
+// Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 static void reset_errors(void);
 static void reset_filter(void);
 static void reset_parameters(void);
 static void reset_control_action(void);
-
 // ------------------------------------------------------------------- //
-// Public functions
+
+// Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 void DiscreteController_init(void)
@@ -154,10 +165,8 @@ void DiscreteController_setFilterCutoffFrequency(float cutoff_freq)
 
 void DiscreteController_get_parameters(xSjcDiscreteControllerParameters_t *params)
 {
-    if (params != NULL)
-    {
-        *params = xDiscreteController.parameters;
-    }
+    SJC_RETURN_IF_NULL_LOG_VOID(params, "DiscreteController_get_parameters: params");
+    *params = xDiscreteController.parameters;
 }
 
 void DiscreteController_set_parameters(const xSjcDiscreteControllerParameters_t params)
@@ -171,7 +180,8 @@ void DiscreteController_set_parameters(const xSjcDiscreteControllerParameters_t 
 }
 
 // ------------------------------------------------------------------- //
-// Private functions
+
+// Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 static void reset_errors(void)
@@ -200,3 +210,4 @@ static void reset_control_action(void)
         xDiscreteController.ControlAction[i] = 0.0f;
     }
 }
+// ------------------------------------------------------------------- //

@@ -28,11 +28,13 @@
     mkdir -p build && cd build
     ```
 
-4. Compile and install
-    > Example: cmake .. -DCMAKE_INSTALL_PREFIX=$HOME/.local
+4. Configure, compile and install system-wide (default prefix `/usr/local`):
     ```
-    cmake .. -DCMAKE_INSTALL_PREFIX=/path/to/install 
+    cmake ..
     make
-    make install
+    sudo make install
+    sudo ldconfig
     ```
+
+    > To install in a custom location instead, pass `-DCMAKE_INSTALL_PREFIX=/path/to/install` to `cmake` (e.g. `$HOME/.local`). In that case `sudo` is not required and you may need to extend `LD_LIBRARY_PATH` / `CMAKE_PREFIX_PATH` to find the library.
 

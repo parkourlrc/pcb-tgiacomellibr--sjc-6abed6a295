@@ -2,7 +2,9 @@
  * timeout_timer.c
  *
  *  Created on: Sep 9, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  HAL tick-based system uptime counter with delay and timeout checks.
  */
 
 // HAL includes ------------------------------------------------------ //

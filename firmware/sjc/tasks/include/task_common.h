@@ -1,8 +1,10 @@
 /*
- * common.h
+ * task_common.h
  *
  *  Created on: Oct 4, 2023
- *      Author: Tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Shared RTOS task definitions, queue handles, and thread declarations.
  */
 
 #ifndef SJC__TASKS__COMMON_H_

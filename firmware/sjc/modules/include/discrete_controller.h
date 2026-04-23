@@ -1,14 +1,14 @@
-/**
- * @file discrete_controller.h
- * @brief Discrete controller module header.
+/*
+ * discrete_controller.h
  *
- * This module implements a second-order discrete-time controller using Direct Form II,
- * with output saturation, anti-windup (back-calculation), and optional exponential filtering
- * on the error signal. It is designed for real-time embedded control applications where
- * deterministic execution and bounded memory are required.
+ *  Created on: Apr 11, 2025
+ *      Author: Tiago Giacomelli
  *
- * Author: Tiago
- * Date: Apr 11, 2025
+ *  Discrete controller module header. This module implements a second-order
+ *  discrete-time controller using Direct Form II, with output saturation,
+ *  anti-windup (back-calculation), and optional exponential filtering on the
+ *  error signal. It is designed for real-time embedded control applications
+ *  where deterministic execution and bounded memory are required.
  */
 
 #ifndef SJC__MODULES__DISCRETE_CONTROLLER_H

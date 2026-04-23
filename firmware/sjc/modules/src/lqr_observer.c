@@ -1,39 +1,54 @@
-/**
- * @file lqr_observer.c
- * @brief Robust second-order state observer for current and its derivative.
+/*
+ * lqr_observer.c
  *
- * Implements a discrete-time Luenberger observer for current and dI/dt.
- * Provides:
- *  - Numerical stability checks
- *  - Output saturation
- *  - Fault detection and recovery
+ *  Created on: Apr 2025
+ *      Author: Tiago Giacomelli
  *
- * Author: Tiago
- * Date: Apr 2025
+ *  Robust second-order state observer for current and its derivative.
+ *  Implements a discrete-time Luenberger observer for current and dI/dt.
+ *  Provides:
+ *   - Numerical stability checks
+ *   - Output saturation
+ *   - Fault detection and recovery
  */
 
+// HAL includes ------------------------------------------------------ //
+// ------------------------------------------------------------------- //
+
+// ------------------------------------------------------------------- //
+
+// Module includes --------------------------------------------------- //
+// ------------------------------------------------------------------- //
 #include "modules/include/lqr_observer.h"
 #include "modules/include/debug_output.h"
-
-#include <math.h>   // isfinite(), fminf(), fmaxf()
+#include "system_types/include/helpers.h"
+#include <math.h>
 #include <stddef.h>
+// ------------------------------------------------------------------- //
 
-#define OBSERVER_CURRENT_LIMIT       70.0f   ///< Max expected current [A] with margin
-#define OBSERVER_CURRENT_DERIV_LIMIT 1e5f    ///< Max expected current derivative [A/s]
+// Module defines ---------------------------------------------------- //
+// ------------------------------------------------------------------- //
+#define OBSERVER_CURRENT_LIMIT       70.0f
+#define OBSERVER_CURRENT_DERIV_LIMIT 1e5f
+// ------------------------------------------------------------------- //
+
+// Module data structures -------------------------------------------- //
+// ------------------------------------------------------------------- //
 
 // ------------------------------------------------------------------- //
-// Internal state
+
+// Module variables -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static xSjcLQRObserver_t xCurrentObserver;
-
 // ------------------------------------------------------------------- //
-// Private function prototypes
+
+// Private function prototypes ---------------------------------------- //
 // ------------------------------------------------------------------- //
 static void reset_states(void);
 static void reset_parameters(void);
-
 // ------------------------------------------------------------------- //
-// Public API
+
+// Public functions -------------------------------------------------- //
 // ------------------------------------------------------------------- //
 
 void LQRObserver_init(void)
@@ -90,10 +105,8 @@ void LQRObserver_update(float u, float y_meas)
 
 void LQRObserver_getParameters(xSjcLQRObserverParameters_t *params)
 {
-    if (params != NULL)
-    {
-        *params = xCurrentObserver.parameters;
-    }
+    SJC_RETURN_IF_NULL_LOG_VOID(params, "LQRObserver_getParameters: params");
+    *params = xCurrentObserver.parameters;
 }
 
 void LQRObserver_setParameters(const xSjcLQRObserverParameters_t params)
@@ -134,7 +147,8 @@ void LQRObserver_reset(void)
 }
 
 // ------------------------------------------------------------------- //
-// Private helpers
+
+// Private functions ------------------------------------------------- //
 // ------------------------------------------------------------------- //
 static void reset_states(void)
 {
@@ -146,3 +160,4 @@ static void reset_parameters(void)
 {
     xCurrentObserver.parameters = xSjcLQRObserverParametersEmptyObj;
 }
+// ------------------------------------------------------------------- //

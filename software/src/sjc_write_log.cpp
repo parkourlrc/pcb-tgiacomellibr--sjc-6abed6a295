@@ -1,18 +1,17 @@
 /**
  * @file sjc_write_log.cpp
- * @brief Standalone logger: lê mensagens JSON da serial e salva em CSV.
+ * @brief Standalone serial logger: reads JSON lines from serial and saves to CSV.
  *
- * Fluxo:
- *   - Abre a porta serial configurada.
- *   - Lê linhas em JSON.
- *   - Converte para CSV.
- *   - Cria diretórios automaticamente se não existirem.
+ * Flow:
+ *   - Opens the configured serial port.
+ *   - Reads JSON lines.
+ *   - Converts to CSV.
+ *   - Creates output directories automatically if they don't exist.
  *
- * Compilação: cmake + make (já integrado no seu CMakeLists.txt)
- * Execução:
+ * Usage:
  *   ./sjc_write_log <serial_port> <baud_rate> <log_file>
  *
- * Exemplo:
+ * Example:
  *   ./sjc_write_log /dev/ttyACM1 4000000 /home/crane/Logs/joints/Bridge-ol_5V_50Hz_2025-09-13_Take-1.csv
  */
 
@@ -112,7 +111,7 @@ private:
     bool setup_logging() {
         try {
             fs::path full_path = log_file_;
-            fs::create_directories(full_path.parent_path());  // cria só o diretório pai
+            fs::create_directories(full_path.parent_path());
 
             log_stream_.open(full_path, std::ios::out | std::ios::trunc);
             if (!log_stream_)
@@ -141,7 +140,7 @@ private:
             if (read(fd_, &c, 1) > 0) {
                 if (c == '\r' || c == '\n') {
                     if (!buffer.empty())
-                        return true; // linha pronta
+                        return true;
                 } else if (c >= 32 && c <= 126) {
                     buffer += c;
                 }

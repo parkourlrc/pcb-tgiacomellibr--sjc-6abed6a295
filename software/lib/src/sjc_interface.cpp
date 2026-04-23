@@ -13,7 +13,6 @@ extern "C"
 #include <iostream>
 #include <thread>
 
-#define STD_WAIT_TIME_US 5UL
 
 /* ============================================================
  *  Constructors / Destructor
@@ -69,7 +68,7 @@ eSjcReturnType_t SjcInterface::connect()
 
 eSjcReturnType_t SjcInterface::disconnect()
 {
-    modbus_close(ctx);
+    this->release();
     return SJC_DISCONNECTED;
 }
 
@@ -188,6 +187,9 @@ eSjcReturnType_t SjcInterface::getBoardInfo(xSjcBoardInfo_t *config)
 
         config->control_mode =
             tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROL_MODE, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
+        compose_float_from_ui16_array(
+            &tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_CONTROL_FREQUENCY, MAP_INPUT_REG_BOARD_INFO_OFFSET)],
+            &config->control_frequency);
         config->error_flags =
             tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SYSTEM_ERROR_FLAGS, MAP_INPUT_REG_BOARD_INFO_OFFSET)];
 
@@ -667,14 +669,14 @@ eSjcReturnType_t SjcInterface::getSensorsParameters(xSjcSensorsConfig_t *config)
     uint16_t tab_reg[nb];
 
     if (SJC_REGISTER_READING_PASS ==
-        this->getInputRegisters(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
+        this->getInputRegisters(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_CPR, nb, tab_reg))
     {
-        config->actuator_encoder_resolution_ppr =
-            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
-        config->swing_thx_encoder_resolution_ppr =
-            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THX_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
-        config->swing_thy_encoder_resolution_ppr =
-            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THY_ENCODER_RESOLUTION_PPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
+        config->actuator_encoder_resolution_cpr =
+            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_ACTUATOR_ENCODER_RESOLUTION_CPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
+        config->swing_thx_encoder_resolution_cpr =
+            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THX_ENCODER_RESOLUTION_CPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
+        config->swing_thy_encoder_resolution_cpr =
+            tab_reg[GET_REG_TABLE_INDEX(INPUT_REG_SWING_THY_ENCODER_RESOLUTION_CPR, MAP_INPUT_REG_SENSORS_INFO_OFFSET)];
 
         return SJC_RET_OK;
     }
@@ -686,18 +688,18 @@ eSjcReturnType_t SjcInterface::setSensorsParameters(const xSjcSensorsConfig_t &c
     const int nb = 4;
     uint16_t tab_reg[nb];
 
-    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR,
-                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_encoder_resolution_ppr;
-    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_PPR,
-                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.swing_thx_encoder_resolution_ppr;
-    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_PPR,
-                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.swing_thy_encoder_resolution_ppr;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_CPR,
+                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.actuator_encoder_resolution_cpr;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THX_ENCODER_RESOLUTION_CPR,
+                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.swing_thx_encoder_resolution_cpr;
+    tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SWING_THY_ENCODER_RESOLUTION_CPR,
+                                MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = config.swing_thy_encoder_resolution_cpr;
 
     tab_reg[GET_REG_TABLE_INDEX(HOLDING_REG_SENSORS_SETUP_UPDATE,
                                 MAP_HOLDING_REG_SENSORS_PARAMETERS_UPDATE_OFFSET)] = HOLDING_REG_APPLY_MSK;
 
     return (SJC_REGISTER_WRITING_PASS ==
-            this->setHoldingRegisters(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_PPR, nb, tab_reg))
+            this->setHoldingRegisters(HOLDING_REG_ACTUATOR_ENCODER_RESOLUTION_CPR, nb, tab_reg))
                ? SJC_RET_OK
                : SJC_RET_NOK;
 }
@@ -800,7 +802,10 @@ eSjcReturnType_t SjcInterface::init()
 eSjcReturnType_t SjcInterface::release()
 {
     if (ctx)
+    {
+        modbus_close(ctx);
         modbus_free(ctx);
+    }
     ctx = nullptr;
     return SJC_CONNECTION_RELEASED;
 }
@@ -817,7 +822,7 @@ eSjcReturnType_t SjcInterface::getInputRegisters(const int initial_reg, const in
         modbus_flush(ctx);
         return SJC_REGISTER_READING_FAIL;
     }
-    waitTime_us(STD_WAIT_TIME_US);
+
     return SJC_REGISTER_READING_PASS;
 }
 
@@ -833,12 +838,7 @@ eSjcReturnType_t SjcInterface::setHoldingRegisters(const int initial_reg, const 
         modbus_flush(ctx);
         return SJC_REGISTER_WRITING_FAIL;
     }
-    waitTime_us(STD_WAIT_TIME_US);
+
     return SJC_REGISTER_WRITING_PASS;
 }
 
-eSjcReturnType_t SjcInterface::waitTime_us(const unsigned int &wait_time_us)
-{
-    std::this_thread::sleep_for(std::chrono::microseconds(wait_time_us));
-    return SJC_RET_OK;
-}

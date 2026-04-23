@@ -1,0 +1,22 @@
+{
+  "boards": [
+    {
+      "name": "SjcBridge",
+      "port": "/dev/ttyUSB0",
+      "address": 1,
+      "baudrate": 1000000
+    },
+    {
+      "name": "SjcTrolley",
+      "port": "/dev/ttyUSB1",
+      "address": 2,
+      "baudrate": 1000000
+    },
+    {
+      "name": "SjcRope",
+      "port": "/dev/ttyUSB2",
+      "address": 3,
+      "baudrate": 1000000
+    }
+  ]
+}

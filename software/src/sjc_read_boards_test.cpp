@@ -1,13 +1,13 @@
 /**
- * @file sjc_read_test.cpp
+ * @file sjc_read_boards_test.cpp
  * @brief Example program to connect to an SJC controller, read measurements,
  *        compute derived velocity, and configure controller parameters in a loop.
  *
  * Usage:
- *   ./sjc_read_test <port> <address> <baudrate>
+ *   ./sjc_read_boards_test <port> <address> <baudrate>
  *
  * Example:
- *   ./sjc_read_test /dev/ttyUSB0 1 921600
+ *   ./sjc_read_boards_test /dev/ttyUSB0 1 921600
  */
 
 #include <chrono>
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     // -------------------------------------------------------------------------
     if (argc < 4)
     {
-        std::cerr << "Usage: ./sjc_read_test <port> <address> <baudrate>\n";
+        std::cerr << "Usage: ./sjc_read_boards_test <port> <address> <baudrate>\n";
         return -1;
     }
 
@@ -69,9 +69,9 @@ int main(int argc, char *argv[])
     // Configure sensors BEFORE entering main loop
     // -------------------------------------------------------------------------
     xSjcSensorsConfig_t sensor_cfg{};
-    sensor_cfg.actuator_encoder_resolution_ppr = 32768; // motor joint encoder
-    sensor_cfg.swing_thx_encoder_resolution_ppr = 8192; // swing THX encoder
-    sensor_cfg.swing_thy_encoder_resolution_ppr = 8192; // swing THY encoder
+    sensor_cfg.actuator_encoder_resolution_cpr = 32768; // motor joint encoder (CPR = 4x PPR)
+    sensor_cfg.swing_thx_encoder_resolution_cpr = 8192; // swing THX encoder (CPR = 4x PPR)
+    sensor_cfg.swing_thy_encoder_resolution_cpr = 8192; // swing THY encoder (CPR = 4x PPR)
 
     if (sjc.setSensorsParameters(sensor_cfg) != SJC_RET_OK)
     {
@@ -117,15 +117,15 @@ int main(int argc, char *argv[])
         }
 
         // ---------------------------------------------------------------------
-        // Sensor configuration
+        // Sensor configuration (CPR = Counts Per Revolution, quadrature 4x)
         // ---------------------------------------------------------------------
         std::cout << "Sensor configuration:\n"
                   << " * Actuator encoder resolution : "
-                  << sensor_cfg.actuator_encoder_resolution_ppr << " ppr\n"
+                  << sensor_cfg.actuator_encoder_resolution_cpr << " cpr\n"
                   << " * Swing θx encoder resolution : "
-                  << sensor_cfg.swing_thx_encoder_resolution_ppr << " ppr\n"
+                  << sensor_cfg.swing_thx_encoder_resolution_cpr << " cpr\n"
                   << " * Swing θy encoder resolution : "
-                  << sensor_cfg.swing_thy_encoder_resolution_ppr << " ppr\n";
+                  << sensor_cfg.swing_thy_encoder_resolution_cpr << " cpr\n";
 
         // ---------------------------------------------------------------------
         // Sensor values

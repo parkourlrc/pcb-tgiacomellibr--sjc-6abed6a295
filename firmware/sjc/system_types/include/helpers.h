@@ -1,12 +1,13 @@
-/**
- * @file helpers.h
- * @brief Common math and word/byte manipulation utilities for embedded systems.
+/*
+ * helpers.h
  *
- * This header provides macros and utility functions for value clamping,
- * unit conversions, and manipulation of numeric values for transmission
- * or processing (Modbus register order: high 16-bit word first).
+ *  Created on: Sep 9, 2023
+ *      Author: Tiago Giacomelli
  *
- * All comments and documentation in English.
+ *  Common math and word/byte manipulation utilities for embedded systems.
+ *  This header provides macros and utility functions for value clamping,
+ *  unit conversions, and manipulation of numeric values for transmission
+ *  or processing (Modbus register order: high 16-bit word first).
  */
 
 #ifndef SJC__SYSTEM_TYPES__HELPERS_H_
@@ -83,6 +84,20 @@ extern "C"
         {                                                       \
             DebugOutput_systemPrintf("\r\n[NULL] %s\n", (msg)); \
             return;                                             \
+        }                                                       \
+    } while (0)
+
+/**
+ * @brief Check for NULL pointer and return a value with log.
+ * Use this macro when the function returns a non-void value (e.g. float, int).
+ */
+#define SJC_RETURN_IF_NULL_LOG_VAL(ptr, msg, val)               \
+    do                                                          \
+    {                                                           \
+        if ((ptr) == NULL)                                      \
+        {                                                       \
+            DebugOutput_systemPrintf("\r\n[NULL] %s\n", (msg)); \
+            return (val);                                       \
         }                                                       \
     } while (0)
 

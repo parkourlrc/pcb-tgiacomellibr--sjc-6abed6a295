@@ -2,7 +2,9 @@
  * types.h
  *
  *  Created on: Sep 17, 2023
- *      Author: tiago
+ *      Author: Tiago Giacomelli
+ *
+ *  Aggregated system type includes for standard and project-specific types.
  */
 
 #ifndef SJC__SYSTEM_TYPES__TYPES_H_

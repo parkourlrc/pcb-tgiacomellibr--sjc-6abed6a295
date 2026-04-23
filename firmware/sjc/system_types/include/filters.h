@@ -1,20 +1,22 @@
-/**
- * @file filters.h
- * @brief Box (moving average) and exponential filters for embedded applications.
+/*
+ * filters.h
  *
- * Provides simple, low-memory filters designed for real-time
- * signal conditioning and noise reduction in microcontroller-based systems.
+ *  Created on: Nov 17, 2024
+ *      Author: Tiago Giacomelli
  *
- * - BoxFilter: moving average filter with configurable window size.
- * - ExponentialFilter: first-order IIR filter with configurable cutoff.
+ *  Box (batch average) and exponential filters for embedded applications.
+ *  Provides simple, low-memory filters designed for real-time
+ *  signal conditioning and noise reduction in microcontroller-based systems.
  *
- * @author Tiago
- * @date Nov 17, 2024
+ *   - BoxFilter: batch average filter with configurable window size.
+ *     Accumulates N samples, computes the mean, then resets.
+ *   - ExponentialFilter: first-order IIR filter with configurable cutoff.
  */
 
 #ifndef SJC__SYSTEM_TYPES__FILTERS_H
 #define SJC__SYSTEM_TYPES__FILTERS_H
 
+#include <stdbool.h>
 #include <stdint.h>
 
 #define BOX_FILTER_MAX_SIZE 64 ///< Maximum window size to bound memory use in static buffers
@@ -45,7 +47,7 @@ typedef struct
 // -------------------------------------------------------------------
 
 /**
- * @brief Initializes a box (moving average) filter.
+ * @brief Initializes a box (batch average) filter.
  *
  * @param filter Pointer to the BoxFilter_t structure.
  * @param window_size Number of samples for the averaging window.
@@ -54,6 +56,8 @@ void BoxFilter_init(BoxFilter_t *filter, uint16_t window_size);
 
 /**
  * @brief Adds a new sample to the box filter.
+ *
+ * Samples beyond the window size are silently discarded.
  *
  * @param filter Pointer to the BoxFilter_t structure.
  * @param x New input sample.
@@ -64,9 +68,9 @@ void BoxFilter_add_sample(BoxFilter_t *filter, float x);
  * @brief Checks if the box filter has accumulated a full window of samples.
  *
  * @param filter Pointer to the BoxFilter_t structure.
- * @return 1 if ready to compute average, 0 otherwise.
+ * @return true if ready to compute average, false otherwise.
  */
-int BoxFilter_ready(BoxFilter_t *filter);
+bool BoxFilter_ready(BoxFilter_t *filter);
 
 /**
  * @brief Gets the average of the accumulated samples without resetting.
