@@ -9,3 +9,5 @@ octave-workspace*
 *.zip
 calcs/*.csv
 software/libs/modbus
+.claude/
+.vscode/
